@@ -1,0 +1,435 @@
+[2023-03-28 02:05:47,348] INFO:utils:==> Opts for this training: Namespace(data_dir='/home/thesis/eugenio.ressa/Desktop/GDumb/data', log_dir='/home/thesis/eugenio.ressa/Desktop/GDumb/logs', dataset='CIFAR100', num_classes_per_task=5, num_tasks=20, num_pretrain_classes=0, memory_size=25000, num_passes=100, num_pretrain_passes=0, regularization='cutmix', model='ResNet', depth=32, width=0, seed=0, exp_name='CIFAR_25000', old_exp_name='test', maxlr=0.05, minlr=0.0005, weight_decay=1e-06, batch_size=16, cutmix_alpha=1.0, cutmix_prob=0.5, clip=10.0, workers=2, activetype='ReLU', pooltype='MaxPool2d', normtype='BatchNorm', preact=False, bn=True, affine_bn=True, bn_eps=1e-06, compression=0.5, total_num_classes=100, inp_size=32, in_channels=3, num_classes=100)
+[2023-03-28 02:05:47,348] INFO:utils:==> Starting pass number: 0, Learning rate: 0.005000000000000001
+[2023-03-28 02:06:17,250] INFO:utils:==> Train:[0]	Time:29.8472	Data:5.9517	Loss:4.3899	
+[2023-03-28 02:06:22,113] INFO:utils:==> Test: [0]	Time:4.7881	Loss:3.8711	Acc:0.1004	Task Acc:0.5292	
+[2023-03-28 02:06:22,114] INFO:utils:==> Current accuracy: [0.100]	
+[2023-03-28 02:06:22,115] INFO:utils:==> Accuracies	Previous: [0.000]	Current: [0.100]	
+[2023-03-28 02:06:22,115] INFO:utils:==> Starting pass number: 1, Learning rate: 0.05
+[2023-03-28 02:06:52,020] INFO:utils:==> Train:[1]	Time:29.8219	Data:6.0275	Loss:4.1930	
+[2023-03-28 02:06:57,003] INFO:utils:==> Test: [1]	Time:4.9065	Loss:3.6738	Acc:0.1295	Task Acc:0.5829	
+[2023-03-28 02:06:57,004] INFO:utils:==> Current accuracy: [0.130]	
+[2023-03-28 02:06:57,005] INFO:utils:==> Accuracies	Previous: [0.100]	Current: [0.130]	
+[2023-03-28 02:06:57,005] INFO:utils:==> Starting pass number: 2, Learning rate: 0.05
+[2023-03-28 02:07:26,111] INFO:utils:==> Train:[2]	Time:29.0327	Data:5.9495	Loss:3.9630	
+[2023-03-28 02:07:31,045] INFO:utils:==> Test: [2]	Time:4.8542	Loss:3.4824	Acc:0.1617	Task Acc:0.6387	
+[2023-03-28 02:07:31,046] INFO:utils:==> Current accuracy: [0.162]	
+[2023-03-28 02:07:31,046] INFO:utils:==> Accuracies	Previous: [0.130]	Current: [0.162]	
+[2023-03-28 02:07:31,047] INFO:utils:==> Starting pass number: 3, Learning rate: 0.02525
+[2023-03-28 02:08:00,691] INFO:utils:==> Train:[3]	Time:29.5806	Data:6.3329	Loss:3.7332	
+[2023-03-28 02:08:05,546] INFO:utils:==> Test: [3]	Time:4.7770	Loss:3.1289	Acc:0.2252	Task Acc:0.7057	
+[2023-03-28 02:08:05,547] INFO:utils:==> Current accuracy: [0.225]	
+[2023-03-28 02:08:05,548] INFO:utils:==> Accuracies	Previous: [0.162]	Current: [0.225]	
+[2023-03-28 02:08:05,548] INFO:utils:==> Starting pass number: 4, Learning rate: 0.05
+[2023-03-28 02:08:35,000] INFO:utils:==> Train:[4]	Time:29.3984	Data:5.9630	Loss:3.6874	
+[2023-03-28 02:08:39,859] INFO:utils:==> Test: [4]	Time:4.7879	Loss:3.1367	Acc:0.2292	Task Acc:0.7164	
+[2023-03-28 02:08:39,860] INFO:utils:==> Current accuracy: [0.229]	
+[2023-03-28 02:08:39,860] INFO:utils:==> Accuracies	Previous: [0.225]	Current: [0.229]	
+[2023-03-28 02:08:39,861] INFO:utils:==> Starting pass number: 5, Learning rate: 0.04275089283436705
+[2023-03-28 02:09:09,724] INFO:utils:==> Train:[5]	Time:29.8003	Data:6.1039	Loss:3.5129	
+[2023-03-28 02:09:14,729] INFO:utils:==> Test: [5]	Time:4.9137	Loss:2.8750	Acc:0.2782	Task Acc:0.7585	
+[2023-03-28 02:09:14,729] INFO:utils:==> Current accuracy: [0.278]	
+[2023-03-28 02:09:14,730] INFO:utils:==> Accuracies	Previous: [0.229]	Current: [0.278]	
+[2023-03-28 02:09:14,730] INFO:utils:==> Starting pass number: 6, Learning rate: 0.02525
+[2023-03-28 02:09:43,981] INFO:utils:==> Train:[6]	Time:29.1677	Data:6.1339	Loss:3.3308	
+[2023-03-28 02:09:48,988] INFO:utils:==> Test: [6]	Time:4.9579	Loss:2.6172	Acc:0.3272	Task Acc:0.7965	
+[2023-03-28 02:09:48,989] INFO:utils:==> Current accuracy: [0.327]	
+[2023-03-28 02:09:48,989] INFO:utils:==> Accuracies	Previous: [0.278]	Current: [0.327]	
+[2023-03-28 02:09:48,990] INFO:utils:==> Starting pass number: 7, Learning rate: 0.00774910716563295
+[2023-03-28 02:10:18,889] INFO:utils:==> Train:[7]	Time:29.8178	Data:5.9920	Loss:3.1726	
+[2023-03-28 02:10:23,942] INFO:utils:==> Test: [7]	Time:4.9734	Loss:2.4297	Acc:0.3667	Task Acc:0.8162	
+[2023-03-28 02:10:23,943] INFO:utils:==> Current accuracy: [0.367]	
+[2023-03-28 02:10:23,943] INFO:utils:==> Accuracies	Previous: [0.327]	Current: [0.367]	
+[2023-03-28 02:10:23,943] INFO:utils:==> Starting pass number: 8, Learning rate: 0.05
+[2023-03-28 02:10:53,658] INFO:utils:==> Train:[8]	Time:29.6335	Data:6.0052	Loss:3.3341	
+[2023-03-28 02:10:58,602] INFO:utils:==> Test: [8]	Time:4.8792	Loss:2.7188	Acc:0.3085	Task Acc:0.7839	
+[2023-03-28 02:10:58,603] INFO:utils:==> Current accuracy: [0.308]	
+[2023-03-28 02:10:58,603] INFO:utils:==> Starting pass number: 9, Learning rate: 0.04811601842965435
+[2023-03-28 02:11:28,406] INFO:utils:==> Train:[9]	Time:29.7197	Data:6.1864	Loss:3.1904	
+[2023-03-28 02:11:33,284] INFO:utils:==> Test: [9]	Time:4.8103	Loss:2.5742	Acc:0.3470	Task Acc:0.7960	
+[2023-03-28 02:11:33,286] INFO:utils:==> Current accuracy: [0.347]	
+[2023-03-28 02:11:33,286] INFO:utils:==> Starting pass number: 10, Learning rate: 0.04275089283436705
+[2023-03-28 02:12:02,625] INFO:utils:==> Train:[10]	Time:29.2618	Data:6.0420	Loss:3.0902	
+[2023-03-28 02:12:07,547] INFO:utils:==> Test: [10]	Time:4.8454	Loss:2.4023	Acc:0.3713	Task Acc:0.8201	
+[2023-03-28 02:12:07,548] INFO:utils:==> Current accuracy: [0.371]	
+[2023-03-28 02:12:07,548] INFO:utils:==> Accuracies	Previous: [0.367]	Current: [0.371]	
+[2023-03-28 02:12:07,549] INFO:utils:==> Starting pass number: 11, Learning rate: 0.03472141495103598
+[2023-03-28 02:12:36,971] INFO:utils:==> Train:[11]	Time:29.3413	Data:5.9791	Loss:2.9315	
+[2023-03-28 02:12:41,681] INFO:utils:==> Test: [11]	Time:4.6460	Loss:2.2168	Acc:0.4146	Task Acc:0.8417	
+[2023-03-28 02:12:41,681] INFO:utils:==> Current accuracy: [0.415]	
+[2023-03-28 02:12:41,681] INFO:utils:==> Accuracies	Previous: [0.371]	Current: [0.415]	
+[2023-03-28 02:12:41,682] INFO:utils:==> Starting pass number: 12, Learning rate: 0.02525
+[2023-03-28 02:13:11,302] INFO:utils:==> Train:[12]	Time:29.5506	Data:6.0714	Loss:2.8383	
+[2023-03-28 02:13:16,063] INFO:utils:==> Test: [12]	Time:4.6964	Loss:2.1484	Acc:0.4339	Task Acc:0.8442	
+[2023-03-28 02:13:16,064] INFO:utils:==> Current accuracy: [0.434]	
+[2023-03-28 02:13:16,064] INFO:utils:==> Accuracies	Previous: [0.415]	Current: [0.434]	
+[2023-03-28 02:13:16,064] INFO:utils:==> Starting pass number: 13, Learning rate: 0.01577858504896403
+[2023-03-28 02:13:45,372] INFO:utils:==> Train:[13]	Time:29.2375	Data:6.0214	Loss:2.7663	
+[2023-03-28 02:13:50,345] INFO:utils:==> Test: [13]	Time:4.8976	Loss:2.0098	Acc:0.4646	Task Acc:0.8730	
+[2023-03-28 02:13:50,346] INFO:utils:==> Current accuracy: [0.465]	
+[2023-03-28 02:13:50,347] INFO:utils:==> Accuracies	Previous: [0.434]	Current: [0.465]	
+[2023-03-28 02:13:50,347] INFO:utils:==> Starting pass number: 14, Learning rate: 0.00774910716563295
+[2023-03-28 02:14:20,518] INFO:utils:==> Train:[14]	Time:30.0898	Data:6.2779	Loss:2.6572	
+[2023-03-28 02:14:25,431] INFO:utils:==> Test: [14]	Time:4.8456	Loss:1.9180	Acc:0.4837	Task Acc:0.8760	
+[2023-03-28 02:14:25,432] INFO:utils:==> Current accuracy: [0.484]	
+[2023-03-28 02:14:25,432] INFO:utils:==> Accuracies	Previous: [0.465]	Current: [0.484]	
+[2023-03-28 02:14:25,433] INFO:utils:==> Starting pass number: 15, Learning rate: 0.0023839815703456534
+[2023-03-28 02:14:54,287] INFO:utils:==> Train:[15]	Time:28.7748	Data:5.8952	Loss:2.5707	
+[2023-03-28 02:14:59,142] INFO:utils:==> Test: [15]	Time:4.7780	Loss:1.8818	Acc:0.4968	Task Acc:0.8807	
+[2023-03-28 02:14:59,143] INFO:utils:==> Current accuracy: [0.497]	
+[2023-03-28 02:14:59,143] INFO:utils:==> Accuracies	Previous: [0.484]	Current: [0.497]	
+[2023-03-28 02:14:59,144] INFO:utils:==> Starting pass number: 16, Learning rate: 0.05
+[2023-03-28 02:15:28,223] INFO:utils:==> Train:[16]	Time:28.9974	Data:5.8414	Loss:2.9253	
+[2023-03-28 02:15:33,120] INFO:utils:==> Test: [16]	Time:4.8439	Loss:2.2695	Acc:0.4051	Task Acc:0.8344	
+[2023-03-28 02:15:33,121] INFO:utils:==> Current accuracy: [0.405]	
+[2023-03-28 02:15:33,121] INFO:utils:==> Starting pass number: 17, Learning rate: 0.049524435689979954
+[2023-03-28 02:16:03,012] INFO:utils:==> Train:[17]	Time:29.8210	Data:6.3628	Loss:2.8285	
+[2023-03-28 02:16:07,894] INFO:utils:==> Test: [17]	Time:4.8081	Loss:2.1445	Acc:0.4363	Task Acc:0.8540	
+[2023-03-28 02:16:07,896] INFO:utils:==> Current accuracy: [0.436]	
+[2023-03-28 02:16:07,897] INFO:utils:==> Starting pass number: 18, Learning rate: 0.04811601842965435
+[2023-03-28 02:16:37,179] INFO:utils:==> Train:[18]	Time:29.2267	Data:6.0025	Loss:2.7839	
+[2023-03-28 02:16:42,241] INFO:utils:==> Test: [18]	Time:4.9809	Loss:2.1582	Acc:0.4400	Task Acc:0.8594	
+[2023-03-28 02:16:42,242] INFO:utils:==> Current accuracy: [0.440]	
+[2023-03-28 02:16:42,242] INFO:utils:==> Starting pass number: 19, Learning rate: 0.045828872904488
+[2023-03-28 02:17:12,080] INFO:utils:==> Train:[19]	Time:29.7566	Data:6.1042	Loss:2.7563	
+[2023-03-28 02:17:17,080] INFO:utils:==> Test: [19]	Time:4.9472	Loss:2.0605	Acc:0.4526	Task Acc:0.8608	
+[2023-03-28 02:17:17,081] INFO:utils:==> Current accuracy: [0.453]	
+[2023-03-28 02:17:17,082] INFO:utils:==> Starting pass number: 20, Learning rate: 0.04275089283436705
+[2023-03-28 02:17:46,497] INFO:utils:==> Train:[20]	Time:29.3441	Data:5.9008	Loss:2.6304	
+[2023-03-28 02:17:51,480] INFO:utils:==> Test: [20]	Time:4.9319	Loss:1.9648	Acc:0.4756	Task Acc:0.8730	
+[2023-03-28 02:17:51,481] INFO:utils:==> Current accuracy: [0.476]	
+[2023-03-28 02:17:51,482] INFO:utils:==> Starting pass number: 21, Learning rate: 0.039000363267235154
+[2023-03-28 02:18:20,850] INFO:utils:==> Train:[21]	Time:29.2919	Data:6.0308	Loss:2.6289	
+[2023-03-28 02:18:25,748] INFO:utils:==> Test: [21]	Time:4.8476	Loss:1.9668	Acc:0.4834	Task Acc:0.8753	
+[2023-03-28 02:18:25,749] INFO:utils:==> Current accuracy: [0.483]	
+[2023-03-28 02:18:25,749] INFO:utils:==> Starting pass number: 22, Learning rate: 0.03472141495103598
+[2023-03-28 02:18:55,600] INFO:utils:==> Train:[22]	Time:29.7787	Data:6.1858	Loss:2.5765	
+[2023-03-28 02:19:00,614] INFO:utils:==> Test: [22]	Time:4.9399	Loss:1.8574	Acc:0.5019	Task Acc:0.8859	
+[2023-03-28 02:19:00,615] INFO:utils:==> Current accuracy: [0.502]	
+[2023-03-28 02:19:00,615] INFO:utils:==> Accuracies	Previous: [0.497]	Current: [0.502]	
+[2023-03-28 02:19:00,616] INFO:utils:==> Starting pass number: 23, Learning rate: 0.03007848546989918
+[2023-03-28 02:19:30,123] INFO:utils:==> Train:[23]	Time:29.4486	Data:5.9967	Loss:2.4601	
+[2023-03-28 02:19:35,035] INFO:utils:==> Test: [23]	Time:4.8371	Loss:1.7998	Acc:0.5154	Task Acc:0.8895	
+[2023-03-28 02:19:35,036] INFO:utils:==> Current accuracy: [0.515]	
+[2023-03-28 02:19:35,036] INFO:utils:==> Accuracies	Previous: [0.502]	Current: [0.515]	
+[2023-03-28 02:19:35,037] INFO:utils:==> Starting pass number: 24, Learning rate: 0.02525
+[2023-03-28 02:20:04,997] INFO:utils:==> Train:[24]	Time:29.8806	Data:6.2347	Loss:2.4250	
+[2023-03-28 02:20:09,895] INFO:utils:==> Test: [24]	Time:4.8316	Loss:1.7695	Acc:0.5237	Task Acc:0.8930	
+[2023-03-28 02:20:09,896] INFO:utils:==> Current accuracy: [0.524]	
+[2023-03-28 02:20:09,896] INFO:utils:==> Accuracies	Previous: [0.515]	Current: [0.524]	
+[2023-03-28 02:20:09,897] INFO:utils:==> Starting pass number: 25, Learning rate: 0.02042151453010083
+[2023-03-28 02:20:39,282] INFO:utils:==> Train:[25]	Time:29.3109	Data:6.1297	Loss:2.3871	
+[2023-03-28 02:20:44,153] INFO:utils:==> Test: [25]	Time:4.8052	Loss:1.7021	Acc:0.5415	Task Acc:0.8959	
+[2023-03-28 02:20:44,154] INFO:utils:==> Current accuracy: [0.541]	
+[2023-03-28 02:20:44,155] INFO:utils:==> Accuracies	Previous: [0.524]	Current: [0.541]	
+[2023-03-28 02:20:44,155] INFO:utils:==> Starting pass number: 26, Learning rate: 0.01577858504896403
+[2023-03-28 02:21:13,926] INFO:utils:==> Train:[26]	Time:29.7181	Data:5.9755	Loss:2.3577	
+[2023-03-28 02:21:18,842] INFO:utils:==> Test: [26]	Time:4.8520	Loss:1.6992	Acc:0.5415	Task Acc:0.8997	
+[2023-03-28 02:21:18,843] INFO:utils:==> Current accuracy: [0.541]	
+[2023-03-28 02:21:18,843] INFO:utils:==> Starting pass number: 27, Learning rate: 0.011499636732764853
+[2023-03-28 02:21:48,178] INFO:utils:==> Train:[27]	Time:29.2529	Data:6.0411	Loss:2.2855	
+[2023-03-28 02:21:52,969] INFO:utils:==> Test: [27]	Time:4.7138	Loss:1.6572	Acc:0.5474	Task Acc:0.9031	
+[2023-03-28 02:21:52,970] INFO:utils:==> Current accuracy: [0.547]	
+[2023-03-28 02:21:52,970] INFO:utils:==> Accuracies	Previous: [0.541]	Current: [0.547]	
+[2023-03-28 02:21:52,971] INFO:utils:==> Starting pass number: 28, Learning rate: 0.00774910716563295
+[2023-03-28 02:22:22,687] INFO:utils:==> Train:[28]	Time:29.6404	Data:6.1627	Loss:2.2494	
+[2023-03-28 02:22:27,569] INFO:utils:==> Test: [28]	Time:4.8168	Loss:1.6211	Acc:0.5556	Task Acc:0.9057	
+[2023-03-28 02:22:27,570] INFO:utils:==> Current accuracy: [0.556]	
+[2023-03-28 02:22:27,570] INFO:utils:==> Accuracies	Previous: [0.547]	Current: [0.556]	
+[2023-03-28 02:22:27,570] INFO:utils:==> Starting pass number: 29, Learning rate: 0.004671127095512003
+[2023-03-28 02:22:57,821] INFO:utils:==> Train:[29]	Time:30.1775	Data:6.3249	Loss:2.2205	
+[2023-03-28 02:23:02,817] INFO:utils:==> Test: [29]	Time:4.9303	Loss:1.5957	Acc:0.5640	Task Acc:0.9094	
+[2023-03-28 02:23:02,819] INFO:utils:==> Current accuracy: [0.564]	
+[2023-03-28 02:23:02,819] INFO:utils:==> Accuracies	Previous: [0.556]	Current: [0.564]	
+[2023-03-28 02:23:02,819] INFO:utils:==> Starting pass number: 30, Learning rate: 0.0023839815703456534
+[2023-03-28 02:23:32,428] INFO:utils:==> Train:[30]	Time:29.5391	Data:6.2197	Loss:2.1914	
+[2023-03-28 02:23:37,266] INFO:utils:==> Test: [30]	Time:4.7706	Loss:1.6143	Acc:0.5585	Task Acc:0.9063	
+[2023-03-28 02:23:37,267] INFO:utils:==> Current accuracy: [0.558]	
+[2023-03-28 02:23:37,268] INFO:utils:==> Starting pass number: 31, Learning rate: 0.0009755643100200469
+[2023-03-28 02:24:06,478] INFO:utils:==> Train:[31]	Time:29.1320	Data:6.0353	Loss:2.1350	
+[2023-03-28 02:24:11,427] INFO:utils:==> Test: [31]	Time:4.8740	Loss:1.5820	Acc:0.5639	Task Acc:0.9101	
+[2023-03-28 02:24:11,427] INFO:utils:==> Current accuracy: [0.564]	
+[2023-03-28 02:24:11,427] INFO:utils:==> Starting pass number: 32, Learning rate: 0.05
+[2023-03-28 02:24:41,268] INFO:utils:==> Train:[32]	Time:29.7567	Data:6.3976	Loss:2.4995	
+[2023-03-28 02:24:46,237] INFO:utils:==> Test: [32]	Time:4.9001	Loss:1.8398	Acc:0.5046	Task Acc:0.8869	
+[2023-03-28 02:24:46,238] INFO:utils:==> Current accuracy: [0.505]	
+[2023-03-28 02:24:46,238] INFO:utils:==> Starting pass number: 33, Learning rate: 0.049880821985136874
+[2023-03-28 02:25:16,032] INFO:utils:==> Train:[33]	Time:29.7045	Data:6.1975	Loss:2.4923	
+[2023-03-28 02:25:21,087] INFO:utils:==> Test: [33]	Time:4.9892	Loss:1.8643	Acc:0.5060	Task Acc:0.8809	
+[2023-03-28 02:25:21,088] INFO:utils:==> Current accuracy: [0.506]	
+[2023-03-28 02:25:21,088] INFO:utils:==> Starting pass number: 34, Learning rate: 0.049524435689979954
+[2023-03-28 02:25:50,881] INFO:utils:==> Train:[34]	Time:29.7102	Data:6.3205	Loss:2.4402	
+[2023-03-28 02:25:55,892] INFO:utils:==> Test: [34]	Time:4.9447	Loss:1.8496	Acc:0.5075	Task Acc:0.8818	
+[2023-03-28 02:25:55,893] INFO:utils:==> Current accuracy: [0.507]	
+[2023-03-28 02:25:55,894] INFO:utils:==> Starting pass number: 35, Learning rate: 0.048934273309372174
+[2023-03-28 02:26:25,553] INFO:utils:==> Train:[35]	Time:29.5756	Data:5.9886	Loss:2.4410	
+[2023-03-28 02:26:30,450] INFO:utils:==> Test: [35]	Time:4.8321	Loss:1.8096	Acc:0.5154	Task Acc:0.8893	
+[2023-03-28 02:26:30,451] INFO:utils:==> Current accuracy: [0.515]	
+[2023-03-28 02:26:30,451] INFO:utils:==> Starting pass number: 36, Learning rate: 0.04811601842965435
+[2023-03-28 02:26:59,905] INFO:utils:==> Train:[36]	Time:29.3797	Data:5.9862	Loss:2.3899	
+[2023-03-28 02:27:04,756] INFO:utils:==> Test: [36]	Time:4.7852	Loss:1.7695	Acc:0.5294	Task Acc:0.8908	
+[2023-03-28 02:27:04,757] INFO:utils:==> Current accuracy: [0.529]	
+[2023-03-28 02:27:04,757] INFO:utils:==> Starting pass number: 37, Learning rate: 0.04707755129262179
+[2023-03-28 02:27:34,687] INFO:utils:==> Train:[37]	Time:29.8539	Data:5.9836	Loss:2.4068	
+[2023-03-28 02:27:39,624] INFO:utils:==> Test: [37]	Time:4.8605	Loss:1.7617	Acc:0.5280	Task Acc:0.8919	
+[2023-03-28 02:27:39,626] INFO:utils:==> Current accuracy: [0.528]	
+[2023-03-28 02:27:39,626] INFO:utils:==> Starting pass number: 38, Learning rate: 0.045828872904488
+[2023-03-28 02:28:08,985] INFO:utils:==> Train:[38]	Time:29.2907	Data:5.9672	Loss:2.3396	
+[2023-03-28 02:28:13,905] INFO:utils:==> Test: [38]	Time:4.8540	Loss:1.7676	Acc:0.5297	Task Acc:0.8908	
+[2023-03-28 02:28:13,906] INFO:utils:==> Current accuracy: [0.530]	
+[2023-03-28 02:28:13,907] INFO:utils:==> Starting pass number: 39, Learning rate: 0.04438200872072774
+[2023-03-28 02:28:43,814] INFO:utils:==> Train:[39]	Time:29.8340	Data:6.2294	Loss:2.3000	
+[2023-03-28 02:28:48,847] INFO:utils:==> Test: [39]	Time:4.9689	Loss:1.7822	Acc:0.5270	Task Acc:0.8902	
+[2023-03-28 02:28:48,848] INFO:utils:==> Current accuracy: [0.527]	
+[2023-03-28 02:28:48,849] INFO:utils:==> Starting pass number: 40, Learning rate: 0.04275089283436705
+[2023-03-28 02:29:17,985] INFO:utils:==> Train:[40]	Time:29.0559	Data:5.8682	Loss:2.3151	
+[2023-03-28 02:29:22,938] INFO:utils:==> Test: [40]	Time:4.8755	Loss:1.7148	Acc:0.5410	Task Acc:0.8970	
+[2023-03-28 02:29:22,939] INFO:utils:==> Current accuracy: [0.541]	
+[2023-03-28 02:29:22,940] INFO:utils:==> Starting pass number: 41, Learning rate: 0.040951233783050225
+[2023-03-28 02:29:52,608] INFO:utils:==> Train:[41]	Time:29.6114	Data:6.0222	Loss:2.2521	
+[2023-03-28 02:29:57,489] INFO:utils:==> Test: [41]	Time:4.8158	Loss:1.7012	Acc:0.5433	Task Acc:0.8969	
+[2023-03-28 02:29:57,490] INFO:utils:==> Current accuracy: [0.543]	
+[2023-03-28 02:29:57,491] INFO:utils:==> Starting pass number: 42, Learning rate: 0.039000363267235154
+[2023-03-28 02:30:26,749] INFO:utils:==> Train:[42]	Time:29.2043	Data:5.9587	Loss:2.2355	
+[2023-03-28 02:30:31,757] INFO:utils:==> Test: [42]	Time:4.9426	Loss:1.6299	Acc:0.5565	Task Acc:0.9064	
+[2023-03-28 02:30:31,758] INFO:utils:==> Current accuracy: [0.556]	
+[2023-03-28 02:30:31,759] INFO:utils:==> Starting pass number: 43, Learning rate: 0.03691706923644345
+[2023-03-28 02:31:01,916] INFO:utils:==> Train:[43]	Time:30.0859	Data:6.2088	Loss:2.1941	
+[2023-03-28 02:31:06,768] INFO:utils:==> Test: [43]	Time:4.7867	Loss:1.6387	Acc:0.5561	Task Acc:0.9037	
+[2023-03-28 02:31:06,769] INFO:utils:==> Current accuracy: [0.556]	
+[2023-03-28 02:31:06,770] INFO:utils:==> Starting pass number: 44, Learning rate: 0.03472141495103598
+[2023-03-28 02:31:36,188] INFO:utils:==> Train:[44]	Time:29.3664	Data:6.1644	Loss:2.1907	
+[2023-03-28 02:31:41,113] INFO:utils:==> Test: [44]	Time:4.8328	Loss:1.5967	Acc:0.5675	Task Acc:0.9079	
+[2023-03-28 02:31:41,114] INFO:utils:==> Current accuracy: [0.567]	
+[2023-03-28 02:31:41,114] INFO:utils:==> Accuracies	Previous: [0.564]	Current: [0.567]	
+[2023-03-28 02:31:41,115] INFO:utils:==> Starting pass number: 45, Learning rate: 0.03243454576204794
+[2023-03-28 02:32:10,368] INFO:utils:==> Train:[45]	Time:29.1867	Data:5.9211	Loss:2.2092	
+[2023-03-28 02:32:15,471] INFO:utils:==> Test: [45]	Time:5.0070	Loss:1.6318	Acc:0.5613	Task Acc:0.9022	
+[2023-03-28 02:32:15,472] INFO:utils:==> Current accuracy: [0.561]	
+[2023-03-28 02:32:15,473] INFO:utils:==> Starting pass number: 46, Learning rate: 0.03007848546989918
+[2023-03-28 02:32:44,534] INFO:utils:==> Train:[46]	Time:28.9689	Data:5.9291	Loss:2.1649	
+[2023-03-28 02:32:49,489] INFO:utils:==> Test: [46]	Time:4.8870	Loss:1.5918	Acc:0.5686	Task Acc:0.9065	
+[2023-03-28 02:32:49,489] INFO:utils:==> Current accuracy: [0.569]	
+[2023-03-28 02:32:49,490] INFO:utils:==> Accuracies	Previous: [0.567]	Current: [0.569]	
+[2023-03-28 02:32:49,490] INFO:utils:==> Starting pass number: 47, Learning rate: 0.027675924223156633
+[2023-03-28 02:33:19,341] INFO:utils:==> Train:[47]	Time:29.7679	Data:6.2780	Loss:2.1112	
+[2023-03-28 02:33:24,249] INFO:utils:==> Test: [47]	Time:4.8544	Loss:1.6768	Acc:0.5547	Task Acc:0.9022	
+[2023-03-28 02:33:24,251] INFO:utils:==> Current accuracy: [0.555]	
+[2023-03-28 02:33:24,251] INFO:utils:==> Starting pass number: 48, Learning rate: 0.02525
+[2023-03-28 02:33:52,963] INFO:utils:==> Train:[48]	Time:28.6298	Data:5.8846	Loss:2.0880	
+[2023-03-28 02:33:57,918] INFO:utils:==> Test: [48]	Time:4.8879	Loss:1.6416	Acc:0.5694	Task Acc:0.9049	
+[2023-03-28 02:33:57,919] INFO:utils:==> Current accuracy: [0.569]	
+[2023-03-28 02:33:57,919] INFO:utils:==> Accuracies	Previous: [0.569]	Current: [0.569]	
+[2023-03-28 02:33:57,920] INFO:utils:==> Starting pass number: 49, Learning rate: 0.022824075776843374
+[2023-03-28 02:34:27,339] INFO:utils:==> Train:[49]	Time:29.3410	Data:5.9254	Loss:2.1128	
+[2023-03-28 02:34:32,268] INFO:utils:==> Test: [49]	Time:4.8746	Loss:1.6396	Acc:0.5616	Task Acc:0.9056	
+[2023-03-28 02:34:32,269] INFO:utils:==> Current accuracy: [0.562]	
+[2023-03-28 02:34:32,269] INFO:utils:==> Starting pass number: 50, Learning rate: 0.02042151453010083
+[2023-03-28 02:35:02,206] INFO:utils:==> Train:[50]	Time:29.8605	Data:6.3023	Loss:2.0333	
+[2023-03-28 02:35:07,202] INFO:utils:==> Test: [50]	Time:4.9289	Loss:1.5596	Acc:0.5754	Task Acc:0.9129	
+[2023-03-28 02:35:07,204] INFO:utils:==> Current accuracy: [0.575]	
+[2023-03-28 02:35:07,204] INFO:utils:==> Accuracies	Previous: [0.569]	Current: [0.575]	
+[2023-03-28 02:35:07,205] INFO:utils:==> Starting pass number: 51, Learning rate: 0.018065454237952062
+[2023-03-28 02:35:37,108] INFO:utils:==> Train:[51]	Time:29.8294	Data:6.3192	Loss:2.0407	
+[2023-03-28 02:35:42,367] INFO:utils:==> Test: [51]	Time:5.1936	Loss:1.5244	Acc:0.5881	Task Acc:0.9157	
+[2023-03-28 02:35:42,368] INFO:utils:==> Current accuracy: [0.588]	
+[2023-03-28 02:35:42,368] INFO:utils:==> Accuracies	Previous: [0.575]	Current: [0.588]	
+[2023-03-28 02:35:42,368] INFO:utils:==> Starting pass number: 52, Learning rate: 0.01577858504896403
+[2023-03-28 02:36:12,073] INFO:utils:==> Train:[52]	Time:29.6544	Data:6.0912	Loss:2.0401	
+[2023-03-28 02:36:16,947] INFO:utils:==> Test: [52]	Time:4.7990	Loss:1.4902	Acc:0.5921	Task Acc:0.9177	
+[2023-03-28 02:36:16,947] INFO:utils:==> Current accuracy: [0.592]	
+[2023-03-28 02:36:16,948] INFO:utils:==> Accuracies	Previous: [0.588]	Current: [0.592]	
+[2023-03-28 02:36:16,948] INFO:utils:==> Starting pass number: 53, Learning rate: 0.013582930763556558
+[2023-03-28 02:36:46,621] INFO:utils:==> Train:[53]	Time:29.5903	Data:6.1205	Loss:2.0148	
+[2023-03-28 02:36:51,442] INFO:utils:==> Test: [53]	Time:4.7607	Loss:1.5068	Acc:0.5944	Task Acc:0.9146	
+[2023-03-28 02:36:51,443] INFO:utils:==> Current accuracy: [0.594]	
+[2023-03-28 02:36:51,443] INFO:utils:==> Accuracies	Previous: [0.592]	Current: [0.594]	
+[2023-03-28 02:36:51,444] INFO:utils:==> Starting pass number: 54, Learning rate: 0.011499636732764853
+[2023-03-28 02:37:21,519] INFO:utils:==> Train:[54]	Time:30.0081	Data:6.2469	Loss:2.0088	
+[2023-03-28 02:37:26,484] INFO:utils:==> Test: [54]	Time:4.8984	Loss:1.4678	Acc:0.6016	Task Acc:0.9164	
+[2023-03-28 02:37:26,485] INFO:utils:==> Current accuracy: [0.602]	
+[2023-03-28 02:37:26,485] INFO:utils:==> Accuracies	Previous: [0.594]	Current: [0.602]	
+[2023-03-28 02:37:26,486] INFO:utils:==> Starting pass number: 55, Learning rate: 0.009548766216949778
+[2023-03-28 02:37:55,991] INFO:utils:==> Train:[55]	Time:29.4217	Data:5.9701	Loss:1.9529	
+[2023-03-28 02:38:00,987] INFO:utils:==> Test: [55]	Time:4.9192	Loss:1.5000	Acc:0.5938	Task Acc:0.9169	
+[2023-03-28 02:38:00,988] INFO:utils:==> Current accuracy: [0.594]	
+[2023-03-28 02:38:00,989] INFO:utils:==> Starting pass number: 56, Learning rate: 0.00774910716563295
+[2023-03-28 02:38:30,605] INFO:utils:==> Train:[56]	Time:29.5603	Data:6.1122	Loss:1.8900	
+[2023-03-28 02:38:35,775] INFO:utils:==> Test: [56]	Time:5.1040	Loss:1.5459	Acc:0.5906	Task Acc:0.9124	
+[2023-03-28 02:38:35,775] INFO:utils:==> Current accuracy: [0.591]	
+[2023-03-28 02:38:35,776] INFO:utils:==> Starting pass number: 57, Learning rate: 0.0061179912792722595
+[2023-03-28 02:39:04,823] INFO:utils:==> Train:[57]	Time:28.9642	Data:5.8835	Loss:1.9003	
+[2023-03-28 02:39:09,717] INFO:utils:==> Test: [57]	Time:4.8321	Loss:1.4785	Acc:0.6054	Task Acc:0.9189	
+[2023-03-28 02:39:09,718] INFO:utils:==> Current accuracy: [0.605]	
+[2023-03-28 02:39:09,718] INFO:utils:==> Accuracies	Previous: [0.602]	Current: [0.605]	
+[2023-03-28 02:39:09,718] INFO:utils:==> Starting pass number: 58, Learning rate: 0.004671127095512003
+[2023-03-28 02:39:39,351] INFO:utils:==> Train:[58]	Time:29.5570	Data:6.2833	Loss:1.9294	
+[2023-03-28 02:39:44,222] INFO:utils:==> Test: [58]	Time:4.8094	Loss:1.4814	Acc:0.6052	Task Acc:0.9172	
+[2023-03-28 02:39:44,223] INFO:utils:==> Current accuracy: [0.605]	
+[2023-03-28 02:39:44,223] INFO:utils:==> Starting pass number: 59, Learning rate: 0.0034224487073782153
+[2023-03-28 02:40:13,687] INFO:utils:==> Train:[59]	Time:29.3934	Data:5.9077	Loss:1.9409	
+[2023-03-28 02:40:18,621] INFO:utils:==> Test: [59]	Time:4.8665	Loss:1.4805	Acc:0.6077	Task Acc:0.9173	
+[2023-03-28 02:40:18,622] INFO:utils:==> Current accuracy: [0.608]	
+[2023-03-28 02:40:18,622] INFO:utils:==> Accuracies	Previous: [0.605]	Current: [0.608]	
+[2023-03-28 02:40:18,623] INFO:utils:==> Starting pass number: 60, Learning rate: 0.0023839815703456534
+[2023-03-28 02:40:48,058] INFO:utils:==> Train:[60]	Time:29.3527	Data:6.0075	Loss:1.9112	
+[2023-03-28 02:40:52,869] INFO:utils:==> Test: [60]	Time:4.7585	Loss:1.4902	Acc:0.6063	Task Acc:0.9179	
+[2023-03-28 02:40:52,870] INFO:utils:==> Current accuracy: [0.606]	
+[2023-03-28 02:40:52,870] INFO:utils:==> Starting pass number: 61, Learning rate: 0.0015657266906278318
+[2023-03-28 02:41:22,272] INFO:utils:==> Train:[61]	Time:29.3205	Data:6.0012	Loss:1.8840	
+[2023-03-28 02:41:27,461] INFO:utils:==> Test: [61]	Time:5.1231	Loss:1.4775	Acc:0.6075	Task Acc:0.9174	
+[2023-03-28 02:41:27,461] INFO:utils:==> Current accuracy: [0.607]	
+[2023-03-28 02:41:27,462] INFO:utils:==> Starting pass number: 62, Learning rate: 0.0009755643100200469
+[2023-03-28 02:41:57,441] INFO:utils:==> Train:[62]	Time:29.8956	Data:6.2671	Loss:1.8726	
+[2023-03-28 02:42:02,344] INFO:utils:==> Test: [62]	Time:4.8255	Loss:1.4707	Acc:0.6083	Task Acc:0.9188	
+[2023-03-28 02:42:02,345] INFO:utils:==> Current accuracy: [0.608]	
+[2023-03-28 02:42:02,345] INFO:utils:==> Accuracies	Previous: [0.608]	Current: [0.608]	
+[2023-03-28 02:42:02,346] INFO:utils:==> Starting pass number: 63, Learning rate: 0.0006191780148631288
+[2023-03-28 02:42:32,201] INFO:utils:==> Train:[63]	Time:29.7863	Data:6.1088	Loss:1.8441	
+[2023-03-28 02:42:37,226] INFO:utils:==> Test: [63]	Time:4.9584	Loss:1.4756	Acc:0.6108	Task Acc:0.9194	
+[2023-03-28 02:42:37,227] INFO:utils:==> Current accuracy: [0.611]	
+[2023-03-28 02:42:37,227] INFO:utils:==> Accuracies	Previous: [0.608]	Current: [0.611]	
+[2023-03-28 02:42:37,228] INFO:utils:==> Starting pass number: 64, Learning rate: 0.05
+[2023-03-28 02:43:06,219] INFO:utils:==> Train:[64]	Time:28.9411	Data:5.8180	Loss:2.2268	
+[2023-03-28 02:43:11,045] INFO:utils:==> Test: [64]	Time:4.7582	Loss:1.7549	Acc:0.5451	Task Acc:0.8932	
+[2023-03-28 02:43:11,046] INFO:utils:==> Current accuracy: [0.545]	
+[2023-03-28 02:43:11,046] INFO:utils:==> Starting pass number: 65, Learning rate: 0.04997018754107802
+[2023-03-28 02:43:40,478] INFO:utils:==> Train:[65]	Time:29.3577	Data:6.0438	Loss:2.2117	
+[2023-03-28 02:43:45,483] INFO:utils:==> Test: [65]	Time:4.9314	Loss:1.6641	Acc:0.5487	Task Acc:0.8993	
+[2023-03-28 02:43:45,484] INFO:utils:==> Current accuracy: [0.549]	
+[2023-03-28 02:43:45,484] INFO:utils:==> Starting pass number: 66, Learning rate: 0.049880821985136874
+[2023-03-28 02:44:15,272] INFO:utils:==> Train:[66]	Time:29.7320	Data:6.1464	Loss:2.1880	
+[2023-03-28 02:44:20,242] INFO:utils:==> Test: [66]	Time:4.8930	Loss:1.6514	Acc:0.5549	Task Acc:0.8984	
+[2023-03-28 02:44:20,243] INFO:utils:==> Current accuracy: [0.555]	
+[2023-03-28 02:44:20,243] INFO:utils:==> Starting pass number: 67, Learning rate: 0.04973211862162834
+[2023-03-28 02:44:49,174] INFO:utils:==> Train:[67]	Time:28.8509	Data:5.6465	Loss:2.1737	
+[2023-03-28 02:44:54,055] INFO:utils:==> Test: [67]	Time:4.7973	Loss:1.6963	Acc:0.5501	Task Acc:0.9013	
+[2023-03-28 02:44:54,056] INFO:utils:==> Current accuracy: [0.550]	
+[2023-03-28 02:44:54,057] INFO:utils:==> Starting pass number: 68, Learning rate: 0.049524435689979954
+[2023-03-28 02:45:22,966] INFO:utils:==> Train:[68]	Time:28.8582	Data:6.0547	Loss:2.1817	
+[2023-03-28 02:45:27,868] INFO:utils:==> Test: [68]	Time:4.8249	Loss:1.6885	Acc:0.5544	Task Acc:0.9006	
+[2023-03-28 02:45:27,869] INFO:utils:==> Current accuracy: [0.554]	
+[2023-03-28 02:45:27,869] INFO:utils:==> Starting pass number: 69, Learning rate: 0.04925827351656497
+[2023-03-28 02:45:55,864] INFO:utils:==> Train:[69]	Time:27.9080	Data:5.7122	Loss:2.1364	
+[2023-03-28 02:46:00,832] INFO:utils:==> Test: [69]	Time:4.8853	Loss:1.6133	Acc:0.5645	Task Acc:0.9038	
+[2023-03-28 02:46:00,833] INFO:utils:==> Current accuracy: [0.564]	
+[2023-03-28 02:46:00,834] INFO:utils:==> Starting pass number: 70, Learning rate: 0.048934273309372174
+[2023-03-28 02:46:29,594] INFO:utils:==> Train:[70]	Time:28.7098	Data:5.7160	Loss:2.1409	
+[2023-03-28 02:46:34,672] INFO:utils:==> Test: [70]	Time:5.0115	Loss:1.7490	Acc:0.5511	Task Acc:0.8974	
+[2023-03-28 02:46:34,673] INFO:utils:==> Current accuracy: [0.551]	
+[2023-03-28 02:46:34,673] INFO:utils:==> Starting pass number: 71, Learning rate: 0.048553215613279764
+[2023-03-28 02:47:04,228] INFO:utils:==> Train:[71]	Time:29.5057	Data:6.2653	Loss:2.1460	
+[2023-03-28 02:47:09,226] INFO:utils:==> Test: [71]	Time:4.9229	Loss:1.6396	Acc:0.5693	Task Acc:0.9093	
+[2023-03-28 02:47:09,227] INFO:utils:==> Current accuracy: [0.569]	
+[2023-03-28 02:47:09,227] INFO:utils:==> Starting pass number: 72, Learning rate: 0.04811601842965435
+[2023-03-28 02:47:39,354] INFO:utils:==> Train:[72]	Time:30.0502	Data:6.4343	Loss:2.1404	
+[2023-03-28 02:47:44,455] INFO:utils:==> Test: [72]	Time:5.0171	Loss:1.6836	Acc:0.5620	Task Acc:0.8984	
+[2023-03-28 02:47:44,455] INFO:utils:==> Current accuracy: [0.562]	
+[2023-03-28 02:47:44,456] INFO:utils:==> Starting pass number: 73, Learning rate: 0.047623735004805226
+[2023-03-28 02:48:13,663] INFO:utils:==> Train:[73]	Time:29.1338	Data:6.0629	Loss:2.1567	
+[2023-03-28 02:48:19,080] INFO:utils:==> Test: [73]	Time:5.3394	Loss:1.8701	Acc:0.5409	Task Acc:0.8827	
+[2023-03-28 02:48:19,080] INFO:utils:==> Current accuracy: [0.541]	
+[2023-03-28 02:48:19,081] INFO:utils:==> Starting pass number: 74, Learning rate: 0.04707755129262179
+[2023-03-28 02:48:48,547] INFO:utils:==> Train:[74]	Time:29.3931	Data:6.1240	Loss:2.1479	
+[2023-03-28 02:48:53,529] INFO:utils:==> Test: [74]	Time:4.9055	Loss:1.8721	Acc:0.5541	Task Acc:0.8888	
+[2023-03-28 02:48:53,529] INFO:utils:==> Current accuracy: [0.554]	
+[2023-03-28 02:48:53,530] INFO:utils:==> Starting pass number: 75, Learning rate: 0.046478783097506735
+[2023-03-28 02:49:23,424] INFO:utils:==> Train:[75]	Time:29.8217	Data:6.1257	Loss:2.2462	
+[2023-03-28 02:49:28,372] INFO:utils:==> Test: [75]	Time:4.8818	Loss:1.6543	Acc:0.5667	Task Acc:0.9032	
+[2023-03-28 02:49:28,373] INFO:utils:==> Current accuracy: [0.567]	
+[2023-03-28 02:49:28,373] INFO:utils:==> Starting pass number: 76, Learning rate: 0.045828872904488
+[2023-03-28 02:49:57,889] INFO:utils:==> Train:[76]	Time:29.4327	Data:5.9603	Loss:2.1727	
+[2023-03-28 02:50:02,732] INFO:utils:==> Test: [76]	Time:4.7668	Loss:1.9717	Acc:0.5385	Task Acc:0.8822	
+[2023-03-28 02:50:02,733] INFO:utils:==> Current accuracy: [0.539]	
+[2023-03-28 02:50:02,733] INFO:utils:==> Starting pass number: 77, Learning rate: 0.04512938640414596
+[2023-03-28 02:50:32,334] INFO:utils:==> Train:[77]	Time:29.5053	Data:6.2156	Loss:2.2232	
+[2023-03-28 02:50:37,286] INFO:utils:==> Test: [77]	Time:4.8740	Loss:2.3418	Acc:0.5408	Task Acc:0.8651	
+[2023-03-28 02:50:37,287] INFO:utils:==> Current accuracy: [0.541]	
+[2023-03-28 02:50:37,287] INFO:utils:==> Starting pass number: 78, Learning rate: 0.04438200872072774
+[2023-03-28 02:51:06,680] INFO:utils:==> Train:[78]	Time:29.3361	Data:5.9911	Loss:2.2032	
+[2023-03-28 02:51:11,549] INFO:utils:==> Test: [78]	Time:4.8022	Loss:1.9648	Acc:0.5262	Task Acc:0.8852	
+[2023-03-28 02:51:11,550] INFO:utils:==> Current accuracy: [0.526]	
+[2023-03-28 02:51:11,551] INFO:utils:==> Starting pass number: 79, Learning rate: 0.043588540352535246
+[2023-03-28 02:51:41,129] INFO:utils:==> Train:[79]	Time:29.4998	Data:5.9864	Loss:2.2584	
+[2023-03-28 02:51:46,061] INFO:utils:==> Test: [79]	Time:4.8367	Loss:1.8115	Acc:0.5615	Task Acc:0.8939	
+[2023-03-28 02:51:46,062] INFO:utils:==> Current accuracy: [0.562]	
+[2023-03-28 02:51:46,063] INFO:utils:==> Starting pass number: 80, Learning rate: 0.04275089283436705
+[2023-03-28 02:52:15,200] INFO:utils:==> Train:[80]	Time:29.0814	Data:5.9291	Loss:2.1922	
+[2023-03-28 02:52:20,091] INFO:utils:==> Test: [80]	Time:4.7946	Loss:2.1289	Acc:0.5357	Task Acc:0.8773	
+[2023-03-28 02:52:20,091] INFO:utils:==> Current accuracy: [0.536]	
+[2023-03-28 02:52:20,092] INFO:utils:==> Starting pass number: 81, Learning rate: 0.04187108413246371
+[2023-03-28 02:52:49,417] INFO:utils:==> Train:[81]	Time:29.2427	Data:6.0442	Loss:2.2076	
+[2023-03-28 02:52:54,491] INFO:utils:==> Test: [81]	Time:5.0027	Loss:2.9355	Acc:0.4995	Task Acc:0.8574	
+[2023-03-28 02:52:54,492] INFO:utils:==> Current accuracy: [0.499]	
+[2023-03-28 02:52:54,492] INFO:utils:==> Starting pass number: 82, Learning rate: 0.040951233783050225
+[2023-03-28 02:53:23,250] INFO:utils:==> Train:[82]	Time:28.7030	Data:5.9278	Loss:2.2437	
+[2023-03-28 02:53:28,061] INFO:utils:==> Test: [82]	Time:4.7569	Loss:1.9355	Acc:0.5368	Task Acc:0.8839	
+[2023-03-28 02:53:28,062] INFO:utils:==> Current accuracy: [0.537]	
+[2023-03-28 02:53:28,063] INFO:utils:==> Starting pass number: 83, Learning rate: 0.03999355778618773
+[2023-03-28 02:53:57,884] INFO:utils:==> Train:[83]	Time:29.7376	Data:6.2655	Loss:2.2071	
+[2023-03-28 02:54:02,827] INFO:utils:==> Test: [83]	Time:4.8756	Loss:2.1797	Acc:0.5359	Task Acc:0.8704	
+[2023-03-28 02:54:02,828] INFO:utils:==> Current accuracy: [0.536]	
+[2023-03-28 02:54:02,828] INFO:utils:==> Starting pass number: 84, Learning rate: 0.039000363267235154
+[2023-03-28 02:54:32,609] INFO:utils:==> Train:[84]	Time:29.6932	Data:6.2253	Loss:2.2707	
+[2023-03-28 02:54:37,492] INFO:utils:==> Test: [84]	Time:4.8011	Loss:2.2656	Acc:0.5479	Task Acc:0.8807	
+[2023-03-28 02:54:37,493] INFO:utils:==> Current accuracy: [0.548]	
+[2023-03-28 02:54:37,493] INFO:utils:==> Starting pass number: 85, Learning rate: 0.03797404291878224
+[2023-03-28 02:55:06,632] INFO:utils:==> Train:[85]	Time:29.0831	Data:5.9599	Loss:2.2871	
+[2023-03-28 02:55:11,701] INFO:utils:==> Test: [85]	Time:4.9919	Loss:2.0117	Acc:0.5631	Task Acc:0.8919	
+[2023-03-28 02:55:11,703] INFO:utils:==> Current accuracy: [0.563]	
+[2023-03-28 02:55:11,703] INFO:utils:==> Starting pass number: 86, Learning rate: 0.03691706923644345
+[2023-03-28 02:55:41,354] INFO:utils:==> Train:[86]	Time:29.5795	Data:6.0665	Loss:2.2977	
+[2023-03-28 02:55:46,363] INFO:utils:==> Test: [86]	Time:4.9397	Loss:2.3457	Acc:0.5407	Task Acc:0.8705	
+[2023-03-28 02:55:46,364] INFO:utils:==> Current accuracy: [0.541]	
+[2023-03-28 02:55:46,364] INFO:utils:==> Starting pass number: 87, Learning rate: 0.03583198856239948
+[2023-03-28 02:56:17,046] INFO:utils:==> Train:[87]	Time:30.5956	Data:6.5136	Loss:2.2775	
+[2023-03-28 02:56:21,703] INFO:utils:==> Test: [87]	Time:4.5800	Loss:2.3555	Acc:0.5350	Task Acc:0.8777	
+[2023-03-28 02:56:21,704] INFO:utils:==> Current accuracy: [0.535]	
+[2023-03-28 02:56:21,704] INFO:utils:==> Starting pass number: 88, Learning rate: 0.03472141495103598
+[2023-03-28 02:56:50,866] INFO:utils:==> Train:[88]	Time:29.0833	Data:5.9206	Loss:2.2407	
+[2023-03-28 02:56:55,781] INFO:utils:==> Test: [88]	Time:4.8411	Loss:1.7812	Acc:0.5613	Task Acc:0.8996	
+[2023-03-28 02:56:55,782] INFO:utils:==> Current accuracy: [0.561]	
+[2023-03-28 02:56:55,783] INFO:utils:==> Starting pass number: 89, Learning rate: 0.03358802387145745
+[2023-03-28 02:57:24,863] INFO:utils:==> Train:[89]	Time:29.0002	Data:5.9835	Loss:2.2340	
+[2023-03-28 02:57:29,988] INFO:utils:==> Test: [89]	Time:5.0474	Loss:1.7744	Acc:0.5675	Task Acc:0.9006	
+[2023-03-28 02:57:29,989] INFO:utils:==> Current accuracy: [0.567]	
+[2023-03-28 02:57:29,989] INFO:utils:==> Starting pass number: 90, Learning rate: 0.03243454576204794
+[2023-03-28 02:57:59,349] INFO:utils:==> Train:[90]	Time:29.2879	Data:6.0403	Loss:2.2381	
+[2023-03-28 02:58:04,393] INFO:utils:==> Test: [90]	Time:4.9666	Loss:2.6230	Acc:0.5488	Task Acc:0.8780	
+[2023-03-28 02:58:04,394] INFO:utils:==> Current accuracy: [0.549]	
+[2023-03-28 02:58:04,395] INFO:utils:==> Starting pass number: 91, Learning rate: 0.03126375945260579
+[2023-03-28 02:58:33,757] INFO:utils:==> Train:[91]	Time:29.2840	Data:6.0696	Loss:2.2398	
+[2023-03-28 02:58:38,634] INFO:utils:==> Test: [91]	Time:4.8091	Loss:1.8828	Acc:0.5667	Task Acc:0.9016	
+[2023-03-28 02:58:38,635] INFO:utils:==> Current accuracy: [0.567]	
+[2023-03-28 02:58:38,635] INFO:utils:==> Starting pass number: 92, Learning rate: 0.03007848546989918
+[2023-03-28 02:59:07,659] INFO:utils:==> Train:[92]	Time:28.9525	Data:5.7871	Loss:2.2600	
+[2023-03-28 02:59:12,556] INFO:utils:==> Test: [92]	Time:4.8313	Loss:2.7871	Acc:0.5478	Task Acc:0.8786	
+[2023-03-28 02:59:12,557] INFO:utils:==> Current accuracy: [0.548]	
+[2023-03-28 02:59:12,557] INFO:utils:==> Starting pass number: 93, Learning rate: 0.028881579242770204
+[2023-03-28 02:59:41,768] INFO:utils:==> Train:[93]	Time:29.1287	Data:5.7962	Loss:2.2031	
+[2023-03-28 02:59:46,756] INFO:utils:==> Test: [93]	Time:4.9135	Loss:2.4551	Acc:0.5604	Task Acc:0.8756	
+[2023-03-28 02:59:46,757] INFO:utils:==> Current accuracy: [0.560]	
+[2023-03-28 02:59:46,758] INFO:utils:==> Starting pass number: 94, Learning rate: 0.027675924223156633
+[2023-03-28 03:00:16,539] INFO:utils:==> Train:[94]	Time:29.7101	Data:6.2735	Loss:2.1740	
+[2023-03-28 03:00:21,702] INFO:utils:==> Test: [94]	Time:5.0852	Loss:1.9727	Acc:0.5680	Task Acc:0.8952	
+[2023-03-28 03:00:21,703] INFO:utils:==> Current accuracy: [0.568]	
+[2023-03-28 03:00:21,703] INFO:utils:==> Starting pass number: 95, Learning rate: 0.0264644249396036
+[2023-03-28 03:00:50,836] INFO:utils:==> Train:[95]	Time:29.0357	Data:6.0215	Loss:2.1414	
+[2023-03-28 03:00:55,779] INFO:utils:==> Test: [95]	Time:4.8775	Loss:2.0410	Acc:0.5639	Task Acc:0.8955	
+[2023-03-28 03:00:55,779] INFO:utils:==> Current accuracy: [0.564]	
+[2023-03-28 03:00:55,780] INFO:utils:==> Starting pass number: 96, Learning rate: 0.02525
+[2023-03-28 03:01:25,284] INFO:utils:==> Train:[96]	Time:29.4246	Data:6.1187	Loss:2.1708	
+[2023-03-28 03:01:30,222] INFO:utils:==> Test: [96]	Time:4.8598	Loss:2.1387	Acc:0.5677	Task Acc:0.8940	
+[2023-03-28 03:01:30,223] INFO:utils:==> Current accuracy: [0.568]	
+[2023-03-28 03:01:30,224] INFO:utils:==> Starting pass number: 97, Learning rate: 0.024035575060396407
+[2023-03-28 03:01:59,361] INFO:utils:==> Train:[97]	Time:29.0851	Data:6.0263	Loss:2.1418	
+[2023-03-28 03:02:04,253] INFO:utils:==> Test: [97]	Time:4.8121	Loss:2.2109	Acc:0.5645	Task Acc:0.8898	
+[2023-03-28 03:02:04,253] INFO:utils:==> Current accuracy: [0.564]	
+[2023-03-28 03:02:04,254] INFO:utils:==> Starting pass number: 98, Learning rate: 0.022824075776843374
+[2023-03-28 03:02:33,625] INFO:utils:==> Train:[98]	Time:29.2967	Data:6.1305	Loss:2.1693	
+[2023-03-28 03:02:38,506] INFO:utils:==> Test: [98]	Time:4.8296	Loss:2.1934	Acc:0.5708	Task Acc:0.8958	
+[2023-03-28 03:02:38,507] INFO:utils:==> Current accuracy: [0.571]	
+[2023-03-28 03:02:38,508] INFO:utils:==> Starting pass number: 99, Learning rate: 0.0216184207572298
+[2023-03-28 03:03:08,174] INFO:utils:==> Train:[99]	Time:29.5974	Data:5.9697	Loss:2.1298	
+[2023-03-28 03:03:13,050] INFO:utils:==> Test: [99]	Time:4.7986	Loss:1.7217	Acc:0.5854	Task Acc:0.9100	
+[2023-03-28 03:03:13,051] INFO:utils:==> Current accuracy: [0.585]	
+[2023-03-28 03:03:13,051] INFO:utils:==> Training completed! Acc: [0.611] LR: [0.0006191780148631288]

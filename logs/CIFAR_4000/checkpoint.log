@@ -1,0 +1,22 @@
+[2023-03-27 18:17:26,813] INFO:utils:==> Opts for this training: Namespace(data_dir='/home/thesis/eugenio.ressa/Desktop/GDumb/data', log_dir='/home/thesis/eugenio.ressa/Desktop/GDumb/logs', dataset='CIFAR100', num_classes_per_task=5, num_tasks=20, num_pretrain_classes=0, memory_size=4000, num_passes=4, num_pretrain_passes=0, regularization='cutmix', model='ResNet', depth=32, width=0, seed=0, exp_name='CIFAR_4000', old_exp_name='test', maxlr=0.05, minlr=0.0005, weight_decay=1e-06, batch_size=16, cutmix_alpha=1.0, cutmix_prob=0.5, clip=10.0, workers=2, activetype='ReLU', pooltype='MaxPool2d', normtype='BatchNorm', preact=False, bn=True, affine_bn=True, bn_eps=1e-06, compression=0.5, total_num_classes=100, inp_size=32, in_channels=3, num_classes=100)
+[2023-03-27 18:17:26,813] INFO:utils:==> Starting pass number: 0, Learning rate: 0.005000000000000001
+[2023-03-27 18:17:34,835] INFO:utils:==> Train:[0]	Time:7.9819	Data:1.7247	Loss:4.7637	
+[2023-03-27 18:17:42,737] INFO:utils:==> Test: [0]	Time:7.8356	Loss:4.8398	Acc:0.0267	Task Acc:0.2704	
+[2023-03-27 18:17:42,738] INFO:utils:==> Current accuracy: [0.027]	
+[2023-03-27 18:17:42,739] INFO:utils:==> Accuracies	Previous: [0.000]	Current: [0.027]	
+[2023-03-27 18:17:42,739] INFO:utils:==> Starting pass number: 1, Learning rate: 0.05
+[2023-03-27 18:17:49,385] INFO:utils:==> Train:[1]	Time:6.5778	Data:1.6764	Loss:4.5323	
+[2023-03-27 18:17:57,610] INFO:utils:==> Test: [1]	Time:8.1566	Loss:4.3164	Acc:0.0383	Task Acc:0.3853	
+[2023-03-27 18:17:57,611] INFO:utils:==> Current accuracy: [0.038]	
+[2023-03-27 18:17:57,611] INFO:utils:==> Accuracies	Previous: [0.027]	Current: [0.038]	
+[2023-03-27 18:17:57,611] INFO:utils:==> Starting pass number: 2, Learning rate: 0.05
+[2023-03-27 18:18:03,956] INFO:utils:==> Train:[2]	Time:6.2955	Data:1.6681	Loss:4.3476	
+[2023-03-27 18:18:11,379] INFO:utils:==> Test: [2]	Time:7.3784	Loss:4.1211	Acc:0.0494	Task Acc:0.4323	
+[2023-03-27 18:18:11,380] INFO:utils:==> Current accuracy: [0.049]	
+[2023-03-27 18:18:11,380] INFO:utils:==> Accuracies	Previous: [0.038]	Current: [0.049]	
+[2023-03-27 18:18:11,380] INFO:utils:==> Starting pass number: 3, Learning rate: 0.02525
+[2023-03-27 18:18:16,239] INFO:utils:==> Train:[3]	Time:4.8209	Data:1.1036	Loss:4.2593	
+[2023-03-27 18:18:21,147] INFO:utils:==> Test: [3]	Time:4.8533	Loss:3.9844	Acc:0.0675	Task Acc:0.4714	
+[2023-03-27 18:18:21,148] INFO:utils:==> Current accuracy: [0.067]	
+[2023-03-27 18:18:21,149] INFO:utils:==> Accuracies	Previous: [0.049]	Current: [0.067]	
+[2023-03-27 18:18:21,149] INFO:utils:==> Training completed! Acc: [0.067] LR: [0.025]

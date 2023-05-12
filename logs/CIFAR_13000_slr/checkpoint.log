@@ -1,0 +1,7 @@
+[2023-03-28 23:36:36,251] INFO:utils:==> Opts for this training: Namespace(data_dir='/home/thesis/eugenio.ressa/Desktop/GDumb/data', log_dir='/home/thesis/eugenio.ressa/Desktop/GDumb/logs', dataset='CIFAR100', num_classes_per_task=5, num_tasks=20, num_pretrain_classes=0, memory_size=13000, num_passes=1, num_pretrain_passes=0, regularization='cutmix', model='ResNet', depth=32, width=0, seed=0, exp_name='CIFAR_13000_slr', old_exp_name='test', maxlr=0.05, minlr=0.0005, weight_decay=1e-06, batch_size=16, cutmix_alpha=1.0, cutmix_prob=0.5, clip=10.0, workers=2, activetype='ReLU', pooltype='MaxPool2d', normtype='BatchNorm', preact=False, bn=True, affine_bn=True, bn_eps=1e-06, compression=0.5, total_num_classes=100, inp_size=32, in_channels=3, num_classes=100)
+[2023-03-28 23:36:36,252] INFO:utils:==> Starting pass number: 0, Learning rate: 0.0034224487073782153
+[2023-03-28 23:36:52,063] INFO:utils:==> Train:[0]	Time:15.7596	Data:3.1083	Loss:4.6271	
+[2023-03-28 23:36:56,966] INFO:utils:==> Test: [0]	Time:4.8340	Loss:4.2422	Acc:0.0535	Task Acc:0.4144	
+[2023-03-28 23:36:56,967] INFO:utils:==> Current accuracy: [0.054]	
+[2023-03-28 23:36:56,967] INFO:utils:==> Accuracies	Previous: [0.000]	Current: [0.054]	
+[2023-03-28 23:36:56,967] INFO:utils:==> Training completed! Acc: [0.054] LR: [0.00342245]
