@@ -98,14 +98,19 @@ def test(loader, model, criterion, class_mask, logger, epoch):
 #logger passed to log
 def train(opt, loader, model, criterion, optimizer, epoch, logger):
         model.train()
+        lr = 0
         losses, data_time, batch_time = AverageMeter(), AverageMeter(), AverageMeter()
         start = time.time()
         # Simulo l'aggunta progressiva di classi 
-        for task in range(0,opt.num_tasks):
-            loader.TrainLoaderUpdater(opt,model,task)
+        for task in range(0,opt.num_tasks): # iterazione sul numero di task . ogni task aggiunge un numero di classi pari a opt.class_per_task. nel caso standard di cifar con 100 classi abbiamo 
+            #fatto 20 task da 5 classi a task
+            logger.info('Task # {}'.format(task))
+            for param_group in optimizer.param_groups:
+                    lr = param_group['lr']
+            loader.TrainLoaderUpdater(opt,model,task,logger,lr)
             for i in range(0,opt.num_iteration): # Diamo la possibilità di effetturare piu cicli, 
             #come se nel caso reale tra un task e un altro ci passi del tempo 
-                for inputs, labels in loader.cltrain_loader:
+                for inputs, labels in loader.cltrain_loader: # con il nuovo train loader alleniamo come prima
                     # Tweak inputs
                     # Input are 16(# di immagini per batch)x3x32x32
                     inputs, labels = inputs.half().cuda(non_blocking=True), (labels).cuda(non_blocking=True)

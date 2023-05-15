@@ -98,7 +98,7 @@ class VisionDataset(object):
         self.cltrain_loader = self.get_loader(indices=trainidx, transforms=self.train_transforms, train=True, target_transforms=continual_target_transform)
         self.cltest_loader = self.get_loader(indices=testidx, transforms=self.test_transforms, train=False, target_transforms=continual_target_transform)
 
-    def TrainLoaderUpdater(self,opt,model,task):
+    def TrainLoaderUpdater(self,opt,model,task,logger,lr):
         idx = 0
         classifica,trainidx,evalidx = [],[],[]
         if(task == 0):# Carico i primi valori nel trainloader snza dar conto al loss del modello, essendo non allenato
@@ -108,30 +108,75 @@ class VisionDataset(object):
                 trainidx += self.train_class_labels_dict[cl][:int(int(opt.memory_size)/int(opt.num_classes_per_task))] # prendo i primi memory_size / num_classi_per task samples da caricare all'inizio
             self.cltrain_loader = self.get_loader(indices=trainidx, transforms=self.train_transforms, train=True)  # e creaiamo un trainloader solo con le prime classi_per_task  
         else: # per i task successivi
-            for cl in range((opt.num_classes_per_task * task)  ,int(opt.num_classes_per_task *( task+1))):
-                evalidx = self.train_class_labels_dict[cl]
-                sampler = SubsetSequentialSampler(evalidx)     
+            for cl in range((opt.num_classes_per_task * task)  ,int(opt.num_classes_per_task *( task+1))):# da 5 a 9, da 10 a 14 etc
+                logger.info('Class classification # {} at  Task # {}'.format(cl,task))
+                evalidx = self.train_class_labels_dict[cl] # prende tutti gli indici delle immagini del dataset per quella classe
+                sampler = SubsetSequentialSampler(evalidx) # crea un sampler sequenziale ( non randomizza l'ordine, ci serivrà per poter associare il loss all'immagine)  
                 # Creiamo un dataloader per valutare la cross entropy loss delle immagini
                 self.eval_loader = DataLoader(getattr(torchvision.datasets, self.opt.dataset)(root=self.opt.data_dir, train=True, download=True, transform=self.train_transforms), sampler=sampler, num_workers =  opt.workers,batch_size = 20, pin_memory =  True) 
                 i = 0
-                for bx,by in self.eval_loader:
-                    bx, by = bx.half().cuda(non_blocking=True), by.cuda(non_blocking=True)
-                    with torch.no_grad():
-                        logits_track_pre = model(bx)
-                        pre_loss = F.cross_entropy(logits_track_pre, by , reduction="none")
+                for bx,by in self.eval_loader:# ciclo sulle immagini del data loader. usiamo un batch_sime di 20 su 500 immagini-> facciamo 25 iterazioni
+                    bx, by = bx.half().cuda(non_blocking=True), by.cuda(non_blocking=True) # carichiamo i dati sul cuda core
+                    grad_dims = []
+                    for param in model.parameters():
+                        grad_dims.append(param.data.numel())
+                    #fa un vettore con i gradienti del modello allenato con gli input del batch
+                    grad_vector = get_grad_vector( model.parameters, grad_dims)
+                    #crea un modello temporaneo partendo dal modello precedente . potrebbe essere una copia uguale come una copia con qualche modifca
+                    model_temp = get_future_step_parameters(model, grad_vector,grad_dims, lr=lr)
+                    # continua a rimanere senza gradiente ( in evaluation in sostanza)
+                    with torch.no_grad():# non effettuiamo SGD algoritm
+                        logits_track_pre = model(bx) # prendiamo output
+                        logits_track_post = model_temp(bx)
+                        #logits_track_post = model_temp.linear(buffer_hid)
+                        pre_loss = F.cross_entropy(logits_track_pre, by , reduction="none")# calcoliamo crossentropyLoss con valori aspettati
+                        post_loss = F.cross_entropy(logits_track_post, by , reduction="none")
+                        scores = post_loss - pre_loss
                     #loss = lossCalculator(model,bx,by)# in realtà calcoliamo cross entropy loss
-                    for a in range (0,20) : classifica.append((evalidx[a],float(pre_loss[a].cpu())))
+                    for a in range (0,20) : classifica.append((evalidx[(i*20) + a],float(scores[a].cpu())))# creiamo un vettore di tuple (indice immagine , loss). aggiungiamo di 20 in 20 ( batch size)
                     i = i + 1
                 sorted_list = sorted(classifica, key=lambda x: x[1], reverse =True )# Ordina i samples in base al loss
-                sorted_keys = [t[0] for t in sorted_list]
-                self.train_class_labels_dict[cl] = sorted_keys
+                sorted_keys = [t[0] for t in sorted_list]#recupera solo le chiavi ( che sono poi gli indici delle migliori immagini)
+                self.train_class_labels_dict[cl] = sorted_keys # salva l'ordine nel dizionario
             while idx < opt.num_classes_per_task * (task+1) : # faccio spazio nel uffer per aggiungere gli indici delle nuove classi
                 self.train_class_labels_dict[idx] = self.train_class_labels_dict[idx][:int(int(opt.memory_size)/(int(opt.num_classes_per_task)*int(opt.num_tasks)))]# prendo soltanto i primi numero di samples per classe da salvare poi nel buffer
                 trainidx += self.train_class_labels_dict[idx][:int(int(opt.memory_size)/(int(opt.num_classes_per_task)*int(opt.num_tasks)))] # prendo i primi memory_size / num_classi_per task samples da caricare all'inizio
                 idx = idx + 1
             self.cltrain_loader = self.get_loader(indices=trainidx, transforms=self.train_transforms, train=True)  # Creiamo nuovo trainloader con nuovi indici trovati
 
-def lossCalculator(model,bx,by):
+def get_grad_vector( pp, grad_dims):
+    """
+     gather the gradients in one vector
+    """
+    grads = torch.Tensor(sum(grad_dims))
+    grads = grads.cuda()
+
+    grads.fill_(0.0)
+    cnt = 0
+    for param in pp():
+        if param.grad is not None:
+            beg = 0 if cnt == 0 else sum(grad_dims[:cnt])
+            en = sum(grad_dims[:cnt + 1])
+            grads[beg: en].copy_(param.grad.data.view(-1))
+        cnt += 1
+    return grads
+
+def get_future_step_parameters(this_net, grad_vector, grad_dims, lr=1):
+    """
+    computes \theta-\delta\theta
+    :param this_net:
+    :param grad_vector:
+    :return:
+    """
+    new_net=copy.deepcopy(this_net)
+    overwrite_grad(new_net.parameters,grad_vector,grad_dims)
+    with torch.no_grad():
+        for param in new_net.parameters():
+            if param.grad is not None:
+                param.data=param.data - lr*param.grad.data
+    return new_net
+
+""" def lossCalculator(model,bx,by):
     grad_dims = []
     # fa una lista con il numero di parametri nella rete
     for param in model.parameters():
@@ -154,7 +199,7 @@ def lossCalculator(model,bx,by):
             all_logits = scores
             big_ind = all_logits.sort(descending=True)[1][:args.buffer_batch_size]
 
-            idx = subsample[big_ind] 
+            idx = subsample[big_ind] """ 
 
 def get_grad_vector( pp, grad_dims):
     """
