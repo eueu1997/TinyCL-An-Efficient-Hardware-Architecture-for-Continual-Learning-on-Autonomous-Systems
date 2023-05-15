@@ -115,6 +115,7 @@ class VisionDataset(object):
                 # Creiamo un dataloader per valutare la cross entropy loss delle immagini
                 self.eval_loader = DataLoader(getattr(torchvision.datasets, self.opt.dataset)(root=self.opt.data_dir, train=True, download=True, transform=self.train_transforms), sampler=sampler, num_workers =  opt.workers,batch_size = 20, pin_memory =  True) 
                 i = 0
+                classifica = []
                 for bx,by in self.eval_loader:# ciclo sulle immagini del data loader. usiamo un batch_sime di 20 su 500 immagini-> facciamo 25 iterazioni
                     bx, by = bx.half().cuda(non_blocking=True), by.cuda(non_blocking=True) # carichiamo i dati sul cuda core
                     grad_dims = []
@@ -139,8 +140,8 @@ class VisionDataset(object):
                 sorted_keys = [t[0] for t in sorted_list]#recupera solo le chiavi ( che sono poi gli indici delle migliori immagini)
                 self.train_class_labels_dict[cl] = sorted_keys # salva l'ordine nel dizionario
             while idx < opt.num_classes_per_task * (task+1) : # faccio spazio nel uffer per aggiungere gli indici delle nuove classi
-                self.train_class_labels_dict[idx] = self.train_class_labels_dict[idx][:int(int(opt.memory_size)/(int(opt.num_classes_per_task)*int(opt.num_tasks)))]# prendo soltanto i primi numero di samples per classe da salvare poi nel buffer
-                trainidx += self.train_class_labels_dict[idx][:int(int(opt.memory_size)/(int(opt.num_classes_per_task)*int(opt.num_tasks)))] # prendo i primi memory_size / num_classi_per task samples da caricare all'inizio
+                self.train_class_labels_dict[idx] = self.train_class_labels_dict[idx][:int(int(opt.memory_size)/(int(opt.num_classes_per_task)*int(task+1)))]# prendo soltanto i primi numero di samples per classe da salvare poi nel buffer
+                trainidx += self.train_class_labels_dict[idx][:int(int(opt.memory_size)/(int(opt.num_classes_per_task)*int(task+1)))] # prendo i primi memory_size / num_classi_per task samples da caricare all'inizio
                 idx = idx + 1
             self.cltrain_loader = self.get_loader(indices=trainidx, transforms=self.train_transforms, train=True)  # Creiamo nuovo trainloader con nuovi indici trovati
 
