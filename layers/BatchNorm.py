@@ -2,10 +2,11 @@ import numpy as np
 
 class BatchNorm():
     def __init__(self,inputSize,batchSize,lr):
-        #self.weights = np.random.uniform(low=0, high=1, size=((inputSize,inputSize)))
-        #self.bias =  np.random.uniform(low=0, high=1, size=((inputSize,inputSize)))
-        self.weights = np.full((inputSize,inputSize), 0.5 , float)
-        self.bias = np.full((inputSize,inputSize), 0.5 , float)
+        self.weights = np.random.uniform(low=0, high=1, size=((inputSize,inputSize)))
+        self.bias =  np.random.uniform(low=0, high=1, size=((inputSize,inputSize)))
+        #for test pourpose only
+        #self.weights = np.full((inputSize,inputSize), 0.5 , float)
+        #self.bias = np.full((inputSize,inputSize), 0.5 , float)
         self.lr = lr
         self.batchSize = batchSize
         self.inputSize = inputSize
@@ -35,9 +36,10 @@ class BatchNorm():
             for i in range(self.inputSize):
                 for j in range(self.inputSize):    
                     output[k][i][j] = (input[k][i][j] - avg[i][j])/ np.sqrt(var[i][j] + self.epsilon)
+        # the x^ is saved because is used to calculate the derivative over the weight is backward
+        self.output = output
         #weight and bias application
         output = np.dot(output,self.weights) + self.bias
-        self.output = output
         return output
     
     def feedback(self,input):
@@ -51,7 +53,7 @@ class BatchNorm():
                                         +((2*self.input - self.avg)*(1/self.batchSize)) )) #dy/d(var)
         
         #computation of parameters update
-        #the derivative of input over weight is equal to the previous output multiplied with the current input coming from next layer( previous following backward )
+        #the derivative of input over weight is equal to the previous x^ multiplied with the current input coming from next layer( previous following backward )
         self.weights = self.weight - self.lr* np.matmul(self.output,input) 
 
         #return the oytput for the previous layer ( next following the backward)
