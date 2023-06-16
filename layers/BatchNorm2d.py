@@ -1,6 +1,6 @@
 import numpy as np
 
-class BatchNorm():
+class BatchNorm2d():
     def __init__(self,inputSize,batchSize,lr):
         self.weights = np.random.uniform(low=0, high=1, size=((inputSize,inputSize)))
         self.bias =  np.random.uniform(low=0, high=1, size=((inputSize,inputSize)))
