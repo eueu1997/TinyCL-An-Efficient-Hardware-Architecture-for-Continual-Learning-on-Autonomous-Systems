@@ -11,9 +11,9 @@ class ReLU2d():
         for k in range(self.batchSize):
             for i in range(self.inputSize):
                 for j in range(self.inputSize):
-                    if (input[i][j] > 0):
-                        output[i][j] = input[i][j]
-                    else : self.output[i][j] = 0
+                    if (input[k][i][j] > 0):
+                        output[k][i][j] = input[k][i][j]
+                    else : self.output[k][i][j] = 0
         return output
 class ReLU1d():
 
@@ -25,8 +25,8 @@ class ReLU1d():
     def forward (self,input):
         for k in range(self.batchSize):
             for i in range(self.inputSize):
-                if (input[i] > 0):
-                    self.output[i] = input[i]
+                if (input[k][i] > 0):
+                    self.output[k][i] = input[k][i]
                 else  :
-                    self.output[i] = 0
+                    self.output[k][i] = 0
     

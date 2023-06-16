@@ -16,16 +16,15 @@ class FCLayer():
         #feedback
         self.dx = np.zeros((self.batchSize,self.inputSize))
     def forward (self,input):
-        output = np.zeros((self.batchSize,self.outputSize))
         self.input = input
         for k in range (self.batchSize):
             for i in range(self.outputSize):
                 for j in range(self.inputSize):
-                    output[k][i] += input[k][j]*self.kernel[j][i]  # kernel è scandito come j,i perche è moltiplicazione riga per colonna
-                output[k][i] += self.bias[i] 
+                    self.output[k][i] += input[k][j]*self.kernel[j][i]  # kernel è scandito come j,i perche è moltiplicazione riga per colonna
+                self.output[k][i] += self.bias[i] 
 
-        return output
-    def feedback(self):
+        
+    def feedback(self,input):
         
         output = np.zeros((self.batchSize,self.inputSize))
         derivative = 0
