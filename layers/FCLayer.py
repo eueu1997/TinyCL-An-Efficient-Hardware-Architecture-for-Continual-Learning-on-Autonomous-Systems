@@ -10,7 +10,11 @@ class FCLayer():
         self.inputSize = inputSize
         self.outputSize = outputSize
         self.batchSize = batchSize
-    
+        #forward
+        self.input = np.zeros((self.batchSize,self.inputSize))
+        self.output =  np.zeros((self.batchSize,self.outputSize))
+        #feedback
+        self.dx = np.zeros((self.batchSize,self.inputSize))
     def forward (self,input):
         output = np.zeros((self.batchSize,self.outputSize))
         self.input = input
@@ -21,7 +25,7 @@ class FCLayer():
                 output[k][i] += self.bias[i] 
 
         return output
-    def feedback(self,input):
+    def feedback(self):
         
         output = np.zeros((self.batchSize,self.inputSize))
         derivative = 0
@@ -38,7 +42,7 @@ class FCLayer():
         #  riguarda gli appunti per ricordarti come mai
         #update bias vaules. the derivative is 1
 
-        return output
+        self.dx = output
 
 if __name__ == '__main__':
     input = np.array([[3,3,2,1,0,5,2,7,5,9],[3,3,2,1,0,5,2,7,5,9],[3,3,2,1,0,5,2,7,5,9]])

@@ -10,6 +10,11 @@ class BatchNorm():
         self.lr = lr
         self.batchSize = batchSize
         self.inputSize = inputSize
+        #foward
+        self.input = np.zeros((self.batchSize,self.inputSize,self.inputSize),float)
+        self.output = np.zeros((self.batchSize,self.inputSize,self.inputSize),float)
+        #feedback
+        self.dx = np.zeros((self.batchSize,self.inputSize,self.inputSize),float)
     def forward (self,input,epsilon):
         
         self.input = input
@@ -46,7 +51,10 @@ class BatchNorm():
         
        
         output = np.zeros((self.batchSize,self.inputSize,self.inputSize),float)
-        
+        #dy/dvar
+        temp = (self.input - self.avg)(-self.weights/2)(self.var**2 + self.epsilon)**(-3/2)
+        #dy/davg
+        # TODO
         #output computation of chain
         output = np.matmul(self.weights,((1/self.var - self.epsilon) # dy/dxi
                                          +(1/self.batchSize)        #dy/d(avg)
@@ -57,7 +65,7 @@ class BatchNorm():
         self.weights = self.weight - self.lr* np.matmul(self.output,input) 
 
         #return the oytput for the previous layer ( next following the backward)
-        return output
+        self.dx = output
         
 
     
