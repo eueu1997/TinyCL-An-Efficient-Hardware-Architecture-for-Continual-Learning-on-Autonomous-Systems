@@ -93,8 +93,8 @@ class BatchNorm1d():
             
                 dw += self.input[b][i]*input[b][i]
                 db += input[b][i]
-            self.weights[i] =  self.weights[i] - lr*dw 
-            self.bias[i] = self.bias[i] - lr*db
+            self.weights[i] =  self.weights[i] - lr[0]*dw 
+            self.bias[i] = self.bias[i] - lr[0]*db
             dw = 0
             db = 0
         #return the oytput for the previous layer ( next following the backward)

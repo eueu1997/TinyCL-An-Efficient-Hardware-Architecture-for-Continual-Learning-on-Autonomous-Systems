@@ -22,7 +22,8 @@ class FCLayer():
             #    for j in range(self.inputSize):
             #        self.output[k][i] += input[k][j]*self.kernel[j][i]  # kernel è scandito come j,i perche è moltiplicazione riga per colonna
             #    self.output[k][i] += self.bias[i] 
-        self.output = np.matmul(input,self.kernel) + self.bias
+        for b in range(self.batchSize):
+            self.output[b] = np.matmul(input[b],self.kernel) + self.bias
 
         
     def feedback(self,input,lr):
@@ -46,8 +47,12 @@ class FCLayer():
         dw = np.matmul(np.transpose(self.input),input)
         #  riguarda gli appunti per ricordarti come mai
         #update bias vaules. the derivative is 1
-        self.kernel = self.kernel - lr*dw
-        self.bias   = self.bias - lr*input
+        self.kernel = self.kernel - lr[0]*dw
+        temp = np.zeros(self.outputSize)
+        for i in range(self.outputSize):
+            for b in range(self.batchSize):
+                temp[i] += input[b][i]
+        self.bias   = self.bias - lr[0]*temp
         self.dx = output
 
 if __name__ == '__main__':

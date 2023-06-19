@@ -17,14 +17,22 @@ class CrossEntropyLoss():
         temp = 0
         temp2 = 0  
         self.input = input
+        traslated = np.zeros((self.batchSize,self.nOfClasses))
+
         self.expected = expected
         for k in range(self.batchSize):
             temp = 0
             temp2 = 0
+            
             for j in range (self.nOfClasses):
+                y = 0
+                y = 1 if (j==expected[k]) else 0
                 for i in range(self.nOfClasses):
-                    temp += np.exp(input[k][i])
-                temp2 +=  np.log(input[k][j]/temp)*expected[j]
+                    a = input[k][i]
+                    b = np.exp(a)
+                    temp += b
+                temp2 +=  np.log(np.exp(input[k][j])/temp)*y
+                temp = 0
             losses[k] = -temp2
 
         self.output = losses

@@ -1,46 +1,57 @@
-import BatchNorm1d
-import FCLayer
-import ReLU 
+from .FCLayer import FCLayer
+from .BatchNorm1d import BatchNorm1d
+from .ReLU import ReLU1d 
 import numpy as np
-import CrossEntropyLoss
+from .CrossEntropyLoss import CrossEntropyLoss
 
 class MLPOnMIST():
 
-    def __init__(self,scheduler):
+    def __init__(self):
  
-        inputData = int(28)
-        inputSize = int(inputData*inputData)
-        nClasses  = 10
-        batchSize = 16
-        epsilon = 1e-6
+        self.inputData = int(28)
+        self.inputSize = int(self.inputData*self.inputData)
+        self.nClasses  = 10
+        self.batchSize = 16
+        self.epsilon = 1e-6
 
     # create model
-        self.linear0 = FCLayer(inputSize,400,batchSize)
-        self.batchNorm1d0 = BatchNorm1d(400,batchSize,epsilon)
+        self.linear0 = FCLayer(self.inputSize,400,self.batchSize)
+        self.batchNorm1d0 = BatchNorm1d(400,self.batchSize,self.epsilon)
         self.relu0 = ReLU1d(400,16)
         self.linear1 = FCLayer(400,400,16)
-        self.batchNorm1d1 = BatchNorm1d(400,16,epsilon)
+        self.batchNorm1d1 = BatchNorm1d(400,16,self.epsilon)
         self.relu1 = ReLU1d(400,16)
         self.linear2 = FCLayer(400,10,16)
-        self.batchNorm1d2 = BatchNorm1d(10,16,epsilon)
-        self.crossEntropy = CrossEntropyLoss(nClasses,batchSize)
+        self.batchNorm1d2 = BatchNorm1d(10,16,self.epsilon)
+        self.crossEntropy = CrossEntropyLoss(self.nClasses,self.batchSize)
 
     def forward(self,inputs,labels):
     #start forward
-        self.linear0.forward(inputs)
-        self.batchNorm1d0.forward(self.linear0.output)
-        self.relu0.forward(self.batchNorm1d0.output)
-        self.linear1.forward(self.relu0.output)
-        self.batchNorm1d1.forward(self.linear1.output)
-        self.relu1.forward(self.batchNorm1d1.output)
-        self.linear2.forward(self.relu1.output)
-        self.batchNorm1d2.forward(self.linear2.output)
+        flatted = np.zeros((self.batchSize,self.inputSize))
+        
+        for b in range(self.batchSize):
+            flatted[b] = inputs[b].flatten()
+        self.linear0.forward(flatted)
+        output = self.linear0.output
+        self.batchNorm1d0.forward(output)
+        output = self.batchNorm1d0.output
+        self.relu0.forward(output)
+        output = self.relu0.output
+        self.linear1.forward(output)
+        output = self.linear1.output
+        self.batchNorm1d1.forward(output)
+        output = self.batchNorm1d1.output
+        self.relu1.forward(output)
+        output = self.relu1.output
+        self.linear2.forward(output)
+        output = self.linear2.output
+        self.batchNorm1d2.forward(output)
         estimation = self.batchNorm1d2.output
-        self.crossEntropy.forward(self.estimation,labels)
+        self.crossEntropy.forward(estimation,labels)
         return self.crossEntropy.output
     def feedback(self,lr):
         #start feedback
-        self.crossEntropy.feedback()
+        self.crossEntropy.feedback() # TODO : check that equation , maybe error
         self.batchNorm1d2.feedback(self.crossEntropy.dx,lr)
         self.linear2.feedback(self.batchNorm1d2.dx,lr)
         self.batchNorm1d1.feedback(self.linear2.dx,lr)
