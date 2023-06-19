@@ -2,11 +2,11 @@ import numpy as np
 
 class FCLayer():
     
-    def __init__(self,inputSize,outputSize,batchSize,lr):
+    def __init__(self,inputSize,outputSize,batchSize):
+
         #self.kernel = np.random.uniform(low=0, high=1, size=((batchSize,inputSize,outputSize)))
         self.kernel = np.full((inputSize,outputSize), 0.5 , float) # il kernel e i bias non cambiano per i batch
         self.bias = np.full((outputSize), 0.5 , float)
-        self.lr = lr
         self.inputSize = inputSize
         self.outputSize = outputSize
         self.batchSize = batchSize
@@ -17,30 +17,37 @@ class FCLayer():
         self.dx = np.zeros((self.batchSize,self.inputSize))
     def forward (self,input):
         self.input = input
-        for k in range (self.batchSize):
-            for i in range(self.outputSize):
-                for j in range(self.inputSize):
-                    self.output[k][i] += input[k][j]*self.kernel[j][i]  # kernel è scandito come j,i perche è moltiplicazione riga per colonna
-                self.output[k][i] += self.bias[i] 
+        #for k in range (self.batchSize):
+            #for i in range(self.outputSize):
+            #    for j in range(self.inputSize):
+            #        self.output[k][i] += input[k][j]*self.kernel[j][i]  # kernel è scandito come j,i perche è moltiplicazione riga per colonna
+            #    self.output[k][i] += self.bias[i] 
+        self.output = np.matmul(input,self.kernel) + self.bias
 
         
-    def feedback(self,input):
+    def feedback(self,input,lr):
         
         output = np.zeros((self.batchSize,self.inputSize))
+        dw = np.zeros((self.inputSize,self.outputSize))
         derivative = 0
-        #update chain rule. the derivative of input on the ouput shall be the transposed of the kernel
+        #dx. the derivative of input on the ouput shall be the transposed of the kernel
         transpost = np.transpose(self.kernel)
-        for i in range(self.batchSize):
-            output[i] = np.matmul(input[i],transpost)
-        #update parameters. the derivative of y over k11 ,k12 and k13 is x11,x21 and so on( the first number refer to batch size)
-        for i in range(self.inputSize): # this input size is referred in forward, so now is the 
-            for j in range(self.outputSize):
-                for k in range(self.batchSize): # la derivata del kernel prima riga prima colonna è la somma di tutti i forward input di indice 1
-                    derivative += input[k][i]*self.input[k][j]
-                self.kernel[i][j] -= self.lr*derivative 
+        #for b in range(self.batchSize):
+        #    for i in range(self.inputSize):
+        #        for j in range(self.outputSize):
+        #            output[b] = input[b][i]*transpost[b][i]
+        output=np.matmul(input,transpost)
+        #dw. the derivative of y over k11 ,k12 and k13 is x11,x21 and so on( the first number refer to batch size)
+        ##for i in range(self.inputSize): # this input size is referred in forward, so now is the 
+        #    for j in range(self.outputSize):
+        #        for k in range(self.batchSize): # la derivata del kernel prima riga prima colonna è la somma di tutti i forward input di indice 1
+        #            derivative += input[k][i]*self.input[k][j]
+        #        self.kernel[i][j] -= self.lr*derivative 
+        dw = np.matmul(np.transpose(self.input),input)
         #  riguarda gli appunti per ricordarti come mai
         #update bias vaules. the derivative is 1
-
+        self.kernel = self.kernel - lr*dw
+        self.bias   = self.bias - lr*input
         self.dx = output
 
 if __name__ == '__main__':

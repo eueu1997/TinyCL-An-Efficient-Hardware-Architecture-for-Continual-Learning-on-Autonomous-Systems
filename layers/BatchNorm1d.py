@@ -1,13 +1,12 @@
 import numpy as np
 
 class BatchNorm1d():
-    def __init__(self,inputSize,batchSize,lr,epsilon):
+    def __init__(self,inputSize,batchSize,epsilon):
         self.weights = np.random.rand(inputSize)
         self.bias =  np.random.uniform(low=0, high=1, size=inputSize)
         #for test pourpose only
         #self.weights = np.full((inputSize,inputSize), 0.5 , float)
         #self.bias = np.full((inputSize,inputSize), 0.5 , float)
-        self.lr = lr
         self.batchSize = batchSize
         self.inputSize = inputSize
         self.epsilon = epsilon
@@ -49,28 +48,74 @@ class BatchNorm1d():
             output[b] = np.dot(output[b],self.weights) + self.bias
         self.output = output
     
-    def feedback(self,input):
+    def feedback(self,input,lr):
         
-       
-        output = np.zeros((self.batchSize,self.inputSize,self.inputSize),float)
+        #dx
+        output = np.zeros((self.batchSize,self.inputSize))
+        
         #dy/dvar
-        temp = (self.input - self.avg)(-self.weights/2)(self.var**2 + self.epsilon)**(-3/2)
-        #dy/davg
-        # TODO
-        #output computation of chain
-        output = np.matmul(self.weights,((1/self.var - self.epsilon) # dy/dxi
-                                         +(1/self.batchSize)        #dy/d(avg)
-                                        +((2*self.input - self.avg)*(1/self.batchSize)) )) #dy/d(var)
+        dvar = np.zeros(self.inputSize)
+        for i in range(self.inputSize):
+            for b in range(self.batchSize):
+                dvar[i] += input[b][i]*(self.input[b][i] - self.avg[i])*(-self.weights[i]/2)*(self.var[i]**2 + self.epsilon)**(-3/2)
         
+        #dy/davg
+        invDvar = np.zeros((self.inputSize))
+        temp = np.zeros(self.inputSize)
+        
+        #first term
+        for i in range(self.inputSize):
+            for b in range(self.batchSize):
+                invDvar[i] += input[b][i]*(self.weights[i]/np.sqrt(self.var[i] + self.epsilon))
+        
+        #second term
+        temp1 = np.zeros(self.inputSize)
+        for i in range(self.inputSize): # sum over batch size
+            for b in range(self.batchSize): # sum all difference betwen value and average of the same pizel in batch
+                temp1[i] += (-2)*(self.input[b][i] - self.avg[i])
+            temp1[i] = (temp1[i]/self.batchSize)*dvar[i]
+        
+        davg = np.zeros(self.inputSize)
+        #sum of 2 partial term
+        davg = temp + temp1
+
+        #final calc of dx
+        for b in range(self.batchSize):
+            for i in range(self.inputSize):
+                self.dx[b][i] = input[b][i]*(1/np.sqrt(self.var[i] + self.epsilon)) + dvar[i]*(2*self.input[b][i] - davg[i])*(1/self.batchSize) + davg[i]*(1/self.batchSize)
+        #dw
         #computation of parameters update
         #the derivative of input over weight is equal to the previous x^ multiplied with the current input coming from next layer( previous following backward )
-        self.weights = self.weight - self.lr* np.matmul(self.output,input) 
-
+        dw = 0
+        db = 0
+        for i in range(self.inputSize):
+            for b in range(self.batchSize):
+            
+                dw += self.input[b][i]*input[b][i]
+                db += input[b][i]
+            self.weights[i] =  self.weights[i] - lr*dw 
+            self.bias[i] = self.bias[i] - lr*db
+            dw = 0
+            db = 0
         #return the oytput for the previous layer ( next following the backward)
-        self.dx = output
-        
+        #db
 
+    def scalarMatrixPerMatrix(self,matrix1,matrix2,matrixSize):
+        output = np.zeros((matrixSize,matrixSize))
+        for j in range(matrixSize):
+            output[j] = np.inner(matrix1,matrix2)
+        return output
     
+    def scalarArrayPerMatrix(self,array,matrix,matrixDepth,arrayLenght):
+        output = np.zeros((matrixDepth,arrayLenght))
+        for j in range(matrixDepth):
+            output[j] = np.inner(array,matrix[j])
+        return output
+    def sumMatrixAndArray(self,array,matrix,matrixDepth,arrayLenght):
+        output = np.zeros((matrixDepth,arrayLenght))
+        for j in range(matrixDepth):
+            output[j] = array + matrix[j]
+        return output
 if __name__ == '__main__':
     input = np.array([[
             [1,1,1,1,1],
