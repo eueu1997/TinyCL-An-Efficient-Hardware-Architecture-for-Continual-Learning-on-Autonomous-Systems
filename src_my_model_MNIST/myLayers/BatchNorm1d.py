@@ -12,6 +12,7 @@ class BatchNorm1d():
         self.epsilon = epsilon
         #foward
         self.input = np.zeros((self.batchSize,self.inputSize),float)
+        self.xout = np.zeros((self.batchSize,self.inputSize))
         self.output = np.zeros((self.batchSize,self.inputSize),float)
         #feedback
         self.dx = np.zeros((self.batchSize,self.inputSize),float)
@@ -43,6 +44,7 @@ class BatchNorm1d():
             for j in range(self.inputSize):    
                 output[k][j] = (input[k][j] - avg[j])/ np.sqrt(var[j] + self.epsilon)
         # the x^ is saved because is used to calculate the derivative over the weight is backward
+        self.xout = output
         #weight and bias application
         for b in range(self.batchSize):
             output[b] = np.dot(output[b],self.weights) + self.bias
@@ -91,7 +93,7 @@ class BatchNorm1d():
         for i in range(self.inputSize):
             for b in range(self.batchSize):
             
-                dw += self.input[b][i]*input[b][i]
+                dw += self.xout[b][i]*input[b][i]
                 db += input[b][i]
             self.weights[i] =  self.weights[i] - lr[0]*dw 
             self.bias[i] = self.bias[i] - lr[0]*db

@@ -94,8 +94,8 @@ def test(loader, model, criterion, class_mask, logger, epoch,myModel):
 
                 # Measure accuracy and task accuracy 
                 prob = torch.nn.functional.softmax(outputs, dim=1)
-                myProb = torch.nn.functional.softmax(myOutputs, dim=1)
-
+                myProb = torch.from_numpy(myModel.crossEntropy.softmax).cuda()
+                
                 acc, task_acc = get_accuracy(prob, labels, class_mask)
                 accuracy.update(acc, labels.size(0))
                 task_accuracy.update(task_acc, labels.size(0))
