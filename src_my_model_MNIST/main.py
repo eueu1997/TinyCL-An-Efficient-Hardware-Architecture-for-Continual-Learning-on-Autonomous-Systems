@@ -90,7 +90,7 @@ def test(loader, model, criterion, class_mask, logger, epoch,myModel):
                 myOutputs = myModel.forward(inputs.cpu().numpy(),labels.cpu().numpy())
                 loss = criterion(outputs, labels)
                 losses.update(loss.data, inputs.size(0))
-                myLosses.update(myOutputs, inputs.size(0))
+                myLosses.update(np.average(myOutputs), inputs.size(0))
 
                 # Measure accuracy and task accuracy 
                 prob = torch.nn.functional.softmax(outputs, dim=1)
