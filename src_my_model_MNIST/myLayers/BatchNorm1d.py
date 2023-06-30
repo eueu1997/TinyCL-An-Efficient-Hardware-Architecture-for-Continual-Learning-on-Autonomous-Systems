@@ -2,8 +2,9 @@ import numpy as np
 
 class BatchNorm1d():
     def __init__(self,inputSize,batchSize,epsilon):
-        self.weights = np.random.rand(inputSize)
-        self.bias =  np.random.uniform(low=0, high=1, size=inputSize)
+        #self.weights = np.random.rand(inputSize)
+        self.weights = np.random.rand(inputSize) * np.sqrt(2/inputSize)
+        self.bias = np.random.rand(inputSize) 
         #for test pourpose only
         #self.weights = np.full((inputSize,inputSize), 0.5 , float)
         #self.bias = np.full((inputSize,inputSize), 0.5 , float)
@@ -46,8 +47,8 @@ class BatchNorm1d():
         # the x^ is saved because is used to calculate the derivative over the weight is backward
         self.xout = output
         #weight and bias application
-        for b in range(self.batchSize):
-            output[b] = np.dot(output[b],self.weights) + self.bias
+        #for b in range(self.batchSize):
+        #    output[b] = np.dot(output[b],self.weights) + self.bias
         self.output = output
     
     def feedback(self,input,lr):

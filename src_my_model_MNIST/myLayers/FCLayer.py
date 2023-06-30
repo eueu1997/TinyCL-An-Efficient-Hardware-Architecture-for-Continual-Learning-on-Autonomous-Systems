@@ -3,10 +3,9 @@ import numpy as np
 class FCLayer():
     
     def __init__(self,inputSize,outputSize,batchSize):
-
-        #self.kernel = np.random.uniform(low=0, high=1, size=((batchSize,inputSize,outputSize)))
-        self.kernel = np.full((inputSize,outputSize), 0.5 , float) # il kernel e i bias non cambiano per i batch
-        self.bias = np.full((outputSize), 0.5 , float)
+        
+        self.kernel = np.random.rand(inputSize,outputSize) * np.sqrt(2/inputSize)
+        self.bias = np.random.rand(outputSize)
         self.inputSize = inputSize
         self.outputSize = outputSize
         self.batchSize = batchSize

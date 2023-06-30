@@ -63,6 +63,23 @@ def get_accuracy(y_prob, y_true, class_mask, return_vec=False):
 
     return (acc_full*1.0).mean(), (acc_masked*1.0).mean()
 
+def get_accuracy_NO_CUDA(y_prob, y_true, class_mask, return_vec=False):
+    '''
+    Calculates the task and class incremental accuracy of the model
+    '''
+    y_pred = np.argmax(y_prob, axis=1)
+
+    mask = class_mask[y_true]
+    #assert (y_prob.size() == mask.size()), "Class mask does not match probabilities in output"
+    masked_prob = np.multiply(y_prob, mask)
+    y_pred_masked = np.argmax(masked_prob, axis=1)
+
+    acc_full = np.equal(y_pred, y_true)
+    acc_masked = np.equal(y_pred_masked, y_true)
+    if return_vec:
+        return acc_full, acc_masked
+
+    return (acc_full*1.0).mean(), (acc_masked*1.0).mean()
 
 def seed_everything(seed):
     '''

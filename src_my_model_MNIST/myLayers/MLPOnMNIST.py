@@ -51,10 +51,17 @@ class MLPOnMIST():
         return self.crossEntropy.output
     def feedback(self,lr):
         #start feedback
-        self.crossEntropy.feedback() # TODO : check that equation , maybe error
-        self.batchNorm1d2.feedback(self.crossEntropy.dx,lr)
-        self.linear2.feedback(self.batchNorm1d2.dx,lr)
-        self.batchNorm1d1.feedback(self.linear2.dx,lr)
-        self.linear1.feedback(self.batchNorm1d1.dx,lr)
-        self.batchNorm1d0.feedback(self.linear1.dx,lr)
-        self.linear0.feedback(self.batchNorm1d0.dx,lr)
+        #self.crossEntropy.feedback()
+        #self.batchNorm1d2.feedback(self.crossEntropy.dx,lr)
+        #self.linear2.feedback(self.batchNorm1d2.dx,lr)
+        #self.batchNorm1d1.feedback(self.linear2.dx,lr)
+        #self.linear1.feedback(self.batchNorm1d1.dx,lr)
+        #self.batchNorm1d0.feedback(self.linear1.dx,lr)
+        #self.linear0.feedback(self.batchNorm1d0.dx,lr)
+        self.crossEntropy.feedback()
+        #self.batchNorm1d2.feedback(self.crossEntropy.dx,lr)
+        self.linear2.feedback(self.crossEntropy.dx,lr)
+        #self.batchNorm1d1.feedback(self.linear2.dx,lr)
+        self.linear1.feedback(self.linear2.dx,lr)
+        #self.batchNorm1d0.feedback(self.linear1.dx,lr)
+        self.linear0.feedback(self.linear1.dx,lr)

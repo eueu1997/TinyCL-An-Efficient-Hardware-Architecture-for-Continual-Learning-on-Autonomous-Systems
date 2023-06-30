@@ -5,7 +5,7 @@ from models import mnist, cifar, imagenet
 from models.layers import FinalBlock
 from torch import nn, optim
 from opts import parse_args
-from utils import AverageMeter, get_accuracy, cutmix_data, get_logger, seed_everything, save_model, load_model
+from utils import AverageMeter, get_accuracy_NO_CUDA, cutmix_data, get_logger, seed_everything, save_model, load_model
 from myLayers.MLPOnMNIST import MLPOnMIST
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -83,30 +83,32 @@ def test(loader, model, criterion, class_mask, logger, epoch,myModel):
 
         with torch.no_grad():
             start = time.time()
+
             for inputs, labels in loader:
+
                 # Get outputs
-                inputs, labels = inputs.half().cuda(non_blocking=True), labels.cuda(non_blocking=True)
-                outputs = model(inputs)
-                myOutputs = myModel.forward(inputs.cpu().numpy(),labels.cpu().numpy())
-                loss = criterion(outputs, labels)
-                losses.update(loss.data, inputs.size(0))
+                #inputs, labels = inputs.half(), labels.cuda(non_blocking=True)
+                #outputs = model(inputs)
+                myOutputs = myModel.forward(inputs.numpy(),labels.numpy())
+                #loss = criterion(outputs, labels)
+                #losses.update(loss.data, inputs.size(0))
                 myLosses.update(np.average(myOutputs), inputs.size(0))
 
                 # Measure accuracy and task accuracy 
-                prob = torch.nn.functional.softmax(outputs, dim=1)
-                myProb = torch.from_numpy(myModel.crossEntropy.softmax).cuda()
+                #prob = torch.nn.functional.softmax(outputs, dim=1)
+                myProb = myModel.crossEntropy.softmax
                 
-                acc, task_acc = get_accuracy(prob, labels, class_mask)
-                accuracy.update(acc, labels.size(0))
-                task_accuracy.update(task_acc, labels.size(0))
-                acc, task_acc = get_accuracy(myProb, labels, class_mask)
+                #acc, task_acc = get_accuracy(prob, labels, class_mask)
+                #accuracy.update(acc, labels.size(0))
+                #task_accuracy.update(task_acc, labels.size(0))
+                acc, task_acc = get_accuracy_NO_CUDA(myProb, labels.numpy(), class_mask.cpu().data.numpy())
                 myAccuracy.update(acc, labels.size(0))
                 myTaskAcc.update(task_acc, labels.size(0))
                 batch_time.update(time.time() - start)
                 start = time.time()
 
-        logger.info('==> Test: [{0}]\tTime:{batch_time.sum:.4f}\tLoss:{losses.avg:.4f}\tAcc:{acc.avg:.4f}\tTask Acc:{task_acc.avg:.4f}\t'
-            .format(epoch, batch_time=batch_time, losses=losses, acc=accuracy, task_acc=task_accuracy))
+        #logger.info('==> Test: [{0}]\tTime:{batch_time.sum:.4f}\tLoss:{losses.avg:.4f}\tAcc:{acc.avg:.4f}\tTask Acc:{task_acc.avg:.4f}\t'
+        #    .format(epoch, batch_time=batch_time, losses=losses, acc=accuracy, task_acc=task_accuracy))
         logger.info('==> MyTest: [{0}]\tTime:{batch_time.sum:.4f}\tLoss:{losses.avg:.4f}\tAcc:{acc.avg:.4f}\tTask Acc:{task_acc.avg:.4f}\t'
             .format(epoch, batch_time=batch_time, losses=myLosses, acc=myAccuracy, task_acc=myTaskAcc))
         return accuracy.avg,myAccuracy.avg
@@ -125,29 +127,30 @@ def train(opt, loader, model, criterion, optimizer, epoch, logger,myModel,schedu
                 continue
             # Tweak inputs
             # Input are 16(# di immagini per batch)x3x32x32
-            inputs, labels = inputs.half().cuda(non_blocking=True), (labels).cuda(non_blocking=True)
+            #inputs, labels = inputs.half().cuda(non_blocking=True), (labels).cuda(non_blocking=True)
             do_cutmix = opt.regularization == 'cutmix' and np.random.rand(1) < opt.cutmix_prob
             if do_cutmix: inputs, labels_a, labels_b, lam = cutmix_data(x=inputs, y=labels, alpha=opt.cutmix_alpha)
             data_time.update(time.time() - start)
             
             # Forward, backward passes then step
             # Output given by input throught the model
-            outputs = model(inputs)
-            myOutputs =  myModel.forward(inputs.cpu().numpy(),labels.cpu().numpy()).mean()
-            loss = lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b) if do_cutmix else criterion(outputs, labels)
-            optimizer.zero_grad()
-            loss.backward()
+            #outputs = model(inputs)
+            myOutputs =  myModel.forward(inputs.numpy(),labels.numpy()).mean()
+            #loss = lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b) if do_cutmix else criterion(outputs, labels)
+            #optimizer.zero_grad()
+            #loss.backward()
+            myProb = myModel.crossEntropy.softmax
             myModel.feedback(scheduler.get_last_lr())
-            torch.nn.utils.clip_grad_norm_(model.parameters(), opt.clip) # Always be safe than sorry
+            #torch.nn.utils.clip_grad_norm_(model.parameters(), opt.clip) # Always be safe than sorry
             optimizer.step() # Applica modifica ai parametri in base a cross entropy loss
 
             # Log losses
-            losses.update(loss.data.item(), labels.size(0))
+            #losses.update(loss.data.item(), labels.size(0))
             batch_time.update(time.time() - start)
             start = time.time()
 
-        logger.info('==> Train:[{0}]\tTime:{batch_time.sum:.4f}\tData:{data_time.sum:.4f}\tLoss:{loss.avg:.4f}\t'
-            .format(epoch, batch_time=batch_time, data_time=data_time, loss=losses))
+        #logger.info('==> Train:[{0}]\tTime:{batch_time.sum:.4f}\tData:{data_time.sum:.4f}\tLoss:{loss.avg:.4f}\t'
+        #    .format(epoch, batch_time=batch_time, data_time=data_time, loss=losses))
         return model, optimizer
 
 
@@ -183,7 +186,7 @@ if __name__ == '__main__':
         
         if not os.path.isfile(opt.log_dir+opt.old_exp_name+'/pretrained_model.pth.tar'):
             console_logger.debug("==> Starting pre-training..") 
-            _, model = experiment(opt=opt, class_mask=torch.ones(opt.num_classes,opt.num_classes).cuda(), train_loader=dobj.pretrain_loader, \
+            _, model = experiment(opt=opt, class_mask=np.ones(opt.num_classes,opt.num_classes), train_loader=dobj.pretrain_loader, \
                                     test_loader=dobj.pretest_loader, model=model, logger=console_logger, num_passes=opt.num_pretrain_passes)
             save_model(opt, model) # Saves the pretrained model. Subsequent CL experiments directly load the pretrained model.
         else:
