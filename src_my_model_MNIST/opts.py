@@ -3,8 +3,8 @@ import argparse
 def parse_args():
     parser = argparse.ArgumentParser(description='main.py')
     # Changing options -- Apart from these arguments, we do not mess with other arguments
-    parser.add_argument('--data_dir', type=str, default='/home/thesis/eugenio.ressa/Desktop/GDumb/data', help='Directory where all datasets are stored')
-    parser.add_argument('--log_dir', type=str, default='/home/thesis/eugenio.ressa/Desktop/GDumb/logs', help='Directory where all logs are stored')
+    parser.add_argument('--data_dir', type=str, default='C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/data', help='Directory where all datasets are stored')
+    parser.add_argument('--log_dir', type=str, default='C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/logs', help='Directory where all logs are stored')
     parser.add_argument('--dataset', type=str, required=True, help='Name of dataset', choices=['MNIST', 'CIFAR10', 'CIFAR100', 'SVHN', 'TinyImagenet', 'ImageNet100', 'ImageNet'])
     parser.add_argument('--num_classes_per_task', type=int, required=True, help='Number of classes per task')
     parser.add_argument('--num_tasks', type=int, required=True, help='Number of tasks')
@@ -21,7 +21,7 @@ def parse_args():
     parser.add_argument('--old_exp_name', type=str, default='test', help='Name of experiment to take pretrained model from')
 
     # Default experiment options
-    parser.add_argument('--maxlr', type=float, default=0.05, help='Starting Learning rate')
+    parser.add_argument('--maxlr', type=float, default=0.005, help='Starting Learning rate')
     parser.add_argument('--minlr', type=float, default=0.0005, help='Ending Learning rate')
     parser.add_argument('--weight_decay', type=float, default=1e-6, help='Weight decay')
     parser.add_argument('--batch_size', type=int, default=16, help='Batch size to be used in training')

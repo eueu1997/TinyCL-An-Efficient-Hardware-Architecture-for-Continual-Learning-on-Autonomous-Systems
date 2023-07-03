@@ -1,4 +1,4 @@
-
+import math
 import numpy as np
 
 class CrossEntropyLoss():
@@ -16,20 +16,18 @@ class CrossEntropyLoss():
 
         losses  = np.zeros(self.batchSize)
         temp = 0 
-        self.input = input
-        self.expected = expected
+        self.input = input.copy()
+        self.expected = expected.copy()
         for k in range(self.batchSize):
             temp = 0
             for i in range(self.nOfClasses):
-                a = input[k][i]
-                b = np.exp(a)
-                temp += b        
+                temp += input[k][i].copy()      
             j=expected[k]     
             for i in range(self.nOfClasses):           
                 self.softmax[k][i] = np.exp(input[k][i])/temp # save softmax of all outputs
             losses[k] = -np.log(self.softmax[k][j]) # use only the one of the expected to calculate the loss
                 
-        self.output = losses
+        self.output = losses.copy()
 
     
     def feedback(self):
@@ -42,6 +40,6 @@ class CrossEntropyLoss():
                 if(j==self.expected[k]):
                     output[k][j] = self.softmax[k][j] - 1
                 else:
-                    output[k][j] = self.softmax[k][j]
-        self.dx = output
+                    output[k][j] = self.softmax[k][j].copy()
+        self.dx = output.copy()
    

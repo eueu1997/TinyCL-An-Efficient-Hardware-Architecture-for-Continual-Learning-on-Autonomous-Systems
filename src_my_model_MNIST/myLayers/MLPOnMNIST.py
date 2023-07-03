@@ -6,23 +6,26 @@ from .CrossEntropyLoss import CrossEntropyLoss
 
 class MLPOnMIST():
 
-    def __init__(self):
+    def __init__(self,inputDataSize):
  
-        self.inputData = int(28)
+        self.inputData = int(inputDataSize)
         self.inputSize = int(self.inputData*self.inputData)
         self.nClasses  = 10
         self.batchSize = 16
         self.epsilon = 1e-6
+        self.weightDecay = 1e-6
+        self.momentumFC = 0.9
+        self.momentumBN = 0.9
 
     # create model
-        self.linear0 = FCLayer(self.inputSize,400,self.batchSize)
-        self.batchNorm1d0 = BatchNorm1d(400,self.batchSize,self.epsilon)
-        self.relu0 = ReLU1d(400,16)
-        self.linear1 = FCLayer(400,400,16)
-        self.batchNorm1d1 = BatchNorm1d(400,16,self.epsilon)
-        self.relu1 = ReLU1d(400,16)
-        self.linear2 = FCLayer(400,10,16)
-        self.batchNorm1d2 = BatchNorm1d(10,16,self.epsilon)
+        self.linear0 = FCLayer(self.inputSize,400,self.batchSize,self.weightDecay,0.1)
+        self.batchNorm1d0 = BatchNorm1d(400,self.batchSize,self.epsilon,self.weightDecay,0.1)
+        self.relu0 = ReLU1d(400,self.batchSize)
+        self.linear1 = FCLayer(400,400,self.batchSize,self.weightDecay,0.5)
+        self.batchNorm1d1 = BatchNorm1d(400,self.batchSize,self.epsilon,self.weightDecay,0.5)
+        self.relu1 = ReLU1d(400,self.batchSize)
+        self.linear2 = FCLayer(400,10,self.batchSize,self.weightDecay,0.9)
+        self.batchNorm1d2 = BatchNorm1d(10,self.batchSize,self.epsilon,self.weightDecay,0.9)
         self.crossEntropy = CrossEntropyLoss(self.nClasses,self.batchSize)
 
     def forward(self,inputs,labels):
@@ -51,17 +54,19 @@ class MLPOnMIST():
         return self.crossEntropy.output
     def feedback(self,lr):
         #start feedback
+        self.crossEntropy.feedback()
+        self.batchNorm1d2.feedback(self.crossEntropy.dx,lr)
+        self.linear2.feedback(self.batchNorm1d2.dx,lr)
+        self.relu1.feedback(self.linear2.dx)
+        self.batchNorm1d1.feedback(self.relu1.dx,lr)
+        self.linear1.feedback(self.batchNorm1d1.dx,lr)
+        self.relu0.feedback(self.linear1.dx)
+        self.batchNorm1d0.feedback(self.relu0.dx,lr)
+        self.linear0.feedback(self.batchNorm1d0.dx,lr)
         #self.crossEntropy.feedback()
         #self.batchNorm1d2.feedback(self.crossEntropy.dx,lr)
-        #self.linear2.feedback(self.batchNorm1d2.dx,lr)
+        #self.linear2.feedback(self.crossEntropy.dx,lr)
         #self.batchNorm1d1.feedback(self.linear2.dx,lr)
-        #self.linear1.feedback(self.batchNorm1d1.dx,lr)
+        #self.linear1.feedback(self.linear2.dx,lr)
         #self.batchNorm1d0.feedback(self.linear1.dx,lr)
-        #self.linear0.feedback(self.batchNorm1d0.dx,lr)
-        self.crossEntropy.feedback()
-        #self.batchNorm1d2.feedback(self.crossEntropy.dx,lr)
-        self.linear2.feedback(self.crossEntropy.dx,lr)
-        #self.batchNorm1d1.feedback(self.linear2.dx,lr)
-        self.linear1.feedback(self.linear2.dx,lr)
-        #self.batchNorm1d0.feedback(self.linear1.dx,lr)
-        self.linear0.feedback(self.linear1.dx,lr)
+        #self.linear0.feedback(self.linear1.dx,lr)

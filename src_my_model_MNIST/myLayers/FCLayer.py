@@ -2,7 +2,7 @@ import numpy as np
 
 class FCLayer():
     
-    def __init__(self,inputSize,outputSize,batchSize):
+    def __init__(self,inputSize,outputSize,batchSize,weightDecay,momentum):
         
         self.kernel = np.random.rand(inputSize,outputSize) * np.sqrt(2/inputSize)
         self.bias = np.random.rand(outputSize)
@@ -14,8 +14,12 @@ class FCLayer():
         self.output =  np.zeros((self.batchSize,self.outputSize))
         #feedback
         self.dx = np.zeros((self.batchSize,self.inputSize))
+        self.bt = np.zeros((inputSize,outputSize))
+        self.btBias = np.zeros(outputSize)
+        self.weightDecay = weightDecay
+        self.momentum = momentum
     def forward (self,input):
-        self.input = input
+        self.input = input.copy()
         #for k in range (self.batchSize):
             #for i in range(self.outputSize):
             #    for j in range(self.inputSize):
@@ -29,14 +33,12 @@ class FCLayer():
         
         output = np.zeros((self.batchSize,self.inputSize))
         dw = np.zeros((self.inputSize,self.outputSize))
-        derivative = 0
         #dx. the derivative of input on the ouput shall be the transposed of the kernel
-        transpost = np.transpose(self.kernel)
         #for b in range(self.batchSize):
         #    for i in range(self.inputSize):
         #        for j in range(self.outputSize):
         #            output[b] = input[b][i]*transpost[b][i]
-        output=np.matmul(input,transpost)
+        output=np.matmul(input,np.transpose(self.kernel))
         #dw. the derivative of y over k11 ,k12 and k13 is x11,x21 and so on( the first number refer to batch size)
         ##for i in range(self.inputSize): # this input size is referred in forward, so now is the 
         #    for j in range(self.outputSize):
@@ -46,13 +48,19 @@ class FCLayer():
         dw = np.matmul(np.transpose(self.input),input)
         #  riguarda gli appunti per ricordarti come mai
         #update bias vaules. the derivative is 1
+        dw = dw + self.weightDecay*self.kernel
+        self.bt = self.momentum*self.bt + dw 
+        dw = self.bt.copy()
         self.kernel = self.kernel - lr[0]*dw
-        temp = np.zeros(self.outputSize)
+        db = np.zeros(self.outputSize)
         for i in range(self.outputSize):
             for b in range(self.batchSize):
-                temp[i] += input[b][i]
-        self.bias   = self.bias - lr[0]*temp
-        self.dx = output
+                db[i] += input[b][i]
+        db = db + self.weightDecay*self.bias
+        self.btBias = self.momentum*self.btBias + db
+        db = self.btBias.copy()
+        self.bias   = self.bias - lr[0]*db
+        self.dx = output.copy()
 
 if __name__ == '__main__':
     input = np.array([[3,3,2,1,0,5,2,7,5,9],[3,3,2,1,0,5,2,7,5,9],[3,3,2,1,0,5,2,7,5,9]])

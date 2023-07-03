@@ -5,7 +5,7 @@ from models import mnist, cifar, imagenet
 from models.layers import FinalBlock
 from torch import nn, optim
 from opts import parse_args
-from utils import AverageMeter, get_accuracy_NO_CUDA, cutmix_data, get_logger, seed_everything, save_model, load_model
+from utils import AverageMeter, get_accuracy_NO_CUDA,  get_logger,  save_model, load_model
 from myLayers.MLPOnMNIST import MLPOnMIST
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -18,10 +18,10 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
     best_prec1 = 0.0
     best_myPrec = 0.0
     best_lr    = 0.0
-    model = model.half().cuda() # Better speed with little loss in accuracy. If loss in accuracy is big, use apex.
-    myModel = MLPOnMIST()
+    #model = model.half().cuda() # Better speed with little loss in accuracy. If loss in accuracy is big, use apex.
+    myModel = MLPOnMIST(28)
     #criterion = cross entropy loss - calcola la differenze tra le uscite attuali e quelle aspettate
-    criterion = nn.CrossEntropyLoss().cuda() #https://towardsdatascience.com/cross-entropy-loss-function-f38c4ec8643e
+    #criterion = nn.CrossEntropyLoss().cuda() #https://towardsdatascience.com/cross-entropy-loss-function-f38c4ec8643e
     # algoritmo per diminuire la cross entropy loss modificando i parametri
     optimizer = optim.SGD(model.parameters(), lr=opt.maxlr, momentum=0.9, weight_decay=opt.weight_decay)
     #setta il learning rate
@@ -45,8 +45,8 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
                 param_group['lr'] = 0.0034224487073782153        
         # Train and test loop
         logger.info("==> Starting pass number: "+str(epoch)+", Learning rate: " + str(optimizer.param_groups[0]['lr']))
-        model, optimizer = train(opt=opt, loader=train_loader, model=model, criterion=criterion, optimizer=optimizer, epoch=epoch, logger=logger,myModel = myModel,scheduler = scheduler)
-        prec1,myPrec1 = test(loader=test_loader, model=model, criterion=criterion, class_mask=class_mask, logger=logger, epoch=epoch,myModel=myModel)
+        model, optimizer = train(opt=opt, loader=train_loader, model=model,  optimizer=optimizer, epoch=epoch, logger=logger,myModel = myModel,scheduler = scheduler)
+        prec1,myPrec1 = test(loader=test_loader, model=model,  class_mask=class_mask, logger=logger, epoch=epoch,myModel=myModel)
         
         # Log performance
         logger.info('==> Current accuracy: [{:.3f}]\t'.format(prec1))
@@ -64,20 +64,20 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
         for param_group in optimizer.param_groups:
             print(param_group['lr'])
 
-    logger.info('==> Training completed! Acc: [{0:.3f}] LR: [{best_lr:.8f}]'.format(best_prec1,best_lr = best_lr))
-    fig, ax = plt.subplots()  # Create a figure containing a single axes.
+    #logger.info('==> Training completed! Acc: [{0:.3f}] LR: [{best_lr:.8f}]'.format(best_prec1,best_lr = best_lr))
+    #fig, ax = plt.subplots()  # Create a figure containing a single axes.
     logger.info('==> My Training completed! Acc: [{0:.3f}] LR: [{best_lr:.8f}]'.format(best_myPrec,best_lr = best_lr))
     fig1, ax1 = plt.subplots()  # Create a figure containing a single axes.
-    ax.plot(acc_v)
+    #ax.plot(acc_v)
     ax1.plot(myAcc_v)
-    fig.savefig(f'/home/thesis/eugenio.ressa/Desktop/GDumb/graphs/accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
-    fig1.savefig(f'/home/thesis/eugenio.ressa/Desktop/GDumb/graphs/my_accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
+    #fig.savefig(f'/home/thesis/eugenio.ressa/Desktop/GDumb/graphs/accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
+    fig1.savefig(f'C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/graphs/my_accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
 
     
     return best_prec1, model,best_myPrec
 
 
-def test(loader, model, criterion, class_mask, logger, epoch,myModel):
+def test(loader, model,  class_mask, logger, epoch,myModel):
         model.eval()
         losses,myLosses, batch_time, accuracy,myAccuracy, task_accuracy, myTaskAcc = AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter()
 
@@ -101,7 +101,7 @@ def test(loader, model, criterion, class_mask, logger, epoch,myModel):
                 #acc, task_acc = get_accuracy(prob, labels, class_mask)
                 #accuracy.update(acc, labels.size(0))
                 #task_accuracy.update(task_acc, labels.size(0))
-                acc, task_acc = get_accuracy_NO_CUDA(myProb, labels.numpy(), class_mask.cpu().data.numpy())
+                acc, task_acc = get_accuracy_NO_CUDA(myProb, labels.numpy(), class_mask)
                 myAccuracy.update(acc, labels.size(0))
                 myTaskAcc.update(task_acc, labels.size(0))
                 batch_time.update(time.time() - start)
@@ -116,7 +116,7 @@ def test(loader, model, criterion, class_mask, logger, epoch,myModel):
 # loader is used to give the data used to train the model
 # epoch passed only for print in logger
 #logger passed to log
-def train(opt, loader, model, criterion, optimizer, epoch, logger,myModel,scheduler):
+def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
         model.train()
         losses, data_time, batch_time = AverageMeter(), AverageMeter(), AverageMeter()
         start = time.time()
@@ -129,7 +129,7 @@ def train(opt, loader, model, criterion, optimizer, epoch, logger,myModel,schedu
             # Input are 16(# di immagini per batch)x3x32x32
             #inputs, labels = inputs.half().cuda(non_blocking=True), (labels).cuda(non_blocking=True)
             do_cutmix = opt.regularization == 'cutmix' and np.random.rand(1) < opt.cutmix_prob
-            if do_cutmix: inputs, labels_a, labels_b, lam = cutmix_data(x=inputs, y=labels, alpha=opt.cutmix_alpha)
+            #if do_cutmix: inputs, labels_a, labels_b, lam = cutmix_data(x=inputs, y=labels, alpha=opt.cutmix_alpha)
             data_time.update(time.time() - start)
             
             # Forward, backward passes then step
@@ -157,7 +157,7 @@ def train(opt, loader, model, criterion, optimizer, epoch, logger,myModel,schedu
 if __name__ == '__main__':
     # Parse arguments
     opt = parse_args()
-    seed_everything(seed=opt.seed) # Default seed 0. Set seeds for random generator
+    #seed_everything(seed=opt.seed) # Default seed 0. Set seeds for random generator
     torch.autograd.set_detect_anomaly(True)
     # Setup logger
     console_logger = get_logger(folder=opt.log_dir+'/'+opt.exp_name+'/')

@@ -1,7 +1,7 @@
 import torch, torchvision
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
-import torch.cuda 
+#import torch.cuda 
 import random, copy
 import argparse
 import numpy as np
@@ -57,7 +57,7 @@ class VisionDataset(object):
         # Get the label -> idx mapping dictionary
         #print(torch.cuda.list_gpu_processes())
         #gc.collect()
-        torch.cuda.empty_cache()
+        #torch.cuda.empty_cache()
         if self.opt.dataset=='SVHN':
             train_class_labels_dict, test_class_labels_dict = classwise_split(targets=self.supervised_trainloader.dataset.labels), classwise_split(targets=self.supervised_testloader.dataset.labels)
         else:
@@ -80,7 +80,7 @@ class VisionDataset(object):
             self.pretrain_loader = self.get_loader(indices=pretrainidx, transforms=self.train_transforms, train=True, target_transforms=pretrain_target_transform)
             self.pretest_loader = self.get_loader(indices=pretestidx, transforms=self.test_transforms, train=False, target_transforms=pretrain_target_transform)
         
-        self.class_mask = torch.from_numpy(np.kron(np.eye(self.opt.num_tasks,dtype=int),np.ones((self.opt.num_classes_per_task,self.opt.num_classes_per_task)))).cuda() #Generates equal num_classes for all tasks. 
+        self.class_mask = np.kron(np.eye(self.opt.num_tasks,dtype=int),np.ones((self.opt.num_classes_per_task,self.opt.num_classes_per_task))) #Generates equal num_classes for all tasks. 
         continual_target_transform = ReorderTargets(cl_class_list)  # Remaps the class order to a 0-n order, required for crossentropy loss using class list
         trainidx, testidx = [], []
         mem_per_cls = self.opt.memory_size//(self.opt.num_classes_per_task*self.opt.num_tasks)

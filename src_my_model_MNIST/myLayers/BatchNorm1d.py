@@ -1,7 +1,7 @@
 import numpy as np
 
 class BatchNorm1d():
-    def __init__(self,inputSize,batchSize,epsilon):
+    def __init__(self,inputSize,batchSize,epsilon,weightDecay,momentum):
         #self.weights = np.random.rand(inputSize)
         self.weights = np.random.rand(inputSize) * np.sqrt(2/inputSize)
         self.bias = np.random.rand(inputSize) 
@@ -17,6 +17,11 @@ class BatchNorm1d():
         self.output = np.zeros((self.batchSize,self.inputSize),float)
         #feedback
         self.dx = np.zeros((self.batchSize,self.inputSize),float)
+        self.bt = np.zeros(inputSize)
+        self.btBias = np.zeros(inputSize)
+        self.weightDecay = weightDecay
+        self.momentum = momentum
+
     def forward (self,input):
         
         self.input = input
@@ -29,7 +34,7 @@ class BatchNorm1d():
             for k in range(self.batchSize):
                 avg[j] += input[k][j]
             avg[j] = avg[j]/self.batchSize
-        self.avg = avg
+        self.avg = avg.copy()
 
         #variance calculation
          
@@ -37,19 +42,19 @@ class BatchNorm1d():
             for k in range(self.batchSize):
                 var[j] += (input[k][j] - avg[j])**2
             var[j] = var[j]/self.batchSize
-        self.var = var
+        self.var = var.copy()
 
         #output normalized calculation
-        for k in range(self.batchSize):
-            
+        for k in range(self.batchSize):           
             for j in range(self.inputSize):    
                 output[k][j] = (input[k][j] - avg[j])/ np.sqrt(var[j] + self.epsilon)
         # the x^ is saved because is used to calculate the derivative over the weight is backward
-        self.xout = output
+        self.xout = output.copy()
         #weight and bias application
-        #for b in range(self.batchSize):
-        #    output[b] = np.dot(output[b],self.weights) + self.bias
-        self.output = output
+        for b in range(self.batchSize):
+            for i in range(self.inputSize):
+                output[b][i] = output[b][i]*self.weights[i]+ self.bias[i]
+        self.output = output.copy()
     
     def feedback(self,input,lr):
         
@@ -60,7 +65,7 @@ class BatchNorm1d():
         dvar = np.zeros(self.inputSize)
         for i in range(self.inputSize):
             for b in range(self.batchSize):
-                dvar[i] += input[b][i]*(self.input[b][i] - self.avg[i])*(-self.weights[i]/2)*(self.var[i]**2 + self.epsilon)**(-3/2)
+                dvar[i] += input[b][i]*(self.input[b][i] - self.avg[i])*(-self.weights[i]/2)*((self.var[i] + self.epsilon)**(-3/2))
         
         #dy/davg
         invDvar = np.zeros((self.inputSize))
@@ -69,23 +74,24 @@ class BatchNorm1d():
         #first term
         for i in range(self.inputSize):
             for b in range(self.batchSize):
-                invDvar[i] += input[b][i]*(self.weights[i]/np.sqrt(self.var[i] + self.epsilon))
+                invDvar[i] += input[b][i]*(-self.weights[i]/np.sqrt(self.var[i] + self.epsilon))
         
         #second term
         temp1 = np.zeros(self.inputSize)
         for i in range(self.inputSize): # sum over batch size
             for b in range(self.batchSize): # sum all difference betwen value and average of the same pizel in batch
-                temp1[i] += (-2)*(self.input[b][i] - self.avg[i])
+                TEMP = (-2)*(self.input[b][i] - self.avg[i])
+                temp1[i] += TEMP
             temp1[i] = (temp1[i]/self.batchSize)*dvar[i]
         
         davg = np.zeros(self.inputSize)
         #sum of 2 partial term
-        davg = temp + temp1
+        davg = invDvar + temp1
 
         #final calc of dx
         for b in range(self.batchSize):
             for i in range(self.inputSize):
-                self.dx[b][i] = input[b][i]*(1/np.sqrt(self.var[i] + self.epsilon)) + dvar[i]*(2*self.input[b][i] - davg[i])*(1/self.batchSize) + davg[i]*(1/self.batchSize)
+                self.dx[b][i] = (input[b][i]*self.weights[i]*(1/np.sqrt(self.var[i] + self.epsilon))) + dvar[i]*(2*(self.input[b][i] - self.avg[i]))*(1/self.batchSize) + davg[i]*(1/self.batchSize)
         #dw
         #computation of parameters update
         #the derivative of input over weight is equal to the previous x^ multiplied with the current input coming from next layer( previous following backward )
@@ -93,10 +99,15 @@ class BatchNorm1d():
         db = 0
         for i in range(self.inputSize):
             for b in range(self.batchSize):
-            
                 dw += self.xout[b][i]*input[b][i]
                 db += input[b][i]
+            dw = dw + self.weightDecay*self.weights[i]
+            self.bt[i] = self.momentum*self.bt[i] + dw 
+            dw = self.bt[i].copy()
             self.weights[i] =  self.weights[i] - lr[0]*dw 
+            db = db + self.weightDecay*self.bias[i]
+            self.btBias[i] = self.momentum*self.btBias[i] + db
+            db = self.btBias[i].copy()
             self.bias[i] = self.bias[i] - lr[0]*db
             dw = 0
             db = 0
