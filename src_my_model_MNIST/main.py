@@ -5,7 +5,7 @@ from models import mnist, cifar, imagenet
 from models.layers import FinalBlock
 from torch import nn, optim
 from opts import parse_args
-from utils import AverageMeter, get_accuracy_NO_CUDA,  get_logger,  save_model, load_model
+from utils import AverageMeter, get_accuracy_NO_CUDA,  get_logger,  save_model, load_model , cutmix_data
 from myLayers.MLPOnMNIST import MLPOnMIST
 import matplotlib as mpl
 import matplotlib.pyplot as plt
@@ -46,23 +46,12 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
         # Train and test loop
         logger.info("==> Starting pass number: "+str(epoch)+", Learning rate: " + str(optimizer.param_groups[0]['lr']))
         model, optimizer = train(opt=opt, loader=train_loader, model=model,  optimizer=optimizer, epoch=epoch, logger=logger,myModel = myModel,scheduler = scheduler)
-        prec1,myPrec1 = test(loader=test_loader, model=model,  class_mask=class_mask, logger=logger, epoch=epoch,myModel=myModel)
+        myPrec1 = test(loader=test_loader, model=model,  class_mask=class_mask, logger=logger, epoch=epoch,myModel=myModel)
         
         # Log performance
-        logger.info('==> Current accuracy: [{:.3f}]\t'.format(prec1))
-        acc_v.append(float(prec1))
+        logger.info('==> Current accuracy: [{:.3f}]\t'.format(myPrec1))
         myAcc_v.append(float(myPrec1))
-        lr_v.append(float(optimizer.param_groups[0]['lr']))
-        if prec1 > best_prec1:
-            logger.info('==> Accuracies\tPrevious: [{:.3f}]\t'.format(best_prec1) + 'Current: [{:.3f}]\t'.format(prec1))
-            best_prec1 = float(prec1)
-            best_lr = optimizer.param_groups[0]['lr']
-        if myPrec1 > best_myPrec:
-            logger.info('==> MY Accuracies\tPrevious: [{:.3f}]\t'.format(best_myPrec) + 'Current: [{:.3f}]\t'.format(myPrec1))
-            best_myPrec = float(myPrec1)
-            best_lr = optimizer.param_groups[0]['lr']
-        for param_group in optimizer.param_groups:
-            print(param_group['lr'])
+
 
     #logger.info('==> Training completed! Acc: [{0:.3f}] LR: [{best_lr:.8f}]'.format(best_prec1,best_lr = best_lr))
     #fig, ax = plt.subplots()  # Create a figure containing a single axes.
@@ -80,42 +69,45 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
 def test(loader, model,  class_mask, logger, epoch,myModel):
         model.eval()
         losses,myLosses, batch_time, accuracy,myAccuracy, task_accuracy, myTaskAcc = AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter()
-
         with torch.no_grad():
             start = time.time()
-
+            count = 0
             for inputs, labels in loader:
-
+                count += 1
+                if(count == 10):
+                    count = 0
                 # Get outputs
                 #inputs, labels = inputs.half(), labels.cuda(non_blocking=True)
                 #outputs = model(inputs)
-                myOutputs = myModel.forward(inputs.numpy(),labels.numpy())
+                    myOutputs = myModel.forward(inputs.numpy(),labels.numpy())
                 #loss = criterion(outputs, labels)
                 #losses.update(loss.data, inputs.size(0))
-                myLosses.update(np.average(myOutputs), inputs.size(0))
+                    myLosses.update(np.average(myOutputs), inputs.size(0))
 
                 # Measure accuracy and task accuracy 
                 #prob = torch.nn.functional.softmax(outputs, dim=1)
-                myProb = myModel.crossEntropy.softmax
+                    myProb = myModel.relu2.output
                 
                 #acc, task_acc = get_accuracy(prob, labels, class_mask)
                 #accuracy.update(acc, labels.size(0))
                 #task_accuracy.update(task_acc, labels.size(0))
-                acc, task_acc = get_accuracy_NO_CUDA(myProb, labels.numpy(), class_mask)
-                myAccuracy.update(acc, labels.size(0))
-                myTaskAcc.update(task_acc, labels.size(0))
-                batch_time.update(time.time() - start)
-                start = time.time()
+                    acc, task_acc = get_accuracy_NO_CUDA(myProb, labels.numpy(), class_mask)
+                    myAccuracy.update(acc, labels.size(0))
+                    myTaskAcc.update(task_acc, labels.size(0))
+                    batch_time.update(time.time() - start)
+                    start = time.time()
 
-        #logger.info('==> Test: [{0}]\tTime:{batch_time.sum:.4f}\tLoss:{losses.avg:.4f}\tAcc:{acc.avg:.4f}\tTask Acc:{task_acc.avg:.4f}\t'
-        #    .format(epoch, batch_time=batch_time, losses=losses, acc=accuracy, task_acc=task_accuracy))
-        logger.info('==> MyTest: [{0}]\tTime:{batch_time.sum:.4f}\tLoss:{losses.avg:.4f}\tAcc:{acc.avg:.4f}\tTask Acc:{task_acc.avg:.4f}\t'
-            .format(epoch, batch_time=batch_time, losses=myLosses, acc=myAccuracy, task_acc=myTaskAcc))
-        return accuracy.avg,myAccuracy.avg
+        logger.info('==> Test: [{0}]\tTime:{batch_time.sum:.4f}\tLoss:{losses.avg:.4f}\tAcc:{acc.avg:.4f}\tTask Acc:{task_acc.avg:.4f}\t'
+            .format(epoch, batch_time=batch_time, losses=myLosses, acc=myAccuracy, task_acc=task_accuracy))
+        #logger.info('==> MyTest: [{0}]\tTime:{batch_time.sum:.4f}\tLoss:{losses.avg:.4f}\tAcc0:{acc0.avg:.4f}\tAcc1:{acc1.avg:.4f}\tAcc2:{acc2.avg:.4f}\tAcc3:{acc3.avg:.4f}\tAcc4:{acc4.avg:.4f}\tAcc5:{acc5.avg:.4f}\tAcc6:{acc6.avg:.4f}\tAcc7:{acc7.avg:.4f}\tAcc8:{acc8.avg:.4f}\tAcc9:{acc9.avg:.4f}\tTask Acc:{task_acc.avg:.4f}\t'
+        #    .format(epoch, batch_time=batch_time, losses=myLosses, acc0=myAccuracy[0],acc1=myAccuracy[1],acc2=myAccuracy[2],acc3=myAccuracy[3],acc4=myAccuracy[4],acc5=myAccuracy[5],acc6=myAccuracy[6],acc7=myAccuracy[7],acc8=myAccuracy[8],acc9=myAccuracy[9], task_acc=myTaskAcc))
+ 
+        return myAccuracy.avg
 
 # loader is used to give the data used to train the model
 # epoch passed only for print in logger
 #logger passed to log
+
 def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
         model.train()
         losses, data_time, batch_time = AverageMeter(), AverageMeter(), AverageMeter()
@@ -129,7 +121,7 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             # Input are 16(# di immagini per batch)x3x32x32
             #inputs, labels = inputs.half().cuda(non_blocking=True), (labels).cuda(non_blocking=True)
             do_cutmix = opt.regularization == 'cutmix' and np.random.rand(1) < opt.cutmix_prob
-            #if do_cutmix: inputs, labels_a, labels_b, lam = cutmix_data(x=inputs, y=labels, alpha=opt.cutmix_alpha)
+            if do_cutmix: inputs, labels_a, labels_b, lam = cutmix_data(x=inputs, y=labels, alpha=opt.cutmix_alpha)
             data_time.update(time.time() - start)
             
             # Forward, backward passes then step
@@ -139,7 +131,7 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             #loss = lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b) if do_cutmix else criterion(outputs, labels)
             #optimizer.zero_grad()
             #loss.backward()
-            myProb = myModel.crossEntropy.softmax
+            myProb = myModel.relu2.output
             myModel.feedback(scheduler.get_last_lr())
             #torch.nn.utils.clip_grad_norm_(model.parameters(), opt.clip) # Always be safe than sorry
             optimizer.step() # Applica modifica ai parametri in base a cross entropy loss

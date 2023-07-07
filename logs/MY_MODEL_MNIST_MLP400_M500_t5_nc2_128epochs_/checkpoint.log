@@ -1,15 +1,5 @@
-[2023-07-03 17:40:31,324] INFO:utils:==> Opts for this training: Namespace(data_dir='C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/data', log_dir='C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/logs', dataset='MNIST', num_classes_per_task=2, num_tasks=5, num_pretrain_classes=0, memory_size=500, num_passes=128, num_pretrain_passes=0, regularization='none', model='MLP', depth=0, width=400, seed=1, exp_name='MY_MODEL_MNIST_MLP400_M500_t5_nc2_128epochs_', old_exp_name='test', maxlr=0.005, minlr=0.0005, weight_decay=1e-06, batch_size=16, cutmix_alpha=1.0, cutmix_prob=0.5, clip=10.0, workers=2, activetype='ReLU', pooltype='MaxPool2d', normtype='BatchNorm', preact=False, bn=True, affine_bn=True, bn_eps=1e-06, compression=0.5, total_num_classes=10, inp_size=28, in_channels=1, num_classes=10)
-[2023-07-03 17:40:31,327] INFO:utils:==> Starting pass number: 0, Learning rate: 0.0005
-[2023-07-03 17:43:08,003] INFO:utils:==> MyTest: [0]	Time:131.1574	Loss:nan	Acc:0.1036	Task Acc:0.0000	
-[2023-07-03 17:43:08,005] INFO:utils:==> Current accuracy: [0.000]	
-[2023-07-03 17:43:08,006] INFO:utils:==> MY Accuracies	Previous: [0.000]	Current: [0.104]	
-[2023-07-03 17:43:08,007] INFO:utils:==> Starting pass number: 1, Learning rate: 0.005
-[2023-07-03 17:47:33,277] INFO:utils:==> MyTest: [1]	Time:101.3654	Loss:nan	Acc:0.1032	Task Acc:0.1032	
-[2023-07-03 17:47:33,278] INFO:utils:==> Current accuracy: [0.000]	
-[2023-07-03 17:47:33,279] INFO:utils:==> Starting pass number: 2, Learning rate: 0.005000000000000001
-[2023-07-03 17:49:38,895] INFO:utils:==> MyTest: [2]	Time:100.9855	Loss:nan	Acc:0.1032	Task Acc:0.1032	
-[2023-07-03 17:49:38,896] INFO:utils:==> Current accuracy: [0.000]	
-[2023-07-03 17:49:38,897] INFO:utils:==> Starting pass number: 3, Learning rate: 0.0027500000000000003
-[2023-07-03 17:51:44,954] INFO:utils:==> MyTest: [3]	Time:101.0342	Loss:nan	Acc:0.1032	Task Acc:0.1032	
-[2023-07-03 17:51:44,955] INFO:utils:==> Current accuracy: [0.000]	
-[2023-07-03 17:51:44,956] INFO:utils:==> Starting pass number: 4, Learning rate: 0.005000000000000001
+[2023-07-07 18:18:19,736] INFO:utils:==> Opts for this training: Namespace(data_dir='C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/data', log_dir='C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/logs', dataset='MNIST', num_classes_per_task=10, num_tasks=1, num_pretrain_classes=0, memory_size=20000, num_passes=128, num_pretrain_passes=0, regularization='cutmix', model='MLP', depth=0, width=400, seed=0, exp_name='MY_MODEL_MNIST_MLP400_M500_t5_nc2_128epochs_', old_exp_name='test', maxlr=0.5, minlr=0.0005, weight_decay=1e-06, batch_size=16, cutmix_alpha=1.0, cutmix_prob=0.5, clip=10.0, workers=2, activetype='ReLU', pooltype='MaxPool2d', normtype='BatchNorm', preact=False, bn=True, affine_bn=True, bn_eps=1e-06, compression=0.5, total_num_classes=10, inp_size=28, in_channels=1, num_classes=10)
+[2023-07-07 18:18:19,737] INFO:utils:==> Starting pass number: 0, Learning rate: 0.05
+[2023-07-07 18:23:30,726] INFO:utils:==> Test: [0]	Time:8.5619	Loss:0.4236	Acc:0.1018	Task Acc:0.0000	
+[2023-07-07 18:23:30,727] INFO:utils:==> Current accuracy: [0.102]	
+[2023-07-07 18:23:30,728] INFO:utils:==> Starting pass number: 1, Learning rate: 0.5

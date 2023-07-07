@@ -25,17 +25,22 @@ class ReLU1d():
         self.dx = np.zeros((self.batchSize,self.inputSize))
 
     def forward (self,input):
-        for k in range(self.batchSize):
-            for i in range(self.inputSize):
-                if (input[k][i] > 0):
-                    self.output[k][i] = input[k][i]
-                else  :
-                    self.output[k][i] = 0
+        self.output = 1 / (np.exp(-input) + 1)
+
+        #for k in range(self.batchSize):
+        #    for i in range(self.inputSize):
+        #        if (input[k][i] > 0):
+        #            self.output[k][i] = input[k][i]
+        #        else  :
+        #            self.output[k][i] = 0
     
     def feedback (self,input):
-        for k in range(self.batchSize):
-            for i in range(self.inputSize):
-                if (input[k][i] > 0):
-                    self.dx[k][i] = input[k][i]
-                else  :
-                    self.dx[k][i] = 0
+        self.dx = ( self.output * (1 - self.output)) * input
+         
+
+        #for k in range(self.batchSize):
+        #    for i in range(self.inputSize):
+        #        if (input[k][i] > 0):
+        #            self.dx[k][i] = input[k][i]
+        #        else  :
+        #            self.dx[k][i] = 0
