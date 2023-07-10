@@ -3,22 +3,25 @@ import numpy as np
 class FCLayer():
     
     def __init__(self,inputSize,outputSize,batchSize,weightDecay,momentum):
-        self.kernel = np.random.rand(inputSize,outputSize) * np.sqrt(2/inputSize)
-        self.bias = np.random.rand(outputSize)
+        self.kernel = np.random.normal(0.0, 0.1,
+                                        size=inputSize * outputSize)
+        self.kernel = self.kernel.reshape(inputSize, outputSize)
+        self.kernel = self.kernel.astype("float32")
+        self.bias = np.zeros((1, outputSize)).astype("float32")
         self.inputSize = inputSize
         self.outputSize = outputSize
         self.batchSize = batchSize
         #forward
-        self.input = np.zeros((self.batchSize,self.inputSize))
-        self.output =  np.zeros((self.batchSize,self.outputSize))
+        self.input = np.zeros((self.batchSize,self.inputSize),dtype="float32")
+        self.output =  np.zeros((self.batchSize,self.outputSize),dtype="float32")
         #feedback
-        self.dx = np.zeros((self.batchSize,self.inputSize))
-        self.bt = np.zeros((inputSize,outputSize))
-        self.btBias = np.zeros(outputSize)
+        self.dx = np.zeros((self.batchSize,self.inputSize),dtype="float32")
+        self.bt = np.zeros((inputSize,outputSize),dtype="float32")
+        self.btBias = np.zeros(outputSize,dtype="float32")
         self.weightDecay = weightDecay
         self.momentum = momentum
     def forward (self,input):
-        self.input = input.copy()
+        self.input = input
         #for k in range (self.batchSize):
             #for i in range(self.outputSize):
             #    for j in range(self.inputSize):
@@ -29,9 +32,7 @@ class FCLayer():
         self.output = (self.input @ self.kernel) + self.bias
         
     def feedback(self,input,lr):
-        
-        output = np.zeros((self.batchSize,self.inputSize))
-        dw = np.zeros((self.inputSize,self.outputSize))
+
         #dx. the derivative of input on the ouput shall be the transposed of the kernel
         #for b in range(self.batchSize):
         #    for i in range(self.inputSize):

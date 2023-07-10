@@ -9,12 +9,12 @@ class CrossEntropyLoss():
         # forward params
         self.p = np.zeros(0)
         #forward
-        self.expected = np.zeros(numberOfClasses)
-        self.output = np.zeros(batchSize)
-        #self.softmax = np.zeros((self.batchSize,self.nOfClasses))
+        self.expected = np.zeros(numberOfClasses,dtype="float32")
+        self.output = np.zeros(batchSize,dtype="float32")
+        #self.softmax = np.zeros((self.batchSize,self.nOfClasses),dtype="float32")
         self.input = np.zeros((batchSize,numberOfClasses)) # input will be a matrix, each line are the value of probability for each class, this for each image in bathc
         #feedback
-        self.dx = np.zeros((batchSize,numberOfClasses))
+        self.dx = np.zeros((batchSize,numberOfClasses),dtype="float32")
         
 #    def forward(self,input,expected):
 
@@ -49,17 +49,12 @@ class CrossEntropyLoss():
    
 
     def forward(self, x, y) :
-        self.y = y
+        self.y = np.clip(y, self.epsilon, 1.0 - self.epsilon)
         self.p = np.clip(x, self.epsilon, 1.0 -self. epsilon)
-        '''
-        for k in range(self.batchSize):
-            temp = 0
-            for i in range(self.nOfClasses): 
-                temp += np.exp(x[k][i])           
-            for i in range(self.nOfClasses):           
-               self.softmax[k][i] = np.exp(x[k][i])/temp # save softmax of all outputs '''
-        self.output = -(self.y * np.log(self.p) + (1-self.y) * np.log(1 - self.p))
+        
+ 
+        self.output = -(self.y * np.log(self.p,dtype="float32")  + (1-self.y) * np.log(1 - self.p))
          
 
     def feedback(self ):
-        self.dx = (self.p - self.y) / (self.p - self.p ** 2)
+        self.dx = (self.p - self.y)/ (self.p - self.p ** 2)

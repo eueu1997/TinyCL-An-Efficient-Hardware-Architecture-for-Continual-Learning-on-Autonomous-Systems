@@ -12,7 +12,7 @@ class MLPOnMIST():
         self.inputSize = int(self.inputData*self.inputData)
         self.nClasses  = 10
         self.batchSize = 16
-        self.epsilon = 1e-6
+        self.epsilon =  10 ** -3
         self.weightDecay = 1e-6
         self.momentumFC = 0.9
         self.momentumBN = 0.9
@@ -25,13 +25,15 @@ class MLPOnMIST():
         self.batchNorm1d1 = BatchNorm1d(400,self.batchSize,self.epsilon,self.weightDecay,0.5)
         self.relu1 = ReLU1d(400,self.batchSize)
         self.linear2 = FCLayer(400,10,self.batchSize,self.weightDecay,0.9)
-        self.batchNorm1d2 = BatchNorm1d(10,self.batchSize,self.epsilon,self.weightDecay,0.9)
+        #self.batchNorm1d2 = BatchNorm1d(400,self.batchSize,self.epsilon,self.weightDecay,0.9)
         self.relu2 = ReLU1d(10,self.batchSize)
+        #self.linear3 = FCLayer(400,10,self.batchSize,self.weightDecay,0.9)
+        #self.relu3 = ReLU1d(10,self.batchSize)
         self.crossEntropy = CrossEntropyLoss(self.nClasses,self.batchSize,self.epsilon)
 
     def forward(self,inputs,labels):
     #start forward
-        flatted = np.zeros((self.batchSize,self.inputSize))
+        flatted = np.zeros((self.batchSize,self.inputSize),dtype="float32")
         
         for b in range(self.batchSize):
             flatted[b] = inputs[b].flatten()
@@ -54,11 +56,15 @@ class MLPOnMIST():
         output = self.relu1.output
         self.linear2.forward(output)
         output = self.linear2.output
-        self.batchNorm1d2.myforward(output)
-        compare = self.batchNorm1d2.forward(output)
-        output = self.batchNorm1d2.output
-        diff = np.sum((compare - output))
+        #self.batchNorm1d2.myforward(output)
+        #compare = self.batchNorm1d2.forward(output)
+        #output = self.batchNorm1d2.output
+        #diff = np.sum((compare - output))
         self.relu2.forward(output)
+        #output = self.relu2.output
+        #self.linear3.forward(output)
+        #output = self.linear3.output
+        #self.relu3.forward(output)
         estimation = self.relu2.output
         self.crossEntropy.forward(estimation,ConvToOneHot(labels,self.batchSize,self.nClasses))
         return self.crossEntropy.output
@@ -68,18 +74,27 @@ class MLPOnMIST():
         dx = self.crossEntropy.dx
         self.relu2.feedback(dx)
         dx = self.relu2.dx
-        compare = self.batchNorm1d2.backward(dx)
+        '''compare = self.batchNorm1d2.backward(dx)
         self.batchNorm1d2.myfeedback(dx,lr)
         dx = self.batchNorm1d2.dx
+        difweight = np.sum(self.batchNorm1d2.weights - self.batchNorm1d2.gamma)
+        difDVar = np.sum(self.batchNorm1d2.var_grad - self.batchNorm1d2.dvar)
+        difDMean = np.sum(self.batchNorm1d2.mean_grad - self.batchNorm1d2.davg)
+        difVar = np.sum(self.batchNorm1d2.var_x - self.batchNorm1d2.var)
+        difMean = np.sum(self.batchNorm1d2.mean_x - self.batchNorm1d2.avg) 
+        difstddev = np.sum(self.batchNorm1d2.stddevInv - self.batchNorm1d2.stddev_inv)
+        difaux = np.sum(self.batchNorm1d2.auxXMinusMean -self.batchNorm1d2.aux_x_minus_mean)
         diff = np.sum((compare - dx))
         #dx = self.batchNorm1d2.dx
-        self.linear2.feedback(dx,lr)
+        self.linear2.feedback(dx,lr)'''
         dx = self.linear2.dx        
         self.relu1.feedback(dx)
         dx = self.relu1.dx
         compare = self.batchNorm1d1.backward(dx)
         self.batchNorm1d1.myfeedback(dx,lr)
         dx = self.batchNorm1d1.dx
+        difVar = np.sum(self.batchNorm1d1.var_grad - self.batchNorm1d1.dvar)
+        difMean = np.sum(self.batchNorm1d1.mean_grad - self.batchNorm1d1.davg)
         diff = np.sum((compare - dx))
         #dx = self.batchNorm1d1.dx
         self.linear1.feedback(dx,lr)
@@ -89,6 +104,8 @@ class MLPOnMIST():
         compare = self.batchNorm1d0.backward(dx)
         self.batchNorm1d0.myfeedback(dx,lr)
         dx = self.batchNorm1d0.dx
+        difVar = np.sum(self.batchNorm1d0.var_grad - self.batchNorm1d0.dvar)
+        difMean = np.sum(self.batchNorm1d0.mean_grad - self.batchNorm1d0.davg)
         diff = np.sum((compare - dx))
         #dx = self.batchNorm1d0.dx
         self.linear0.feedback(dx,lr)
@@ -103,6 +120,6 @@ class MLPOnMIST():
         #self.linear0.feedback(self.linear1.dx,lr)
 
 def ConvToOneHot(input,batchSize,inputSize):
-    b = np.zeros((batchSize, inputSize ))
+    b = np.zeros((batchSize, inputSize ),dtype="float32")
     b[np.arange(input.size), input] = 1
     return b

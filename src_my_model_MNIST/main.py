@@ -6,7 +6,9 @@ from models.layers import FinalBlock
 from torch import nn, optim
 from opts import parse_args
 from utils import AverageMeter, get_accuracy_NO_CUDA,  get_logger,  save_model, load_model , cutmix_data
-from myLayers.MLPOnMNIST import MLPOnMIST
+from myLayers.MLPOnMNIST import MLPOnMIST, ConvToOneHot
+from BatchNormalization.src.feed_forward.layers import LinearLayer, SigmoidLayer, BatchNormLayer,CrossEntropyLoss
+from BatchNormalization.src.feed_forward.neural_network import NeuralNetwork
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 #class_mask : maschera per mascherare gli output in caso di task incremental ( tutti uno in caso di ci)
@@ -14,6 +16,18 @@ single_lr=0
 acc_v = []
 myAcc_v = []
 lr_v = []
+
+model_bn = NeuralNetwork([LinearLayer(784,400),
+                          BatchNormLayer(400),
+                          SigmoidLayer(),
+                          LinearLayer(400, 400),
+                          BatchNormLayer(400),
+                          SigmoidLayer(),
+                          LinearLayer(400, 400),
+                          BatchNormLayer(400),
+                          SigmoidLayer(),
+                          LinearLayer(400, 10),
+                          SigmoidLayer()])
 def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_passes):
     best_prec1 = 0.0
     best_myPrec = 0.0
@@ -46,8 +60,8 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
         # Train and test loop
         logger.info("==> Starting pass number: "+str(epoch)+", Learning rate: " + str(optimizer.param_groups[0]['lr']))
         model, optimizer = train(opt=opt, loader=train_loader, model=model,  optimizer=optimizer, epoch=epoch, logger=logger,myModel = myModel,scheduler = scheduler)
-        myPrec1 = test(loader=test_loader, model=model,  class_mask=class_mask, logger=logger, epoch=epoch,myModel=myModel)
-        
+        myPrec1 = test(loader=test_loader, model=model,  class_mask=class_mask, logger=logger, epoch=epoch,myModel=myModel,scheduler=scheduler)
+        model_bn.fit(train_loader , scheduler.get_last_lr(),test_loader)[:, 1]
         # Log performance
         logger.info('==> Current accuracy: [{:.3f}]\t'.format(myPrec1))
         myAcc_v.append(float(myPrec1))
@@ -66,7 +80,7 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
     return best_prec1, model,best_myPrec
 
 
-def test(loader, model,  class_mask, logger, epoch,myModel):
+def test(loader, model,  class_mask, logger, epoch,myModel,scheduler):
         model.eval()
         losses,myLosses, batch_time, accuracy,myAccuracy, task_accuracy, myTaskAcc = AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter(), AverageMeter()
         with torch.no_grad():
@@ -80,6 +94,7 @@ def test(loader, model,  class_mask, logger, epoch,myModel):
                 #inputs, labels = inputs.half(), labels.cuda(non_blocking=True)
                 #outputs = model(inputs)
                     myOutputs = myModel.forward(inputs.numpy(),labels.numpy())
+                    myModel.feedback(scheduler.get_last_lr())
                 #loss = criterion(outputs, labels)
                 #losses.update(loss.data, inputs.size(0))
                     myLosses.update(np.average(myOutputs), inputs.size(0))
@@ -112,7 +127,7 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
         model.train()
         losses, data_time, batch_time = AverageMeter(), AverageMeter(), AverageMeter()
         start = time.time()
-
+ 
         for inputs, labels in loader:
             actSize = inputs.shape[0]
             if(actSize != myModel.batchSize):
@@ -127,7 +142,7 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             # Forward, backward passes then step
             # Output given by input throught the model
             #outputs = model(inputs)
-            myOutputs =  myModel.forward(inputs.numpy(),labels.numpy()).mean()
+            myOutputs =  myModel.forward(inputs.numpy().astype("float32"),labels.numpy()).mean()
             #loss = lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b) if do_cutmix else criterion(outputs, labels)
             #optimizer.zero_grad()
             #loss.backward()
@@ -135,14 +150,16 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             myModel.feedback(scheduler.get_last_lr())
             #torch.nn.utils.clip_grad_norm_(model.parameters(), opt.clip) # Always be safe than sorry
             optimizer.step() # Applica modifica ai parametri in base a cross entropy loss
+            #try to train other model
 
+            
             # Log losses
-            #losses.update(loss.data.item(), labels.size(0))
+            losses.update(np.average(myOutputs), labels.size(0))
             batch_time.update(time.time() - start)
             start = time.time()
 
-        #logger.info('==> Train:[{0}]\tTime:{batch_time.sum:.4f}\tData:{data_time.sum:.4f}\tLoss:{loss.avg:.4f}\t'
-        #    .format(epoch, batch_time=batch_time, data_time=data_time, loss=losses))
+        logger.info('==> Train:[{0}]\tTime:{batch_time.sum:.4f}\tData:{data_time.sum:.4f}\tLoss:{loss.avg:.4f}\t'
+            .format(epoch, batch_time=batch_time, data_time=data_time, loss=losses))
         return model, optimizer
 
 
