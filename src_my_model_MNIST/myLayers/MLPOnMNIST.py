@@ -2,8 +2,8 @@ from .FCLayer import FCLayer
 from .BatchNorm1d import BatchNorm1d
 from .ReLU import ReLU1d 
 import numpy as np
-from .CrossEntropyLoss import CrossEntropyLoss
-
+from .CrossEntropyLoss import CrossEntropyLoss,CrossEntropyLoss2
+from .CrossEntropyLoss import SoftmaxLayer
 class MLPOnMIST():
 
     def __init__(self,inputDataSize):
@@ -25,10 +25,9 @@ class MLPOnMIST():
         self.batchNorm1d1 = BatchNorm1d(400,self.batchSize,self.epsilon,self.weightDecay,0.5)
         self.relu1 = ReLU1d(400,self.batchSize)
         self.linear2 = FCLayer(400,10,self.batchSize,self.weightDecay,0.9)
-        #self.batchNorm1d2 = BatchNorm1d(400,self.batchSize,self.epsilon,self.weightDecay,0.9)
         self.relu2 = ReLU1d(10,self.batchSize)
-        #self.linear3 = FCLayer(400,10,self.batchSize,self.weightDecay,0.9)
-        #self.relu3 = ReLU1d(10,self.batchSize)
+        #self.crossEntropy = CrossEntropyLoss2()
+        self.softmax = SoftmaxLayer()
         self.crossEntropy = CrossEntropyLoss(self.nClasses,self.batchSize,self.epsilon)
 
     def forward(self,inputs,labels):
@@ -40,84 +39,54 @@ class MLPOnMIST():
         #normalize 0,1
         self.linear0.forward(flatted)
         output = self.linear0.output
-        self.batchNorm1d0.myforward(output)
-        compare = self.batchNorm1d0.forward(output)
+        self.batchNorm1d0.forward(output)
         output = self.batchNorm1d0.output
-        diff = np.sum((compare - output))
         self.relu0.forward(output)
         output = self.relu0.output
         self.linear1.forward(output)
         output = self.linear1.output
-        self.batchNorm1d1.myforward(output)
-        compare = self.batchNorm1d1.forward(output)
+        self.batchNorm1d1.forward(output)
         output = self.batchNorm1d1.output
-        diff = np.sum((compare - output))
         self.relu1.forward(output)
         output = self.relu1.output
         self.linear2.forward(output)
         output = self.linear2.output
-        #self.batchNorm1d2.myforward(output)
-        #compare = self.batchNorm1d2.forward(output)
-        #output = self.batchNorm1d2.output
-        #diff = np.sum((compare - output))
         self.relu2.forward(output)
-        #output = self.relu2.output
-        #self.linear3.forward(output)
-        #output = self.linear3.output
-        #self.relu3.forward(output)
         estimation = self.relu2.output
-        self.crossEntropy.forward(estimation,ConvToOneHot(labels,self.batchSize,self.nClasses))
-        return self.crossEntropy.output
+
+        argmax = self.softmax.forward(estimation)
+        return self.crossEntropy.forward(argmax,ConvToOneHot(labels,self.batchSize,self.nClasses))
     def feedback(self,lr):
+
         #start feedback
-        self.crossEntropy.feedback()
-        dx = self.crossEntropy.dx
+        #cross entropy feedback
+        dx = self.crossEntropy.feedback()
+        #softmax feedback
+        dx = self.softmax.feedback(dx)
+        #relu feedback
         self.relu2.feedback(dx)
         dx = self.relu2.dx
-        '''compare = self.batchNorm1d2.backward(dx)
-        self.batchNorm1d2.myfeedback(dx,lr)
-        dx = self.batchNorm1d2.dx
-        difweight = np.sum(self.batchNorm1d2.weights - self.batchNorm1d2.gamma)
-        difDVar = np.sum(self.batchNorm1d2.var_grad - self.batchNorm1d2.dvar)
-        difDMean = np.sum(self.batchNorm1d2.mean_grad - self.batchNorm1d2.davg)
-        difVar = np.sum(self.batchNorm1d2.var_x - self.batchNorm1d2.var)
-        difMean = np.sum(self.batchNorm1d2.mean_x - self.batchNorm1d2.avg) 
-        difstddev = np.sum(self.batchNorm1d2.stddevInv - self.batchNorm1d2.stddev_inv)
-        difaux = np.sum(self.batchNorm1d2.auxXMinusMean -self.batchNorm1d2.aux_x_minus_mean)
-        diff = np.sum((compare - dx))
-        #dx = self.batchNorm1d2.dx
-        self.linear2.feedback(dx,lr)'''
-        dx = self.linear2.dx        
+        #linear 2 feed back
+        self.linear2.feedback(dx,lr)
+        dx = self.linear2.dx
+        # relu 1 feedback        
         self.relu1.feedback(dx)
         dx = self.relu1.dx
-        compare = self.batchNorm1d1.backward(dx)
-        self.batchNorm1d1.myfeedback(dx,lr)
+        # batch 1 feed back
+        self.batchNorm1d1.feedback(dx,lr)
         dx = self.batchNorm1d1.dx
-        difVar = np.sum(self.batchNorm1d1.var_grad - self.batchNorm1d1.dvar)
-        difMean = np.sum(self.batchNorm1d1.mean_grad - self.batchNorm1d1.davg)
-        diff = np.sum((compare - dx))
-        #dx = self.batchNorm1d1.dx
+        #linear 1 feed back
         self.linear1.feedback(dx,lr)
         dx = self.linear1.dx
+        #relu 0 feed back
         self.relu0.feedback(dx)
         dx = self.relu0.dx
-        compare = self.batchNorm1d0.backward(dx)
-        self.batchNorm1d0.myfeedback(dx,lr)
+        #batch 0 feedback
+        self.batchNorm1d0.feedback(dx,lr)
         dx = self.batchNorm1d0.dx
-        difVar = np.sum(self.batchNorm1d0.var_grad - self.batchNorm1d0.dvar)
-        difMean = np.sum(self.batchNorm1d0.mean_grad - self.batchNorm1d0.davg)
-        diff = np.sum((compare - dx))
-        #dx = self.batchNorm1d0.dx
+        #linear 0 feed back
         self.linear0.feedback(dx,lr)
         dx = self.linear0.dx
-
-        #self.crossEntropy.feedback()
-        #self.batchNorm1d2.feedback(self.crossEntropy.dx,lr)
-        #self.linear2.feedback(self.crossEntropy.dx,lr)
-        #self.batchNorm1d1.feedback(self.linear2.dx,lr)
-        #self.linear1.feedback(self.linear2.dx,lr)
-        #self.batchNorm1d0.feedback(self.linear1.dx,lr)
-        #self.linear0.feedback(self.linear1.dx,lr)
 
 def ConvToOneHot(input,batchSize,inputSize):
     b = np.zeros((batchSize, inputSize ),dtype="float32")

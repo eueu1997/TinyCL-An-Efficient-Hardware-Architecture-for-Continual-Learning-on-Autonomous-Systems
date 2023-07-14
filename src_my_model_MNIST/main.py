@@ -7,8 +7,6 @@ from torch import nn, optim
 from opts import parse_args
 from utils import AverageMeter, get_accuracy_NO_CUDA,  get_logger,  save_model, load_model , cutmix_data
 from myLayers.MLPOnMNIST import MLPOnMIST, ConvToOneHot
-from BatchNormalization.src.feed_forward.layers import LinearLayer, SigmoidLayer, BatchNormLayer,CrossEntropyLoss
-from BatchNormalization.src.feed_forward.neural_network import NeuralNetwork
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 #class_mask : maschera per mascherare gli output in caso di task incremental ( tutti uno in caso di ci)
@@ -17,51 +15,23 @@ acc_v = []
 myAcc_v = []
 lr_v = []
 
-model_bn = NeuralNetwork([LinearLayer(784,400),
-                          BatchNormLayer(400),
-                          SigmoidLayer(),
-                          LinearLayer(400, 400),
-                          BatchNormLayer(400),
-                          SigmoidLayer(),
-                          LinearLayer(400, 400),
-                          BatchNormLayer(400),
-                          SigmoidLayer(),
-                          LinearLayer(400, 10),
-                          SigmoidLayer()])
+
 def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_passes):
     best_prec1 = 0.0
     best_myPrec = 0.0
     best_lr    = 0.0
-    #model = model.half().cuda() # Better speed with little loss in accuracy. If loss in accuracy is big, use apex.
     myModel = MLPOnMIST(28)
-    #criterion = cross entropy loss - calcola la differenze tra le uscite attuali e quelle aspettate
-    #criterion = nn.CrossEntropyLoss().cuda() #https://towardsdatascience.com/cross-entropy-loss-function-f38c4ec8643e
-    # algoritmo per diminuire la cross entropy loss modificando i parametri
+
     optimizer = optim.SGD(model.parameters(), lr=opt.maxlr, momentum=0.9, weight_decay=opt.weight_decay)
-    #setta il learning rate
     scheduler = optim.lr_scheduler.CosineAnnealingWarmRestarts(optimizer, T_0=1, T_mult=2, eta_min=opt.minlr) 
 
     logger.info("==> Opts for this training: "+str(opt))
 
     for epoch in range(num_passes):
-        # Handle lr scheduling
-        if single_lr == 0 :
-            if epoch <= 0: # Warm start of 1 epoch
-                for param_group in optimizer.param_groups:
-                    param_group['lr'] = opt.maxlr * 0.1
-            elif epoch == 1: # Then set to maxlr
-                for param_group in optimizer.param_groups:
-                    param_group['lr'] = opt.maxlr
-            else: # Aand go!
-                scheduler.step() # cambia i learning rate
-        else:
-            for param_group in optimizer.param_groups:
-                param_group['lr'] = 0.0034224487073782153        
         # Train and test loop
         logger.info("==> Starting pass number: "+str(epoch)+", Learning rate: " + str(optimizer.param_groups[0]['lr']))
         model, optimizer = train(opt=opt, loader=train_loader, model=model,  optimizer=optimizer, epoch=epoch, logger=logger,myModel = myModel,scheduler = scheduler)
         myPrec1 = test(loader=test_loader, model=model,  class_mask=class_mask, logger=logger, epoch=epoch,myModel=myModel,scheduler=scheduler)
-        model_bn.fit(train_loader , scheduler.get_last_lr(),test_loader)[:, 1]
         # Log performance
         logger.info('==> Current accuracy: [{:.3f}]\t'.format(myPrec1))
         myAcc_v.append(float(myPrec1))
@@ -74,7 +44,7 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
     #ax.plot(acc_v)
     ax1.plot(myAcc_v)
     #fig.savefig(f'/home/thesis/eugenio.ressa/Desktop/GDumb/graphs/accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
-    fig1.savefig(f'C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/graphs/my_accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
+    fig1.savefig(f'C:/Users/utente/OneDrive/Documenti/TesiEugenio/MSThesis/graphs/my_accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
 
     
     return best_prec1, model,best_myPrec
@@ -94,14 +64,13 @@ def test(loader, model,  class_mask, logger, epoch,myModel,scheduler):
                 #inputs, labels = inputs.half(), labels.cuda(non_blocking=True)
                 #outputs = model(inputs)
                     myOutputs = myModel.forward(inputs.numpy(),labels.numpy())
-                    myModel.feedback(scheduler.get_last_lr())
                 #loss = criterion(outputs, labels)
                 #losses.update(loss.data, inputs.size(0))
                     myLosses.update(np.average(myOutputs), inputs.size(0))
 
                 # Measure accuracy and task accuracy 
                 #prob = torch.nn.functional.softmax(outputs, dim=1)
-                    myProb = myModel.relu2.output
+                    myProb = myModel.softmax.output
                 
                 #acc, task_acc = get_accuracy(prob, labels, class_mask)
                 #accuracy.update(acc, labels.size(0))
@@ -138,7 +107,7 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             do_cutmix = opt.regularization == 'cutmix' and np.random.rand(1) < opt.cutmix_prob
             if do_cutmix: inputs, labels_a, labels_b, lam = cutmix_data(x=inputs, y=labels, alpha=opt.cutmix_alpha)
             data_time.update(time.time() - start)
-            
+
             # Forward, backward passes then step
             # Output given by input throught the model
             #outputs = model(inputs)
@@ -146,10 +115,10 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             #loss = lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b) if do_cutmix else criterion(outputs, labels)
             #optimizer.zero_grad()
             #loss.backward()
-            myProb = myModel.relu2.output
-            myModel.feedback(scheduler.get_last_lr())
+            myProb = myModel.softmax.output
+            myModel.feedback(0.0001)
             #torch.nn.utils.clip_grad_norm_(model.parameters(), opt.clip) # Always be safe than sorry
-            optimizer.step() # Applica modifica ai parametri in base a cross entropy loss
+            #optimizer.step() # Applica modifica ai parametri in base a cross entropy loss
             #try to train other model
 
             
