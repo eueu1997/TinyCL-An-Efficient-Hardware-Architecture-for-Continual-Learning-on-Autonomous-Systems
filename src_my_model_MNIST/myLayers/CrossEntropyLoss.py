@@ -19,13 +19,13 @@ class CrossEntropyLoss():
 
     def forward(self, x, y) :
         self.p = x
-        self.t = y
-        return np.sum(( y * -np.log(x)),axis=1)
+        self.y = y
+        return -(self.y * np.log(self.p) + (1-self.y) * np.log(1 - self.p))
         
 
     def feedback(self ):
 
-        return ( self.p - self.t)
+        return  (self.p - self.y) / (self.p - self.p ** 2)
         
 
 class SoftmaxLayer():

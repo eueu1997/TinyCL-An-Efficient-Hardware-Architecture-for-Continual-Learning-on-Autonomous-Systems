@@ -9,12 +9,22 @@ from utils import AverageMeter, get_accuracy_NO_CUDA,  get_logger,  save_model, 
 from myLayers.MLPOnMNIST import MLPOnMIST, ConvToOneHot
 import matplotlib as mpl
 import matplotlib.pyplot as plt
+from myLayers.neural_network import *
+from myLayers.layers import *
 #class_mask : maschera per mascherare gli output in caso di task incremental ( tutti uno in caso di ci)
 single_lr=0
 acc_v = []
 myAcc_v = []
 lr_v = []
-
+neurons = 400
+model_bn = NeuralNetwork([LinearLayer(784, neurons),
+                          BatchNormLayer(neurons),
+                          SigmoidLayer(),
+                          LinearLayer(neurons, neurons),
+                          BatchNormLayer(neurons),
+                          SigmoidLayer(),
+                          LinearLayer(neurons, 10),
+                          SigmoidLayer()])
 
 def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_passes):
     best_prec1 = 0.0
@@ -64,6 +74,10 @@ def test(loader, model,  class_mask, logger, epoch,myModel,scheduler):
                 #inputs, labels = inputs.half(), labels.cuda(non_blocking=True)
                 #outputs = model(inputs)
                     myOutputs = myModel.forward(inputs.numpy(),labels.numpy())
+                    flatted = np.zeros((16,784),dtype="float32")
+                    for b in range(16):
+                        flatted[b] = inputs.numpy()[b].flatten()
+                    otherOutput = model_bn.predict(flatted)
                 #loss = criterion(outputs, labels)
                 #losses.update(loss.data, inputs.size(0))
                     myLosses.update(np.average(myOutputs), inputs.size(0))
@@ -111,21 +125,45 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             # Forward, backward passes then step
             # Output given by input throught the model
             #outputs = model(inputs)
-            myOutputs =  myModel.forward(inputs.numpy().astype("float32"),labels.numpy()).mean()
+            myOutputsForward =  myModel.forward(inputs.numpy().astype("float32"),labels.numpy())
+            #equalizing wights and biases
+            model_bn.layers[0].weights = myModel.linear0.kernel
+            model_bn.layers[0].biases = myModel.linear0.bias
+            model_bn.layers[3].weights = myModel.linear1.kernel
+            model_bn.layers[3].biases = myModel.linear1.bias
+            model_bn.layers[6].weights = myModel.linear2.kernel
+            model_bn.layers[6].biases = myModel.linear2.bias
+            model_bn.layers[1].gamma = myModel.batchNorm1d0.weights
+            model_bn.layers[1].bias = myModel.batchNorm1d0.bias
+            model_bn.layers[4].gamma = myModel.batchNorm1d1.weights
+            model_bn.layers[4].bias = myModel.batchNorm1d1.bias
+
+            otherOutputForward,otherOutputFedback = model_bn.fit_train(inputs.numpy().astype("float32"),labels.numpy(),0.0001)
+            otherOutputForward.pop(0)
+
             #loss = lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b) if do_cutmix else criterion(outputs, labels)
             #optimizer.zero_grad()
             #loss.backward()
-            myProb = myModel.softmax.output
-            myModel.feedback(0.0001)
+            myProb = myModel.relu2.output
+            dx = myModel.feedback(0.0001)
             #torch.nn.utils.clip_grad_norm_(model.parameters(), opt.clip) # Always be safe than sorry
             #optimizer.step() # Applica modifica ai parametri in base a cross entropy loss
             #try to train other model
 
             
             # Log losses
-            losses.update(np.average(myOutputs), labels.size(0))
+            losses.update(np.average(myOutputsForward[-1]), labels.size(0))
             batch_time.update(time.time() - start)
             start = time.time()
+            diffForw = list()
+            diffFb = list()
+            # calcuate difference between myne and the other one
+            '''
+            for a,b in  myOutputsForward,myOutputsForward:
+                diffForw.append( np.array(a) - np.array(b))
+            for a,b in myOutputsFedback,otherOutputFedback:
+                diffFb.append( np.array(a) - np.array(b))
+            '''
 
         logger.info('==> Train:[{0}]\tTime:{batch_time.sum:.4f}\tData:{data_time.sum:.4f}\tLoss:{loss.avg:.4f}\t'
             .format(epoch, batch_time=batch_time, data_time=data_time, loss=losses))

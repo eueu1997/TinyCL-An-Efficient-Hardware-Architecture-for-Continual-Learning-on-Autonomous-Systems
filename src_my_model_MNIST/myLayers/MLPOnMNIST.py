@@ -33,61 +33,61 @@ class MLPOnMIST():
     def forward(self,inputs,labels):
     #start forward
         flatted = np.zeros((self.batchSize,self.inputSize),dtype="float32")
-        
+        output = list()
         for b in range(self.batchSize):
             flatted[b] = inputs[b].flatten()
         #normalize 0,1
         self.linear0.forward(flatted)
-        output = self.linear0.output
-        self.batchNorm1d0.forward(output)
-        output = self.batchNorm1d0.output
-        self.relu0.forward(output)
-        output = self.relu0.output
-        self.linear1.forward(output)
-        output = self.linear1.output
-        self.batchNorm1d1.forward(output)
-        output = self.batchNorm1d1.output
-        self.relu1.forward(output)
-        output = self.relu1.output
-        self.linear2.forward(output)
-        output = self.linear2.output
-        self.relu2.forward(output)
-        estimation = self.relu2.output
+        output.append(self.linear0.output)
+        self.batchNorm1d0.forward(output[0])
+        output.append(self.batchNorm1d0.output)
+        self.relu0.forward(output[1])
+        output.append(self.relu0.output)
+        self.linear1.forward(output[2])
+        output.append(self.linear1.output)
+        self.batchNorm1d1.forward(output[3])
+        output.append(self.batchNorm1d1.output)
+        self.relu1.forward(output[4])
+        output.append(self.relu1.output)
+        self.linear2.forward(output[5])
+        output.append(self.linear2.output)
+        self.relu2.forward(output[6])
+        output.append(self.relu2.output)
 
-        argmax = self.softmax.forward(estimation)
-        return self.crossEntropy.forward(argmax,ConvToOneHot(labels,self.batchSize,self.nClasses))
+        #output.append(self.softmax.forward(output[7]))
+        output.append(self.crossEntropy.forward(output[7],ConvToOneHot(labels,self.batchSize,self.nClasses)))
+        return  output
     def feedback(self,lr):
-
+        dx = [None]*8
         #start feedback
         #cross entropy feedback
-        dx = self.crossEntropy.feedback()
+        dx[7] = self.crossEntropy.feedback()
         #softmax feedback
-        dx = self.softmax.feedback(dx)
+        #dx[7] = self.softmax.feedback(dx[8])
         #relu feedback
-        self.relu2.feedback(dx)
-        dx = self.relu2.dx
+        self.relu2.feedback(dx[7])
+        dx[6] = self.relu2.dx
         #linear 2 feed back
-        self.linear2.feedback(dx,lr)
-        dx = self.linear2.dx
+        self.linear2.feedback(dx[6],lr)
+        dx[5] = self.linear2.dx
         # relu 1 feedback        
-        self.relu1.feedback(dx)
-        dx = self.relu1.dx
-        # batch 1 feed back
-        self.batchNorm1d1.feedback(dx,lr)
-        dx = self.batchNorm1d1.dx
+        self.relu1.feedback(dx[5])
+        dx[4] = self.relu1.dx
+        # b4atch 1 feed back
+        self.batchNorm1d1.feedback(dx[4],lr)
+        dx[3] = self.batchNorm1d1.dx
         #linear 1 feed back
-        self.linear1.feedback(dx,lr)
-        dx = self.linear1.dx
+        self.linear1.feedback(dx[3],lr)
+        dx[2] = self.linear1.dx
         #relu 0 feed back
-        self.relu0.feedback(dx)
-        dx = self.relu0.dx
+        self.relu0.feedback(dx[2])
+        dx[1] = self.relu0.dx
         #batch 0 feedback
-        self.batchNorm1d0.feedback(dx,lr)
-        dx = self.batchNorm1d0.dx
+        self.batchNorm1d0.feedback(dx[1],lr)
+        dx[0] = self.batchNorm1d0.dx
         #linear 0 feed back
-        self.linear0.feedback(dx,lr)
-        dx = self.linear0.dx
-
+        self.linear0.feedback(dx[0],lr)
+        return dx
 def ConvToOneHot(input,batchSize,inputSize):
     b = np.zeros((batchSize, inputSize ),dtype="float32")
     b[np.arange(input.size), input] = 1

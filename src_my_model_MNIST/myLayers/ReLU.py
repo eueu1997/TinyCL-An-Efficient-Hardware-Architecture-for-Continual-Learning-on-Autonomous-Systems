@@ -25,10 +25,10 @@ class ReLU1d():
         self.dx = np.zeros((self.batchSize,self.inputSize),dtype="float32")
 
     def forward (self,input):
-        #self.output = 1 / (np.exp(-input,dtype=("float32")) + 1)
-        self.output = np.maximum(input, 0)
+        self.output = 1 / (np.exp(-input,dtype=("float32")) + 1)
+        #self.output = np.maximum(input, 0)
     
     def feedback (self,input):
-        #self.dx = ( self.output * (1 - self.output)) * input  # sigmoid activation funztion
-        self.dx = 1 * (input > 0)                   # Relu activation funxtio
+        self.dx = ( self.output * (1 - self.output)) * input  # sigmoid activation funztion
+        #self.dx = 1 * (input > 0)                   # Relu activation funxtio
          
