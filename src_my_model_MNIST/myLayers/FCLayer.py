@@ -26,8 +26,8 @@ class FCLayer():
         self.output = (self.input @ self.kernel) + self.bias
         
     def feedback(self,input,lr):
-
-        self.dx = input @ np.transpose(self.kernel)
+        trans = self.kernel.T
+        self.dx = input @ trans
         self.kernel -= lr * np.transpose(self.input) @ input
         self.bias   -= lr * np.sum(input, axis=0, keepdims=True)[0]
 

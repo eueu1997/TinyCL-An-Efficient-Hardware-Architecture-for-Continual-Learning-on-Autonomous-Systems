@@ -1,0 +1,17 @@
+from PIL import Image
+import os
+
+path = "/home/thesis/eugenio.ressa/Desktop/GDumb/data/ImageNet/train"
+path_out = "/home/thesis/eugenio.ressa/Desktop/GDumb/data/ImageNet64x64/train"
+#get folders in path
+# Open the image by specifying the image path.
+for folder in os.listdir(path):
+    for filename in os.listdir(os.path.join(path, folder)):
+        image = Image.open(os.path.join(path, folder , filename))
+        resized_image = image.resize((64,64))
+        if not os.path.exists(os.path.join(path_out, folder)):
+            os.makedirs(os.path.join(path_out, folder))
+        resized_image.save(os.path.join(path_out, folder , filename))
+
+   
+

@@ -46,7 +46,9 @@ class LinearLayer(ParamLayer):
     def backward(self, grad_input: np.ndarray) -> np.ndarray:
         self.grad_weights = self.x.T @ grad_input
         self.grad_biases = np.sum(grad_input, axis=0, keepdims=True)
-        return grad_input @ self.weights.T
+        trans = self.weights.T
+        temp = grad_input @ trans
+        return temp
 
     def apply_gradients(self, learning_rate: float) -> None:
         self.weights -= learning_rate * self.grad_weights[0]

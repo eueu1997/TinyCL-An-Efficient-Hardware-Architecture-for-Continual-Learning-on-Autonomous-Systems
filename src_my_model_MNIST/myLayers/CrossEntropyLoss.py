@@ -15,11 +15,11 @@ class CrossEntropyLoss():
         self.input = np.zeros((batchSize,numberOfClasses)) # input will be a matrix, each line are the value of probability for each class, this for each image in bathc
         #feedback
         self.dx = np.zeros((batchSize,numberOfClasses),dtype="float32")
-   
+        self.epsilon = 10 ** -3
 
     def forward(self, x, y) :
-        self.p = x
-        self.y = y
+        self.p = np.clip(x, self.epsilon, 1.0 - self.epsilon)
+        self.y = np.clip(y, self.epsilon, 1.0 - self.epsilon)
         return -(self.y * np.log(self.p) + (1-self.y) * np.log(1 - self.p))
         
 

@@ -8,7 +8,7 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "C:/Users/utente/OneDrive/Documenti/TesiEugenio/MSThesis/src_my_model_MNIST/main.py",
+            "program": "C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/src_my_model_MNIST/main.py",
             "args": "--dataset MNIST --num_classes_per_task 2 --num_tasks 5 --seed 1 --memory_size 2000 --num_passes 350 --regularization none --model MLP --width 400 --exp_name MY_MODEL_MNIST_MLP400_M500_t5_nc2_128epochs_ ",
             "console": "integratedTerminal",
             "justMyCode": false

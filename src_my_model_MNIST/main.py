@@ -54,7 +54,7 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
     #ax.plot(acc_v)
     ax1.plot(myAcc_v)
     #fig.savefig(f'/home/thesis/eugenio.ressa/Desktop/GDumb/graphs/accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
-    fig1.savefig(f'C:/Users/utente/OneDrive/Documenti/TesiEugenio/MSThesis/graphs/my_accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
+    fig1.savefig(f'C:/Users/utente/Documents/Personale/Tesi/GDumb/MSThesis/src_my_model_MNIST/graphs/my_accuracy_test_{opt.memory_size}_{opt.num_passes}_{opt.model}_{opt.dataset}_{opt.inp_size}_original.png', dpi=200)
 
     
     return best_prec1, model,best_myPrec
@@ -77,14 +77,15 @@ def test(loader, model,  class_mask, logger, epoch,myModel,scheduler):
                     flatted = np.zeros((16,784),dtype="float32")
                     for b in range(16):
                         flatted[b] = inputs.numpy()[b].flatten()
-                    otherOutput = model_bn.predict(flatted)
+                    otherprob = model_bn.predict(flatted)
+                    otherLoss,otheracc = model_bn.evaluate_model(flatted,ConvToOneHot(labels.numpy(),16,10))
                 #loss = criterion(outputs, labels)
                 #losses.update(loss.data, inputs.size(0))
-                    myLosses.update(np.average(myOutputs), inputs.size(0))
+                    myLosses.update(np.average(myOutputs[-1]), inputs.size(0))
 
                 # Measure accuracy and task accuracy 
                 #prob = torch.nn.functional.softmax(outputs, dim=1)
-                    myProb = myModel.softmax.output
+                    myProb = myModel.relu2.output
                 
                 #acc, task_acc = get_accuracy(prob, labels, class_mask)
                 #accuracy.update(acc, labels.size(0))
@@ -110,7 +111,17 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
         model.train()
         losses, data_time, batch_time = AverageMeter(), AverageMeter(), AverageMeter()
         start = time.time()
- 
+        '''
+        model_bn.layers[0].weights = myModel.linear0.kernel.copy()
+        model_bn.layers[0].biases = myModel.linear0.bias.copy()
+        model_bn.layers[3].weights = myModel.linear1.kernel.copy()
+        model_bn.layers[3].biases = myModel.linear1.bias.copy()
+        model_bn.layers[6].weights = myModel.linear2.kernel.copy()
+        model_bn.layers[6].biases = myModel.linear2.bias.copy()
+        model_bn.layers[1].gamma = myModel.batchNorm1d0.weights.copy()
+        model_bn.layers[1].bias = myModel.batchNorm1d0.bias.copy()
+        model_bn.layers[4].gamma = myModel.batchNorm1d1.weights.copy()
+        model_bn.layers[4].bias = myModel.batchNorm1d1.bias.copy()'''
         for inputs, labels in loader:
             actSize = inputs.shape[0]
             if(actSize != myModel.batchSize):
@@ -127,19 +138,9 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             #outputs = model(inputs)
             myOutputsForward =  myModel.forward(inputs.numpy().astype("float32"),labels.numpy())
             #equalizing wights and biases
-            model_bn.layers[0].weights = myModel.linear0.kernel
-            model_bn.layers[0].biases = myModel.linear0.bias
-            model_bn.layers[3].weights = myModel.linear1.kernel
-            model_bn.layers[3].biases = myModel.linear1.bias
-            model_bn.layers[6].weights = myModel.linear2.kernel
-            model_bn.layers[6].biases = myModel.linear2.bias
-            model_bn.layers[1].gamma = myModel.batchNorm1d0.weights
-            model_bn.layers[1].bias = myModel.batchNorm1d0.bias
-            model_bn.layers[4].gamma = myModel.batchNorm1d1.weights
-            model_bn.layers[4].bias = myModel.batchNorm1d1.bias
-
             otherOutputForward,otherOutputFedback = model_bn.fit_train(inputs.numpy().astype("float32"),labels.numpy(),0.0001)
             otherOutputForward.pop(0)
+            otherOutputFedback.pop(0)
 
             #loss = lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b) if do_cutmix else criterion(outputs, labels)
             #optimizer.zero_grad()
@@ -158,12 +159,12 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             diffForw = list()
             diffFb = list()
             # calcuate difference between myne and the other one
-            '''
-            for a,b in  myOutputsForward,myOutputsForward:
-                diffForw.append( np.array(a) - np.array(b))
-            for a,b in myOutputsFedback,otherOutputFedback:
-                diffFb.append( np.array(a) - np.array(b))
-            '''
+            
+            for i in  range(0,9):
+                diffForw.append( (myOutputsForward[i] - otherOutputForward[i]).sum() )
+            for i in range(0,8):
+                diffFb.append( (dx[i] - otherOutputFedback[i]).sum() )
+            
 
         logger.info('==> Train:[{0}]\tTime:{batch_time.sum:.4f}\tData:{data_time.sum:.4f}\tLoss:{loss.avg:.4f}\t'
             .format(epoch, batch_time=batch_time, data_time=data_time, loss=losses))

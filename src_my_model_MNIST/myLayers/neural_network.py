@@ -47,7 +47,7 @@ class NeuralNetwork:
         self.update_params(learning_rate)
         return forward_output,backward_output
 
-    def fit_test(batch_size: int, x_test: np.ndarray,y_test: np.ndarray) -> np.array:
+    def fit_test(self,batch_size: int, x_test: np.ndarray,y_test: np.ndarray) -> np.array:
 
         return  self.evaluate_model(x_test, ConvToOneHot(y_test,16,10))
         

@@ -27,7 +27,7 @@ class MLPOnMIST():
         self.linear2 = FCLayer(400,10,self.batchSize,self.weightDecay,0.9)
         self.relu2 = ReLU1d(10,self.batchSize)
         #self.crossEntropy = CrossEntropyLoss2()
-        self.softmax = SoftmaxLayer()
+        #self.softmax = SoftmaxLayer()
         self.crossEntropy = CrossEntropyLoss(self.nClasses,self.batchSize,self.epsilon)
 
     def forward(self,inputs,labels):
