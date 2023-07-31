@@ -3,6 +3,7 @@ from typing import Tuple, List, Union
 from myLayers.layers import CrossEntropyLoss, ParamLayer, Layer
 from tqdm import tqdm
 import math
+import matplotlib.pyplot as plt
 
 
 class NeuralNetwork:
@@ -12,11 +13,9 @@ class NeuralNetwork:
         self.loss_layer: Union[Layer, None] = None
     
     def backward_propagation(self, output: np.ndarray) -> None:
-        grad_input = [None] * 9
-        grad_input[len(self.layers)] = self.loss_layer.backward(np.ones_like(output)) 
+        grad_input = self.loss_layer.backward(np.ones_like(output)) 
         for layer_index in range(len(self.layers)-1, -1, -1):
-            grad_input[layer_index] = self.layers[layer_index].backward(grad_input[layer_index +1 ])
-        return grad_input
+            grad_input = self.layers[layer_index].backward(grad_input)
 
     def update_params(self, learning_rate: float) -> None:
         for layer_index in range(len(self.layers)):
@@ -27,37 +26,40 @@ class NeuralNetwork:
     def evaluate_model(self, test_x: np.ndarray, 
                        test_y: np.ndarray) -> Tuple[float, float]:
         """Returns loss and accuracy in the test set"""
-        
+        self.loss_layer = CrossEntropyLoss(test_y)
         y_pred = self.predict(test_x)
-        y_pred_labels = np.argmax(y_pred[-1], axis=1)
+        y_pred_labels = np.argmax(y_pred, axis=1)
         y_labels = np.argmax(test_y, axis=1)
-        loss = self.loss_layer.forward(y_pred[-1])
+        loss = self.loss_layer.forward(y_pred)
         accuracy = np.sum(y_labels == y_pred_labels) / test_x.shape[0]
         return float(np.mean(loss)), accuracy
 
-    def fit_train(self, x_train: np.ndarray, y_train: np.ndarray,
-            learning_rate: float) -> np.array:
-        flatted = np.zeros((16,784),dtype="float32")
-        for b in range(16):
-            flatted[b] = x_train[b].flatten()
-        self.loss_layer = CrossEntropyLoss(ConvToOneHot(y_train,16,10))
-        forward_output = self.predict(flatted, train=True)
-        forward_output.append(self.loss_layer.forward(forward_output[-1]))
-        backward_output = self.backward_propagation(forward_output[-2])
-        self.update_params(learning_rate)
-        return forward_output,backward_output
+    def fit(self, train: np.ndarray,  test: np.ndarray,
+            ) -> np.array:
+        metrics = list()
+        for inputs, labels in train:
+            flatted = np.zeros((16,784),dtype="float32")
+            for b in range(16):
+                flatted[b] = inputs[b].flatten()
+            self.loss_layer = CrossEntropyLoss(ConvToOneHot(labels.numpy(),16,10))
+            y_pred = self.predict(flatted, train=True)
+            self.loss_layer.forward(y_pred)
+            self.backward_propagation(y_pred)
+            self.update_params(0.0001)
+        for inputs, labels in test:
+            flatted = np.zeros((16,784),dtype="float32")
+            for b in range(16):
+                flatted[b] = inputs[b].flatten()
+            loss, accuracy = self.evaluate_model(flatted, ConvToOneHot(labels.numpy(),16,10))
+            metrics.append((loss, accuracy))
+      
 
-    def fit_test(self,batch_size: int, x_test: np.ndarray,y_test: np.ndarray) -> np.array:
+        return metrics
 
-        return  self.evaluate_model(x_test, ConvToOneHot(y_test,16,10))
-        
     def predict(self, x_test: np.ndarray, train: bool = False) -> np.ndarray:
-        xTest = list()
-        xTest.append(x_test)
         for layer in self.layers:
-            xTest.append(layer.forward(xTest[-1], train=train))
-        return xTest
-
+            x_test = layer.forward(x_test, train=train)
+        return x_test
 
 def ConvToOneHot(input,batchSize,inputSize):
     b = np.zeros((batchSize, inputSize ),dtype="float32")

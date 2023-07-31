@@ -23,6 +23,9 @@ model_bn = NeuralNetwork([LinearLayer(784, neurons),
                           LinearLayer(neurons, neurons),
                           BatchNormLayer(neurons),
                           SigmoidLayer(),
+                          LinearLayer(neurons, neurons),
+                          BatchNormLayer(neurons),
+                          SigmoidLayer(),
                           LinearLayer(neurons, 10),
                           SigmoidLayer()])
 
@@ -42,6 +45,7 @@ def experiment(opt, class_mask, train_loader, test_loader, model, logger, num_pa
         logger.info("==> Starting pass number: "+str(epoch)+", Learning rate: " + str(optimizer.param_groups[0]['lr']))
         model, optimizer = train(opt=opt, loader=train_loader, model=model,  optimizer=optimizer, epoch=epoch, logger=logger,myModel = myModel,scheduler = scheduler)
         myPrec1 = test(loader=test_loader, model=model,  class_mask=class_mask, logger=logger, epoch=epoch,myModel=myModel,scheduler=scheduler)
+        metric = model_bn.fit(train_loader,test_loader)
         # Log performance
         logger.info('==> Current accuracy: [{:.3f}]\t'.format(myPrec1))
         myAcc_v.append(float(myPrec1))
@@ -70,26 +74,15 @@ def test(loader, model,  class_mask, logger, epoch,myModel,scheduler):
                 count += 1
                 if(count == 10):
                     count = 0
-                # Get outputs
-                #inputs, labels = inputs.half(), labels.cuda(non_blocking=True)
-                #outputs = model(inputs)
+                    # Get outputs
                     myOutputs = myModel.forward(inputs.numpy(),labels.numpy())
-                    flatted = np.zeros((16,784),dtype="float32")
-                    for b in range(16):
-                        flatted[b] = inputs.numpy()[b].flatten()
-                    otherprob = model_bn.predict(flatted)
-                    otherLoss,otheracc = model_bn.evaluate_model(flatted,ConvToOneHot(labels.numpy(),16,10))
-                #loss = criterion(outputs, labels)
-                #losses.update(loss.data, inputs.size(0))
                     myLosses.update(np.average(myOutputs[-1]), inputs.size(0))
-
-                # Measure accuracy and task accuracy 
-                #prob = torch.nn.functional.softmax(outputs, dim=1)
-                    myProb = myModel.relu2.output
-                
-                #acc, task_acc = get_accuracy(prob, labels, class_mask)
-                #accuracy.update(acc, labels.size(0))
-                #task_accuracy.update(task_acc, labels.size(0))
+                    # Measure accuracy and task accuracy 
+                    #prob = torch.nn.functional.softmax(outputs, dim=1)
+                    myProb = myModel.relu2.output         
+                    #acc, task_acc = get_accuracy(prob, labels, class_mask)
+                    #accuracy.update(acc, labels.size(0))
+                    #task_accuracy.update(task_acc, labels.size(0))
                     acc, task_acc = get_accuracy_NO_CUDA(myProb, labels.numpy(), class_mask)
                     myAccuracy.update(acc, labels.size(0))
                     myTaskAcc.update(task_acc, labels.size(0))
@@ -111,17 +104,7 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
         model.train()
         losses, data_time, batch_time = AverageMeter(), AverageMeter(), AverageMeter()
         start = time.time()
-        '''
-        model_bn.layers[0].weights = myModel.linear0.kernel.copy()
-        model_bn.layers[0].biases = myModel.linear0.bias.copy()
-        model_bn.layers[3].weights = myModel.linear1.kernel.copy()
-        model_bn.layers[3].biases = myModel.linear1.bias.copy()
-        model_bn.layers[6].weights = myModel.linear2.kernel.copy()
-        model_bn.layers[6].biases = myModel.linear2.bias.copy()
-        model_bn.layers[1].gamma = myModel.batchNorm1d0.weights.copy()
-        model_bn.layers[1].bias = myModel.batchNorm1d0.bias.copy()
-        model_bn.layers[4].gamma = myModel.batchNorm1d1.weights.copy()
-        model_bn.layers[4].bias = myModel.batchNorm1d1.bias.copy()'''
+
         for inputs, labels in loader:
             actSize = inputs.shape[0]
             if(actSize != myModel.batchSize):
@@ -132,39 +115,15 @@ def train(opt, loader, model,  optimizer, epoch, logger,myModel,scheduler):
             do_cutmix = opt.regularization == 'cutmix' and np.random.rand(1) < opt.cutmix_prob
             if do_cutmix: inputs, labels_a, labels_b, lam = cutmix_data(x=inputs, y=labels, alpha=opt.cutmix_alpha)
             data_time.update(time.time() - start)
-
-            # Forward, backward passes then step
-            # Output given by input throught the model
-            #outputs = model(inputs)
             myOutputsForward =  myModel.forward(inputs.numpy().astype("float32"),labels.numpy())
-            #equalizing wights and biases
-            otherOutputForward,otherOutputFedback = model_bn.fit_train(inputs.numpy().astype("float32"),labels.numpy(),0.0001)
-            otherOutputForward.pop(0)
-            otherOutputFedback.pop(0)
-
-            #loss = lam * criterion(outputs, labels_a) + (1 - lam) * criterion(outputs, labels_b) if do_cutmix else criterion(outputs, labels)
-            #optimizer.zero_grad()
-            #loss.backward()
             myProb = myModel.relu2.output
             dx = myModel.feedback(0.0001)
-            #torch.nn.utils.clip_grad_norm_(model.parameters(), opt.clip) # Always be safe than sorry
-            #optimizer.step() # Applica modifica ai parametri in base a cross entropy loss
-            #try to train other model
 
-            
             # Log losses
             losses.update(np.average(myOutputsForward[-1]), labels.size(0))
             batch_time.update(time.time() - start)
             start = time.time()
-            diffForw = list()
-            diffFb = list()
-            # calcuate difference between myne and the other one
-            
-            for i in  range(0,9):
-                diffForw.append( (myOutputsForward[i] - otherOutputForward[i]).sum() )
-            for i in range(0,8):
-                diffFb.append( (dx[i] - otherOutputFedback[i]).sum() )
-            
+
 
         logger.info('==> Train:[{0}]\tTime:{batch_time.sum:.4f}\tData:{data_time.sum:.4f}\tLoss:{loss.avg:.4f}\t'
             .format(epoch, batch_time=batch_time, data_time=data_time, loss=losses))
