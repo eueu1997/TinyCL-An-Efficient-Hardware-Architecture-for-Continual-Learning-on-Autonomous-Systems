@@ -46,11 +46,13 @@ class LinearLayer(ParamLayer):
     def backward(self, grad_input: np.ndarray) -> np.ndarray:
         self.grad_weights = self.x.T @ grad_input
         self.grad_biases = np.sum(grad_input, axis=0, keepdims=True)
-        return grad_input @ self.weights.T
+        trans = self.weights.T
+        temp = grad_input @ trans
+        return temp
 
     def apply_gradients(self, learning_rate: float) -> None:
-        self.weights -= learning_rate * self.grad_weights
-        self.biases -= learning_rate * self.grad_biases
+        self.weights -= learning_rate * self.grad_weights[0]
+        self.biases -= learning_rate * self.grad_biases[0]
 
 
 class SqrErrorLayer(Layer):
@@ -155,7 +157,7 @@ class BatchNormLayer(ParamLayer):
 
     def backward(self, grad_input: np.ndarray) -> np.ndarray:
         standard_grad = grad_input * self.gamma
-        
+
         var_grad = np.sum(standard_grad * self.x_minus_mean * -0.5 * self.var_x ** (-3/2),
                           axis=0, keepdims=True)
         stddev_inv = 1 / self.stddev_x
@@ -174,8 +176,8 @@ class BatchNormLayer(ParamLayer):
                mean_grad / self.num_examples
 
     def apply_gradients(self, learning_rate: float) -> None:
-        self.gamma -= learning_rate * self.gamma_grad
-        self.bias -= learning_rate * self.bias_grad
+        self.gamma -= learning_rate * self.gamma_grad[0]
+        self.bias -= learning_rate * self.bias_grad[0]
 
 
 class SigmoidLayer(Layer):
