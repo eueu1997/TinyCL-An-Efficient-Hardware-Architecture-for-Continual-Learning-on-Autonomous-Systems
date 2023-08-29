@@ -16,7 +16,8 @@ def MAC(feature,kernel):
         for j in range(kernelSize):
             partialSum = partialSum +feature[0][i][j]*kernel[0][i][j]+feature[1][i][j]*kernel[1][i][j]+feature[2][i][j]*kernel[2][i][j]+feature[3][i][j]*kernel[3][i][j]+feature[4][i][j]*kernel[4][i][j]+feature[5][i][j]*kernel[5][i][j]+feature[6][i][j]*kernel[6][i][j]+feature[7][i][j]*kernel[7][i][j]
     return partialSum
-
+'''
+# This convolution uses 1 different kernel for each pixel of the feature.
 def Conv3dForward(featureIn,kernel,channelInDim,channelOutDim,featureDimIn,stride):
     #output feature
     featureOutDim = (featureDimIn//stride)
@@ -27,14 +28,51 @@ def Conv3dForward(featureIn,kernel,channelInDim,channelOutDim,featureDimIn,strid
                 for i in range(channelInDim//8):
                     featureOut[x][j//stride][k//stride] += MAC(featureIn[(i*8):((i+1)*8),j:(j+3),k:(k+3)],kernel[x,j//stride,k//stride,(i*8):((i+1)*8)])
     return featureOut
+'''
+def Conv3dForward(featureIn,kernel,channelInDim,channelOutDim,featureDimIn,stride):
+    #output feature
+    featureOutDim = (featureDimIn//stride)
+    featureOut = np.zeros((channelOutDim,featureOutDim,featureOutDim))
+    for i in range(channelOutDim):
+        for j in range(featureOutDim):
+            for k in range(featureOutDim):
+                for l in range(channelInDim):
+                    for m in range(0,featureDimIn-2,stride):
+                        for n in range(0,featureDimIn-2,stride):
+                            featureOut[i][j][k] += featureIn[l][(j-1)*stride+m][(k-1)*stride+n]*kernel[i][l][m][n]
+    return featureOut
 
+def Conv3dBackward(dy,x,kernel,nChannelOut,nChannelIn,kernelSize,featureInSize,featureOutSize,stride):
+    
+    dk = np.zeros((nChannelOut,nChannelIn,kernelSize,kernelSize))
+    dx = np.zeros((nChannelIn,featureInSize,featureInSize))
+    
+    for i in range(nChannelOut):
+        for j in range(nChannelIn):
+            for k in range(kernelSize):
+                for l in range(kernelSize):
+                    for m in range(featureOutSize):
+                        for n in range(featureOutSize):
+                            dk[i][j][k][l] += dy[i][m][n] * x[j][(m-1)*stride + k][(n-1)*stride +l]
+    for i in range(nChannelIn):
+        for j in range(featureInSize):
+            for k in range(featureInSize):
+                for l in range(featureOutSize):
+                    for m in range(kernelSize):
+                        for n in range(featureOutSize):
+                            for p in range(kernelSize):
+                                for q in range(nChannelOut):
+                                    if ((((l-1)*stride + m ) == j) and (((n-1)*stride + p) == k)):
+                                        dx[i][j][k] += kernel[q][i][m][p] * dy[q][l][m]
+    return dx,dk                            
+    
 
 def train(featureIn):
 #featureIn has only 3 channel (RGB), We extend it in a 8 channel
-    # channelOut   x dataSizeOut x dataSizeOut x (channelIn x kernelSize x kernelSize)
-    kernelL1 = np.random.rand(16,16,16,8,3,3)
-    kernelL2 = np.random.rand(32,8,8,16,3,3)
-    kernelL3 = np.random.rand(64,4,4,32,3,3)
+    # channelOut  x (channelIn x kernelSize x kernelSize) <-- The parenthesis are done into MAC 
+    kernelL1 = np.random.rand(16,8,3,3)
+    kernelL2 = np.random.rand(32,16,3,3)
+    kernelL3 = np.random.rand(64,32,3,3)
     fcLayer=FCLayer(64,10,1)
     trainLoader, testLoader = getLoader()
     for feature,labels in trainLoader:
