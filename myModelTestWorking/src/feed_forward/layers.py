@@ -25,32 +25,34 @@ class ParamLayer(Layer, ABC):
 
 class LinearLayer(ParamLayer):
 
-    def __init__(self, input_dim: int, output_dim: int):
-        self.weights = np.random.normal(0.0, 0.1,
+    def __init__(self, input_dim: int, output_dim: int,dataType : str):
+        self.dataType = dataType
+        self.weights = np.random.normal(-(2**(8*np.dtype(dataType).itemsize - 1) - 1), 2**(8*np.dtype(dataType).itemsize-1)-1,
                                         size=input_dim * output_dim)
         self.weights = self.weights.reshape(input_dim, output_dim)
-        self.weights = self.weights.astype("float32")
-        self.biases = np.zeros((1, output_dim)).astype("float32")
+        self.weights = self.weights.astype(dataType)
+        self.biases = np.zeros((1, output_dim)).astype(dataType)
 
         # forward params
         self.x = np.zeros(0)
 
         # backward params
-        self.grad_biases = np.zeros(0)
-        self.grad_weights = np.zeros(0)
+        self.grad_biases = np.zeros(0).astype(dataType)
+        self.grad_weights = np.zeros(0).astype(dataType)
 
     def forward(self, x: np.ndarray, train: bool = True) -> np.ndarray:
         self.x = x
-        return (self.x @ self.weights) + self.biases
+        temp = ((self.x @ self.weights) + self.biases)
+        return (temp)
 
     def backward(self, grad_input: np.ndarray) -> np.ndarray:
-        self.grad_weights = self.x.T @ grad_input
+        self.grad_weights = (self.x.T @ grad_input)
         self.grad_biases = np.sum(grad_input, axis=0, keepdims=True)
-        return grad_input @ self.weights.T
+        return (( grad_input @ self.weights.T ))
 
-    def apply_gradients(self, learning_rate: float) -> None:
-        self.weights -= learning_rate * self.grad_weights
-        self.biases -= learning_rate * self.grad_biases
+    def apply_gradients(self, learning_rate) -> None:
+        self.weights -= (learning_rate * self.grad_weights).astype(self.dataType)
+        self.biases -= (learning_rate * self.grad_biases).astype(self.dataType)
 
 
 class SqrErrorLayer(Layer):
@@ -84,42 +86,43 @@ class SoftmaxLayer(Layer):
 
 class CrossEntropyLoss(Layer):
 
-    def __init__(self, y: np.ndarray):
-        self.y = np.clip(y, epsilon, 1.0 - epsilon)
+    def __init__(self, y: np.ndarray,dataType):
+        self.y = np.clip(y, epsilon,2**(8*np.dtype(dataType).itemsize)-1).astype(dataType)
+        self.dataType = dataType
 
         # forward params
         self.p = np.zeros(0)
 
     def forward(self, x: np.ndarray, train: bool = True) -> np.ndarray:
-        self.p = np.clip(x, epsilon, 1.0 - epsilon)
-        return -(self.y * np.log(self.p) + (1-self.y) * np.log(1 - self.p))
+        self.p = x
+        return -(self.y * np.log(self.p) )
 
     def backward(self, grad_input: np.ndarray) -> np.ndarray:
-        layer_error = (self.p - self.y) / (self.p - self.p ** 2)
-        return layer_error * grad_input
+        layer_error = ((self.p - self.y))
+        return (layer_error * grad_input).astype(self.dataType)
 
 
 class BatchNormLayer(ParamLayer):
 
-    def __init__(self, dims: int) -> None:
-        self.gamma = np.ones((1, dims), dtype="float32")
-        self.bias = np.zeros((1, dims), dtype="float32")
-
-        self.running_mean_x = np.zeros(0)
-        self.running_var_x = np.zeros(0)
+    def __init__(self, dims: int,dataType:str) -> None:
+        self.gamma = np.ones((1, dims), dtype=dataType)
+        self.bias = np.zeros((1, dims), dtype=dataType)
+        self.dataType = dataType
+        self.running_mean_x = np.zeros(0).astype(dataType)
+        self.running_var_x = np.zeros(0).astype(dataType)
 
         # forward params
-        self.var_x = np.zeros(0)
-        self.stddev_x = np.zeros(0)
-        self.x_minus_mean = np.zeros(0)
-        self.standard_x = np.zeros(0)
+        self.var_x = np.zeros(0).astype(dataType)
+        self.stddev_x = np.zeros(0).astype(dataType)
+        self.x_minus_mean = np.zeros(0).astype(dataType)
+        self.standard_x = np.zeros(0).astype(dataType)
         self.num_examples = 0
-        self.mean_x = np.zeros(0)
+        self.mean_x = np.zeros(0).astype(dataType)
         self.running_avg_gamma = 0.9
 
         # backward params
-        self.gamma_grad = np.zeros(0)
-        self.bias_grad = np.zeros(0)
+        self.gamma_grad = np.zeros(0).astype(dataType)
+        self.bias_grad = np.zeros(0).astype(dataType)
 
     def update_running_variables(self) -> None:
         is_mean_empty = np.array_equal(np.zeros(0), self.running_mean_x)
@@ -151,7 +154,7 @@ class BatchNormLayer(ParamLayer):
         self.stddev_x = np.sqrt(self.var_x)
         self.x_minus_mean = x - self.mean_x
         self.standard_x = self.x_minus_mean / self.stddev_x
-        return self.gamma * self.standard_x + self.bias
+        return np.clip((self.gamma * self.standard_x + self.bias),0,2**(8*np.dtype(self.dataType).itemsize)-1).astype(self.dataType)
 
     def backward(self, grad_input: np.ndarray) -> np.ndarray:
         standard_grad = grad_input * self.gamma
@@ -169,25 +172,27 @@ class BatchNormLayer(ParamLayer):
         self.gamma_grad = np.sum(grad_input * self.standard_x, axis=0,
                                  keepdims=True)
         self.bias_grad = np.sum(grad_input, axis=0, keepdims=True)
-
-        return standard_grad * stddev_inv + var_grad * aux_x_minus_mean + \
-               mean_grad / self.num_examples
+        temp = np.clip(standard_grad * stddev_inv + var_grad * aux_x_minus_mean + \
+               mean_grad / self.num_examples,0,2**(8*np.dtype(self.dataType).itemsize)-1).astype(self.dataType)
+        return temp
 
     def apply_gradients(self, learning_rate: float) -> None:
-        self.gamma -= learning_rate * self.gamma_grad
-        self.bias -= learning_rate * self.bias_grad
+        self.gamma -= (learning_rate * np.clip(self.gamma_grad,0,2**(8*np.dtype(self.dataType).itemsize)-1)).astype(self.dataType)
+        self.bias -= (learning_rate * np.clip(self.bias_grad,0,2**(8*np.dtype(self.dataType).itemsize)-1)).astype(self.dataType)
 
 
 class SigmoidLayer(Layer):
 
-    def __init__(self) -> None:
+    def __init__(self,dataType) -> None:
         # forward params
         self.next_x = np.zeros(0)
+        self.dataType = dataType
 
     def forward(self, x: np.ndarray, train: bool = True) -> np.ndarray:
-        self.next_x = 1 / (np.exp(-x) + 1)
+        self.next_x = (255 / (np.exp(-x/255) + 1))
         return self.next_x
 
     def backward(self, grad_input: np.ndarray) -> np.ndarray:
-        return (self.next_x * (1 - self.next_x)) * grad_input
+        return  (self.next_x * (1 - self.next_x)) * grad_input
+
 

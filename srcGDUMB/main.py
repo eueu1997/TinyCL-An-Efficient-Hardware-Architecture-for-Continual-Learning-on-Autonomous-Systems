@@ -150,7 +150,8 @@ if __name__ == '__main__':
     dobj = VisionDataset(opt, class_order=class_order)
     dobj.gen_cl_mapping()
 
-    # Scenario #1: First pretraining on n classes, then do continual learning    if opt.num_pretrain_classes > 0: 
+    # Scenario #1: First pretraining on n classes, then do continual learning    
+    if opt.num_pretrain_classes > 0: 
         opt.num_classes = opt.num_pretrain_classes
         if opt.inp_size == 28: model = getattr(mnist, opt.model)(opt)
         if opt.inp_size == 32 or opt.inp_size == 64: model = getattr(cifar, opt.model)(opt)

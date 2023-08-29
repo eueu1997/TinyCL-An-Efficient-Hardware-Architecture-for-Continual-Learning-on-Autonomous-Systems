@@ -2,13 +2,13 @@ from .FCLayer import FCLayer
 from .BatchNorm1d import BatchNorm1d
 from .ReLU import ReLU1d 
 import numpy as np
-from .CrossEntropyLoss import CrossEntropyLoss,CrossEntropyLoss2
+from .CrossEntropyLoss import CrossEntropyLoss
 from .CrossEntropyLoss import SoftmaxLayer
 import math
 from tqdm import tqdm
 class MLPOnMIST():
 
-    def __init__(self,inputDataSize):
+    def __init__(self,inputDataSize,internalSize):
  
         self.inputData = int(inputDataSize)
         self.inputSize = int(self.inputData*self.inputData)
@@ -20,16 +20,14 @@ class MLPOnMIST():
         self.momentumBN = 0.9
 
     # create model
-        self.linear0 = FCLayer(self.inputSize,400,self.batchSize,self.weightDecay,0.1)
-        self.batchNorm1d0 = BatchNorm1d(400,self.batchSize,self.epsilon,self.weightDecay,0.1)
-        self.relu0 = ReLU1d(400,self.batchSize)
-        self.linear1 = FCLayer(400,400,self.batchSize,self.weightDecay,0.5)
-        self.batchNorm1d1 = BatchNorm1d(400,self.batchSize,self.epsilon,self.weightDecay,0.5)
-        self.relu1 = ReLU1d(400,self.batchSize)
-        self.linear2 = FCLayer(400,10,self.batchSize,self.weightDecay,0.9)
+        self.linear0 = FCLayer(self.inputSize,internalSize,self.batchSize,self.weightDecay,0.1)
+        self.batchNorm1d0 = BatchNorm1d(internalSize,self.batchSize,self.epsilon,self.weightDecay,0.1)
+        self.relu0 = ReLU1d(internalSize,self.batchSize)
+        self.linear1 = FCLayer(internalSize,internalSize,self.batchSize,self.weightDecay,0.5)
+        self.batchNorm1d1 = BatchNorm1d(internalSize,self.batchSize,self.epsilon,self.weightDecay,0.5)
+        self.relu1 = ReLU1d(internalSize,self.batchSize)
+        self.linear2 = FCLayer(internalSize,10,self.batchSize,self.weightDecay,0.9)
         self.relu2 = ReLU1d(10,self.batchSize)
-        #self.crossEntropy = CrossEntropyLoss2()
-        #self.softmax = SoftmaxLayer()
         self.crossEntropy = CrossEntropyLoss(self.nClasses,self.batchSize,self.epsilon)
 
     def forward(self,inputs,labels):
@@ -55,8 +53,6 @@ class MLPOnMIST():
         output.append(self.linear2.output)
         self.relu2.forward(output[6])
         output.append(self.relu2.output)
-
-        #output.append(self.softmax.forward(output[7]))
         output.append(self.crossEntropy.forward(output[7],labels))
         return  output
     
@@ -100,7 +96,7 @@ class MLPOnMIST():
                 self.feedback(learning_rate)
                
             loss, accuracy = self.evaluate_model(x_test, y_test,num_examples)
-            metrics[epoch, :] = loss, accuracy
+            metrics[epoch, :] =  accuracy
         
 
         return metrics

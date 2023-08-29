@@ -21,12 +21,12 @@ class CrossEntropyLoss():
         self.p = np.clip(x, self.epsilon, 1.0 - self.epsilon)
         self.y = np.clip(y, self.epsilon, 1.0 - self.epsilon)
 
-        return -(self.y * np.log(self.p) + (1-self.y) * np.log(1 - self.p))
+        return -(self.y * np.log(self.p) )
         
 
     def feedback(self ):
 
-        return  (self.p - self.y) / (self.p - self.p ** 2)
+        return  (self.p - self.y) 
         
 
 class SoftmaxLayer():
@@ -41,20 +41,4 @@ class SoftmaxLayer():
     def feedback(self, grad_input: np.ndarray) -> np.ndarray:
         return grad_input  # è vuoto perche nel feedback di cross entrpy loss ( p-t ) dovrebbe contenere anche il feedback del softmax layer come spiegato qua : https://www.pinecone.io/learn/cross-entropy-loss/
 
-class CrossEntropyLoss2():
-
-    def __init__(self):
-        
-
-        # forward params
-        self.p = np.zeros(0)
-
-    def forward(self, x: np.ndarray,y, train: bool = True) -> np.ndarray:
-        self.y = y
-        self.p = x
-        return -(self.y * np.log(self.p) + (1-self.y) * np.log(1 - self.p))
-
-    def backward(self) -> np.ndarray:
-        layer_error = (self.p - self.y) / (self.p - self.p ** 2)
-        return layer_error 
 
