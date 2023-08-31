@@ -64,7 +64,7 @@ class Conv3D():
                         for m in range(1,self.featureOutDim+1):
                             for n in range(1,self.featureOutDim+1):
                                 dk[i][j][k][l] += dy[i][m-1][n-1] * self.featureIn[j][(m-1)*self.stride + k][(n-1)*self.stride +l]
-        self.kernel -= dk*0.0001
+        self.kernel -= dk*0.005
         
         for i in range(self.channelInDim):
             for j in range(self.featureInDim):
@@ -115,7 +115,7 @@ def train():
         cost = lossForward(l5Output,convOneHot(labels))
         accuracy += 1 if np.argmax(l5Output) == labels else 0
         cycleCount += 1
-        print ( f" accuracy: {accuracy/cycleCount}")
+        print ( f" accuracy: {accuracy/cycleCount}. Iteration : {cycleCount}")
         print(f"Output and labels : {l5Output} \n {labels}")
         dx = lossBackward(l5Output,convOneHot(labels))
         '''
@@ -133,7 +133,7 @@ def train():
         dx= conv3d2.Conv3dBackward(dx)
         dx = relu1.reluBackward(dx)
         '''
-        dx = soft1.back_prop(dx,0.001)
+        dx = soft1.back_prop(dx,0.005)
         dx= conv3d1.Conv3dBackward(dx)
          
 def convOneHot(input):
@@ -188,12 +188,12 @@ class FCLayer():
        
 
 def lossForward(x,labels):
-    return -(labels * np.log(x) + (1-labels) * np.log(1 - x) )
-    #return -(labels * np.log(x) )
+    #return -(labels * np.log(x) + (1-labels) * np.log(1 - x) )
+    return -(labels * np.log(x) )
 
 def lossBackward(x,labels):
-    return ((x - labels) / x - x**2)
     #return ((x - labels) )
+    return -(((1/x)*labels) )
     
 class ReLU():
     def __init__(self,channelInDim,featureInDim) -> None:
