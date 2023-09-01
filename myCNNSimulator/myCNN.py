@@ -2,6 +2,7 @@ import numpy as np
 import torch
 import torchvision
 import torchvision.transforms as transforms
+import time
 #define
 ChannelDim = [8,16,32]
 featureDim = [32,16,8]
@@ -57,15 +58,19 @@ class Conv3D():
     def Conv3dBackward(self,dy,):
         dk = np.zeros((self.channelOutDim,self.channelInDim,self.kernelSize,self.kernelSize))
         dx = np.zeros((self.channelInDim,self.featureInDim,self.featureInDim))
+        temp = 0
+        start_time = time.time()
         for i in range(self.channelOutDim):
             for j in range(self.channelInDim):
                 for k in range(self.kernelSize):
                     for l in range(self.kernelSize):
-                        for m in range(self.featureOutDim):
-                            for n in range(self.featureOutDim):
-                                dk[i][j][k][l] += dy[i][m][n] * self.featureIn[j][(m)*self.stride + k][(n)*self.stride +l]
+                        temp = self.featureIn[j,k:(self.featureOutDim*self.stride+k):self.stride,l:(self.featureOutDim*self.stride+l):self.stride]
+                        dk[i][j][k][l] = np.sum(dy[i]*temp,(0,1))
+        stop_time = time.time()
+        print(f"cycle time {stop_time-start_time}")
         self.kernel -= dk*0.005
-        
+        start_time = time.time()
+        temp =  np.zeros((self.channelInDim,self.featureInDim+2,self.featureInDim+2))
         for i in range(self.channelInDim):
             for j in range(self.featureInDim):
                 for k in range(self.featureInDim):
@@ -76,6 +81,19 @@ class Conv3D():
                                     for q in range(self.channelOutDim):
                                         if ((((l)*self.stride + m ) == j) and (((n)*self.stride + p) == k)):
                                             dx[i][j][k] += self.kernel[q][i][m][p] * dy[q][l][n]
+        stop_time = time.time()
+        print(f"cycle time {stop_time-start_time}")
+        start_time = time.time()
+        for i in range(self.channelInDim):
+            for l in range(self.featureOutDim):
+                for m in range(self.kernelSize):
+                    for n in range(self.featureOutDim):
+                        for p in range(self.kernelSize):
+                            for q in range(self.channelOutDim):
+                                temp[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]
+        print(dx-temp[:,:-2,:-2])
+        stop_time = time.time()
+        print(f"cycle time {stop_time-start_time}")
         return dx                       
     
 
