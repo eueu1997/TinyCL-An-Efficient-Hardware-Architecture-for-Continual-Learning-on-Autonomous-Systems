@@ -61,9 +61,9 @@ class Conv3D():
             for j in range(self.channelInDim):
                 for k in range(self.kernelSize):
                     for l in range(self.kernelSize):
-                        for m in range(1,self.featureOutDim+1):
-                            for n in range(1,self.featureOutDim+1):
-                                dk[i][j][k][l] += dy[i][m-1][n-1] * self.featureIn[j][(m-1)*self.stride + k][(n-1)*self.stride +l]
+                        for m in range(0,self.featureOutDim):
+                            for n in range(0,self.featureOutDim):
+                                dk[i][j][k][l] += dy[i][m][n] * self.featureIn[j][(m)*self.stride + k][(n)*self.stride +l]
         self.kernel -= dk*0.005
         
         for i in range(self.channelInDim):
