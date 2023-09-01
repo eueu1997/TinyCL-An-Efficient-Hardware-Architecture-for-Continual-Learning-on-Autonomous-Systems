@@ -46,12 +46,12 @@ class Conv3D():
         featureOut = np.zeros((self.channelOutDim,self.featureOutDim,self.featureOutDim))
         self.featureIn = np.pad(featureIn, ((0,0), (1, 1), (1, 1)), mode='constant', constant_values=0)
         for i in range(self.channelOutDim):
-            for j in range(1,self.featureOutDim+1):
-                for k in range(1,self.featureOutDim+1):
+            for j in range(self.featureOutDim):
+                for k in range(self.featureOutDim):
                     for l in range(self.channelInDim):
                         for m in range(self.kernelSize):
                             for n in range(self.kernelSize):
-                                featureOut[i][j-1][k-1] += self.featureIn[l][(j-1)*self.stride+m][(k-1)*self.stride+n]*self.kernel[i][l][m][n]
+                                featureOut[i][j][k] += self.featureIn[l][(j)*self.stride+m][(k)*self.stride+n]*self.kernel[i][l][m][n]
         return featureOut
 
     def Conv3dBackward(self,dy,):
@@ -61,8 +61,8 @@ class Conv3D():
             for j in range(self.channelInDim):
                 for k in range(self.kernelSize):
                     for l in range(self.kernelSize):
-                        for m in range(0,self.featureOutDim):
-                            for n in range(0,self.featureOutDim):
+                        for m in range(self.featureOutDim):
+                            for n in range(self.featureOutDim):
                                 dk[i][j][k][l] += dy[i][m][n] * self.featureIn[j][(m)*self.stride + k][(n)*self.stride +l]
         self.kernel -= dk*0.005
         
@@ -74,7 +74,7 @@ class Conv3D():
                             for n in range(self.featureOutDim):
                                 for p in range(self.kernelSize):
                                     for q in range(self.channelOutDim):
-                                        if ((((l-1)*self.stride + m ) == j) and (((n-1)*self.stride + p) == k)):
+                                        if ((((l)*self.stride + m ) == j) and (((n)*self.stride + p) == k)):
                                             dx[i][j][k] += self.kernel[q][i][m][p] * dy[q][l][n]
         return dx                       
     
