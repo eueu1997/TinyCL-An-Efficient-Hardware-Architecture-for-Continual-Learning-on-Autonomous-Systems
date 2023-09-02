@@ -49,51 +49,30 @@ class Conv3D():
         for i in range(self.channelOutDim):
             for j in range(self.featureOutDim):
                 for k in range(self.featureOutDim):
-                    for l in range(self.channelInDim):
-                        for m in range(self.kernelSize):
-                            for n in range(self.kernelSize):
-                                featureOut[i][j][k] += self.featureIn[l][(j)*self.stride+m][(k)*self.stride+n]*self.kernel[i][l][m][n]
+                    subFeatureIn = self.featureIn[:,int(j*self.stride):int(j*self.stride+self.kernelSize),int(k*self.stride):int(k*self.stride+self.kernelSize)]
+                    featureOut[i][j][k] = np.sum(subFeatureIn*self.kernel[i],(0,1,2))
+
         return featureOut
 
     def Conv3dBackward(self,dy,):
         dk = np.zeros((self.channelOutDim,self.channelInDim,self.kernelSize,self.kernelSize))
-        dx = np.zeros((self.channelInDim,self.featureInDim,self.featureInDim))
-        temp = 0
-        start_time = time.time()
+        dx = np.zeros((self.channelInDim,self.featureInDim+1,self.featureInDim+1))
         for i in range(self.channelOutDim):
             for j in range(self.channelInDim):
                 for k in range(self.kernelSize):
                     for l in range(self.kernelSize):
-                        temp = self.featureIn[j,k:(self.featureOutDim*self.stride+k):self.stride,l:(self.featureOutDim*self.stride+l):self.stride]
-                        dk[i][j][k][l] = np.sum(dy[i]*temp,(0,1))
-        stop_time = time.time()
-        print(f"cycle time {stop_time-start_time}")
+                        subFeatureIn = self.featureIn[j,k:(self.featureOutDim*self.stride+k):self.stride,l:(self.featureOutDim*self.stride+l):self.stride]
+                        dk[i][j][k][l] = np.sum(dy[i]*subFeatureIn,(0,1))
         self.kernel -= dk*0.005
-        start_time = time.time()
-        temp =  np.zeros((self.channelInDim,self.featureInDim+2,self.featureInDim+2))
-        for i in range(self.channelInDim):
-            for j in range(self.featureInDim):
-                for k in range(self.featureInDim):
-                    for l in range(self.featureOutDim):
-                        for m in range(self.kernelSize):
-                            for n in range(self.featureOutDim):
-                                for p in range(self.kernelSize):
-                                    for q in range(self.channelOutDim):
-                                        if ((((l)*self.stride + m ) == j) and (((n)*self.stride + p) == k)):
-                                            dx[i][j][k] += self.kernel[q][i][m][p] * dy[q][l][n]
-        stop_time = time.time()
-        print(f"cycle time {stop_time-start_time}")
-        start_time = time.time()
+        '''        
         for i in range(self.channelInDim):
             for l in range(self.featureOutDim):
                 for m in range(self.kernelSize):
                     for n in range(self.featureOutDim):
                         for p in range(self.kernelSize):
                             for q in range(self.channelOutDim):
-                                temp[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]
-        print(dx-temp[:,:-2,:-2])
-        stop_time = time.time()
-        print(f"cycle time {stop_time-start_time}")
+                                dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]   
+        '''
         return dx                       
     
 
@@ -133,8 +112,8 @@ def train():
         cost = lossForward(l5Output,convOneHot(labels))
         accuracy += 1 if np.argmax(l5Output) == labels else 0
         cycleCount += 1
-        print ( f" accuracy: {accuracy/cycleCount}. Iteration : {cycleCount}")
-        print(f"Output and labels : {l5Output} \n {labels}")
+        if(cycleCount%100 == 0):
+            print(f"Train accuracy{accuracy/cycleCount}at cycle {cycleCount}")
         dx = lossBackward(l5Output,convOneHot(labels))
         '''
         dx = fcLayer.feedback(dx,0.0001)
@@ -153,7 +132,21 @@ def train():
         '''
         dx = soft1.back_prop(dx,0.005)
         dx= conv3d1.Conv3dBackward(dx)
-         
+    print(f"Train accuracy{accuracy/cycleCount}")
+    cycleCount = 0
+    accuracy = 0
+    for feature,labels in testLoader:     
+        featureInExt = np.zeros((8,32,32))
+        featureInExt[0:3] = feature.numpy()
+        
+        l1FeatureOut = conv3d1.Conv3dForward(featureInExt)
+        l5Output = soft1.forward_prop(l1FeatureOut)
+        
+        accuracy += 1 if np.argmax(l5Output) == labels else 0
+        cycleCount += 1
+        if(cycleCount%100 == 0):
+            print(f"test accuracy{accuracy/cycleCount} at cycle {cycleCount}")
+    print(f"Test accuracy{accuracy/cycleCount}")
 def convOneHot(input):
     out = np.zeros(10)
     out[int(input.numpy())] = 1
