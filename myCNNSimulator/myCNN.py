@@ -12,11 +12,15 @@ nClasses = 10
 reluActive = 0
 # Here is the operation executed by the mac. 8 pixel*kernel are summed parallel and the sequentially summed for the whole kernel ( 3x3 or 5x5)
 # Both kernel and image has a 3D shape
-def MAC(feature,kernel):
+def MAC(feature,kernel,channelInDim):
     partialSum = 0
-    for i in range(kernelSize):
-        for j in range(kernelSize):
-            partialSum = partialSum +feature[0][i][j]*kernel[0][i][j]+feature[1][i][j]*kernel[1][i][j]+feature[2][i][j]*kernel[2][i][j]+feature[3][i][j]*kernel[3][i][j]+feature[4][i][j]*kernel[4][i][j]+feature[5][i][j]*kernel[5][i][j]+feature[6][i][j]*kernel[6][i][j]+feature[7][i][j]*kernel[7][i][j]
+    partialSum = np.sum(feature*kernel,(0,1,2))
+    '''
+    for c in range(0,channelInDim,8):
+        for i in range(kernelSize):
+            for j in range(kernelSize):
+                partialSum = partialSum +feature[c+0][i][j]*kernel[c+0][i][j]+feature[c+1][i][j]*kernel[c+1][i][j]+feature[c+2][i][j]*kernel[c+2][i][j]+feature[c+3][i][j]*kernel[c+3][i][j]+feature[c+4][i][j]*kernel[c+4][i][j]+feature[c+5][i][j]*kernel[c+5][i][j]+feature[c+6][i][j]*kernel[c+6][i][j]+feature[c+7][i][j]*kernel[c+7][i][j]
+    print(partialSum-partialSum2)'''
     return partialSum
 '''
 # This convolution uses 1 different kernel for each pixel of the feature.
@@ -50,8 +54,8 @@ class Conv3D():
             for j in range(self.featureOutDim):
                 for k in range(self.featureOutDim):
                     subFeatureIn = self.featureIn[:,int(j*self.stride):int(j*self.stride+self.kernelSize),int(k*self.stride):int(k*self.stride+self.kernelSize)]
-                    featureOut[i][j][k] = np.sum(subFeatureIn*self.kernel[i],(0,1,2))
-
+                    temp = MAC(subFeatureIn,self.kernel[i],self.channelInDim)
+                    #featureOut[i][j][k] = np.sum(subFeatureIn*self.kernel[i],(0,1,2))
         return featureOut
 
     def Conv3dBackward(self,dy,):
@@ -64,7 +68,7 @@ class Conv3D():
                         subFeatureIn = self.featureIn[j,k:(self.featureOutDim*self.stride+k):self.stride,l:(self.featureOutDim*self.stride+l):self.stride]
                         dk[i][j][k][l] = np.sum(dy[i]*subFeatureIn,(0,1))
         self.kernel -= dk*0.005
-        '''        
+               
         for i in range(self.channelInDim):
             for l in range(self.featureOutDim):
                 for m in range(self.kernelSize):
@@ -72,7 +76,7 @@ class Conv3D():
                         for p in range(self.kernelSize):
                             for q in range(self.channelOutDim):
                                 dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]   
-        '''
+        
         return dx                       
     
 

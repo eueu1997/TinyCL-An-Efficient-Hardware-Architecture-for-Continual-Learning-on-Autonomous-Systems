@@ -39,17 +39,30 @@ if __name__ == '__main__':
     train2class = getLoader(train,20)
     train4class = getLoader(train,40)
     trainAllClass = getLoader(train,100)
-
+    
     model = models.Sequential()
-    model.add(layers.Conv2D(32, (3, 3),activation = 'relu', input_shape=(32, 32, 3))) 
+    model.add(layers.Resizing(256,256))
+    model.add(layers.Conv2D(16, (3, 3),activation = 'relu', input_shape=(256, 256, 3))) 
+    model.add(layers.MaxPooling2D((2,2)))
+    model.add(layers.Conv2D(32, (3, 3),activation = 'relu')) 
+    model.add(layers.MaxPooling2D((2,2)))
+    model.add(layers.Conv2D(64, (3, 3),activation = 'relu')) 
+    model.add(layers.MaxPooling2D((2,2)))
+    model.add(layers.Conv2D(128, (3, 3),activation = 'relu')) 
+    model.add(layers.MaxPooling2D((2,2)))
+    model.add(layers.Conv2D(256, (3, 3),activation = 'relu')) 
+    model.add(layers.MaxPooling2D((2,2)))
+    model.add(layers.Conv2D(512, (3, 3),activation = 'relu')) 
+    model.add(layers.MaxPooling2D((2,2)))
     model.add(layers.Flatten())
     model.add(layers.Dense(100, activation='softmax'))
     
     print(" starting training")
     model.compile(optimizer='adam',
-              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+              loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
               metrics=['accuracy'])
-    prev = 0
+    
+    '''prev = 0
     diff = 2
     while diff*100 > 1 :
         history2class = model.fit(np.array(train2class[0]), np.array(train2class[1]), epochs=1, 
@@ -76,6 +89,12 @@ if __name__ == '__main__':
         prev = historyAllClass.history['val_accuracy'][0]
         print(f"Training complete of 100 classes .Accuracy{historyAllClass.history['accuracy']}")
         print(f"Training complete .validation  Accuracy{historyAllClass.history['val_accuracy']}")
+    '''
+    
+    historyAllClass = model.fit(np.array(trainAllClass[0]), np.array(trainAllClass[1]), epochs=20, 
+                    validation_data=(np.array(testAllClass[0]), np.array(testAllClass[1])))
+    print(f"Training complete of 100 classes .Accuracy{historyAllClass.history['accuracy']}")
+    print(f"Training complete .validation  Accuracy{historyAllClass.history['val_accuracy']}")
     
     plt.plot(historyAllClass.history['accuracy'], label='accuracy')
     plt.plot(historyAllClass.history['val_accuracy'], label = 'val_accuracy')
