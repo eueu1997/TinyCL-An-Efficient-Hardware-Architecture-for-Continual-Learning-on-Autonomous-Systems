@@ -54,7 +54,7 @@ class Conv3D():
             for j in range(self.featureOutDim):
                 for k in range(self.featureOutDim):
                     subFeatureIn = self.featureIn[:,int(j*self.stride):int(j*self.stride+self.kernelSize),int(k*self.stride):int(k*self.stride+self.kernelSize)]
-                    temp = MAC(subFeatureIn,self.kernel[i],self.channelInDim)
+                    featureOut[i][j][k] = MAC(subFeatureIn,self.kernel[i],self.channelInDim)
                     #featureOut[i][j][k] = np.sum(subFeatureIn*self.kernel[i],(0,1,2))
         return featureOut
 
@@ -68,7 +68,7 @@ class Conv3D():
                         subFeatureIn = self.featureIn[j,k:(self.featureOutDim*self.stride+k):self.stride,l:(self.featureOutDim*self.stride+l):self.stride]
                         dk[i][j][k][l] = np.sum(dy[i]*subFeatureIn,(0,1))
         self.kernel -= dk*0.005
-               
+        '''
         for i in range(self.channelInDim):
             for l in range(self.featureOutDim):
                 for m in range(self.kernelSize):
@@ -76,7 +76,7 @@ class Conv3D():
                         for p in range(self.kernelSize):
                             for q in range(self.channelOutDim):
                                 dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]   
-        
+        '''
         return dx                       
     
 
