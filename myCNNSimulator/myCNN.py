@@ -45,34 +45,31 @@ def rotateMatrix(mat):
     # Simply print from
     # last cell to first cell.
     
-    
-    if mat.shape == (1,1):
-        out  = [[0,0],[0,0]]
-        out[0][0]=0
-        out[1][0]=0
-        out[0][1]=0
-        out[1][1]=mat[0][0]   
+    out  = np.zeros((mat.shape[0],2,2))
+    if mat[0].shape == (1,1):
+        
+        out[:,0,0]=0
+        out[:,1,0]=0
+        out[:,0,1]=0
+        out[:,1,1]=mat[:,0,0]   
         return out 
-    elif mat.shape == (2,2):
-        out  = [[0,0],[0,0]]
-        out[0][0]=mat[1][1]
-        out[1][0]=mat[0][1]
-        out[0][1]=mat[1][0]
-        out[1][1]=mat[0][0]
+    elif mat[0].shape == (2,2):
+        out[:,0,0]=mat[:,1,1]
+        out[:,1,0]=mat[:,0,1]
+        out[:,0,1]=mat[:,1,0]
+        out[:,1,1]=mat[:,0,0]
         return out
-    elif mat.shape == (1,2):
-        out  = [[0,0],[0,0]]
-        out[1][0]= mat[0][1]
-        out[1][1]= mat[0][0]
-        out[0][0]= 0
-        out[0][1]= 0
+    elif mat[0].shape == (1,2):
+        out[:,1,0]= mat[:,0,1]
+        out[:,1,1]= mat[:,0,0]
+        out[:,0,0]= 0
+        out[:,0,1]= 0
         return out
     else:
-        out  = [[0,0],[0,0]]
-        out[0][1]=mat[1][0]
-        out[1][1]=mat[0][0]
-        out[0][0] = 0
-        out[1][0] = 0
+        out[:,0,1]=mat[:,1,0]
+        out[:,1,1]=mat[:,0,0]
+        out[:,0,0] = 0
+        out[:,1,0] = 0
         return out
 class Conv3D():
     
@@ -119,13 +116,14 @@ class Conv3D():
                                 dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]  '''
         dy = np.pad(dy, ((0,0), (1,0), (1,0)), mode='constant', constant_values=0)
         for i in range(self.channelInDim):
-            for q in range(self.channelOutDim):
-                for j in range(self.featureInDim):
-                    for k in range(self.featureInDim):                   
+            #for q in range(self.channelOutDim):
+            for j in range(self.featureInDim):
+                for k in range(self.featureInDim):                   
                         #temp = dy[q,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)]
                         #temp1 = rotateMatrix(self.kernel[q,i,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
                         #temp2= np.sum( temp1* temp,(0,1))
-                        dx1[i][j][k]  += np.sum( rotateMatrix(self.kernel[q,i,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])* dy[q,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)],(0,1))
+                    temp = np.reshape(self.kernel[:,i],(self.channelOutDim,self.kernelSize,self.kernelSize))
+                    dx1[i][j][k]  = np.sum( rotateMatrix(temp[:,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])* dy[:,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)],(0,1,2))
         #diff = dx1-dx
         #print (dx1 - dx)
         self.kernel -= dk*0.005
