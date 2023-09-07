@@ -9,13 +9,18 @@ featureDim = [32,16,8]
 kernelSize = 3
 nLayer = 3
 nClasses = 10
-reluActive = 0
+reluActive = 1
 # Here is the operation executed by the mac. 8 pixel*kernel are summed parallel and the sequentially summed for the whole kernel ( 3x3 or 5x5)
 # Both kernel and image has a 3D shape
-def MAC(feature,kernel,channelInDim):
+def MAC(feature,kernel):
     partialSum = 0
     partialSum = np.sum(feature*kernel,(0,1,2))
     '''
+    for c in range(0,len(feature),8):
+        partialSum = partialSum +feature[c+0]*kernel[c+0]+feature[c+1]*kernel[c+1]+feature[c+2]*kernel[c+2]+feature[c+3]*kernel[c+3]+feature[c+4]*kernel[c+4]+feature[c+5]*kernel[c+5]+feature[c+6]*kernel[c+6]+feature[c+7]*kernel[c+7]
+
+    nSTep dovrebbe essere il numero di ovlte che viene eseguuito il ciclo. si puo fare se trasformiamo feature e kernel in due vettori 1D.
+    dobbiamo passare a una concezione 1D cosi da rendere il MAC piu generale e utilizzabile anche in back
     for c in range(0,channelInDim,8):
         for i in range(kernelSize):
             for j in range(kernelSize):
@@ -35,6 +40,40 @@ def Conv3dForward(featureIn,kernel,channelInDim,channelOutDim,featureDimIn,strid
                     featureOut[x][j//stride][k//stride] += MAC(featureIn[(i*8):((i+1)*8),j:(j+3),k:(k+3)],kernel[x,j//stride,k//stride,(i*8):((i+1)*8)])
     return featureOut
 '''
+def rotateMatrix(mat):
+ 
+    # Simply print from
+    # last cell to first cell.
+    
+    
+    if mat.shape == (1,1):
+        out  = [[0,0],[0,0]]
+        out[0][0]=0
+        out[1][0]=0
+        out[0][1]=0
+        out[1][1]=mat[0][0]   
+        return out 
+    elif mat.shape == (2,2):
+        out  = [[0,0],[0,0]]
+        out[0][0]=mat[1][1]
+        out[1][0]=mat[0][1]
+        out[0][1]=mat[1][0]
+        out[1][1]=mat[0][0]
+        return out
+    elif mat.shape == (1,2):
+        out  = [[0,0],[0,0]]
+        out[1][0]= mat[0][1]
+        out[1][1]= mat[0][0]
+        out[0][0]= 0
+        out[0][1]= 0
+        return out
+    else:
+        out  = [[0,0],[0,0]]
+        out[0][1]=mat[1][0]
+        out[1][1]=mat[0][0]
+        out[0][0] = 0
+        out[1][0] = 0
+        return out
 class Conv3D():
     
     def __init__(self,channelInDim,featureInDim,channelOutDim,stride,kernelSize):
@@ -54,43 +93,59 @@ class Conv3D():
             for j in range(self.featureOutDim):
                 for k in range(self.featureOutDim):
                     subFeatureIn = self.featureIn[:,int(j*self.stride):int(j*self.stride+self.kernelSize),int(k*self.stride):int(k*self.stride+self.kernelSize)]
-                    featureOut[i][j][k] = MAC(subFeatureIn,self.kernel[i],self.channelInDim)
-                    #featureOut[i][j][k] = np.sum(subFeatureIn*self.kernel[i],(0,1,2))
+                    #featureOut[i][j][k] = MAC(np.flatten(subFeatureIn),np.flatten(self.kernel[i]))
+                    featureOut[i][j][k] = np.sum(subFeatureIn*self.kernel[i],(0,1,2))
         return featureOut
 
-    def Conv3dBackward(self,dy,):
+    def Conv3dBackward(self,dy):
         dk = np.zeros((self.channelOutDim,self.channelInDim,self.kernelSize,self.kernelSize))
         dx = np.zeros((self.channelInDim,self.featureInDim+1,self.featureInDim+1))
+        dx1 = np.zeros((self.channelInDim,self.featureInDim+1,self.featureInDim+1))
+
         for i in range(self.channelOutDim):
             for j in range(self.channelInDim):
                 for k in range(self.kernelSize):
                     for l in range(self.kernelSize):
                         subFeatureIn = self.featureIn[j,k:(self.featureOutDim*self.stride+k):self.stride,l:(self.featureOutDim*self.stride+l):self.stride]
+                        #dk[i][j][k][l] = MAC(np.flatten(dy[i]),np.flatten(subFeatureIn))
                         dk[i][j][k][l] = np.sum(dy[i]*subFeatureIn,(0,1))
-        self.kernel -= dk*0.005
-        '''
+        '''                         
         for i in range(self.channelInDim):
             for l in range(self.featureOutDim):
                 for m in range(self.kernelSize):
                     for n in range(self.featureOutDim):
                         for p in range(self.kernelSize):
                             for q in range(self.channelOutDim):
-                                dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]   
-        '''
-        return dx                       
+                                dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]  '''
+        dy = np.pad(dy, ((0,0), (1,0), (1,0)), mode='constant', constant_values=0)
+        for i in range(self.channelInDim):
+            for q in range(self.channelOutDim):
+                for j in range(self.featureInDim):
+                    for k in range(self.featureInDim):                   
+                        #temp = dy[q,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)]
+                        #temp1 = rotateMatrix(self.kernel[q,i,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
+                        #temp2= np.sum( temp1* temp,(0,1))
+                        dx1[i][j][k]  += np.sum( rotateMatrix(self.kernel[q,i,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])* dy[q,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)],(0,1))
+        #diff = dx1-dx
+        #print (dx1 - dx)
+        self.kernel -= dk*0.005
+        return dx[:,0:-1,0:-1]                       
     
 
 def train():
 #featureIn has only 3 channel (RGB), We extend it in a 8 channel
     # channelOut  x (channelIn x kernelSize x kernelSize) <-- The parenthesis are done into MAC 
-    conv3d1 = Conv3D(8,32,16,2,3)
-    soft1 = SoftmaxLayer(16*16*16,10)
-    relu1 = ReLU(16,16)
-    conv3d2 = Conv3D(16,16,32,2,3)
+    conv3d1 = Conv3D(8,32,16,2,3) # 8x32x32 -> 16x16x16
+    relu1 = ReLU(16,16) # 16x16x16 -> 16x16x16 
+    conv3d2 = Conv3D(16,16,32,2,3) # 16x16x16 -> 32x8x8
+    relu2 = ReLU(32,8) #32x8x8 -> 32x8x8
+    soft1 = SoftmaxLayer(8*8*32,10) # 32x8x8 -> 10
+    '''
+    conv3d2 = Conv3D(16,16,32,2,3) # 16x16x16 -> 32x8x8
     relu2 = ReLU(32,8)
     conv3d3 = Conv3D(32,8,64,2,3)
     relu3 = ReLU(64,8)
-    fcLayer=FCLayer(64,10,1)
+    fcLayer=FCLayer(64,10,1)'''
     trainLoader, testLoader = getLoader()
     cycleCount = 0
     accuracy = 0
@@ -99,7 +154,10 @@ def train():
         featureInExt[0:3] = feature.numpy()
         
         l1FeatureOut = conv3d1.Conv3dForward(featureInExt)
-        l5Output = soft1.forward_prop(l1FeatureOut)
+        l1FeatureOutAct = relu1.reluForward(l1FeatureOut)
+        l2FeatureOut = conv3d2.Conv3dForward(l1FeatureOutAct)
+        l2FeatureOutAct = relu2.reluForward(l2FeatureOut)
+        l5Output = soft1.forward_prop(l2FeatureOutAct)
         '''
         l1FeatureOutAct = relu1.reluForward(l1FeatureOut)
         l2FeatureOut = conv3d2.Conv3dForward(l1FeatureOutAct)
@@ -119,6 +177,7 @@ def train():
         if(cycleCount%100 == 0):
             print(f"Train accuracy{accuracy/cycleCount}at cycle {cycleCount}")
         dx = lossBackward(l5Output,convOneHot(labels))
+        
         '''
         dx = fcLayer.feedback(dx,0.0001)
         #feedback average. divide by 4*4=16 ( is the shape of the input ). during averaging each value has been multiplied by 1/16. the value is then increase from 64x1 to 64x4x4
@@ -135,6 +194,9 @@ def train():
         dx = relu1.reluBackward(dx)
         '''
         dx = soft1.back_prop(dx,0.005)
+        dx = relu2.reluBackward(dx)
+        dx= conv3d2.Conv3dBackward(dx)
+        dx = relu1.reluBackward(dx)
         dx= conv3d1.Conv3dBackward(dx)
     print(f"Train accuracy{accuracy/cycleCount}")
     cycleCount = 0

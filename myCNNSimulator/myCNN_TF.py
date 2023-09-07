@@ -4,7 +4,7 @@ import torchvision
 import torchvision.transforms as transforms
 import time
 import tensorflow as tf
-from tensorflow.keras import datasets, layers, models
+from tensorflow.keras import datasets, layers, models, applications
 import matplotlib.pyplot as plt
 import random 
 memorySize  = 10000
@@ -41,8 +41,8 @@ if __name__ == '__main__':
     trainAllClass = getLoader(train,100)
     
     model = models.Sequential()
-    model.add(layers.Resizing(256,256))
-    model.add(layers.Conv2D(16, (3, 3),activation = 'relu', input_shape=(256, 256, 3))) 
+    model.add(layers.Resizing(224,224))
+    '''model.add(layers.Conv2D(16, (3, 3),activation = 'relu', input_shape=(256, 256, 3))) 
     model.add(layers.MaxPooling2D((2,2)))
     model.add(layers.Conv2D(32, (3, 3),activation = 'relu')) 
     model.add(layers.MaxPooling2D((2,2)))
@@ -56,7 +56,12 @@ if __name__ == '__main__':
     model.add(layers.MaxPooling2D((2,2)))
     model.add(layers.Flatten())
     model.add(layers.Dense(100, activation='softmax'))
-    
+    '''
+    layers = tf.keras.applications.resnet50.ResNet50().layers
+    for layer in layers:
+        if not 'bn' in layer.name:
+            model.add(layer)
+        
     print(" starting training")
     model.compile(optimizer='adam',
               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=False),
