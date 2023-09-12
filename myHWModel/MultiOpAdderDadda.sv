@@ -1,5 +1,31 @@
+module dadda_top#
+(
+    parameter int NBitIn = 16,
+	parameter int NBitOut = 20,
+    parameter int NNums = 9
+)
+(
+	input  logic [1:NNums][NBitIn:1] DataIn  ,
+    output logic [NBitOut:1] DataOut  
+
+);
+
+typedef logic [1:6][NBit:1] l3;
+typedef logic [1:4][NBit:1] l2;
+typedef logic [1:3][NBit:1] l1;
+typedef logic [1:2][NBit:1] l0;
 
 
+    // Local variable
+    l3 level3;
+    l2 level2;
+    l1 level1;
+    l0 level0;
+
+    level3 = Level4Func(DataIn);
+    level2 = Level3Func(level3);
+    level2 = Level1Func(level2);
+    DataOut = Level1Func(level1);
 
 //Compression from 9 to 6 addends
 function automatic l3 Level4Func(input l4 level4);
@@ -153,3 +179,4 @@ function automatic logic FullAdderFunc(input logic bit1, input logic bit2, input
     return (bit1 ^ bit2) ^ carryIn;
     
 endfunction
+endmodule
