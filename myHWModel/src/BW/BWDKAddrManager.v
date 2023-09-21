@@ -1,29 +1,25 @@
 module BWDKAddrManager
 (
-    parameter integer MAX_CH_OUT;
-    parameter integer MAX_CH_INT;
-    parameter integer KERN_MAX;
-    parameter integer MAX_FEATURE_OUT;
-    parameter integer MAX_FEATURE_IN;
+   
+    parameter integer channelOutDim;
+    parameter integer channelInDim;
+    parameter integer featureOutDim;
+    parameter integer featureInDim;
+    parameter integer stride;
 )
 (
-    input integer channelOutDim;
-    input integer channelInDim;
-    input integer featureOutDim;
-    input integer featureInDim;
-    input integer stride;
-
     input logic clk;
     input logic rst;
     output logic [int(log2(channelInDim)):0][int(log2(featureInDim)):0][int(log2(featureInDim)):0] featureInAddr;
     output logic [int(log2(channelOutDim)):0][int(log2(featureOutDim)):0][int(log2(featureOutDim)):0] dyAddr;
 )
+// Number of feature read each step
 parameter int N_FEATURE_READ = 8;
-reg  logic [int(log2(featureInDim)):0][int(log2(featureInDim)):0] featureInAddr_r,newFeatureInAddr_r;
+
+reg logic [int(log2(featureInDim)):0][int(log2(featureInDim)):0] featureInAddr_r,newFeatureInAddr_r;
 reg logic [int(log2(channelInDim)):0] featureInChAddr_r,newFeatureInChAddr_r
-reg  logic [int(log2(featureOutDim)):0][int(log2(featureOutDim)):0] dyAddr_r,newDyAddr_r;
+reg logic [int(log2(featureOutDim)):0][int(log2(featureOutDim)):0] dyAddr_r,newDyAddr_r;
 reg logic [int(log2(channelOutDim)):0] dyChAddr_r,newDyChAddr_r;
-subFeatureIn = self.featureIn[j,k:(self.featureOutDim*self.stride+k):self.stride,l:(self.featureOutDim*self.stride+l):self.stride]
 
 // 2d iteration over dy and feature in
 always @ () begin

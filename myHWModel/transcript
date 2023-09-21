@@ -1,0 +1,512 @@
+# //  Questa Sim-64
+# //  Version 2020.4 linux_x86_64 Oct 13 2020
+# //
+# //  Copyright 1991-2020 Mentor Graphics Corporation
+# //  All Rights Reserved.
+# //
+# //  QuestaSim and its associated documentation contain trade
+# //  secrets and commercial or financial information that are the property of
+# //  Mentor Graphics Corporation and are privileged, confidential,
+# //  and exempt from disclosure under the Freedom of Information Act,
+# //  5 U.S.C. Section 552. Furthermore, this information
+# //  is prohibited from disclosure under the Trade Secrets Act,
+# //  18 U.S.C. Section 1905.
+# //
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:47:39 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
+# -- Compiling module featureRegister
+# 
+# Top level modules:
+# 	featureRegister
+# End time: 17:47:39 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:47:50 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
+# -- Compiling module tb_featureRegister
+# 
+# Top level modules:
+# 	tb_featureRegister
+# End time: 17:47:50 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim work.tb_featureRegister -t 10ps
+# vsim work.tb_featureRegister -t 10ps 
+# Start time: 17:48:10 on Sep 21,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+run 200 ns
+# Test 1 failed
+# Test 3 failed
+# Test 6 failed
+# Test 9 failed
+# Test 10 failed
+# Test 11 failed
+# Test 12 failed
+# Test 13 failed
+# Test 14 failed
+# Test 15 failed
+# Test 17 failed
+# Test 18 failed
+# Test 19 failed
+# Test 20 failed
+# Test 21 failed
+# Test 22 failed
+# Test 23 failed
+# Test 24 failed
+# Test 25 failed
+# Test 26 failed
+# Test 27 failed
+# Test 28 failed
+# Test 29 failed
+# Test 31 failed
+# Test 32 failed
+# Test 33 failed
+# Test 34 failed
+# Test 35 failed
+# Test 36 failed
+add wave -position insertpoint sim:/tb_featureRegister/#ublk#81034482#26/*
+# ** UI-Msg: (vish-4014) No objects found matching '/tb_featureRegister/#ublk#81034482#26/*'.
+add wave -position insertpoint sim:/tb_featureRegister/*
+# ** UI-Msg: (vish-4014) No objects found matching '/tb_featureRegister/*'.
+vsim work.tb_featureRegister -t 10ps -voptargs+=acc
+# ** UI-Msg: (vish-3296) Unknown option '-voptargs+=acc'.
+# Use the -help option for complete vsim usage.
+# Error loading design
+# Optimization canceled
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 17:55:15 on Sep 21,2023, Elapsed time: 0:07:05
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 17:55:15 on Sep 21,2023
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+add wave -position insertpoint sim:/tb_featureRegister/dut/*
+run 200 ns
+# Test 1 failed
+# Test 3 failed
+# Test 6 failed
+# Test 9 failed
+# Test 10 failed
+# Test 11 failed
+# Test 12 failed
+# Test 13 failed
+# Test 14 failed
+# Test 15 failed
+# Test 17 failed
+# Test 18 failed
+# Test 19 failed
+# Test 20 failed
+# Test 21 failed
+# Test 22 failed
+# Test 23 failed
+# Test 24 failed
+# Test 25 failed
+# Test 26 failed
+# Test 27 failed
+# Test 28 failed
+# Test 29 failed
+# Test 31 failed
+# Test 32 failed
+# Test 33 failed
+# Test 34 failed
+# Test 35 failed
+# Test 36 failed
+# Can't move the Now cursor.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:59:14 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
+# -- Compiling module featureRegister
+# 
+# Top level modules:
+# 	featureRegister
+# End time: 17:59:15 on Sep 21,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:59:22 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
+# -- Compiling module tb_featureRegister
+# 
+# Top level modules:
+# 	tb_featureRegister
+# End time: 17:59:22 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:59:25 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
+# -- Compiling module tb_featureRegister
+# 
+# Top level modules:
+# 	tb_featureRegister
+# End time: 17:59:25 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 17:59:43 on Sep 21,2023, Elapsed time: 0:04:28
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 17:59:43 on Sep 21,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+add wave *
+run 200 ns
+# Test 1 failed
+# Test 3 failed
+# Test 6 failed
+# Test 9 failed
+# Test 10 failed
+# Test 11 failed
+# Test 12 failed
+# Test 13 failed
+# Test 14 failed
+# Test 15 failed
+# Test 17 failed
+# Test 18 failed
+# Test 19 failed
+# Test 20 failed
+# Test 21 failed
+# Test 22 failed
+# Test 23 failed
+# Test 24 failed
+# Test 25 failed
+# Test 26 failed
+# Test 27 failed
+# Test 28 failed
+# Test 29 failed
+# Test 31 failed
+# Test 32 failed
+# Test 33 failed
+# Test 34 failed
+# Test 35 failed
+# Test 36 failed
+# Can't move the Now cursor.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:02:17 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
+# -- Compiling module featureRegister
+# 
+# Top level modules:
+# 	featureRegister
+# End time: 18:02:18 on Sep 21,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:02:23 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
+# -- Compiling module tb_featureRegister
+# 
+# Top level modules:
+# 	tb_featureRegister
+# End time: 18:02:23 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 18:02:33 on Sep 21,2023, Elapsed time: 0:02:50
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 18:02:33 on Sep 21,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+add wave *
+run 200 ns
+# Test 1 failed
+# Test 3 failed
+# Test 6 failed
+# Test 9 failed
+# Test 10 failed
+# Test 11 failed
+# Test 12 failed
+# Test 13 failed
+# Test 14 failed
+# Test 15 failed
+# Test 17 failed
+# Test 18 failed
+# Test 19 failed
+# Test 20 failed
+# Test 21 failed
+# Test 22 failed
+# Test 23 failed
+# Test 24 failed
+# Test 25 failed
+# Test 26 failed
+# Test 27 failed
+# Test 28 failed
+# Test 29 failed
+# Test 31 failed
+# Test 32 failed
+# Test 33 failed
+# Test 34 failed
+# Test 35 failed
+# Test 36 failed
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:16:30 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
+# -- Compiling module featureRegister
+# 
+# Top level modules:
+# 	featureRegister
+# End time: 18:16:31 on Sep 21,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:16:34 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
+# -- Compiling module tb_featureRegister
+# 
+# Top level modules:
+# 	tb_featureRegister
+# End time: 18:16:35 on Sep 21,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 18:16:44 on Sep 21,2023, Elapsed time: 0:14:11
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 18:16:44 on Sep 21,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:17:00 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
+# -- Compiling module featureRegister
+# 
+# Top level modules:
+# 	featureRegister
+# End time: 18:17:00 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:17:03 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
+# -- Compiling module tb_featureRegister
+# 
+# Top level modules:
+# 	tb_featureRegister
+# End time: 18:17:03 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 18:17:08 on Sep 21,2023, Elapsed time: 0:00:24
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 18:17:08 on Sep 21,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+run 200 ns
+# Test 1 failed
+# Test 3 failed
+# Test 6 failed
+# Test 9 failed
+# Test 10 failed
+# Test 11 failed
+# Test 12 failed
+# Test 13 failed
+# Test 14 failed
+# Test 15 failed
+# Test 17 failed
+# Test 18 failed
+# Test 19 failed
+# Test 20 failed
+# Test 21 failed
+# Test 22 failed
+# Test 23 failed
+# Test 24 failed
+# Test 25 failed
+# Test 26 failed
+# Test 27 failed
+# Test 28 failed
+# Test 29 failed
+# Test 31 failed
+# Test 32 failed
+# Test 33 failed
+# Test 34 failed
+# Test 35 failed
+# Test 36 failed
+add wave *
+run 200 ns
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 18:18:19 on Sep 21,2023, Elapsed time: 0:01:11
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 18:18:19 on Sep 21,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+add wave *
+run 200 ns
+# Test 1 failed
+# Test 3 failed
+# Test 6 failed
+# Test 9 failed
+# Test 10 failed
+# Test 11 failed
+# Test 12 failed
+# Test 13 failed
+# Test 14 failed
+# Test 15 failed
+# Test 17 failed
+# Test 18 failed
+# Test 19 failed
+# Test 20 failed
+# Test 21 failed
+# Test 22 failed
+# Test 23 failed
+# Test 24 failed
+# Test 25 failed
+# Test 26 failed
+# Test 27 failed
+# Test 28 failed
+# Test 29 failed
+# Test 31 failed
+# Test 32 failed
+# Test 33 failed
+# Test 34 failed
+# Test 35 failed
+# Test 36 failed
+add wave -position insertpoint sim:/tb_featureRegister/dut/*
+run 200 ns
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 18:20:31 on Sep 21,2023, Elapsed time: 0:02:12
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 18:20:31 on Sep 21,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+add wave -position insertpoint sim:/tb_featureRegister/dut/*
+run 200 ns
+# Test 1 failed
+# Test 3 failed
+# Test 6 failed
+# Test 9 failed
+# Test 10 failed
+# Test 11 failed
+# Test 12 failed
+# Test 13 failed
+# Test 14 failed
+# Test 15 failed
+# Test 17 failed
+# Test 18 failed
+# Test 19 failed
+# Test 20 failed
+# Test 21 failed
+# Test 22 failed
+# Test 23 failed
+# Test 24 failed
+# Test 25 failed
+# Test 26 failed
+# Test 27 failed
+# Test 28 failed
+# Test 29 failed
+# Test 31 failed
+# Test 32 failed
+# Test 33 failed
+# Test 34 failed
+# Test 35 failed
+# Test 36 failed
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:25:35 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
+# -- Compiling module featureRegister
+# 
+# Top level modules:
+# 	featureRegister
+# End time: 18:25:35 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:25:44 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
+# -- Compiling module tb_featureRegister
+# 
+# Top level modules:
+# 	tb_featureRegister
+# End time: 18:25:44 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 18:25:53 on Sep 21,2023, Elapsed time: 0:05:22
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 18:25:53 on Sep 21,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+add wave *
+run 200 ns
+# Test 3 failed
+# Test 9 failed
+# Test 11 failed
+# Test 12 failed
+# Test 17 failed
+# Test 18 failed
+# Test 19 failed
+# Test 20 failed
+# Test 21 failed
+# Test 25 failed
+# Test 26 failed
+# Test 27 failed
+# Test 33 failed
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:32:45 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
+# -- Compiling module tb_featureRegister
+# 
+# Top level modules:
+# 	tb_featureRegister
+# End time: 18:32:45 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 18:32:49 on Sep 21,2023, Elapsed time: 0:06:56
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 18:32:49 on Sep 21,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+add wave *
+run 200 ns
+# Test 31 failed
+# Test 32 failed
+# Test 33 failed
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:33:59 on Sep 21,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
+# -- Compiling module tb_featureRegister
+# 
+# Top level modules:
+# 	tb_featureRegister
+# End time: 18:33:59 on Sep 21,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps work.tb_featureRegister -voptargs=+acc
+# End time: 18:34:06 on Sep 21,2023, Elapsed time: 0:01:17
+# Errors: 0, Warnings: 0
+# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
+# Start time: 18:34:06 on Sep 21,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_featureRegister(fast)
+# Loading work.featureRegister(fast)
+add wave *
+run 200 ns

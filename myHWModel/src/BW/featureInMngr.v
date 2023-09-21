@@ -17,8 +17,8 @@ always @( )  begin
     if(rst = '0')begin
         featuresInMngd = {default:0};
     end else begin
-        if ( featureInAddr[(2*int(log2(featureInDim))-1):(int(log2(featureInDim))+1)] = 0[int(log2(featureInDim)):0] )begin // per i kernel con indice di colonna 0
-        if ( featureInAddr[int(log2(featureInDim)):0] = 0[int(log2(featureInDim)):0] ) begin
+        if ( featureInAddr[(2*int(log2(featureInDim))-1):(int(log2(featureInDim)))] = 0[(int(log2(featureInDim))-1):0] )begin // per i kernel con indice di colonna 0
+        if ( featureInAddr[(int(log2(featureInDim))-1):0] = 0[(int(log2(featureInDim))-1):0] ) begin
             featuresInMngd[0][0][0:7] = featureIn[0:7]; // kernel 0 tocca tutti i feature in
             featuresInMngd[0][1][1:7] = featureIn[1:7];// kernel 1 non tocca i feature 0
             featuresInMngd[0][1][0:1] = {default:0};
@@ -35,8 +35,8 @@ always @( )  begin
             featuresInMngd[2][0] = {default:0};
             featuresInMngd[2][1] = {default:0};
             featuresInMngd[2][2] = {default:0};
-    end else if ( featureInAddr[2*int(log2(featureInDim)):(int(log2(featureInDim))+1)] = 1[int(log2(featureInDim)):0] ) begin // per kernel con indice riga 1
-        if ( featureInAddr[int(log2(featureInDim)):0] = 0[int(log2(featureInDim)):0] ) begin
+    end else if ( featureInAddr[(2*int(log2(featureInDim))-1):(int(log2(featureInDim)))] = 1[(int(log2(featureInDim))-1):0] ) begin // per kernel con indice riga 
+        if ( featureInAddr[(int(log2(featureInDim))-1):0] = 0[(int(log2(featureInDim))-1):0] ) begin
             featuresInMngd[0][0][0:7] = featureIn[0:7];
             featuresInMngd[0][1][1:7] = featureIn[1:7];
             featuresInMngd[0][1][0:1] = {default:0};
@@ -60,7 +60,7 @@ always @( )  begin
             featuresInMngd[2][2] = {default:0};
     end else begin
 
-    end if ( featureInAddr[int(log2(featureInDim)):0] > 1[int(log2(featureInDim)):0] ) begin // tutte le feature con indice di
+    end if ( featureInAddr[(int(log2(featureInDim))-1):0] > 1[(int(log2(featureInDim))-1):0] ) begin // tutte le feature con indice di
             featuresInMngd[0][0][0:7] = featureIn[0:7];
             featuresInMngd[0][1][1:7] = featureIn[1:7];
             featuresInMngd[0][1][0:1] = {default:0};
