@@ -75,22 +75,23 @@ class Conv3D():
     
     def __init__(self,channelInDim,featureInDim,channelOutDim,stride,kernelSize):
         self.kernel = (np.random.rand(channelOutDim,channelInDim,kernelSize,kernelSize)*2)-1
+        self.dk = np.zeros((channelOutDim,channelInDim,kernelSize,kernelSize))
         self.channelInDim = channelInDim
         self.featureInDim = featureInDim
         self.channelOutDim = channelOutDim
         self.featureOutDim = (featureInDim//stride)
         self.stride = stride
         self.kernelSize = kernelSize
+        
 
     def Conv3dForward(self,featureIn):
-    #output feature
+
         featureOut = np.zeros((self.channelOutDim,self.featureOutDim,self.featureOutDim))
         self.featureIn = np.pad(featureIn, ((0,0), (1, 1), (1, 1)), mode='constant', constant_values=0)
         for i in range(self.channelOutDim):
             for j in range(self.featureOutDim):
                 for k in range(self.featureOutDim):
                     subFeatureIn = self.featureIn[:,int(j*self.stride):int(j*self.stride+self.kernelSize),int(k*self.stride):int(k*self.stride+self.kernelSize)]
-                    #featureOut[i][j][k] = MAC(np.flatten(subFeatureIn),np.flatten(self.kernel[i]))
                     featureOut[i][j][k] = np.sum(subFeatureIn*self.kernel[i],(0,1,2))
         return featureOut
 
@@ -106,29 +107,38 @@ class Conv3D():
                         subFeatureIn = self.featureIn[j,k:(self.featureOutDim*self.stride+k):self.stride,l:(self.featureOutDim*self.stride+l):self.stride]
                         #dk[i][j][k][l] = MAC(np.flatten(dy[i]),np.flatten(subFeatureIn))
                         dk[i][j][k][l] = np.sum(dy[i]*subFeatureIn,(0,1))
-        '''                         
+        '''                 
         for i in range(self.channelInDim):
             for l in range(self.featureOutDim):
                 for m in range(self.kernelSize):
                     for n in range(self.featureOutDim):
                         for p in range(self.kernelSize):
                             for q in range(self.channelOutDim):
-                                dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]  '''
+                                dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n] 
+        '''
         dy = np.pad(dy, ((0,0), (1,0), (1,0)), mode='constant', constant_values=0)
         for i in range(self.channelInDim):
-            #for q in range(self.channelOutDim):
             for j in range(self.featureInDim):
                 for k in range(self.featureInDim):                   
-                        #temp = dy[q,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)]
+                    temp = np.reshape(self.kernel[:,i],(self.channelOutDim,self.kernelSize,self.kernelSize))
+                    dx[i][j][k]  = np.sum( rotateMatrix(temp[:,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
+                    * dy[:,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)],(0,1,2))
+        
+        
+        #temp = dy[q,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)]
                         #temp1 = rotateMatrix(self.kernel[q,i,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
                         #temp2= np.sum( temp1* temp,(0,1))
-                    temp = np.reshape(self.kernel[:,i],(self.channelOutDim,self.kernelSize,self.kernelSize))
-                    dx1[i][j][k]  = np.sum( rotateMatrix(temp[:,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])* dy[:,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)],(0,1,2))
-        #diff = dx1-dx
+        #diff = dx1[:,0:-1,0:-1] -dx[:,0:-1,0:-1] 
         #print (dx1 - dx)
-        self.kernel -= dk*0.005
+        self.dk += dk
         return dx[:,0:-1,0:-1]                       
     
+    def paramUpdate(self,lr,batchSize):
+        self.kernel -= self.dk/batchSize*lr
+        self.dk = np.zeros((self.channelOutDim,self.channelInDim,self.kernelSize,self.kernelSize))
+
+        
+
 
 def train():
 #featureIn has only 3 channel (RGB), We extend it in a 8 channel
@@ -137,7 +147,7 @@ def train():
     relu1 = ReLU(16,16) # 16x16x16 -> 16x16x16 
     conv3d2 = Conv3D(16,16,32,2,3) # 16x16x16 -> 32x8x8
     relu2 = ReLU(32,8) #32x8x8 -> 32x8x8
-    soft1 = SoftmaxLayer(8*8*32,10) # 32x8x8 -> 10
+    soft1 = SoftmaxLayer(32*8*8,10) # 32x8x8 -> 10
     '''
     conv3d2 = Conv3D(16,16,32,2,3) # 16x16x16 -> 32x8x8
     relu2 = ReLU(32,8)
@@ -147,6 +157,12 @@ def train():
     trainLoader, testLoader = getLoader()
     cycleCount = 0
     accuracy = 0
+    batchSize = 1
+    # il batch size fatto su dw funziona
+    # fare somma su dx non sembra funzionare
+    # dx sembra funzionare : avendo una NN a due layer, disattivo dk su layer 2 e cosi impara solo layer 1 usando dx layer 2
+    dx = np.zeros(10)
+
     for feature,labels in trainLoader:
         featureInExt = np.zeros((8,32,32))
         featureInExt[0:3] = feature.numpy()
@@ -156,46 +172,28 @@ def train():
         l2FeatureOut = conv3d2.Conv3dForward(l1FeatureOutAct)
         l2FeatureOutAct = relu2.reluForward(l2FeatureOut)
         l5Output = soft1.forward_prop(l2FeatureOutAct)
-        '''
-        l1FeatureOutAct = relu1.reluForward(l1FeatureOut)
-        l2FeatureOut = conv3d2.Conv3dForward(l1FeatureOutAct)
-        l2FeatureOutAct = relu2.reluForward(l2FeatureOut)
-        l3FeatureOut = conv3d3.Conv3dForward(l2FeatureOutAct)
-        l3FeatureOutAct = relu3.reluForward(l3FeatureOut)
-        l4FeatureMap = np.zeros((64))
-        #average 
-        for i in range(64):
-            l4FeatureMap[i] = np.average(l3FeatureOutAct[i])
-        l5Output = fcLayer.forward(l4FeatureMap)   
-        '''
+        
         #cost calc
-        cost = lossForward(l5Output,convOneHot(labels))
+        #print(lossForward(l5Output,convOneHot(labels)).max())
         accuracy += 1 if np.argmax(l5Output) == labels else 0
         cycleCount += 1
         if(cycleCount%100 == 0):
             print(f"Train accuracy{accuracy/cycleCount}at cycle {cycleCount}")
+        batchSize -= 1
         dx = lossBackward(l5Output,convOneHot(labels))
-        
-        '''
-        dx = fcLayer.feedback(dx,0.0001)
-        #feedback average. divide by 4*4=16 ( is the shape of the input ). during averaging each value has been multiplied by 1/16. the value is then increase from 64x1 to 64x4x4
-        dx = dx/16
-        temp = np.ones((64,4,4))
-        dx= np.transpose(dx)
-        for i in range (64):
-            temp[i] = temp[i]*dx[i] 
-        dx = temp
-        dx = relu3.reluBackward(dx)
-        dx= conv3d3.Conv3dBackward(dx)
-        dx = relu2.reluBackward(dx)
-        dx= conv3d2.Conv3dBackward(dx)
-        dx = relu1.reluBackward(dx)
-        '''
-        dx = soft1.back_prop(dx,0.005)
+
+        dx = soft1.back_prop(dx)
         dx = relu2.reluBackward(dx)
         dx= conv3d2.Conv3dBackward(dx)
         dx = relu1.reluBackward(dx)
         dx= conv3d1.Conv3dBackward(dx)
+        dx = np.zeros(10)
+        if (batchSize == 0 ):
+            batchSize = 1
+            soft1.paramUpdate(0.0001,16)
+            #conv3d2.paramUpdate(0.0001,16)
+            conv3d1.paramUpdate(0.0001,16)
+
     print(f"Train accuracy{accuracy/cycleCount}")
     cycleCount = 0
     accuracy = 0
@@ -294,9 +292,12 @@ class SoftmaxLayer:
     """
     def __init__(self, input_units, output_units):
         # Initiallize weights and biases
+        self.input_units = input_units
+        self.output_units = output_units
         self.weight = np.random.randn(input_units, output_units)/input_units
         self.bias = np.zeros(output_units)
-
+        self.dE_dw = np.zeros((input_units,input_units))
+        self.dE_db = np.zeros(output_units)
     def forward_prop(self, image):
         self.original_shape = image.shape # stored for backprop
         # Flatten the image
@@ -309,7 +310,7 @@ class SoftmaxLayer:
         softmax_output = np.exp(first_output) / np.sum(np.exp(first_output), axis=0)
         return softmax_output
 
-    def back_prop(self, dE_dY, alpha):
+    def back_prop(self, dE_dY):
         for i, gradient in enumerate(dE_dY):
             if gradient == 0:
                 continue
@@ -329,16 +330,20 @@ class SoftmaxLayer:
             dE_dZ = gradient * dY_dZ
 
             # Gradient of loss with respect to weight, bias, input
-            dE_dw = dZ_dw[np.newaxis].T @ dE_dZ[np.newaxis]
-            dE_db = dE_dZ * dZ_db
+            self.dE_dw = dZ_dw[np.newaxis].T @ dE_dZ[np.newaxis]
+            self.dE_db = dE_dZ * dZ_db
             dE_dX = dZ_dX @ dE_dZ
 
             # Update parameters
-            self.weight -= alpha*dE_dw
-            self.bias -= alpha*dE_db
+            
 
             return dE_dX.reshape(self.original_shape)
 
+    def paramUpdate(self,lr,batchSize):
+        self.weight -= lr*self.dE_dw/batchSize
+        self.bias -= lr*self.dE_db/batchSize
+        self.dE_dw = np.zeros((self.input_units,self.input_units))
+        self.dE_db = np.zeros(self.output_units)
 if __name__ == '__main__':
     train()
     a = 0
