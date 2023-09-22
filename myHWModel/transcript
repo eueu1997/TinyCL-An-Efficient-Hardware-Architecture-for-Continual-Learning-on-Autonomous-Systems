@@ -12,501 +12,623 @@
 # //  is prohibited from disclosure under the Trade Secrets Act,
 # //  18 U.S.C. Section 1905.
 # //
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.v
 # QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 17:47:39 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
-# -- Compiling module featureRegister
+# Start time: 10:53:58 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.v 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.v(3): near "parameter": syntax error, unexpected parameter, expecting ')'.
+# End time: 10:53:58 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.v
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:55:02 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.v 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.v(3): near "rowSize": syntax error, unexpected IDENTIFIER, expecting ')'.
+# End time: 10:55:02 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.v
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:55:34 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.v 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.v(9): near "clk": syntax error, unexpected IDENTIFIER, expecting ')'.
+# End time: 10:55:34 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:58:24 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(16): near "reg": syntax error, unexpected reg, expecting ';'.
+# End time: 10:58:24 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:58:37 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(21): near ")": syntax error, unexpected ')'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(24): (vlog-13205) Syntax error found in the scope following 'NewFeatureOutColum'. Is there a missing '::'?
+# End time: 10:58:37 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:58:47 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(22): near "=": syntax error, unexpected '=', expecting ++ or --.
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(25): near "else": syntax error, unexpected else.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(58): (vlog-13205) Syntax error found in the scope following 'featureOutColum'. Is there a missing '::'?
+# End time: 10:58:47 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:59:03 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(31): near "or": syntax error, unexpected or.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(58): (vlog-13205) Syntax error found in the scope following 'featureOutColum'. Is there a missing '::'?
+# End time: 10:59:03 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:59:16 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(31): near "|": syntax error, unexpected '|'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(58): (vlog-13205) Syntax error found in the scope following 'featureOutColum'. Is there a missing '::'?
+# End time: 10:59:16 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:59:32 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(40): near ")": syntax error, unexpected ')'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(58): (vlog-13205) Syntax error found in the scope following 'featureOutColum'. Is there a missing '::'?
+# End time: 10:59:32 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:59:57 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(43): near "end": syntax error, unexpected end, expecting ';'.
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(67): near "endmodule": syntax error, unexpected endmodule.
+# End time: 10:59:58 on Sep 22,2023, Elapsed time: 0:00:01
+# Errors: 2, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:00:16 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
 # 
 # Top level modules:
-# 	featureRegister
-# End time: 17:47:39 on Sep 21,2023, Elapsed time: 0:00:00
+# 	FWAddrManager
+# End time: 11:00:16 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
 # QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 17:47:50 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
-# -- Compiling module tb_featureRegister
+# Start time: 11:03:37 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
 # 
 # Top level modules:
-# 	tb_featureRegister
-# End time: 17:47:50 on Sep 21,2023, Elapsed time: 0:00:00
+# 	tb_FWAddrManager
+# End time: 11:03:37 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vsim work.tb_featureRegister -t 10ps
-# vsim work.tb_featureRegister -t 10ps 
-# Start time: 17:48:10 on Sep 21,2023
-# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
-# Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-run 200 ns
-# Test 1 failed
-# Test 3 failed
-# Test 6 failed
-# Test 9 failed
-# Test 10 failed
-# Test 11 failed
-# Test 12 failed
-# Test 13 failed
-# Test 14 failed
-# Test 15 failed
-# Test 17 failed
-# Test 18 failed
-# Test 19 failed
-# Test 20 failed
-# Test 21 failed
-# Test 22 failed
-# Test 23 failed
-# Test 24 failed
-# Test 25 failed
-# Test 26 failed
-# Test 27 failed
-# Test 28 failed
-# Test 29 failed
-# Test 31 failed
-# Test 32 failed
-# Test 33 failed
-# Test 34 failed
-# Test 35 failed
-# Test 36 failed
-add wave -position insertpoint sim:/tb_featureRegister/#ublk#81034482#26/*
-# ** UI-Msg: (vish-4014) No objects found matching '/tb_featureRegister/#ublk#81034482#26/*'.
-add wave -position insertpoint sim:/tb_featureRegister/*
-# ** UI-Msg: (vish-4014) No objects found matching '/tb_featureRegister/*'.
-vsim work.tb_featureRegister -t 10ps -voptargs+=acc
-# ** UI-Msg: (vish-3296) Unknown option '-voptargs+=acc'.
-# Use the -help option for complete vsim usage.
+vsim work.tb_FWAddrManager -voptargs=+acc
+# vsim work.tb_FWAddrManager -voptargs="+acc" 
+# Start time: 11:04:07 on Sep 22,2023
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error (suppressible): /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv(15): (vopt-2912) Port 'featureColumn' not found in module 'FWAddrManager' (4th connection).
+# Optimization failed
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=1, Warnings=0.
 # Error loading design
-# Optimization canceled
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 17:55:15 on Sep 21,2023, Elapsed time: 0:07:05
+# End time: 11:04:07 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:05:05 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 11:05:05 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 17:55:15 on Sep 21,2023
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:05:08 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 11:05:08 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim work.tb_FWAddrManager -voptargs=+acc
+# vsim work.tb_FWAddrManager -voptargs="+acc" 
+# Start time: 11:05:10 on Sep 22,2023
 # ** Note: (vsim-3812) Design is being optimized...
 # Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
-add wave -position insertpoint sim:/tb_featureRegister/dut/*
-run 200 ns
-# Test 1 failed
-# Test 3 failed
-# Test 6 failed
-# Test 9 failed
-# Test 10 failed
-# Test 11 failed
-# Test 12 failed
-# Test 13 failed
-# Test 14 failed
-# Test 15 failed
-# Test 17 failed
-# Test 18 failed
-# Test 19 failed
-# Test 20 failed
-# Test 21 failed
-# Test 22 failed
-# Test 23 failed
-# Test 24 failed
-# Test 25 failed
-# Test 26 failed
-# Test 27 failed
-# Test 28 failed
-# Test 29 failed
-# Test 31 failed
-# Test 32 failed
-# Test 33 failed
-# Test 34 failed
-# Test 35 failed
-# Test 36 failed
-# Can't move the Now cursor.
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (1) for port 'featureColum'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(13).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_FWAddrManager/dut File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv Line: 15
+82000 ns
+# invalid command name "82000"
+run 82000 ns
+# ** Note: $finish    : /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv(41)
+#    Time: 20 ns  Iteration: 0  Instance: /tb_FWAddrManager
+# 1
+# Break in Module tb_FWAddrManager at /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv line 41
+vsim work.tb_FWAddrManager -voptargs=+acc
+# End time: 11:07:00 on Sep 22,2023, Elapsed time: 0:01:50
+# Errors: 0, Warnings: 1
+# vsim work.tb_FWAddrManager -voptargs="+acc" 
+# Start time: 11:07:00 on Sep 22,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (1) for port 'featureColum'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(13).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_FWAddrManager/dut File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv Line: 15
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
 # QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 17:59:14 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
-# -- Compiling module featureRegister
+# Start time: 11:07:17 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
 # 
 # Top level modules:
-# 	featureRegister
-# End time: 17:59:15 on Sep 21,2023, Elapsed time: 0:00:01
+# 	tb_FWAddrManager
+# End time: 11:07:17 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
-# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 17:59:22 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
-# -- Compiling module tb_featureRegister
-# 
-# Top level modules:
-# 	tb_featureRegister
-# End time: 17:59:22 on Sep 21,2023, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
-# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 17:59:25 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
-# -- Compiling module tb_featureRegister
-# 
-# Top level modules:
-# 	tb_featureRegister
-# End time: 17:59:25 on Sep 21,2023, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 17:59:43 on Sep 21,2023, Elapsed time: 0:04:28
-# Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 17:59:43 on Sep 21,2023
+vsim work.tb_FWAddrManager -voptargs=+acc
+# End time: 11:07:21 on Sep 22,2023, Elapsed time: 0:00:21
+# Errors: 0, Warnings: 1
+# vsim work.tb_FWAddrManager -voptargs="+acc" 
+# Start time: 11:07:21 on Sep 22,2023
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
-add wave *
-run 200 ns
-# Test 1 failed
-# Test 3 failed
-# Test 6 failed
-# Test 9 failed
-# Test 10 failed
-# Test 11 failed
-# Test 12 failed
-# Test 13 failed
-# Test 14 failed
-# Test 15 failed
-# Test 17 failed
-# Test 18 failed
-# Test 19 failed
-# Test 20 failed
-# Test 21 failed
-# Test 22 failed
-# Test 23 failed
-# Test 24 failed
-# Test 25 failed
-# Test 26 failed
-# Test 27 failed
-# Test 28 failed
-# Test 29 failed
-# Test 31 failed
-# Test 32 failed
-# Test 33 failed
-# Test 34 failed
-# Test 35 failed
-# Test 36 failed
-# Can't move the Now cursor.
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+# ** Warning: (vsim-3015) [PCDPC] - Port size (5) does not match connection size (1) for port 'featureColum'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(13).
+#    Time: 0 ns  Iteration: 0  Instance: /tb_FWAddrManager/dut File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv Line: 15
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
 # QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:02:17 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
-# -- Compiling module featureRegister
+# Start time: 11:09:35 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
 # 
 # Top level modules:
-# 	featureRegister
-# End time: 18:02:18 on Sep 21,2023, Elapsed time: 0:00:01
+# 	FWAddrManager
+# End time: 11:09:35 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
 # QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:02:23 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
-# -- Compiling module tb_featureRegister
+# Start time: 11:09:39 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
 # 
 # Top level modules:
-# 	tb_featureRegister
-# End time: 18:02:23 on Sep 21,2023, Elapsed time: 0:00:00
+# 	tb_FWAddrManager
+# End time: 11:09:39 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 18:02:33 on Sep 21,2023, Elapsed time: 0:02:50
-# Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 18:02:33 on Sep 21,2023
-# ** Note: (vsim-8009) Loading existing optimized design _opt2
-# Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
-add wave *
-run 200 ns
-# Test 1 failed
-# Test 3 failed
-# Test 6 failed
-# Test 9 failed
-# Test 10 failed
-# Test 11 failed
-# Test 12 failed
-# Test 13 failed
-# Test 14 failed
-# Test 15 failed
-# Test 17 failed
-# Test 18 failed
-# Test 19 failed
-# Test 20 failed
-# Test 21 failed
-# Test 22 failed
-# Test 23 failed
-# Test 24 failed
-# Test 25 failed
-# Test 26 failed
-# Test 27 failed
-# Test 28 failed
-# Test 29 failed
-# Test 31 failed
-# Test 32 failed
-# Test 33 failed
-# Test 34 failed
-# Test 35 failed
-# Test 36 failed
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
-# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:16:30 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
-# -- Compiling module featureRegister
-# 
-# Top level modules:
-# 	featureRegister
-# End time: 18:16:31 on Sep 21,2023, Elapsed time: 0:00:01
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
-# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:16:34 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
-# -- Compiling module tb_featureRegister
-# 
-# Top level modules:
-# 	tb_featureRegister
-# End time: 18:16:35 on Sep 21,2023, Elapsed time: 0:00:01
-# Errors: 0, Warnings: 0
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 18:16:44 on Sep 21,2023, Elapsed time: 0:14:11
-# Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 18:16:44 on Sep 21,2023
+vsim work.tb_FWAddrManager -voptargs=+acc
+# End time: 11:09:44 on Sep 22,2023, Elapsed time: 0:02:23
+# Errors: 0, Warnings: 1
+# vsim work.tb_FWAddrManager -voptargs="+acc" 
+# Start time: 11:09:44 on Sep 22,2023
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
-# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:17:00 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
-# -- Compiling module featureRegister
-# 
-# Top level modules:
-# 	featureRegister
-# End time: 18:17:00 on Sep 21,2023, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
-# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:17:03 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
-# -- Compiling module tb_featureRegister
-# 
-# Top level modules:
-# 	tb_featureRegister
-# End time: 18:17:03 on Sep 21,2023, Elapsed time: 0:00:00
-# Errors: 0, Warnings: 0
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 18:17:08 on Sep 21,2023, Elapsed time: 0:00:24
-# Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 18:17:08 on Sep 21,2023
-# ** Note: (vsim-8009) Loading existing optimized design _opt2
-# Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
-run 200 ns
-# Test 1 failed
-# Test 3 failed
-# Test 6 failed
-# Test 9 failed
-# Test 10 failed
-# Test 11 failed
-# Test 12 failed
-# Test 13 failed
-# Test 14 failed
-# Test 15 failed
-# Test 17 failed
-# Test 18 failed
-# Test 19 failed
-# Test 20 failed
-# Test 21 failed
-# Test 22 failed
-# Test 23 failed
-# Test 24 failed
-# Test 25 failed
-# Test 26 failed
-# Test 27 failed
-# Test 28 failed
-# Test 29 failed
-# Test 31 failed
-# Test 32 failed
-# Test 33 failed
-# Test 34 failed
-# Test 35 failed
-# Test 36 failed
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+run 82000 ns
 add wave *
-run 200 ns
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 18:18:19 on Sep 21,2023, Elapsed time: 0:01:11
+vsim work.tb_FWAddrManager -voptargs=+acc
+# End time: 11:10:31 on Sep 22,2023, Elapsed time: 0:00:47
 # Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 18:18:19 on Sep 21,2023
-# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# vsim work.tb_FWAddrManager -voptargs="+acc" 
+# Start time: 11:10:31 on Sep 22,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt
 # Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
 add wave *
-run 200 ns
-# Test 1 failed
-# Test 3 failed
-# Test 6 failed
-# Test 9 failed
-# Test 10 failed
-# Test 11 failed
-# Test 12 failed
-# Test 13 failed
-# Test 14 failed
-# Test 15 failed
-# Test 17 failed
-# Test 18 failed
-# Test 19 failed
-# Test 20 failed
-# Test 21 failed
-# Test 22 failed
-# Test 23 failed
-# Test 24 failed
-# Test 25 failed
-# Test 26 failed
-# Test 27 failed
-# Test 28 failed
-# Test 29 failed
-# Test 31 failed
-# Test 32 failed
-# Test 33 failed
-# Test 34 failed
-# Test 35 failed
-# Test 36 failed
-add wave -position insertpoint sim:/tb_featureRegister/dut/*
-run 200 ns
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 18:20:31 on Sep 21,2023, Elapsed time: 0:02:12
-# Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 18:20:31 on Sep 21,2023
-# ** Note: (vsim-8009) Loading existing optimized design _opt2
-# Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
-add wave -position insertpoint sim:/tb_featureRegister/dut/*
-run 200 ns
-# Test 1 failed
-# Test 3 failed
-# Test 6 failed
-# Test 9 failed
-# Test 10 failed
-# Test 11 failed
-# Test 12 failed
-# Test 13 failed
-# Test 14 failed
-# Test 15 failed
-# Test 17 failed
-# Test 18 failed
-# Test 19 failed
-# Test 20 failed
-# Test 21 failed
-# Test 22 failed
-# Test 23 failed
-# Test 24 failed
-# Test 25 failed
-# Test 26 failed
-# Test 27 failed
-# Test 28 failed
-# Test 29 failed
-# Test 31 failed
-# Test 32 failed
-# Test 33 failed
-# Test 34 failed
-# Test 35 failed
-# Test 36 failed
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
+run 82000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
 # QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:25:35 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
-# -- Compiling module featureRegister
+# Start time: 11:19:56 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
 # 
 # Top level modules:
-# 	featureRegister
-# End time: 18:25:35 on Sep 21,2023, Elapsed time: 0:00:00
+# 	FWAddrManager
+# End time: 11:19:57 on Sep 22,2023, Elapsed time: 0:00:01
 # Errors: 0, Warnings: 0
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
 # QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:25:44 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
-# -- Compiling module tb_featureRegister
+# Start time: 11:20:01 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
 # 
 # Top level modules:
-# 	tb_featureRegister
-# End time: 18:25:44 on Sep 21,2023, Elapsed time: 0:00:00
+# 	tb_FWAddrManager
+# End time: 11:20:01 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 18:25:53 on Sep 21,2023, Elapsed time: 0:05:22
+vsim work.tb_FWAddrManager -voptargs=+acc
+# End time: 11:20:05 on Sep 22,2023, Elapsed time: 0:09:34
 # Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 18:25:53 on Sep 21,2023
+# vsim work.tb_FWAddrManager -voptargs="+acc" 
+# Start time: 11:20:05 on Sep 22,2023
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
 add wave *
-run 200 ns
-# Test 3 failed
-# Test 9 failed
-# Test 11 failed
-# Test 12 failed
-# Test 17 failed
-# Test 18 failed
-# Test 19 failed
-# Test 20 failed
-# Test 21 failed
-# Test 25 failed
-# Test 26 failed
-# Test 27 failed
-# Test 33 failed
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+run 82000ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
 # QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:32:45 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
-# -- Compiling module tb_featureRegister
+# Start time: 11:21:05 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
 # 
 # Top level modules:
-# 	tb_featureRegister
-# End time: 18:32:45 on Sep 21,2023, Elapsed time: 0:00:00
+# 	FWAddrManager
+# End time: 11:21:05 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 18:32:49 on Sep 21,2023, Elapsed time: 0:06:56
-# Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 18:32:49 on Sep 21,2023
-# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
-# Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
-add wave *
-run 200 ns
-# Test 31 failed
-# Test 32 failed
-# Test 33 failed
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
 # QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
-# Start time: 18:33:59 on Sep 21,2023
-# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv 
-# -- Compiling module tb_featureRegister
+# Start time: 11:22:36 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
 # 
 # Top level modules:
-# 	tb_featureRegister
-# End time: 18:33:59 on Sep 21,2023, Elapsed time: 0:00:00
+# 	FWAddrManager
+# End time: 11:22:36 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-vsim -t 10ps work.tb_featureRegister -voptargs=+acc
-# End time: 18:34:06 on Sep 21,2023, Elapsed time: 0:01:17
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:22:42 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 11:22:42 on Sep 22,2023, Elapsed time: 0:00:00
 # Errors: 0, Warnings: 0
-# vsim -t 10ps work.tb_featureRegister -voptargs="+acc" 
-# Start time: 18:34:06 on Sep 21,2023
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 11:23:01 on Sep 22,2023, Elapsed time: 0:02:56
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 11:23:01 on Sep 22,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave *
+run 82000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:25:09 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 11:25:10 on Sep 22,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:25:14 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 11:25:14 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 11:25:18 on Sep 22,2023, Elapsed time: 0:02:17
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 11:25:18 on Sep 22,2023
 # ** Note: (vsim-3813) Design is being optimized due to module recompilation...
 # Loading sv_std.std
-# Loading work.tb_featureRegister(fast)
-# Loading work.featureRegister(fast)
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
 add wave *
-run 200 ns
+run 82000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:34:38 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 11:34:38 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:34:41 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 11:34:41 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 11:34:47 on Sep 22,2023, Elapsed time: 0:09:29
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 11:34:47 on Sep 22,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave *
+run 82000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:36:07 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 11:36:07 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:36:15 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 11:36:15 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 11:36:21 on Sep 22,2023, Elapsed time: 0:01:34
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 11:36:21 on Sep 22,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave *
+run 82000 ns
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 11:38:23 on Sep 22,2023, Elapsed time: 0:02:02
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 11:38:23 on Sep 22,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave -position insertpoint sim:/tb_FWAddrManager/dut/*
+run 82000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:54:02 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 11:54:02 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:54:06 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 11:54:06 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 11:54:10 on Sep 22,2023, Elapsed time: 0:15:47
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 11:54:10 on Sep 22,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave *
+run 82000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:58:41 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 11:58:41 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:58:43 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 11:58:43 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 11:58:47 on Sep 22,2023, Elapsed time: 0:04:37
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 11:58:47 on Sep 22,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave *
+run 82000ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:01:19 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 12:01:19 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:01:21 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 12:01:21 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 12:01:24 on Sep 22,2023, Elapsed time: 0:02:37
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 12:01:24 on Sep 22,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave *
+run 82000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:04:31 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 12:04:31 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:04:35 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 12:04:35 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 12:04:53 on Sep 22,2023, Elapsed time: 0:03:29
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 12:04:53 on Sep 22,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave *
+run 82000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:10:50 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(25): (vlog-2730) Undefined variable: 'newFeatureOutColum'.
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(25): near ")": syntax error, unexpected ')'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(72): (vlog-13205) Syntax error found in the scope following 'featureOutColum'. Is there a missing '::'?
+# End time: 12:10:50 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:11:45 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv(25): (vlog-2730) Undefined variable: 'newFeatureOutColum'.
+# End time: 12:11:45 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:12:21 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 12:12:21 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:12:24 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 12:12:25 on Sep 22,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 12:12:36 on Sep 22,2023, Elapsed time: 0:07:43
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 12:12:36 on Sep 22,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave *
+run 82000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:17:05 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 12:17:05 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:17:10 on Sep 22,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FWAddrManager_tb.sv 
+# -- Compiling module tb_FWAddrManager
+# 
+# Top level modules:
+# 	tb_FWAddrManager
+# End time: 12:17:10 on Sep 22,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -voptargs=+acc work.tb_FWAddrManager -t 10ps
+# End time: 12:17:16 on Sep 22,2023, Elapsed time: 0:04:40
+# Errors: 0, Warnings: 0
+# vsim -voptargs="+acc" work.tb_FWAddrManager -t 10ps 
+# Start time: 12:17:16 on Sep 22,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_FWAddrManager(fast)
+# Loading work.FWAddrManager(fast)
+add wave *
+run 82000 ns
+# End time: 12:20:20 on Sep 22,2023, Elapsed time: 0:03:04
+# Errors: 0, Warnings: 0

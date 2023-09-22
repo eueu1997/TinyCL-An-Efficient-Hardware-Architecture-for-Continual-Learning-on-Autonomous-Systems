@@ -5,7 +5,7 @@ module MAC#
     parameter int NOperands = 8
 )
 (
-	input  logic [0:(NOperands)][(NBit-1):0] featureIn  , // 8 da moltiplicare piu il 9o che è la somma parziale
+	input  logic [0:(NOperands-1)][(NBit-1):0] featureIn  , // 8 da moltiplicare piu il 9o che è la somma parziale
     input  logic [0:(NOperands-1)][(NBit-1):0] Kernel  ,
     output logic [(NBit-1):0]   featureOut
 
@@ -23,8 +23,8 @@ endgenerate
 
 dadda_top DU	
 (			.DataIn[0:(NOperands-1)](temp_w), // 8Multiplications results
-            .DataIn[NOperands](featureIn[NOperands]) // partial sum 
+            .DataIn[NOperands]({default:0}) // partial sum 
 			.DataOut(featureOut_w));
-//Bisogna poi decidere di tagliare i 4 MSB per farlo tornare a 16 bit
-featureOut = featureOut_w;
+//Temporaneamente prendo i 16 MSB
+featureOut = featureOut_w[(NBitOut-1):4];
 endmodule

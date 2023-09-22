@@ -2,10 +2,10 @@ module dadda_top#
 (
     parameter int NBitIn = 16,
 	parameter int NBitOut = 20,
-    parameter int NNums = 9
+    parameter int NOps = 9
 )
 (
-	input  logic [1:NNums][NBitIn:1] DataIn  ,
+	input  logic [1:NOps][NBitIn:1] DataIn  ,
     output logic [NBitOut:1] DataOut  
 
 );
