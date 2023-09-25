@@ -2,6 +2,8 @@
 module FW_PU
 (
     parameter int MAC_SIZE = 3;
+    parameter int N_OF_MAC_ROWS = 3;
+    parameter int N_OF_MAC_CLMN = 3;
     parameter int CHANNEL_IN_SIZE = 8;
 )
 (
@@ -17,27 +19,21 @@ module FW_PU
     
 )
 // Address of output feature
-wire logic [4:0]  featureOutRowAddr_w, featureOutColumAddr_w,featureOutChAddr_w; // NotUSED
 reg logic left,right;
-parameter int N_OF_MAC_ROWS = 3;
-parameter int N_OF_MAC_CLMN = 3;
 // Wire enabling the MACs. It connect the enable manager to the MACs
 wire logic [0:(MAC_SIZE -1)][0:(MAC_SIZE -1)] enables_w;
 // Wire of the kernels . It connect the kernel manager to the corresponding MAC
-wire logic [0:2][0:2][(nBits*CHANNEL_IN_SIZE -1 )] featuresIn;
+wire logic [0:(N_OF_MAC_ROWS -1 )][0:(N_OF_MAC_CLMN-1)][(nBits*CHANNEL_IN_SIZE -1 )] featuresIn;
 // wire of the partial sums. It connects the output of the various MAC to the register
-wire logic [0:2][0:2][(nBits-1)] partialSumOut;
-wire logic [0:2][0:2][(nBits-1)] partialSumIn;
+wire logic [0:(N_OF_MAC_ROWS-1)][0:(N_OF_MAC_CLMN-1)][(nBits-1)] partialSumIn;
 
-///////////////////////////// MAC ENABLE MANAGER \\\\\\\\\\\\\\\\\\\\\\\\
-// Non serve piu. tutti i mac per ora sono sempre attivi 
-//enableManger EM (.featureInAddrRow(addressOut_row),featureInAddrColmn(addressOut_colum),.enables(enables_w));
+
 ///////////////////////////FORWARD ADDRESS MAMANGER \\\\\\\\\\\\\\\\\\\\\\\\\
 // Genera gli indirizzi per il FW . Cicla su i feature out row and column e poi su channel out
- FWAddrManager FWAM(.clk(clk),.rst(rst) ,.featureRow(featureOutRowAddr),.featureColum(featureOutColumAddr),.featureCh(featureOutChAddr));
+FWAddrManager FWAM(.clk(clk),.rst(rst) ,.featureRow(featureOutRowAddr),.featureColum(featureOutColumAddr),.featureCh(featureOutChAddr));
 //////////////////////////// KERNEL REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\
 // Manage the movement of the kernels across the 3x3 mac grid
-kernelRegisters KR (.rst(rst),.load(loadKernel),.kernelIn(kernelVals),.kernelOut(kernels));
+kernelRegisters KR (.clk(clk),.rst(rst),.load(loadKernel),.kernelIn(kernelVals),.kernelOut(kernels));
 ///////////////////////////FEATURE REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\\
 featureRegisters FR (.right(right),.left(left),.rst(rst),.clk(clk),.featureIn[0](featureInP1),.featureIn[1](featureInP2),.featureIn[2](featureInP3),.featureOut(featuresIn));
 /////////////////////////// DIRECTION MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

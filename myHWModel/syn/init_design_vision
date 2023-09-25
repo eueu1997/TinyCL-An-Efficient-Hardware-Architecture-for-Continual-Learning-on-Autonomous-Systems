@@ -1,0 +1,19 @@
+export SYNOPSYS=/eda/synopsys/2020-21/RHELx86
+SNPS_SYN=${SYNOPSYS}/SYN_2020.09-SP2
+SNPS_LC=${SYNOPSYS}/LC_2020.09-SP2
+SNPS_PTS=${SYNOPSYS}/PT_2020.09-SP2
+
+export SYNOPSYS_LC_ROOT=${SNPS_LC}
+
+export PATH=${SNPS_SYN}/bin:${SNPS_LC}/bin:${SNPS_PTS}/bin:$PATH
+export LM_LICENSE_FILE=${LM_LICENSE_FILE}:27020@led-x3850-1.polito.it
+
+source /eda/synopsys/2020-21/scripts/SYN_2020.09-SP2_RHELx86.sh
+source /eda/synopsys/2020-21/scripts/LC_2020.09-SP2_RHELx86.sh
+source /eda/synopsys/2020-21/scripts/PT_2020.09-SP2_RHELx86.sh
+
+echo "You can run: "
+echo "-> dc_shell-xg-t for Design Compiler"
+echo "-> design_vision for Design Vision"
+echo "-> lc_shell for Library Compiler"
+echo "-> pt_shell for Prime Time"
