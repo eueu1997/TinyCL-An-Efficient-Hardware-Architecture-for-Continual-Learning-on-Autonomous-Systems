@@ -16,7 +16,8 @@ typedef reg [0:2][(NBitOut-1):0] l1;
 typedef reg [0:1][(NBitOut-1):0] l0;
 
 
-    // Local variable
+    // Local variableù
+    l4 level4;
     l3 level3;
     l2 level2;
     l1 level1;

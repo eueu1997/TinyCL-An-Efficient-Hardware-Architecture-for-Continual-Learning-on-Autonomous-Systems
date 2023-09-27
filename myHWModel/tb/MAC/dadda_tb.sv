@@ -2,7 +2,7 @@ module tb_dadda_top;
     // Define parameters
     parameter int NBitIn = 16;
     parameter int NBitOut = 20;
-    parameter int NOps = 9;
+    parameter int NOps = 8;
     
     // Define time units and precision
     `timescale 1ns/1ps
@@ -25,15 +25,14 @@ module tb_dadda_top;
     );
     // Initialize variables
     initial begin
-        DataIn[1] = 'b1111111111111111;
-        DataIn[2] = 'b1111111111111111;
-        DataIn[3] = 'b1111111111111111;
-        DataIn[4] = 'b1111111111111111;
-        DataIn[5] = 'b1111111111111111;
-        DataIn[6] = 'b1111111111111111;
-        DataIn[7] = 'b1111111111111111;
-        DataIn[8] = 'b1111111111111111;
-        DataIn[9] = 'b1111111111111111;
+        DataIn[1] = 'b1111111111111101; //-3
+        DataIn[2] = 'b0000000000000011; // +3
+        DataIn[3] = 'b1111111111100101; //-27
+        DataIn[4] = 'b0000000000011011; // +27
+        DataIn[5] = 'b0000000000110111; // 55
+        DataIn[6] = 'b1111111111001001; //- 55
+        DataIn[7] = 'b0000000000000000;
+        DataIn[8] = 'b0000000000000000;
 
         
         #10
@@ -45,72 +44,7 @@ module tb_dadda_top;
         DataIn[6] = 'b0000000000000000;
         DataIn[7] = 'b0000000000000000;
         DataIn[8] = 'b1111111111111111;
-        DataIn[9] = 'b0000000000000000;
-        /*
-        // Generate random inputs
-        foreach(DataIn[i]) begin
-            foreach(DataIn[i][j]) begin
-                DataIn[i][j] = $urandom_range(0, (1<<NBitIn)-1);
-            end
-        end
         
-        // Apply inputs
-        #10;
-        $display("Expected: %0d. Out output : %0d",DataIn[1]+DataIn[2]+DataIn[3]+DataIn[4]+DataIn[5]+DataIn[6]+DataIn[7]+DataIn[8]+DataIn[9],DataOut);
-        #10;
-
-        foreach(DataIn[i]) begin
-            foreach(DataIn[i][j]) begin
-                DataIn[i][j] = $urandom_range(0, (1<<NBitIn)-1);
-            end
-        end
-        #10;
-        $display("Expected: %0d. Out output : %0d",DataIn[1]+DataIn[2]+DataIn[3]+DataIn[4]+DataIn[5]+DataIn[6]+DataIn[7]+DataIn[8]+DataIn[9],DataOut);
-        #10;
-        foreach(DataIn[i]) begin
-            foreach(DataIn[i][j]) begin
-                DataIn[i][j] = $urandom_range(0, (1<<NBitIn)-1);
-            end
-        end
-        
-        // Apply inputs
-        #10;
-        $display("Expected: %0d. Out output : %0d",DataIn[1]+DataIn[2]+DataIn[3]+DataIn[4]+DataIn[5]+DataIn[6]+DataIn[7]+DataIn[8]+DataIn[9],DataOut);
-        #10;
-        foreach(DataIn[i]) begin
-            foreach(DataIn[i][j]) begin
-                DataIn[i][j] = $urandom_range(0, (1<<NBitIn)-1);
-            end
-        end
-        
-        // Apply inputs
-        #10;
-        $display("Expected: %0d. Out output : %0d",DataIn[1]+DataIn[2]+DataIn[3]+DataIn[4]+DataIn[5]+DataIn[6]+DataIn[7]+DataIn[8]+DataIn[9],DataOut);
-        #10;
-        foreach(DataIn[i]) begin
-            foreach(DataIn[i][j]) begin
-                DataIn[i][j] = $urandom_range(0, (1<<NBitIn)-1);
-            end
-        end
-        
-        // Apply inputs
-        #10;
-        $display("Expected: %0d. Out output : %0d",DataIn[1]+DataIn[2]+DataIn[3]+DataIn[4]+DataIn[5]+DataIn[6]+DataIn[7]+DataIn[8]+DataIn[9],DataOut);
-        #10;
-        foreach(DataIn[i]) begin
-            foreach(DataIn[i][j]) begin
-                DataIn[i][j] = $urandom_range(0, (1<<NBitIn)-1);
-            end
-        end
-        
-        // Apply inputs
-        #10;
-        $display("Expected: %0d. Out output : %0d",DataIn[1]+DataIn[2]+DataIn[3]+DataIn[4]+DataIn[5]+DataIn[6]+DataIn[7]+DataIn[8]+DataIn[9],DataOut);
-        #10;*/
-        
-        
-        
-        // Add your verification code here
         
        
     end
