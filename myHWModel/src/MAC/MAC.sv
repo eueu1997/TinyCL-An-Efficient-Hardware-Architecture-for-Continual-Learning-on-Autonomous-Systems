@@ -6,6 +6,7 @@ module MAC#
 )
 (
 	input  [0:(NOperands-1)][(NBit-1):0] featureIn  , // 8 da moltiplicare piu il 9o che è la somma parziale
+    input  [(NBit-1):0] partialSumIn,
     input  [0:(NOperands-1)][(NBit-1):0] Kernel  ,
     output reg [(NBit-1):0]   featureOut
 
@@ -13,7 +14,7 @@ module MAC#
 wire [0:(NOperands)][(NBit-1):0] temp_w  ; // volontariamente 9. l'ultimo è a zero
 wire [(NBitOut-1):0] featureOut_w;
 
-assign temp_w[NOperands] = '{default:0};
+assign temp_w[NOperands] = partialSumIn;
 
 genvar i;
 generate 

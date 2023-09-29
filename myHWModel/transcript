@@ -2517,3 +2517,675 @@ vsim -t 10ps -voptargs=+acc work.tb_BWDKAddrManager
 # Loading work.BWDKAddrManager(fast)
 add wave *
 run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:31:47 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(7): near "parameter": syntax error, unexpected parameter, expecting ')'.
+# End time: 10:31:48 on Sep 29,2023, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:32:09 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(26): near ")": syntax error, unexpected ')'.
+# End time: 10:32:09 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:32:41 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(29): near "output": syntax error, unexpected output, expecting ')'.
+# End time: 10:32:41 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:32:54 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(32): near "reg": syntax error, unexpected reg, expecting IDENTIFIER or TYPE_IDENTIFIER or NETTYPE_IDENTIFIER.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'featuresInMngd'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'partialSumIn'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(49): (vlog-2730) Undefined variable: 'partialSumIn'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(49): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(60): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(62): (vlog-2730) Undefined variable: 'dkAddr_r'.
+# End time: 10:32:54 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 8, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:33:55 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(32): near "reg": syntax error, unexpected reg, expecting IDENTIFIER or TYPE_IDENTIFIER or NETTYPE_IDENTIFIER.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'featuresInMngd'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'partialSumIn'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(49): (vlog-2730) Undefined variable: 'partialSumIn'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(49): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(60): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(62): (vlog-2730) Undefined variable: 'dkAddr_r'.
+# End time: 10:33:55 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 8, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:34:28 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(34): near ")": syntax error, unexpected ')'.
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(35): near "[": syntax error, unexpected '['.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'featuresInMngd'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'partialSumIn'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(49): (vlog-2730) Undefined variable: 'partialSumIn'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(49): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(60): (vlog-2730) Undefined variable: 'partialSumOut'.
+# End time: 10:34:28 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 8, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:36:07 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(34): near ")": syntax error, unexpected ')'.
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(35): near ")": syntax error, unexpected ')'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'featuresInMngd'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'partialSumIn'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(49): (vlog-2730) Undefined variable: 'partialSumIn'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(49): (vlog-2730) Undefined variable: 'partialSumOut'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(60): (vlog-2730) Undefined variable: 'partialSumOut'.
+# End time: 10:36:07 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 8, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:36:41 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(35): near ")": syntax error, unexpected ')'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vlog-2730) Undefined variable: 'featuresInMngd'.
+# End time: 10:36:41 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:37:01 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(54): (vlog-2110) Illegal reference to net "valid".
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(56): (vlog-2110) Illegal reference to net "valid".
+# End time: 10:37:01 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:37:38 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(54): (vlog-2110) Illegal reference to net "valid".
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(56): (vlog-2110) Illegal reference to net "valid".
+# End time: 10:37:38 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:40:53 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(54): (vlog-2110) Illegal reference to net "valid".
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(56): (vlog-2110) Illegal reference to net "valid".
+# End time: 10:40:53 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:41:16 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# 
+# Top level modules:
+# 	BW_PU
+# End time: 10:41:17 on Sep 29,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngr.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:57:06 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngr.sv 
+# -- Compiling module featureInMngr
+# 
+# Top level modules:
+# 	featureInMngr
+# End time: 10:57:06 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:57:08 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv 
+# -- Compiling module BWDKAddrManager
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv(26): (vlog-2730) Undefined variable: 'newdkAddr_r'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv(29): (vlog-2730) Undefined variable: 'newdkAddr_r'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv(31): (vlog-2730) Undefined variable: 'newdkAddr_r'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv(39): (vlog-2730) Undefined variable: 'newdkAddr_r'.
+# End time: 10:57:08 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:58:11 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv 
+# -- Compiling module BWDKAddrManager
+# 
+# Top level modules:
+# 	BWDKAddrManager
+# End time: 10:58:11 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:58:14 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# 
+# Top level modules:
+# 	BW_PU
+# End time: 10:58:14 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:58:27 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 10:58:27 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 10:58:32 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 10:58:32 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# End time: 10:59:58 on Sep 29,2023, Elapsed time: 43:15:46
+# Errors: 0, Warnings: 0
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 10:59:58 on Sep 29,2023
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(85): (vopt-2130) Expected a system function, not system task '$finish'.
+# Optimization failed
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=1, Warnings=0.
+# Error loading design
+# End time: 10:59:58 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:01:07 on Sep 29,2023
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(85): (vopt-2130) Expected a system function, not system task '$finish'.
+# Optimization failed
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=1, Warnings=0.
+# Error loading design
+# End time: 11:01:08 on Sep 29,2023, Elapsed time: 0:00:01
+# Errors: 1, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:01:11 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 11:01:11 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:01:13 on Sep 29,2023
+# ** Note: (vsim-3812) Design is being optimized...
+# ** Error (suppressible): /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(70): (vopt-2912) Port 'featureInMngd' not found in module 'featureInMngr' (3rd connection).
+# ** Error (suppressible): /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv(40): (vopt-2912) Port 'kernel' not found in module 'MAC' (2nd connection).
+# Optimization failed
+# ** Note: (vsim-12126) Error and warning message counts have been restored: Errors=2, Warnings=0.
+# Error loading design
+# End time: 11:01:13 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 2, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:02:49 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 11:02:49 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.v
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:02:55 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.v 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 11:02:55 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:02:57 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv 
+# -- Compiling module dadda_top
+# 
+# Top level modules:
+# 	dadda_top
+# End time: 11:02:57 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:02:59 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv 
+# -- Compiling module MAC
+# 
+# Top level modules:
+# 	MAC
+# End time: 11:02:59 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngr.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:03:05 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngr.sv 
+# -- Compiling module featureInMngr
+# 
+# Top level modules:
+# 	featureInMngr
+# End time: 11:03:05 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:03:06 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv 
+# -- Compiling module BWDKAddrManager
+# 
+# Top level modules:
+# 	BWDKAddrManager
+# End time: 11:03:06 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:03:08 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# 
+# Top level modules:
+# 	BW_PU
+# End time: 11:03:08 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:03:23 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 11:03:23 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:03:30 on Sep 29,2023
+# ** Note: (vsim-3812) Design is being optimized...
+# Loading sv_std.std
+# Loading work.tb_BW_PU(fast)
+# Loading work.BW_PU(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInMngr(fast)
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (144) for port 'featureIn'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU/uut/genblk1[0]/genblk1[0]/MACij File: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv Line: 40
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (144) for port 'featureIn'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU/uut/genblk1[0]/genblk1[1]/MACij File: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv Line: 40
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (144) for port 'featureIn'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU/uut/genblk1[0]/genblk1[2]/MACij File: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv Line: 40
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (144) for port 'featureIn'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU/uut/genblk1[1]/genblk1[0]/MACij File: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv Line: 40
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (144) for port 'featureIn'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU/uut/genblk1[1]/genblk1[1]/MACij File: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv Line: 40
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (144) for port 'featureIn'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU/uut/genblk1[1]/genblk1[2]/MACij File: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv Line: 40
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (144) for port 'featureIn'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU/uut/genblk1[2]/genblk1[0]/MACij File: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv Line: 40
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (144) for port 'featureIn'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU/uut/genblk1[2]/genblk1[1]/MACij File: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv Line: 40
+# ** Warning: (vsim-3015) [PCDPC] - Port size (128) does not match connection size (144) for port 'featureIn'. The port definition is at: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv(8).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU/uut/genblk1[2]/genblk1[2]/MACij File: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv Line: 40
+# ** Error (suppressible): (vsim-3839) Variable '/tb_BW_PU/tb_dkAddr', driven via a port connection, is multiply driven. See /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv Line: 57
+# ** Error (suppressible): (vsim-3839) Variable '/tb_BW_PU/tb_dyAddr', driven via a port connection, is multiply driven. See /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv Line: 56
+# ** Error (suppressible): (vsim-3839) Variable '/tb_BW_PU/tb_featureInAddr', driven via a port connection, is multiply driven. See /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv Line: 55
+# ** Error (suppressible): (vsim-3839) Variable '/tb_BW_PU/valid', driven via a port connection, is multiply driven. See /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv Line: 54
+# Error loading design
+# End time: 11:03:31 on Sep 29,2023, Elapsed time: 0:00:01
+# Errors: 4, Warnings: 9
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:09:24 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv 
+# -- Compiling module MAC
+# 
+# Top level modules:
+# 	MAC
+# End time: 11:09:24 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngr.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:09:29 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngr.sv 
+# -- Compiling module featureInMngr
+# 
+# Top level modules:
+# 	featureInMngr
+# End time: 11:09:30 on Sep 29,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:09:35 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv 
+# -- Compiling module BWDKAddrManager
+# 
+# Top level modules:
+# 	BWDKAddrManager
+# End time: 11:09:35 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:09:43 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# 
+# Top level modules:
+# 	BW_PU
+# End time: 11:09:43 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:09:47 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 11:09:47 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:09:52 on Sep 29,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_BW_PU(fast)
+# Loading work.BW_PU(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInMngr(fast)
+# ** Error (suppressible): (vsim-3839) Variable '/tb_BW_PU/tb_dkAddr', driven via a port connection, is multiply driven. See /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv Line: 57
+# ** Error (suppressible): (vsim-3839) Variable '/tb_BW_PU/tb_dyAddr', driven via a port connection, is multiply driven. See /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv Line: 56
+# ** Error (suppressible): (vsim-3839) Variable '/tb_BW_PU/tb_featureInAddr', driven via a port connection, is multiply driven. See /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv Line: 55
+# ** Error (suppressible): (vsim-3839) Variable '/tb_BW_PU/valid', driven via a port connection, is multiply driven. See /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(36).
+#    Time: 0 ps  Iteration: 0  Instance: /tb_BW_PU File: /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv Line: 54
+# Error loading design
+# End time: 11:09:52 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 4, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:12:55 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 11:12:55 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:12:57 on Sep 29,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_BW_PU(fast)
+# Loading work.BW_PU(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInMngr(fast)
+add wave *
+run 1000 ns
+add wave -position insertpoint sim:/tb_BW_PU/uut/*
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# End time: 11:16:04 on Sep 29,2023, Elapsed time: 0:03:07
+# Errors: 0, Warnings: 0
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:16:04 on Sep 29,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading sv_std.std
+# Loading work.tb_BW_PU(fast)
+# Loading work.BW_PU(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInMngr(fast)
+add wave -position insertpoint sim:/tb_BW_PU/uut/*
+run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:21:49 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv(60): near "=": syntax error, unexpected '='.
+# End time: 11:21:49 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:22:08 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 11:22:08 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# End time: 11:22:18 on Sep 29,2023, Elapsed time: 0:06:14
+# Errors: 0, Warnings: 0
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:22:18 on Sep 29,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_BW_PU(fast)
+# Loading work.BW_PU(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInMngr(fast)
+add wave -position insertpoint sim:/tb_BW_PU/uut/*
+run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:44:49 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv 
+# -- Compiling module register
+# 
+# Top level modules:
+# 	register
+# End time: 11:44:49 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:44:51 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# 
+# Top level modules:
+# 	BW_PU
+# End time: 11:44:51 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:45:01 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 11:45:01 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# End time: 11:45:11 on Sep 29,2023, Elapsed time: 0:22:53
+# Errors: 0, Warnings: 0
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:45:11 on Sep 29,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_BW_PU(fast)
+# Loading work.BW_PU(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.register(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInMngr(fast)
+add wave -position insertpoint sim:/tb_BW_PU/uut/*
+run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:51:24 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv 
+# -- Compiling module register
+# 
+# Top level modules:
+# 	register
+# End time: 11:51:24 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:51:28 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 11:51:28 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:51:32 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# 
+# Top level modules:
+# 	BW_PU
+# End time: 11:51:32 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 11:51:34 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 11:51:34 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# End time: 11:51:39 on Sep 29,2023, Elapsed time: 0:06:28
+# Errors: 0, Warnings: 0
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:51:39 on Sep 29,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_BW_PU(fast)
+# Loading work.BW_PU(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.register(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInMngr(fast)
+add wave -position insertpoint sim:/tb_BW_PU/uut/*
+run 100 ns
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# End time: 11:52:07 on Sep 29,2023, Elapsed time: 0:00:28
+# Errors: 0, Warnings: 0
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 11:52:07 on Sep 29,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading sv_std.std
+# Loading work.tb_BW_PU(fast)
+# Loading work.BW_PU(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.register(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInMngr(fast)
+add wave -position insertpoint sim:/tb_BW_PU/uut/*
+run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:00:43 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv 
+# -- Compiling module BW_PU
+# 
+# Top level modules:
+# 	BW_PU
+# End time: 12:00:43 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 12:00:47 on Sep 29,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv 
+# -- Compiling module tb_BW_PU
+# 
+# Top level modules:
+# 	tb_BW_PU
+# End time: 12:00:47 on Sep 29,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t 10ps -voptargs=+acc work.tb_BW_PU
+# End time: 12:00:56 on Sep 29,2023, Elapsed time: 0:08:49
+# Errors: 0, Warnings: 0
+# vsim -t 10ps -voptargs="+acc" work.tb_BW_PU 
+# Start time: 12:00:56 on Sep 29,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.tb_BW_PU(fast)
+# Loading work.BW_PU(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.register(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInMngr(fast)
+add wave -position insertpoint sim:/tb_BW_PU/uut/*
+run 1000 ns

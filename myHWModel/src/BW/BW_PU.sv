@@ -3,27 +3,66 @@
 // la feature in invece ha i bordi che non toccano alcuni kernel.
 // la featureInMngr gestisce ciò,mandando fuori le feature nell'ordine giusto nei igusti MAC.
 // a fine processo abbiamo nel registro di ogni MAC i 9 Dk 
-module BW_PU(
-    parameter int nBits = 16,
+module BW_PU #(
+    parameter N_OF_MAC_ROWS = 3,
+    parameter N_OF_MAC_CLMN = 3,
+    parameter NBITS = 16,
+    parameter N_FEATURE_READ = 8,
+    parameter FEATURE_IN_DIM = 32,
+    parameter FEATURE_OUT_DIM = 32,
+    parameter CHANNEL_OUT_DIM = 8,
+    parameter CHANNEL_IN_DIM = 8,
+    parameter KERNEL_SIZE = 3
 )
-(
-    input logic [0:7][(nBits-1):0]featureIn;
-    output logic featureInAddr;
-    input logic []dyAddr;
-    input logic [0:7][(nBits-1):0]dy
-)
-reg logic [0:2][0:2][(nBits-1):0]partialSumIn,partialSumOut
-wire logic [0:2][0:2][0:7][(nBits-1):0]featuresInMngd;
+( 
+    // Feature in
+    output reg [($clog2(CHANNEL_IN_DIM) + $clog2(FEATURE_IN_DIM) + $clog2(FEATURE_IN_DIM) -1):0] featureInAddr,
+    input  [0:(N_FEATURE_READ -1)][(NBITS-1):0]featureIn,
+    // Dy in
+    output reg [($clog2(CHANNEL_OUT_DIM) + $clog2(FEATURE_OUT_DIM) + $clog2(FEATURE_OUT_DIM) -1):0]dyAddr,
+    input  [0:(N_FEATURE_READ -1)][(NBITS-1):0]dy,
+    // dk out
+    output  reg [($clog2(CHANNEL_OUT_DIM) + $clog2(CHANNEL_IN_DIM) -1):0] dkAddr,
+    output reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] dk,
+    input clk,
+    input rst,
+    output reg valid
+);
+reg [($clog2(FEATURE_IN_DIM) + $clog2(FEATURE_IN_DIM) -1):0] convAddr_r;
+reg [($clog2(CHANNEL_OUT_DIM) + $clog2(CHANNEL_IN_DIM) -1):0] dkAddr_r;
+
+reg  [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0]partialSumIn,partialSumOut;
+wire  [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][0:(N_FEATURE_READ -1)][(NBITS-1):0]featuresInMngd;
 genvar i,j;
 generate 
     for (i=0;i < N_OF_MAC_ROWS; i= i+1) begin 
         for(j=0;j < N_OF_MAC_CLMN; j= j+1)begin
-            MAC MACij (.featureIn[0:7](featuresInMngd[i][j]),.featureIn[8](partialSumOut[i][j]).kernel(dy),.featureOut(partialSumIn[i][j]),'1');
-            register PSi(partialSumIn[i][j],partialSumOut[i][j],clk,rst)
+            MAC MACij (.featureIn(featuresInMngd[i][j]),.partialSumIn(partialSumIn[i][j]),.Kernel(dy),.featureOut(partialSumOut[i][j]));
+            register #(.WIDTH(NBITS)) PSi(.data_in(partialSumOut[i][j]),.clk(clk),.rst(rst),.data_out(partialSumIn[i][j]));
 
         end
     end
+
 endgenerate
 
-featureInMngr FIN(.featureIn(featureIn),.featureInMngd(featuresInMngd),clk,rst);
+// DK validation signal
+always @(*)  begin
+    if ( convAddr_r == (FEATURE_IN_DIM*FEATURE_IN_DIM-N_FEATURE_READ) )begin
+        valid <= 1;
+    end else begin
+        valid <= 0;
+    end
+end
+// DK output
+assign dk = partialSumOut;
+// create address for dy,feature in and output dk address
+assign dkAddr = dkAddr_r;
+assign featureInAddr[($clog2(FEATURE_IN_DIM) + $clog2(FEATURE_IN_DIM) -1):0] = convAddr_r;
+assign featureInAddr[($clog2(CHANNEL_IN_DIM) + $clog2(FEATURE_IN_DIM) + $clog2(FEATURE_IN_DIM) -1) : ($clog2(FEATURE_IN_DIM) + $clog2(FEATURE_IN_DIM) )] = dkAddr_r[( $clog2(CHANNEL_IN_DIM) -1):0];
+assign dyAddr[($clog2(FEATURE_OUT_DIM) + $clog2(FEATURE_OUT_DIM) -1):0] = convAddr_r;// TODO : this can cause problem due tobnot considering stride
+assign dyAddr[($clog2(CHANNEL_OUT_DIM) + $clog2(FEATURE_OUT_DIM) + $clog2(FEATURE_OUT_DIM) -1):($clog2(FEATURE_OUT_DIM) + $clog2(FEATURE_OUT_DIM) )] = dkAddr_r[($clog2(CHANNEL_OUT_DIM) + $clog2(CHANNEL_IN_DIM)  -1):( $clog2(CHANNEL_IN_DIM) )];
+//Address manager. Generate 
+BWDKAddrManager BWDK (.clk(clk),.rst(rst),.convAddr(convAddr_r),.dkAddr(dkAddr_r));
+    
+featureInMngr FIN(.featureInAddr(convAddr_r),.featureIn(featureIn),.featuresInMngd(featuresInMngd));
 endmodule

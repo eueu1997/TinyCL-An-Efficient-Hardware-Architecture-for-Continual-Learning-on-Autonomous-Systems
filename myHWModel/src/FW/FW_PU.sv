@@ -75,6 +75,7 @@ generate
         for(j=0;j < N_OF_MAC_CLMN; j= j+1)begin
             MAC MACij (
             .featureIn(featuresIn[i][j]),
+            .partialSumIn('{default:0}),
             /*.featureIn[1](featuresIn[i][j][(2*NBITS-1):(NBITS)]),
             .featureIn[2](featuresIn[i][j][(3*NBITS-1):(2*NBITS)]),
             .featureIn[3](featuresIn[i][j][(4*NBITS-1):(3*NBITS)]),
