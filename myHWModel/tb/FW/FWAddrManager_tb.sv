@@ -1,43 +1,69 @@
 module tb_FWAddrManager;
 
-  // Define the parameters
-  parameter rowSize = 32;
-  parameter columnSize = 32;
-  parameter ChSize = 8;
+    // Parameters
+    parameter FEATURE_OUT_ROW_SIZE = 32;
+    parameter FEATURE_OUT_COLUMN_SIZE = 32;
+    parameter FEATURE_OUT_CH_SIZE = 32;
+    parameter FEATURE_IN_CH_SIZE = 32;
 
-  // Define the signals
-  reg clk, rst;
-  reg [($clog2(rowSize)-1):0] featureRow;
-  reg [($clog2(columnSize)-1):0] featureColumn;
-  reg [($clog2(ChSize)-1):0] featureCh;
+    // Signals
+    logic clk;
+    logic rst;
+    logic [$clog2(FEATURE_IN_CH_SIZE)-1:0] featureInActChSize;
+    logic [$clog2(FEATURE_OUT_CH_SIZE)-1:0] featureOutActChSize;
+    logic [$clog2(FEATURE_OUT_ROW_SIZE)-1:0] featureOutActRowSize;
+    logic [$clog2(FEATURE_OUT_COLUMN_SIZE)-1:0] featureOutActColumnSize;
+    logic [$clog2(FEATURE_OUT_ROW_SIZE)-1:0] featureOutRowAddr;
+    logic [$clog2(FEATURE_OUT_COLUMN_SIZE)-1:0] featureOutColumAddr;
+    logic [$clog2(FEATURE_OUT_CH_SIZE)-1:0] featureOutChAddr;
+    logic [$clog2(FEATURE_IN_CH_SIZE)-1:0] featureInChAddr;
 
-  // Instantiate the DUT
-  FWAddrManager #(rowSize, columnSize, ChSize) dut (
-    .clk(clk),
-    .rst(rst),
-    .featureRow(featureRow),
-    .featureColum(featureColumn),
-    .featureCh(featureCh)
-  );
+    // Instantiate the FWAddrManager module
+    FWAddrManager #(FEATURE_OUT_ROW_SIZE, FEATURE_OUT_COLUMN_SIZE, FEATURE_OUT_CH_SIZE, FEATURE_IN_CH_SIZE) uut (
+        .clk(clk),
+        .rst(rst),
+        .featureInActChSize(featureInActChSize),
+        .featureOutActChSize(featureOutActChSize),
+        .featureOutActRowSize(featureOutActRowSize),
+        .featureOutActColumnSize(featureOutActColumnSize),
+        .featureOutRowAddr(featureOutRowAddr),
+        .featureOutColumAddr(featureOutColumAddr),
+        .featureOutChAddr(featureOutChAddr),
+        .featureInChAddr(featureInChAddr)
+    );
 
-  // Clock generation
-  always #5 clk = ~clk;
+    // Clock generation
+    initial begin
+        clk = 0;
+        forever #1 clk = ~clk;
+    end
 
-  // Test procedure
-  initial begin
-    // Initialize signals
-    rst = 1;
-    clk = 0;
-    
-    // Apply reset
-    #10 rst = 0;
+    // Reset generation
+    initial begin
+        rst = 1;
+        #2;
+        rst = 0;
+    end
 
-    // Allow some time for the DUT to process after reset
-    #10;
+    // Test stimulus
+    initial begin
+        // Initialize feature sizes
+        featureInActChSize = 7; // Assuming 8 channels
+        featureOutActChSize = 7; // Assuming 8 channels
+        featureOutActRowSize = 31; // Assuming 32 rows
+        featureOutActColumnSize = 31; // Assuming 32 columns
+        #16390;
+        featureInActChSize = 7; // Assuming 8 channels
+        featureOutActChSize = 15; // Assuming 8 channels
+        featureOutActRowSize = 15; // Assuming 32 rows
+        featureOutActColumnSize = 15; // Assuming 32 columns
+        #8192;
+        featureInActChSize = 15; // Assuming 8 channels
+        featureOutActChSize = 31; // Assuming 8 channels
+        featureOutActRowSize = 7; // Assuming 32 rows
+        featureOutActColumnSize = 7; // Assuming 32 columns
+        #4096;
 
-    // Add your test cases here
-
-    // End simulation
-      end
+    end
 
 endmodule

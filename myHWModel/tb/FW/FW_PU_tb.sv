@@ -4,26 +4,26 @@ module tb_FW_PU;
     parameter MAC_SIZE = 3;
     parameter N_OF_MAC_ROWS = 3;
     parameter N_OF_MAC_CLMN = 3;
-    parameter CHANNEL_IN_SIZE = 8;
+    parameter N_OF_CH_READ = 8;
     parameter NBITS = 16;
     parameter FEATURE_IN_ROW_SIZE = 32;
     parameter FEATURE_IN_COLUMN_SIZE = 32;
     parameter FEATURE_IN_CH_SIZE = 8;
-
+    parameter FEATURE_OUT_ROW_SIZE = 32;
+    parameter FEATURE_OUT_COLUMN_SIZE = 32;
+    parameter FEATURE_OUT_CH_SIZE = 8;
     // Define signals
     reg clk;
     reg rst;
-    reg [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*CHANNEL_IN_SIZE-1):0] tb_kernelVals;
+    reg [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] tb_kernelVals;
     reg loadKernel;
-    reg [(NBITS*CHANNEL_IN_SIZE-1):0] tb_featureInP1;
-    reg [(NBITS*CHANNEL_IN_SIZE-1):0] tb_featureInP2;
-    reg [(NBITS*CHANNEL_IN_SIZE-1):0] tb_featureInP3;
-    wire [($clog2(FEATURE_IN_ROW_SIZE)+$clog2(FEATURE_IN_COLUMN_SIZE)-1):0] tb_featureInP1Addr;
-    wire [($clog2(FEATURE_IN_ROW_SIZE)+$clog2(FEATURE_IN_COLUMN_SIZE)-1):0] tb_featureInP2Addr;
-    wire [($clog2(FEATURE_IN_ROW_SIZE)+$clog2(FEATURE_IN_COLUMN_SIZE)-1):0] tb_featureInP3Addr;
-    wire [($clog2(FEATURE_IN_ROW_SIZE)-1):0] tb_featureOutRowAddr;
-    wire [($clog2(FEATURE_IN_COLUMN_SIZE)-1):0] tb_featureOutColumAddr;
-    wire [($clog2(FEATURE_IN_CH_SIZE)-1):0] tb_featureOutChAddr;
+    reg [(NBITS*N_OF_CH_READ-1):0] tb_featureInP1;
+    reg [(NBITS*N_OF_CH_READ-1):0] tb_featureInP2;
+    reg [(NBITS*N_OF_CH_READ-1):0] tb_featureInP3;
+    wire [($clog2(FEATURE_IN_CH_SIZE) + $clog2(FEATURE_IN_ROW_SIZE)+$clog2(FEATURE_IN_COLUMN_SIZE)-1):0] tb_featureInP1Addr;
+    wire [($clog2(FEATURE_IN_CH_SIZE) + $clog2(FEATURE_IN_ROW_SIZE)+$clog2(FEATURE_IN_COLUMN_SIZE)-1):0] tb_featureInP2Addr;
+    wire [($clog2(FEATURE_IN_CH_SIZE) + $clog2(FEATURE_IN_ROW_SIZE)+$clog2(FEATURE_IN_COLUMN_SIZE)-1):0] tb_featureInP3Addr;
+    wire [($clog2(FEATURE_OUT_CH_SIZE) + $clog2(FEATURE_OUT_ROW_SIZE) + $clog2(FEATURE_OUT_COLUMN_SIZE) -1) : 0] tb_featureOutAddr;
     wire [(NBITS-1):0] tb_featureOutVal;
 
     // Instantiate the FW_PU module
@@ -31,11 +31,14 @@ module tb_FW_PU;
         .MAC_SIZE(MAC_SIZE),
         .N_OF_MAC_ROWS(N_OF_MAC_ROWS),
         .N_OF_MAC_CLMN(N_OF_MAC_CLMN),
-        .CHANNEL_IN_SIZE(CHANNEL_IN_SIZE),
+        .N_OF_CH_READ(N_OF_CH_READ),
         .NBITS(NBITS),
         .FEATURE_IN_ROW_SIZE(FEATURE_IN_ROW_SIZE),
         .FEATURE_IN_COLUMN_SIZE(FEATURE_IN_COLUMN_SIZE),
-        .FEATURE_IN_CH_SIZE(FEATURE_IN_CH_SIZE)
+        .FEATURE_IN_CH_SIZE(FEATURE_IN_CH_SIZE),
+        .FEATURE_OUT_ROW_SIZE(FEATURE_OUT_ROW_SIZE),
+        .FEATURE_OUT_COLUMN_SIZE(FEATURE_OUT_COLUMN_SIZE),
+        .FEATURE_OUT_CH_SIZE(FEATURE_OUT_CH_SIZE)
     ) uut (
         .clk(clk),
         .rst(rst),
@@ -47,9 +50,7 @@ module tb_FW_PU;
         .featureInP1(tb_featureInP1),
         .featureInP2(tb_featureInP2),
         .featureInP3(tb_featureInP3),
-        .featureOutRowAddr(tb_featureOutRowAddr),
-        .featureOutColumAddr(tb_featureOutColumAddr),
-        .featureOutChAddr(tb_featureOutChAddr),
+        .featureOutAddr(tb_featureOutAddr),
         .featureOutVal(tb_featureOutVal)
     );
 

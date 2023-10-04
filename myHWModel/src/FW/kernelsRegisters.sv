@@ -1,19 +1,20 @@
 module kernelRegisters #
 (
     parameter nBits = 16,
-    parameter nChannelIn = 8
+    parameter nChannelIn = 8,
+    parameter nKernel = 3
 )
 (
     //kernel inp
     input reg clk,
     input reg rst,
     input reg load,
-    input var [0:2][0:2][(nChannelIn*nBits-1):0] kernelIn,
-    output reg [0:2][0:2][(nBits*nChannelIn-1):0] kernelOut
+    input var [0:(nKernel -1)][0:(nKernel -1)][(nChannelIn*nBits-1):0] kernelIn,
+    output reg [0:(nKernel -1)][0:(nKernel -1)][(nBits*nChannelIn-1):0] kernelOut
 );
 
-reg [0:2][0:2][(nBits*nChannelIn-1):0]registers ;
-reg [0:2][0:2][(nBits*nChannelIn-1):0]newRegisters ;
+reg [0:(nKernel -1)][0:(nKernel-1)][(nBits*nChannelIn-1):0]registers ;
+reg [0:(nKernel-1)][0:(nKernel-1)][(nBits*nChannelIn-1):0]newRegisters ;
 
 always @ (*)begin
     if (rst == 1)begin
