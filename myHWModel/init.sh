@@ -4,8 +4,9 @@ echo "optional parameter. (1) for running vsim"
 
 run=$1
 
-source init_questa
+source /home/thesis/eugenio.ressa/Desktop/myHWModel/init_questa
 
 echo "everything is setup. Workspace is clean"
 
-vsim -gui -do resim.tcl 
+vsim -do /home/thesis/eugenio.ressa/Desktop/myHWModel/resim.tcl
+ 

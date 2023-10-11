@@ -1,46 +1,115 @@
 module BWDKAddrManager #
 (
-    parameter CHANNEL_OUT_DIM = 8,
-    parameter CHANNEL_IN_DIM = 8,
-    parameter FEATURE_OUT_DIM = 32,
-    parameter FEATURE_IN_DIM = 32,
-    parameter KERNEL_SIZE = 3,
-    parameter STRIDE = 1,
-    parameter N_FEATURE_READ = 8
+    parameter FEATURE_OUT_ROW_SIZE = 32,
+    parameter FEATURE_OUT_COLUMN_SIZE = 32,
+    parameter FEATURE_OUT_CH_SIZE = 8,
+    parameter FEATURE_IN_CH_SIZE = 8
 )
 (
-    input  logic clk,
-    input  logic rst,
-    output  reg [($clog2(FEATURE_IN_DIM) + $clog2(FEATURE_IN_DIM) -1):0] convAddr,
-    output  reg [($clog2(CHANNEL_OUT_DIM) + $clog2(CHANNEL_IN_DIM) -1):0] dkAddr
+    //kernel inp
+    input logic clk,
+    input logic rst,
+    //Actual feature size
+    input [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInActChSize,
+    input [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutActChSize,
+    input [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutActRowSize,
+    input [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutActColumnSize, 
+    // address generated
+    output reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0]featureOutRowAddr,
+    output reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0]featureOutColumAddr,
+    output reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0]featureOutChAddr,
+    output reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddr
 );
-// Number of feature read each step
+reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0] featureOutColum,NewFeatureOutColum;
+reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0] featureOutRow,NewFeatureOutRow;
+reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInCh,NewFeatureInCh;
+reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutCh,NewFeatureOutCh;
 
-reg [($clog2(FEATURE_IN_DIM) + $clog2(FEATURE_IN_DIM) -1):0] convAddr_r,newConvAddr_r;
-reg [($clog2(CHANNEL_OUT_DIM) + $clog2(CHANNEL_IN_DIM)  -1):0] dkAddr_r,newDkAddr_r;
-
-// 2d iteration over convolution 
-always @ (*) begin
-    if(rst == 1) begin
-        newConvAddr_r = '{default:0};
-        newDkAddr_r = '{default:0};
+//Column iterator
+always @ (*) begin 
+    if ( rst == 1)begin
+        NewFeatureOutColum = '{default:0};
     end else begin
-        if ( convAddr_r == ( (FEATURE_OUT_DIM*FEATURE_OUT_DIM) - (N_FEATURE_READ)) )begin
-            newDkAddr_r = dkAddr_r + 1;
-        end else begin 
-            newDkAddr_r = dkAddr_r ;
+        if (featureOutRow[0]==0)begin // if moving to right
+	        if((featureOutColum +7) == featureOutActColumnSize )begin // if reach end of column
+		        NewFeatureOutColum = featureOutColum ;
+	        end else begin // otherwise
+        	    NewFeatureOutColum = featureOutColum + 8 ;
+	        end
+        end else begin // if we are moving to left
+            if(featureOutColum == 0)begin // if reaching column 0
+		        NewFeatureOutColum = featureOutColum ;
+	        end else begin // otherwise
+        	    NewFeatureOutColum = featureOutColum - 8 ;
+	        end
         end
-        newConvAddr_r = convAddr_r + (N_FEATURE_READ*STRIDE) ;
+    end
+end
+
+// Row iterator
+always @ (*) begin 
+    if ( rst == 1)begin
+        NewFeatureOutRow = 0;
+    end else begin
+        if ((featureOutRow == featureOutActRowSize)&(featureOutColum == 0)) begin // if the whole feature has been iterated
+            NewFeatureOutRow = 0;
+        end else begin 
+            if(((((featureOutColum +7) == featureOutActColumnSize)&((NewFeatureOutColum +7) == featureOutActColumnSize)) | (((featureOutColum ==0)&(NewFeatureOutColum ==0) )&(featureOutRow != 0))))begin
+                NewFeatureOutRow = featureOutRow + 1;
+            end else begin
+                NewFeatureOutRow = featureOutRow;
+            end
+        end
+    end
+end
+
+//channel in iterator 
+always @ (*) begin 
+    if (rst == 1) begin
+        NewFeatureInCh = 0;
+    end else begin
+        if ((featureOutRow == featureOutActRowSize ) & (featureOutColum == 0))begin// If we are at the end of the feature
+            if(featureInCh == featureInActChSize)begin // if we have passed all channel in 
+                NewFeatureInCh = 0;
+            end else begin// otherwise iterate
+                NewFeatureInCh= featureInCh + 1; 
+            end
+        end else begin // otherwise
+            NewFeatureInCh = featureInCh;
+        end
+    end
+end
+//channel out iterator 
+always @ (*) begin 
+    if (rst == 1) begin
+        NewFeatureOutCh = 0;
+    end else begin
+        if ((featureOutRow == featureOutActRowSize ) & (featureOutColum == 0) & ((featureInCh) == featureInActChSize))begin // if iterate all channel in
+            if(featureOutCh ==  featureOutActChSize)begin // if iterate also all channel out
+                NewFeatureOutCh = 0;
+            end else begin // otherwise, increment
+                NewFeatureOutCh= featureOutCh + 1;
+            end
+        end else begin
+            NewFeatureOutCh = featureOutCh;
+        end
     end
 end
 
 
-always @ ( posedge clk) begin
-    dkAddr_r = newDkAddr_r;
-    convAddr_r = newConvAddr_r;
-end
 
-assign convAddr = convAddr_r;
-assign dkAddr = dkAddr_r;
+
+always @ ( posedge clk) begin
+
+    featureInCh = NewFeatureInCh;
+    featureOutRow = NewFeatureOutRow;
+    featureOutColum = NewFeatureOutColum;
+    featureOutCh = NewFeatureOutCh;
+
+end
+assign featureInChAddr = featureInCh;
+assign featureOutRowAddr = featureOutRow;
+assign featureOutColumAddr = featureOutColum;
+assign featureOutChAddr = featureOutCh;
 
 endmodule

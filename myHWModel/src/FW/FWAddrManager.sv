@@ -51,7 +51,7 @@ always @ (*) begin
     if ( rst == 1)begin
         NewFeatureOutRow = 0;
     end else begin
-        if ((featureOutRow == featureOutActRowSize)&(featureOutColum == 0)) begin
+        if ((featureOutRow == featureOutActRowSize)&(featureOutColum == 0)) begin // If the whole feature has been iterate
             NewFeatureOutRow = 0;
         end else begin 
             if((((featureOutColum == featureOutActColumnSize)&(NewFeatureOutColum == featureOutActColumnSize)) | (((featureOutColum ==0)&(NewFeatureOutColum ==0) )&(featureOutRow != 0))))begin

@@ -23,8 +23,9 @@ module operatorCore_sim();
     wire [4:0] num1_exp, num2_exp, floM_exp;
     wire [9:0] num1_frac, num2_frac;
     wire precisionLost;
-    
-    fixed_multi uut1(num1, num2, fixM, overflow[1], precisionLost,);
+    wire [31:0] result_full; //32-bit results
+
+    fixed_multi uut1(num1, num2, fixM, overflow[1], precisionLost,result_full);
     
 
     assign {num1_int, num1_flo} = num1;
@@ -36,38 +37,18 @@ module operatorCore_sim();
     
     initial //test cases here
         begin
-            num1 <= 16'd27;
-            num2 <= 16'd42;
-            #250
-            num1 <= 16'd561;
-            num2 <= 16'd158;
-            #250
-            num1 <=  16'b1010101010001110;
-            num2 <= 16'b0101011100100110;
-            #250
-            num1 <= 16'b1111110110111010;
-            num2 <= 16'b0100111001001111;
+            num1 <= 16'hAF89;
+            num2 <= 16'hFF89;
+            #250;
+            num1 <= 16'h0001;
+            num2 <= 16'hFF46;
+            #250;
+            num1 <= 16'h0009;
+            num2 <= 16'hFF81;
+            #250;
+
             //#250
             //$finish;
         end
-    initial 
-        begin  
-            $dumpfile("output_waveform.vcd"); 
-            $dumpvars(0, num1);
-            $dumpvars(0, num2);
-            $dumpvars(0, fixM);
-            $dumpvars(0, overflow);
-            $dumpvars(0, num1_int);
-            $dumpvars(0, num1_flo);
-            $dumpvars(0, num2_int);
-            $dumpvars(0, num2_flo);
-            $dumpvars(0, num1_sign);
-            $dumpvars(0, num1_exp);
-            $dumpvars(0, num1_frac);
-            $dumpvars(0, num2_sign);
-            $dumpvars(0, num2_exp);
-            $dumpvars(0, num2_frac);
-            $dumpvars(0, fixM_int);
-            $dumpvars(0, fixM_flo);
-        end
+   
 endmodule
