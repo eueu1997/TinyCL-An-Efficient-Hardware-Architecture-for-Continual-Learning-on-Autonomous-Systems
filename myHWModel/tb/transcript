@@ -544,3 +544,379 @@ add wave -position insertpoint sim:/operatorCore_sim/uut1/*
 run 1000 nbs
 # Invalid time value: 1000 nbs
 run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:54:09 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 16:54:09 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:54:22 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 16:54:22 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 16:54:43 on Oct 11,2023, Elapsed time: 21:56:27
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 16:54:43 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:06:44 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 17:06:44 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:08:47 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 17:08:47 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 17:08:53 on Oct 11,2023, Elapsed time: 0:14:10
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 17:08:53 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 100 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:13:56 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 17:13:56 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:13:58 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 17:13:58 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 17:14:00 on Oct 11,2023, Elapsed time: 0:05:07
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 17:14:00 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave 
+# wrong number of args for "add wave".
+# Usage: add wave [-allowconstants] [-clampanalog {0|1}] [-color <standard_color_name>] [-depth <level>] [-divider <divider_name>...] [-expand <signal_name>] [-filter <f> | -nofilter <f>] [-format <type> | -<format>] [-group <group_name> [<sig_name1>...]] [-height <pixels>] [[-in] [-out] [-inout] | [-ports]] [-internal] [-label <name>] [-max <real_num>] [-min <real_num>] [-mvcall] [-mvcovm] [-mvcreccomplete] [-noupdate] [-numdynitem <int>] [-optcells] [-position <location>] [-queueends] [-radix <type> | -<radix_type>] [-radixenumnumeric | -radixenumsymbolic] [-recursive] [-startdynitem <int>] [-time] [-window <wname>] [<object_name>...] [{<object_name> {sig1 sig2 ...}}] 
+add wave *
+run 10000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:16:36 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 17:16:36 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:16:39 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 17:16:39 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 17:16:42 on Oct 11,2023, Elapsed time: 0:02:42
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 17:16:42 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:26:49 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv(54): near "end": syntax error, unexpected end, expecting ';'.
+# End time: 17:26:49 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:26:58 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 17:26:58 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 17:27:33 on Oct 11,2023, Elapsed time: 0:10:51
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 17:27:33 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 2000 n
+# Invalid time value: 2000 n
+run 2000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:44:17 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 17:44:17 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:44:20 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 17:44:21 on Oct 11,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 17:44:27 on Oct 11,2023, Elapsed time: 0:16:54
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 17:44:27 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:58:44 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# ** Error: (vlog-13069) /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv(37): near "d": syntax error, unexpected IDENTIFIER, expecting ',' or '}'.
+# End time: 17:58:44 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 1, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:59:11 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 17:59:11 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 17:59:14 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 17:59:14 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 17:59:22 on Oct 11,2023, Elapsed time: 0:14:55
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 17:59:22 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:01:36 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 18:01:36 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:01:39 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 18:01:39 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 18:01:42 on Oct 11,2023, Elapsed time: 0:02:20
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 18:01:42 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 1000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:06:08 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 18:06:09 on Oct 11,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:06:10 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 18:06:10 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 18:06:14 on Oct 11,2023, Elapsed time: 0:04:32
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 18:06:14 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 1000 ns
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 18:06:54 on Oct 11,2023, Elapsed time: 0:00:40
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 18:06:54 on Oct 11,2023
+# ** Note: (vsim-8009) Loading existing optimized design _opt2
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 2000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:08:34 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 18:08:34 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:08:37 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 18:08:37 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 18:08:51 on Oct 11,2023, Elapsed time: 0:01:57
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 18:08:51 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 3000 ns
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:27:14 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv(40): (vlog-2730) Undefined variable: 'num2_ext'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv(42): (vlog-2730) Undefined variable: 'num2_ext'.
+# ** Error: /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv(52): (vlog-2730) Undefined variable: 'num2_ext'.
+# End time: 18:27:14 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 3, Warnings: 0
+# /eda/mentor/2020-21/RHELx86/QUESTA-CORE-PRIME_2020.4/questasim/linux_x86_64/vlog failed.
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:27:51 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 18:27:51 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 18:27:54 on Oct 11,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv 
+# -- Compiling module operatorCore_sim
+# 
+# Top level modules:
+# 	operatorCore_sim
+# End time: 18:27:54 on Oct 11,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+vsim -t ns -voptargs=+acc work.operatorCore_sim
+# End time: 18:27:57 on Oct 11,2023, Elapsed time: 0:19:06
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.operatorCore_sim 
+# Start time: 18:27:57 on Oct 11,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.operatorCore_sim(fast)
+# Loading work.fixed_multi(fast)
+add wave *
+run 3000 ns

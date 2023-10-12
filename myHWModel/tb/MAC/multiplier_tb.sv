@@ -46,7 +46,20 @@ module operatorCore_sim();
             num1 <= 16'h0009;
             num2 <= 16'hFF81;
             #250;
-
+            num1 <= 16'h1800;
+            num2 <= 16'h3000;
+            #250;
+            num1 <= 16'h7000;
+            num2 <= 16'h0001;
+            #250;
+            num1 <= 16'h8000;
+            num2 <= 16'h0001;
+            #250;
+            num1 <= 16'h8000;
+            num2 <= 16'hffff;
+            #250;
+            num1 <= 16'h7000;
+            num2 <= 16'hffff;
             //#250
             //$finish;
         end
