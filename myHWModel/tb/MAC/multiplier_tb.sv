@@ -12,7 +12,7 @@
 // Dependencies: adder-mutiplier.v
 //////////////////////////////////////////////////////////////////////////////////
 
-
+parameter  TEST_CASE = 100 ;
 module operatorCore_sim();
 
     reg [15:0] num1, num2;
@@ -35,33 +35,23 @@ module operatorCore_sim();
     assign {num2_sign, num2_exp, num2_frac} = num2;
     
     
+    reg [(16-1):0]kernel[0:(TEST_CASE-1)];
+    reg [(16-1):0]featureIn[0:(TEST_CASE-1)];
+    reg [(16-1):0]result[0:(TEST_CASE-1)];
     initial //test cases here
         begin
-            num1 <= 16'hAF89;
-            num2 <= 16'hFF89;
-            #250;
-            num1 <= 16'h0001;
-            num2 <= 16'hFF46;
-            #250;
-            num1 <= 16'h0009;
-            num2 <= 16'hFF81;
-            #250;
-            num1 <= 16'h1800;
-            num2 <= 16'h3000;
-            #250;
-            num1 <= 16'h7000;
-            num2 <= 16'h0001;
-            #250;
-            num1 <= 16'h8000;
-            num2 <= 16'h0001;
-            #250;
-            num1 <= 16'h8000;
-            num2 <= 16'hffff;
-            #250;
-            num1 <= 16'h7000;
-            num2 <= 16'hffff;
-            //#250
-            //$finish;
+        $readmemh("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/kernel.txt",kernel);
+        $readmemh("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/featureIn1.txt", featureIn);
+        for (int i =0; i <TEST_CASE ; i++)begin
+            num1 = kernel[i];
+            num2 = featureIn[i];
+            result[i] = fixM;
+            #5;
         end
-   
+        
+        $writememh("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/result.txt",result);
+
+        $finish;
+        end
+
 endmodule

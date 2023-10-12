@@ -3,7 +3,7 @@ module fixed_multi(num1, num2, result, overflow, precisionLost, result_full);
   input [15:0] num1, num2; //num1 is multiplicand and num2 is multiplier
   output [15:0] result;
   output overflow, precisionLost;
-  reg [31:0] mid [15:0]; //shifted values
+  reg [31:0] mid [31:0]; //shifted values
   reg [31:0] midB[3:0]; //addition of shifted values
   output [31:0] result_full; //32-bit results
   reg [31:0] num1_ext,num2_ext;
@@ -41,12 +41,11 @@ module fixed_multi(num1, num2, result, overflow, precisionLost, result_full);
       end else begin
         num2_ext = {12'hFFF, num2, 4'd0};
       end
-
-      midB[0] = mid[0] + mid[4] + mid[8] + mid[12] ;
-      midB[1] = mid[1] + mid[5] + mid[9] + mid[13] ;
-      midB[2] = mid[2] + mid[6] + mid[10] + mid[14];
-      midB[3] = mid[3] + mid[7] + mid[11] + mid[15];
-    end
+      midB[0] = mid[0] + mid[4] + mid[8] + mid[12] + mid[16] + mid[20] + mid[24] + mid[31];
+      midB[1] = mid[1] + mid[5] + mid[9] + mid[13] + mid[17] + mid[21] + mid[25] + mid[30];
+      midB[2] = mid[2] + mid[6] + mid[10] + mid[14]+ mid[18] + mid[22] + mid[26] + mid[29];
+      midB[3] = mid[3] + mid[7] + mid[11] + mid[15]+ mid[19] + mid[23] + mid[27] + mid[28];  
+      end
   always@* //shift and enable control
     begin
       mid[0]  = (num1_ext >> 16) & {32{num2_ext[0]}};
