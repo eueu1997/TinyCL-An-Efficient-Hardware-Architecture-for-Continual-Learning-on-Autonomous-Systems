@@ -1,56 +1,64 @@
 // Define the module instance
-module FW_BW_PU_tb;
+module NN #
+(
+    parameter MAC_SIZE = 3,
+    parameter KERNEL_SIZE = 3,
+    parameter N_OF_MAC_ROWS = 3,
+    parameter N_OF_MAC_CLMN = 3,
+    parameter N_OF_CH_READ = 8,
+    parameter NBITS = 16,
+    parameter NLAYER = 1,
+    parameter int FEATURE_IN_ROW_SIZE [0:(NLAYER-1)]= {32},
+    parameter int FEATURE_IN_COLUMN_SIZE [0:(NLAYER-1)] = {32},
+    parameter int FEATURE_IN_CH_SIZE [0:(NLAYER-1)] = {8},
+    parameter int FEATURE_OUT_ROW_SIZE [0:(NLAYER-1)]= {32},
+    parameter int FEATURE_OUT_COLUMN_SIZE [0:(NLAYER-1)]= {32},
+    parameter int FEATURE_OUT_CH_SIZE[0:(NLAYER-1)] = {8},
+    parameter N_FEATURE_READ = 8
 
-    parameter MAC_SIZE = 3;
-    parameter KERNEL_SIZE = 3;
-    parameter N_OF_MAC_ROWS = 3;
-    parameter N_OF_MAC_CLMN = 3;
-    parameter N_OF_CH_READ = 8;
-    parameter NBITS = 16;
-    parameter NLAYER = 1;
-    parameter [0:(NLAYER-1)]FEATURE_IN_ROW_SIZE= [32];
-    parameter [0:(NLAYER-1)]FEATURE_IN_COLUMN_SIZE = [32];
-    parameter [0:(NLAYER-1)]FEATURE_IN_CH_SIZE = [8];
-    parameter [0:(NLAYER-1)]FEATURE_OUT_ROW_SIZE = [32];
-    parameter [0:(NLAYER-1)]FEATURE_OUT_COLUMN_SIZE = [32];
-    parameter [0:(NLAYER-1)]FEATURE_OUT_CH_SIZE = [8];
+)// TODO create logic to read from GDUMB RAM at first layer
+(
+    output [0:9]featureInReadAddrFWGDUMB, // address of the feature
+    output featureInReadEnFWGDUMB, // Enable of GDUMB RAM memory. It read on all channels ( 3 extendet to 8 just for compatibility), always port widht of 8*NBITS, so same logic as SRAM
+    input [0:7][(N_FEATURE_READ*NBITS-1):0] featureInReadValueFWGDUMB
+);
 
-    parameter N_FEATURE_READ = 8;
+
     // Define signals
     reg bw;
-    reg clk;
-    reg rst;
+    // Dynamic sizing of the feauture
     reg [($clog2(FEATURE_IN_CH_SIZE[NLAYER-1])-1):0] featureInActChSize;
     reg [($clog2(FEATURE_OUT_CH_SIZE[NLAYER-1])-1):0] featureOutActChSize;
     reg [($clog2(FEATURE_OUT_ROW_SIZE[0])-1):0] featureOutActRowSize;
     reg [($clog2(FEATURE_OUT_COLUMN_SIZE[0])-1):0] featureOutActColumnSize;
+    // matrix of 8*9 kernel values
     reg [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelValsFW;
+    // flag saing kernel il ready to be loaded
     reg loadKernelFW;
+    // channel of input feature. output, counted inside PU
     reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddrFW;
+    // 3 new pixels needed by MAC in forward computation
     reg [(NBITS*N_OF_CH_READ-1):0] featureInP1FW, featureInP2FW, featureInP3FW;
+    // address of feature out : channel column and row. Column and row is used also by feature in for indexing. channel is used also to index the kernel
     reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutChAddrFW;
     reg [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutRowAddrFW;
     reg [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutColumnAddrFW;
+    // pixel of feature out : result of 3d convolution
     reg [(NBITS-1):0] featureOutValFW;
+    // BW dignals : indexing of DK ( channel in, out , row and column.)
     reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] DkChInAddrBWDk;
     reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0] dkChOutAddrBWDk;
     reg [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutRowAddrBWDk;
     reg [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutColumnAddrBWDk;
+    // 8 pixel used for dk calculation 
     reg [0:(N_FEATURE_READ -1)][(NBITS-1):0] featureInBW;
     reg [0:(N_FEATURE_READ -1)][(NBITS-1):0] dyBW;
+    // dk output
     reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] dkBW;
+    // flag: is 1 when dkBW is valid and can be stored( used to modify kernels)
     reg valid;
+    //
     reg [0:($clog2(NLAYER)-1)]actLayer;
-
-    reg [(NBITS-1):0]kernel[0:(FEATURE_OUT_CH_SIZE*FEATURE_IN_CH_SIZE*KERNEL_SIZE*KERNEL_SIZE-1)];
-    reg [(NBITS-1):0]featureIn1[0:(FEATURE_IN_CH_SIZE*FEATURE_IN_ROW_SIZE*FEATURE_IN_COLUMN_SIZE-1)];
-    reg [(NBITS-1):0]featureOut1 [0:(FEATURE_OUT_CH_SIZE*FEATURE_OUT_ROW_SIZE*FEATURE_OUT_COLUMN_SIZE-1)];
-
-    reg [(FEATURE_IN_CH_SIZE + FEATURE_IN_ROW_SIZE + FEATURE_IN_COLUMN_SIZE -1):0]featureIn2[(NBITS-1):0];
-    reg [(FEATURE_IN_CH_SIZE + FEATURE_IN_ROW_SIZE + FEATURE_IN_COLUMN_SIZE -1):0]featureIn3[(NBITS-1):0];
-
-    reg [(FEATURE_OUT_CH_SIZE + FEATURE_OUT_ROW_SIZE + FEATURE_OUT_COLUMN_SIZE -1):0]featureOut2[(NBITS-1):0];
-    reg [(FEATURE_OUT_CH_SIZE + FEATURE_OUT_ROW_SIZE + FEATURE_OUT_COLUMN_SIZE -1):0]featureOut3[(NBITS-1):0];
 
     // Instantiate the module
     FW_BW_PU #(MAC_SIZE, KERNEL_SIZE, N_OF_MAC_ROWS, N_OF_MAC_CLMN, N_OF_CH_READ,
@@ -89,25 +97,25 @@ module FW_BW_PU_tb;
 // LOAD_KERNEL : 6* LOAD N_FEATURE_READ KERNEL
 // LOAD_FEATURE : LOAD 3*N_FEATURE_READ PIXEL - LOAD N_FEATURE_READ KERNEL
 // LOAD_FEATURE : LOAD 3*N_FEATURE_READ PIXEL - LOAD N_FEATURE_READ KERNEL
-// START : LOAD 3*N_FEATURE_READ PIXEL - LOAD N_FEATURE_READ KERNEL - MAC_ENABLE - ADDRESS MANAGER ENABLE
+// LOAD_FEATURE : LOAD 3*N_FEATURE_READ PIXEL - LOAD N_FEATURE_READ KERNEL
 // RUNNING :  MAC_ENABLE - ADDRESS MANAGER ENABLE ( EXECUTION ) * featureOutActRowSize * featureOutActColumnSize
 // END OF SHEET OF FEATURE OUT - RESTART TO READ KERNEL
 
 
     // Define states
     typedef enum logic [1:0] {
-        LOAD_KERNEL_AND_FEATURE = 2'b00,
+        LOAD_KERNEL = 2'b00,
         RUNNING = 2'b10
 
     } FW_FSM_t;
 
     // Define state register and next state variable
-    state_t state_reg, next_state;
+    FW_FSM_t state_reg, next_state;
     reg [3:0] kernelAddrReadFW,next_kernelAddrReadFW;
     reg [1:0] featureLoadedCnt, next_featureLoadedCnt;
 
     // Define state update logic
-    always_ff @(posedge clk or posedge reset) begin
+    always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             state_reg <= LOAD_KERNEL; // Initialize state to S0 on reset
             featureLoadedCnt <= 0;
@@ -120,7 +128,7 @@ module FW_BW_PU_tb;
     end
 
     // Define state transition logic
-    always_ff @(posedge clk or posedge reset) begin
+    always_ff @(posedge clk or posedge rst) begin
         if (rst) begin
             next_state <= LOAD_KERNEL; // Initialize next state to S0 on reset
             loadKernelFW <= 0;
@@ -129,7 +137,7 @@ module FW_BW_PU_tb;
             case (state_reg)
                 LOAD_KERNEL: begin
                     if (kernelAddrReadFW == (KERNEL_SIZE*KERNEL_SIZE-1) ) begin// 9 KERNEL ARE LOADED AND 9 PIXELS ALOS
-                        next_state <= RUNNING; // TODO : let read feature IN also in load kernel
+                        next_state <= RUNNING; 
                         loadKernelFW <= 1; // start loading kernel into PU
                     end else begin
                         next_state <= LOAD_KERNEL;
@@ -137,7 +145,7 @@ module FW_BW_PU_tb;
                     end
                 end
         
-                RUNNING : begin // TODO : set exit condition for ruinning state
+                RUNNING : begin 
                     if((featureOutColumnAddrFW == 0) && (featureOutRowAddrFW == (featureOutActRowSize))) begin
                         next_state <= LOAD_KERNEL;
                         loadKernelFW <= 0;
@@ -153,18 +161,19 @@ module FW_BW_PU_tb;
     always @ ( *) begin
         case (state_reg)
             LOAD_KERNEL: begin
-               next_kernelAddrReadFW <= kernelAddrReadFW +1;  
-               next_featureLoadedCnt <= 0;  
+               next_kernelAddrReadFW <= kernelAddrReadFW +1;  // count the number of kernel pixel loaded
             end
         
             RUNNING : begin 
-                next_kernelAddrReadFW <= 0;
-                next_featureLoadedCnt <= 0;
+                next_kernelAddrReadFW <= 0; // working operation, feature loaded while computing feature out 
             end
-                next_kernelAddrReadFW <= 0;
-                next_featureLoadedCnt <= featureLoadedCnt +1;
+                
             endcase
     end
+
+// kernel read enable and kernel read value register. Used to enable and read value from the matrix of SRAM. Due to unability to dynamic indexing, declared with maximum sizes then will be partially used
+reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)] kernelReadEnFW;
+reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)][(NBITS-1):0] kernelReadValuesFw;
 // se siamo in LOAD_KERNEL status, allora leggiamoo i kernel e salviamo in buffer
 always @ (*) begin
     if ( state_reg == LOAD_KERNEL) begin
@@ -179,9 +188,7 @@ always @ (*) begin
     end 
 
 end
-// kernel read enable .
-reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)] kernelReadEnFW;
-reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)][(NBITS-1):0] kernelReadValuesFw;
+
 always @ ( *) begin
     for(int ii=0; ii<NLAYER; ii=ii+1)begin
         for (int jj=0; jj< FEATURE_OUT_CH_SIZE[NLAYER-1]; jj=jj+1)begin
@@ -233,7 +240,7 @@ generate
         for (j=0; j< FEATURE_OUT_CH_SIZE[i]; j=j+1)begin
             for(k=0; k< FEATURE_IN_CH_SIZE[i]; k=k+1)begin
                 SRAM # (.PORT_WIDTH(NBITS),.MEMORY_WIDHT(16))
-                SRAMKijk(.writeAddr(),.readAddr(kernelAddrReadFW),.writeEn(),.readEn(kernelReadEnFW[i][j][k]),.readValue(),.writeValue(),.clk(),.rst());
+                SRAMKijk(.writeAddr(),.readAddr(kernelAddrReadFW),.writeEn(),.readEn(kernelReadEnFW[i][j][k]),.readValue(kernelReadValuesFw[i][j][k]),.writeValue(),.clk(),.rst());
             end
         end
     end
@@ -242,13 +249,20 @@ endgenerate
 
 
 
-reg [0:(NLAYER)][0: ( FEATURE_IN_CH_SIZE[NLAYER-1] -1)] featureInReadEnFW;
+
+reg [($clog2(FEATURE_OUT_ROW_SIZE[0]) + $clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1) :0] featureOutWriteAddrFW;
+reg [(N_FEATURE_READ*NBITS-1):0] featureOutWriteValueFW;
+reg [($clog2(FEATURE_IN_ROW_SIZE[0]) + $clog2(FEATURE_IN_COLUMN_SIZE[0]) -1) :0] featureInReadAddrFW;
+reg [0:(NLAYER)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)][(N_FEATURE_READ*NBITS-1):0] featureInReadValueFW;// cè un alayer in piu solo per assegnazione comoda di sram in ciclo for. initilizzato
+reg [0:2][0:(N_OF_CH_READ-1)][(N_FEATURE_READ*NBITS-1):0] featureInBufferOfReadValueFW,next_featureInBufferOfReadValueFW; // buffer dove salviamo le tre righe lette e mandiamo i pixel alla PU. Ne abbiamo due perche mentre carichiamo i nuovi i vecchi dobbiamo ancora usarli
+
+reg [0:(NLAYER)][0: ( FEATURE_IN_CH_SIZE[NLAYER-1] -1)] featureInReadEnFW;// cè una layer in piu che va assenato all'ultima sram ma che sara inutilizzato
 // read enable for feature in reading
 always @ ( * ) begin 
     for(int ii=0; ii<NLAYER; ii=ii+1)begin
         for (int jj=0; jj< FEATURE_IN_CH_SIZE[NLAYER-1]; jj=jj+8)begin
-            if(featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] > 4)begin // se mancano 3 clock al nuovo blocco di feature inizio a leggere
-                if((ii == (actLayer-1)) && (kk == (featureInChAddrFW-1)))begin // set to 1 the feature in enable according with the actual layer, channel out and channel in
+            if((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] > 4)||((state_reg == LOAD_KERNEL) && (kernelAddrReadFW > 5)))begin // se mancano 3 clock al nuovo blocco di feature inizio a leggere
+                if((ii == (actLayer)) && (jj == (featureInChAddrFW-1)))begin // set to 1 the feature in enable according with the actual layer, channel out and channel in
                     featureInReadEnFW[ii][jj]   = 1;
                     featureInReadEnFW[ii][jj+1] = 1;
                     featureInReadEnFW[ii][jj+2] = 1;
@@ -279,7 +293,19 @@ always @ ( * ) begin
             end
         end
     end
-
+end
+// GDumb read logic
+assign featureInReadEnFWGDUMB = featureInReadEnFW[0][0]; // when we are on layer 0, enable read from external GDumb RAM
+assign featureInReadAddrFWGDUMB = featureInReadAddrFW;
+always @ (*)begin
+ featureInReadValueFW[0][featureInChAddrFW] = featureInReadValueFWGDUMB[0]; // the feature for layer 0 came from GDumb RAM
+ featureInReadValueFW[0][featureInChAddrFW+1] = featureInReadValueFWGDUMB[1];
+ featureInReadValueFW[0][featureInChAddrFW+2] = featureInReadValueFWGDUMB[2];
+ featureInReadValueFW[0][featureInChAddrFW+3] = featureInReadValueFWGDUMB[3];
+ featureInReadValueFW[0][featureInChAddrFW+4] = featureInReadValueFWGDUMB[4];
+ featureInReadValueFW[0][featureInChAddrFW+5] = featureInReadValueFWGDUMB[5];
+ featureInReadValueFW[0][featureInChAddrFW+6] = featureInReadValueFWGDUMB[6];
+ featureInReadValueFW[0][featureInChAddrFW+7] = featureInReadValueFWGDUMB[7];
 end
 reg [0:(NLAYER)][0: ( FEATURE_OUT_CH_SIZE[NLAYER-1] -1)] featureOutWriteEnFW;
 
@@ -287,8 +313,8 @@ reg [0:(NLAYER)][0: ( FEATURE_OUT_CH_SIZE[NLAYER-1] -1)] featureOutWriteEnFW;
 always @ ( * ) begin 
     for(int ii=0; ii<NLAYER; ii=ii+1)begin
         for (int jj=0; jj< FEATURE_OUT_CH_SIZE[NLAYER-1]; jj=jj+1)begin
-            if(featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 0) BEGIN// SCRIVIAMO SOLO OGNI 8 COLONNE PERCHE ABBIAMO PORTA DA 8*16 BIT
-                if((ii == (actLayer-1)) && (kk == (featureOutChAddrFW-1)))begin // set to 1 the kernel enable according with the actual layer, channel out and channel in
+            if(featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 0) begin// SCRIVIAMO SOLO OGNI 8 COLONNE PERCHE ABBIAMO PORTA DA 8*16 BIT
+                if((ii == (actLayer)) && (jj == (featureOutChAddrFW-1)))begin // set to 1 the kernel enable according with the actual layer, channel out and channel in
                     featureOutWriteEnFW[ii][jj]   = 1;
                 end else begin 
                     featureOutWriteEnFW[ii][jj]   = 0;
@@ -301,9 +327,9 @@ always @ ( * ) begin
 end
 // LOGICA PER CARICARE NEI 3 CICLI PRECEDENTI I TRE NUOVI GRUPPI DI PIXEL
 always @(*)begin
-    if(state == RUNNING)begin
-        if(featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 5)begin // carichiamo primo pixel
-            featureInReadAddrFW = (featureOutRowAddrFW << ($clog2(FEATURE_OUT_ROW_SIZE[actLayer-1])))+featureOutColumnAddrFW[($clog2(featureOutActColumnSize)-1):($clog2(N_FEATURE_READ))]+1; // carica il valore della riga corrente ,l'indirizzo colonna è preso tagliando i primi 3 bit. il +1 dice di prende la parola successiva
+    if(state_reg == RUNNING)begin
+        if((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 5)||(kernelAddrReadFW == 6))begin // carichiamo primo pixel
+            featureInReadAddrFW = (featureOutRowAddrFW << ($clog2(FEATURE_OUT_ROW_SIZE[actLayer-1])))+featureOutColumnAddrFW+8; // carica il valore della riga corrente ,l'indirizzo colonna è preso INTERO ( i primi 3 bit verranno tagliati quando mandati alla memoria). il +8 dice di prende la parola successiva
             next_featureInBufferOfReadValueFW[0][0] = featureInReadValueFW[actLayer][featureInChAddrFW]; // save 8 channel of first row
             next_featureInBufferOfReadValueFW[0][1] = featureInReadValueFW[actLayer][featureInChAddrFW+1];
             next_featureInBufferOfReadValueFW[0][2] = featureInReadValueFW[actLayer][featureInChAddrFW+2];
@@ -312,8 +338,8 @@ always @(*)begin
             next_featureInBufferOfReadValueFW[0][5] = featureInReadValueFW[actLayer][featureInChAddrFW+5];
             next_featureInBufferOfReadValueFW[0][6] = featureInReadValueFW[actLayer][featureInChAddrFW+6];
             next_featureInBufferOfReadValueFW[0][7] = featureInReadValueFW[actLayer][featureInChAddrFW+7];
-        end else if(featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 6)begin 
-            featureInReadAddrFW = (featureOutRowAddrFW +1 << ($clog2(FEATURE_OUT_ROW_SIZE[actLayer-1])))+featureOutColumnAddrFW[($clog2(featureOutActColumnSize)-1):($clog2(N_FEATURE_READ))]+1; // come sopra, solo che prendiamo un riga in piu
+        end else if((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 6)||(kernelAddrReadFW == 7))begin 
+            featureInReadAddrFW = (featureOutRowAddrFW +1 << ($clog2(FEATURE_OUT_ROW_SIZE[actLayer-1])))+featureOutColumnAddrFW+8; // come sopra, solo che prendiamo un riga in piu
             next_featureInBufferOfReadValueFW[1][0] = featureInReadValueFW[actLayer][featureInChAddrFW]; // save 8 channel of second row
             next_featureInBufferOfReadValueFW[1][1] = featureInReadValueFW[actLayer][featureInChAddrFW+1];
             next_featureInBufferOfReadValueFW[1][2] = featureInReadValueFW[actLayer][featureInChAddrFW+2];
@@ -322,8 +348,8 @@ always @(*)begin
             next_featureInBufferOfReadValueFW[1][5] = featureInReadValueFW[actLayer][featureInChAddrFW+5];
             next_featureInBufferOfReadValueFW[1][6] = featureInReadValueFW[actLayer][featureInChAddrFW+6];
             next_featureInBufferOfReadValueFW[1][7] = featureInReadValueFW[actLayer][featureInChAddrFW+7];
-        end else if(featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 7)begin 
-            featureInReadAddrFW = (featureOutRowAddrFW +2 << ($clog2(FEATURE_OUT_ROW_SIZE[actLayer-1])))+featureOutColumnAddrFW[($clog2(featureOutActColumnSize)-1):($clog2(N_FEATURE_READ))]+1; // come sopra solo che prendiamo due righe in piu
+        end else if((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 7)||(kernelAddrReadFW == 8))begin 
+            featureInReadAddrFW = (featureOutRowAddrFW +2 << ($clog2(FEATURE_OUT_ROW_SIZE[actLayer-1])))+featureOutColumnAddrFW+8; // come sopra solo che prendiamo due righe in piu
             next_featureInBufferOfReadValueFW[2][0] = featureInReadValueFW[actLayer][featureInChAddrFW]; // save 8 channel of third row
             next_featureInBufferOfReadValueFW[2][1] = featureInReadValueFW[actLayer][featureInChAddrFW+1];
             next_featureInBufferOfReadValueFW[2][2] = featureInReadValueFW[actLayer][featureInChAddrFW+2];
@@ -333,11 +359,11 @@ always @(*)begin
             next_featureInBufferOfReadValueFW[2][6] = featureInReadValueFW[actLayer][featureInChAddrFW+6];
             next_featureInBufferOfReadValueFW[2][7] = featureInReadValueFW[actLayer][featureInChAddrFW+7];
         end else begin
-            featureInReadAddrFW = (featureOutRowAddrFW << ($clog2(FEATURE_OUT_ROW_SIZE[actLayer-1])))+featureOutColumnAddrFW[($clog2(featureOutActColumnSize)-1):($clog2(N_FEATURE_READ))]+1; // default . TODO : prova a lasciare vuoto
+            featureInReadAddrFW = (featureOutRowAddrFW << ($clog2(FEATURE_OUT_ROW_SIZE[actLayer-1])))+featureOutColumnAddrFW+8; // default . TODO : prova a lasciare vuoto
 
         end
         if (featureOutColumnAddrFW[2:0] == 0)begin 
-            featureOutWriteValueFW = {(7*NBITS)'d0,featureOutValFW} ;
+            featureOutWriteValueFW = {{(7*NBITS){1'b0}},featureOutValFW} ;
         end else begin 
             featureOutWriteValueFW = featureOutWriteValueFW | (featureOutValFW << (NBITS*featureOutColumnAddrFW[2:0])); // filling of write out buffer
         end
@@ -352,9 +378,32 @@ end
 
 // load FW PU from buffers
 always @ (*)begin
-    featureInP1FW = featureInBufferOfReadValueFW[0]; // TODO :CICLICALLY, TAKE 3 PIXEL ACCORDING TO THE COLUMN. 
-    featureInP2FW = featureInBufferOfReadValueFW[1];
-    featureInP3FW = featureInBufferOfReadValueFW[2];
+    featureInP1FW = featureInBufferOfReadValueFW[0][0][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+    featureInP1FW = featureInBufferOfReadValueFW[0][1][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP1FW = featureInBufferOfReadValueFW[0][2][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP1FW = featureInBufferOfReadValueFW[0][3][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP1FW = featureInBufferOfReadValueFW[0][4][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP1FW = featureInBufferOfReadValueFW[0][5][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP1FW = featureInBufferOfReadValueFW[0][6][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP1FW = featureInBufferOfReadValueFW[0][7][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+
+    featureInP2FW = featureInBufferOfReadValueFW[1][0][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+    featureInP2FW = featureInBufferOfReadValueFW[1][1][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP2FW = featureInBufferOfReadValueFW[1][2][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP2FW = featureInBufferOfReadValueFW[1][3][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP2FW = featureInBufferOfReadValueFW[1][4][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP2FW = featureInBufferOfReadValueFW[1][5][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP2FW = featureInBufferOfReadValueFW[1][6][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP2FW = featureInBufferOfReadValueFW[1][7][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+
+    featureInP3FW = featureInBufferOfReadValueFW[2][0][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+    featureInP3FW = featureInBufferOfReadValueFW[2][1][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP3FW = featureInBufferOfReadValueFW[2][2][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP3FW = featureInBufferOfReadValueFW[2][3][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP3FW = featureInBufferOfReadValueFW[2][4][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP3FW = featureInBufferOfReadValueFW[2][5][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP3FW = featureInBufferOfReadValueFW[2][6][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+    featureInP3FW = featureInBufferOfReadValueFW[2][7][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
 end
 
 // FEATURE OUT WRITE ADDRESS COMPOSITION
@@ -362,13 +411,6 @@ always @(*) begin
     featureOutWriteAddrFW = (featureOutRowAddrFW << ($clog2(FEATURE_OUT_ROW_SIZE[actLayer-1])))+featureOutColumnAddrFW; // ricomponi l'indirizzo di scrittura. uso shift come moltiplicazione
 end
 
-
-
-reg [($clog2(FEATURE_OUT_ROW_SIZE[0]) + $clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1) :0] featureOutWriteAddrFW;
-reg [(N_FEATURE_READ*NBITS-1):0] featureOutWriteValueFW;
-reg [($clog2(FEATURE_IN_ROW_SIZE[0]) + $clog2(FEATURE_IN_COLUMN_SIZE[0]) -1) :0] featureInReadAddrFW;
-reg [0:(NLAYER-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)][(N_FEATURE_READ*NBITS-1):0] featureInReadValueFW;
-reg [0:2][0:(N_OF_CH_READ-1)][(N_FEATURE_READ*NBITS-1):0] featureInBufferOfReadValueFW,next_featureInBufferOfReadValueFW; // buffer dove salviamo le tre righe lette e mandiamo i pixel alla PU. Ne abbiamo due perche mentre carichiamo i nuovi i vecchi dobbiamo ancora usarli
 
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -381,10 +423,10 @@ generate
         for(j=0; j< FEATURE_OUT_CH_SIZE[i]; j=j+1) begin
             SRAM # (.PORT_WIDTH(NBITS*N_FEATURE_READ),.MEMORY_WIDHT(FEATURE_OUT_ROW_SIZE[i]*(FEATURE_OUT_COLUMN_SIZE[i]/N_FEATURE_READ)))
                 SRAMFij(.writeAddr(featureOutWriteAddrFW[($clog2(FEATURE_OUT_ROW_SIZE[i]) + $clog2(FEATURE_OUT_COLUMN_SIZE[i]) -1) :$clog2(N_FEATURE_READ)]),// we cut the last 3 bit due to port wirdht of N:FEATURE_READ*NBITS
-                        .readAddr(featureInReadAddrFW[[i][($clog2(FEATURE_IN_ROW_SIZE[i]) + $clog2(FEATURE_IN_COLUMN_SIZE[i]) -1) :$clog2(N_FEATURE_READ)]]),// we cut the last 3 bit due to port wirdht of N:FEATURE_READ*NBITS
+                        .readAddr(featureInReadAddrFW[($clog2(FEATURE_IN_ROW_SIZE[i]) + $clog2(FEATURE_IN_COLUMN_SIZE[i]) -1) :$clog2(N_FEATURE_READ)]),// we cut the last 3 bit due to port wirdht of N:FEATURE_READ*NBITS
                         .writeEn(featureOutWriteEnFW[i][j]),
-                        .readEn(featureInReadEnFW[i][j]),
-                        .readValue(featureInReadValueFW[i][j]),
+                        .readEn(featureInReadEnFW[i+1][j]),
+                        .readValue(featureInReadValueFW[i+1][j]),
                         .writeValue(featureOutWriteValueFW[i]),
                         .clk(clk),
                         .rst(rst));

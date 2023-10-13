@@ -2,7 +2,7 @@ echo "resim run"
 set workdir /home/thesis/eugenio.ressa/Desktop/myHWModel/src
 quit -sim
 
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.v
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
@@ -13,12 +13,13 @@ vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInBWMngr.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW_BW_PU.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/top.sv
 
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW_BW_tb.sv 
-vsim -t ns -voptargs=+acc work.FW_BW_PU_tb
-add wave -position insertpoint sim:/FW_BW_PU_tb/uut/*
+#vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW_BW_tb.sv 
+#vsim -t ns -voptargs=+acc work.FW_BW_PU_tb
+#add wave -position insertpoint sim:/FW_BW_PU_tb/uut/*
 #add wave *
-run 100000 ns
+#run 100000 ns
 
 #vsim -debugDB -t 1ns work.tb_dadda
 #add wave *

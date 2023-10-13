@@ -920,3 +920,5 @@ vsim -t ns -voptargs=+acc work.operatorCore_sim
 # Loading work.fixed_multi(fast)
 add wave *
 run 3000 ns
+# End time: 14:51:15 on Oct 13,2023, Elapsed time: 44:23:18
+# Errors: 0, Warnings: 0
