@@ -121,6 +121,8 @@ class Conv3D():
             for j in range(self.featureInDim):
                 for k in range(self.featureInDim):                   
                     temp = np.reshape(self.kernel[:,i],(self.channelOutDim,self.kernelSize,self.kernelSize))
+                    temp1 = rotateMatrix(temp[:,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
+                    temp2 = dy[:,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)]
                     dx[i][j][k]  = np.sum( rotateMatrix(temp[:,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
                     * dy[:,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)],(0,1,2))
         

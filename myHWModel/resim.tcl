@@ -1,7 +1,7 @@
 echo "resim run"
 set workdir /home/thesis/eugenio.ressa/Desktop/myHWModel/src
 quit -sim
-
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/activation/activation.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv
@@ -10,10 +10,16 @@ vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/memory/SRAM.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInBWMngr.sv
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BWDKAddrManager.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngrBWDK.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDK.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDX.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureRegistersBWDX.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv
+
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW_BW_PU.sv
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/top.sv
+#vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/NN.sv
+#vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/GDumb.sv
+
 
 #vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW_BW_tb.sv 
 #vsim -t ns -voptargs=+acc work.FW_BW_PU_tb

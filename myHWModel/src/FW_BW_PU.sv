@@ -16,7 +16,7 @@ module FW_BW_PU #
     parameter N_FEATURE_READ = 8
 )
 (
-    input bw, // 0 = fw , 1 = bw
+    input [0:1]bw, // 0 = fw , 1 = bw
     input clk,
     input rst,
     //Actual feature size
@@ -24,6 +24,7 @@ module FW_BW_PU #
     input [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutActChSize,
     input [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutActRowSize,
     input [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutActColumnSize, 
+    input stride,
     // FORWARD SIGNALS
     //kernels in
     input  [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelValsFW,
@@ -36,18 +37,30 @@ module FW_BW_PU #
     output [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutRowAddrFW,
     output [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutColumnAddrFW, 
     output [(NBITS-1):0] featureOutValFW,
-    // BACKWARD SIGNALS
-    output [($clog2(FEATURE_IN_CH_SIZE)-1):0] DkChInAddrBWDk,
-    output [($clog2(FEATURE_OUT_CH_SIZE)-1):0] dkChOutAddrBWDk,
-    output [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutRowAddrBWDk,
-    output [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutColumnAddrBWDk, 
+    // BACKWARD DK SIGNALS
+    output [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddrBWDK,
+    output [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutChAddrBWDK,
+    output [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureInRowAddrBWDK,
+    output [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureInColumnAddrBWDK, 
     // Feature in
-    input  [0:(N_FEATURE_READ -1)][(NBITS-1):0]featureInBW,
+    input  [0:(N_FEATURE_READ -1)][(NBITS-1):0]featureInBWDK,
     // Dy in
-    input  [0:(N_FEATURE_READ -1)][(NBITS-1):0]dyBW,
+    input  [0:(N_FEATURE_READ -1)][(NBITS-1):0]dyBWDK,
     // dk out
-    output reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] dkBW,
-    output reg valid // VALIDITY SIGNAL FOR DK
+    output reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] dkBWDK,
+    output reg valid, // VALIDITY SIGNAL FOR DK
+    // BACKWARD DX SIGNALS
+    input [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] kernelBWDX,
+    input  [(NBITS*N_OF_CH_READ-1):0] DyP1BWDX,DyP2BWDX,DyP3BWDX,
+    output reg [0:(N_FEATURE_READ -1)][(NBITS-1):0]dxBWDX,
+    // DX address signals
+    output reg[($clog2(FEATURE_IN_CH_SIZE)-1):0] gradientInChAddrBWDX,
+    output reg[($clog2(FEATURE_OUT_CH_SIZE)-1):0] gradinetOutChAddrBWDX,
+    output reg[($clog2(FEATURE_OUT_ROW_SIZE) -1):0] gradientOutRowAddrBWDX,
+    output reg[($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] gradientOutColumnAddrBWDX, 
+    input  loadKernelBWDX
+
+
 );
 ////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////BACKWARD LOGIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -63,14 +76,14 @@ BWDKAddrManager BWDK (.clk(clk),.rst((rst|bw)),
                         .featureOutActChSize(featureOutActChSize),
                         .featureOutActRowSize(featureOutActRowSize),
                         .featureOutActColumnSize(featureOutActColumnSize),
-                        .featureOutRowAddr(featureOutRowAddrBWDk),
-                        .featureOutColumAddr(featureOutColumnAddrBWDk),
-                        .featureOutChAddr(DkChOutAddrBWDk),
-                        .featureInChAddr(DkChInAddrBWDk));
+                        .featureOutRowAddr(featureInRowAddrBWDK),
+                        .featureOutColumAddr(featureInColumnAddrBWDK),
+                        .featureOutChAddr(featureOutChAddrBWDK),
+                        .featureInChAddr(featureInChAddrBWDK));
 ////////////////////////// BACKWARD FEATURE MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\\
-featureInBWMngr FIN(.featureOutRowAddr(featureOutRowAddrBWDk),
-                    .featureOutColumAddr(featureOutColumnAddrBWDk),
-                    .featureIn(featureInBW),
+featureInBWMngr FIN(.featureOutRowAddr(featureInRowAddrBWDK),
+                    .featureOutColumAddr(featureInColumnAddrBWDK),
+                    .featureIn(featureInBWDK),
                     .featuresInMngd(featuresInBwDk));
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -135,30 +148,61 @@ generate
 endgenerate
 // Ultimo dadda che somma i 9 prodotti della convoluzione per il forward
 dadda_top DD(.DataIn(partialSumMACDadda) , .DataOut (featureOutValFW));
+reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] DyBWDX;
+reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] kernelsBWDX;
 
 // Muxing of signal on forward of backward
 always @ (* ) begin 
-    if(bw == 0)begin
+    if(bw == 0)begin // forward
         data1 = featuresInFw;
         partialSumIn = 0;
         data2 = kernelsFw;
         partialSumMACDadda = partialSumMAC;
-        dkBW = 0; // TODO : si potrebbe mettere alta impedenza
-    end else begin 
+        dkBWDK = 0; // TODO : si potrebbe mettere alta impedenza
+    end if(bw == 1) begin // bw dk
         data1 = featuresInBwDk;
         partialSumIn = partialSumMAC_r;
-        data2 = dyBW;
+        data2 = dyBWDK;
         partialSumMACDadda = 0;
         if ( convAddr_r == (FEATURE_IN_ROW_SIZE*FEATURE_IN_COLUMN_SIZE-N_FEATURE_READ) )begin
             valid = 1;
-            dkBW = partialSumMAC_r;
+            dkBWDK = partialSumMAC_r;
         end else begin
             valid = 0;
-            dkBW = 0;
+            dkBWDK = 0;
         end
+    end else begin // bw dx
+        data1 = DyBWDX;
+        partialSumIn = 0;
+        data2 = kernelsBWDX;
+        partialSumMACDadda = 0;
     end
+
 end
 
-
+//////////////////////////// KERNEL REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\
+// Manage the movement of the kernels across the 3x3 mac grid
+kernelRegistersBWDX KRBWDX (.clk(clk),.rst((rst|bw)),.stride(stride)
+                            ,.j(gradientOutRowAddrBWDX[0])
+                            ,.k(gradientOutColumnAddrBWDX[0])
+                            ,.load(loadKernelBWDX)
+                            ,.kernelIn(kernelBWDX)
+                            ,.kernelOut(kernelsBWDX));
+///////////////////////////FEATURE REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\
+featureRegisterBWDX FRBWDX (.right(right),.left(left),.rst((rst|bw)),.clk(clk),
+                    .stride(stride),
+                    .featureInP1(DyP1BWDX),
+                    .featureInP2(DyP2BWDX),
+                    .featureInP3(DyP3BWDX),
+                    .featureOut(DyBWDX));
+ AddrManagerBWDX AMBWDX (.clk(clk),.rst(rst),.stride(stride)
+                        ,.gradientInActChSize(featureOutActChSize)
+                        ,.gradientOutActChSize(featureInActChSize)
+                        ,.gradientOutActRowSize(featureOutActRowSize*stride)
+                        ,.gradientOutActColumnSize(featureOutActColumnSize*stride) 
+                        ,.gradientOutRowAddr(gradientOutRowAddrBWDX)
+                        ,.gradientOutColumAddr(gradientOutColumnAddrBWDX)
+                        ,.gradientOutChAddr(gradinetOutChAddrBWDX)
+                        ,.gradientInChAddr(gradinetInChAddrBWDX));
 endmodule
 
