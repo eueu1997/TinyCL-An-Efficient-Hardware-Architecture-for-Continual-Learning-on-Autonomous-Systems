@@ -9,7 +9,7 @@ module AddrManagerBWDX #
     //kernel inp
     input logic clk,
     input logic rst,
-    input stride,
+    input [1:0]stride,
     //Actual feature size
     input [($clog2(FEATURE_IN_CH_SIZE)-1):0] gradientInActChSize,
     input [($clog2(FEATURE_OUT_CH_SIZE)-1):0] gradientOutActChSize,
@@ -32,7 +32,7 @@ always @ (*) begin
         NewGradientOutColum = '{default:0};
     end else begin
         if (gradientOutRow[0]==0)begin // if moving to right
-	        if((gradientOutColum ) == gradientOutActColumnSize )begin // if reach end of column
+	        if(gradientOutColum  == (gradientOutActColumnSize-1) )begin // if reach end of column
 		        NewGradientOutColum = gradientOutColum ;
 	        end else begin // otherwise
         	    NewGradientOutColum = gradientOutColum + 1 ;
@@ -50,12 +50,12 @@ end
 // Row iterator
 always @ (*) begin 
     if ( rst == 1)begin
-        NewGradientOutColum = 0;
+        NewGradientOutRow = 0;
     end else begin
-        if ((gradientOutRow == gradientOutActRowSize)&(gradientOutColum == 0)) begin // if the whole feature has been iterated
-            NewGradientOutColum = 0;
+        if ((gradientOutRow == (gradientOutActRowSize-1))&&(gradientOutColum == 0)) begin // if the whole feature has been iterated
+            NewGradientOutRow = 0;
         end else begin 
-            if((((gradientOutColum == gradientOutActColumnSize)&(NewGradientOutColum == gradientOutActColumnSize)) | (((gradientOutColum ==0)&(NewGradientOutColum ==0) )&(gradientOutRow != 0))))begin
+            if((((gradientOutColum== (gradientOutActColumnSize-1))&&(NewGradientOutColum== (gradientOutActColumnSize-1))) || (((gradientOutColum ==0)&&(NewGradientOutColum ==0) )&&(gradientOutRow != 0))))begin
                 NewGradientOutRow = gradientOutRow + 1;
             end else begin
                 NewGradientOutRow = gradientOutRow;
@@ -69,11 +69,11 @@ always @ (*) begin
     if (rst == 1) begin
         NewGradientInCh = 0;
     end else begin
-        if ((gradientOutRow == gradientOutActRowSize ) & (gradientOutColum == 0))begin// If we are at the end of the feature
-            if(gradientInCh == gradientInActChSize)begin // if we have passed all channel in 
+        if ((gradientOutRow == (gradientOutActRowSize-1) ) && (gradientOutColum == 0))begin// If we are at the end of the feature
+            if(gradientInCh == (gradientInActChSize-1))begin // if we have passed all channel in 
                 NewGradientInCh = 0;
             end else begin// otherwise iterate
-                NewGradientInCh= gradientInCh + 8; 
+                NewGradientInCh= gradientInCh +1; 
             end
         end else begin // otherwise
             NewGradientInCh = gradientInCh;
@@ -85,8 +85,8 @@ always @ (*) begin
     if (rst == 1) begin
         NewGradientOutCh = 0;
     end else begin
-        if ((gradientOutRow == gradientOutActRowSize ) & (gradientOutColum == 0) & ((gradientInCh+8) > gradientInActChSize))begin // if iterate all channel in
-            if(gradientOutCh ==  gradientOutActChSize)begin // if iterate also all channel out
+        if ((gradientOutRow == (gradientOutActRowSize-1) ) && (gradientOutColum == 0) && (gradientInCh ==  (gradientInActChSize-1)))begin // if iterate all channel in
+            if(gradientOutCh ==  (gradientOutActChSize-1))begin // if iterate also all channel out
                 NewGradientOutCh = 0;
             end else begin // otherwise, increment
                 NewGradientOutCh= gradientOutCh + 1;
@@ -104,13 +104,13 @@ always @ ( posedge clk) begin
 
     gradientInCh = NewGradientInCh;
     gradientOutColum = NewGradientOutColum;
-    gradientOutColum = NewGradientOutColum;
+    gradientOutRow = NewGradientOutRow;
     gradientOutCh = NewGradientOutCh;
 
 end
-assign featureInChAddr = gradientInCh;
-assign featureOutRowAddr = gradientOutColum;
-assign featureOutColumAddr = gradientOutColum;
-assign featureOutChAddr = gradientOutCh;
+assign gradientInChAddr = gradientInCh;
+assign gradientOutRowAddr = gradientOutRow;
+assign gradientOutColumAddr = gradientOutColum;
+assign gradientOutChAddr = gradientOutCh;
 
 endmodule

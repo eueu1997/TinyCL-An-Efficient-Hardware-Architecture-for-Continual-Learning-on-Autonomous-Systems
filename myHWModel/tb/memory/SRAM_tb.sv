@@ -2,12 +2,13 @@ module tb_SRAM;
 
     // Parameters
     parameter PORT_WIDTH = 16;
-    parameter MEMORY_WIDTH = 1024;
+    parameter MEMORY_WIDTH = 16;
 
     // Signals
     reg [$clog2(MEMORY_WIDTH)-1:0] writeAddr;
     reg [$clog2(MEMORY_WIDTH)-1:0] readAddr;
     reg writeEn;
+    reg readEn;
     reg [(PORT_WIDTH-1):0] writeValue;
     wire [(PORT_WIDTH-1):0] readValue;
     reg clk;
@@ -18,6 +19,7 @@ module tb_SRAM;
         .writeAddr(writeAddr),
         .readAddr(readAddr),
         .writeEn(writeEn),
+        .readEn(readEn),
         .readValue(readValue),
         .writeValue(writeValue),
         .clk(clk),
@@ -43,10 +45,13 @@ module tb_SRAM;
         rst = 0;
 
         // Write data to address 0
+        readEn = 1;
+        for ( int i = 0; i < MEMORY_WIDTH; i=i+1)begin
+            readAddr = i;
+            #10;
+        end
         writeEn = 1;
-        writeAddr = 0;
-        writeValue = 16'hABCD;
-        #10;
+        readEn = 0;
         writeAddr = 1;
         writeValue = 16'hDEF0;
         #10;
@@ -57,6 +62,7 @@ module tb_SRAM;
         writeValue = 16'h5678;
         #10;
         writeEn = 0;
+        readEn  =1;
         writeValue = 16'h0000;
         readAddr = 0;
         #10;

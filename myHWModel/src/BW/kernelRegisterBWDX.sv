@@ -1,4 +1,4 @@
-module kernelRegisters #
+module kernelRegistersBWDX #
 (
     parameter NBITS = 16,
     parameter NCHANNELOUT = 8,
@@ -9,7 +9,8 @@ module kernelRegisters #
     input reg clk,
     input reg rst,
     input reg load,
-    input stride,j,k,
+    input [1:0]stride,
+    input j,k,
     input var [0:(NKERNEL -1)][0:(NKERNEL -1)][(NCHANNELOUT*NBITS-1):0] kernelIn,
     output reg [0:(NKERNEL -1)][0:(NKERNEL -1)][(NBITS*NCHANNELOUT-1):0] kernelOut
 );

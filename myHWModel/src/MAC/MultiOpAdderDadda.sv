@@ -6,7 +6,7 @@ module dadda_top #
 )
 (
     input  [0:(NOps-1)][(NBitIn-1):0] DataIn  ,
-    output reg [(NBitOut-1):0] DataOut  
+    output reg [(NBitIn-1):0] DataOut  
 
 );
 typedef reg [0:8][(NBitIn-1):0] l4;
@@ -22,14 +22,15 @@ typedef reg [0:1][(NBitOut-1):0] l0;
     l2 level2;
     l1 level1;
     l0 level0;
+    reg [(NBitOut-1):0] temp;
 
 	always_comb	begin 
     level3 = Level4Func(DataIn);
     level2 = Level3Func(level3);
     level1 = Level2Func(level2);
     level0 = Level1Func(level1);
-    DataOut = level0[0] + level0[1] ;
-
+    temp = level0[0] + level0[1];
+    DataOut = temp[(NBitIn-1):0];
     end
 //Compression from 9 to 6 addends
 function  automatic l3 Level4Func(input l4 level4);

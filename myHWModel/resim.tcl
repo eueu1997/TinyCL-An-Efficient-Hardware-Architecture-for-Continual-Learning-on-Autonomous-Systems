@@ -17,15 +17,15 @@ vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv
 
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW_BW_PU.sv
-#vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/NN.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/NN.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/NN_tb.sv
 #vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/GDumb.sv
 
 
-#vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW_BW_tb.sv 
-#vsim -t ns -voptargs=+acc work.FW_BW_PU_tb
-#add wave -position insertpoint sim:/FW_BW_PU_tb/uut/*
+vsim -batch -t ns -voptargs=+acc work.NN_tb
+add wave -position insertpoint sim:/NN_tb/uut/*
 #add wave *
-#run 100000 ns
+run 300000 ns
 
 #vsim -debugDB -t 1ns work.tb_dadda
 #add wave *

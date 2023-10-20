@@ -12,7 +12,7 @@ module MAC#
 
 );
 wire [0:(NOperands)][(NBit-1):0] temp_w  ; // volontariamente 9. l'ultimo è a zero
-wire [(NBitOut-1):0] featureOut_w;
+wire [(NBit-1):0] featureOut_w;
 
 assign temp_w[NOperands] = partialSumIn;
 
@@ -26,5 +26,5 @@ endgenerate
 dadda_top DU(.DataIn(temp_w), // 8Multiplications results
 			.DataOut(featureOut_w));
 //Temporaneamente prendo i 16 MSB: 8 fractional part + 8 integer part
-assign featureOut[15:0] = featureOut_w[15:0];
+assign featureOut = featureOut_w;
 endmodule

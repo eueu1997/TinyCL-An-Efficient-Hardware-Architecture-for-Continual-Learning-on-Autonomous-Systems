@@ -1,4 +1,3 @@
-//TODO : modifica segnali BWDK e poi fai test
 module FW_BW_PU #
 (
     parameter MAC_SIZE = 3,
@@ -16,7 +15,7 @@ module FW_BW_PU #
     parameter N_FEATURE_READ = 8
 )
 (
-    input [0:1]bw, // 0 = fw , 1 = bw
+    input [1:0] bw, // 0 = fw , 1 = bw
     input clk,
     input rst,
     //Actual feature size
@@ -24,7 +23,7 @@ module FW_BW_PU #
     input [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutActChSize,
     input [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutActRowSize,
     input [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutActColumnSize, 
-    input stride,
+    input [1:0] stride,
     // FORWARD SIGNALS
     //kernels in
     input  [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelValsFW,
@@ -50,12 +49,12 @@ module FW_BW_PU #
     output reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] dkBWDK,
     output reg valid, // VALIDITY SIGNAL FOR DK
     // BACKWARD DX SIGNALS
-    input [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] kernelBWDX,
+    input [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelBWDX,
     input  [(NBITS*N_OF_CH_READ-1):0] DyP1BWDX,DyP2BWDX,DyP3BWDX,
     output reg [0:(N_FEATURE_READ -1)][(NBITS-1):0]dxBWDX,
     // DX address signals
     output reg[($clog2(FEATURE_IN_CH_SIZE)-1):0] gradientInChAddrBWDX,
-    output reg[($clog2(FEATURE_OUT_CH_SIZE)-1):0] gradinetOutChAddrBWDX,
+    output reg[($clog2(FEATURE_OUT_CH_SIZE)-1):0] gradientOutChAddrBWDX,
     output reg[($clog2(FEATURE_OUT_ROW_SIZE) -1):0] gradientOutRowAddrBWDX,
     output reg[($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] gradientOutColumnAddrBWDX, 
     input  loadKernelBWDX
@@ -71,7 +70,7 @@ reg [($clog2(FEATURE_OUT_CH_SIZE) + $clog2(FEATURE_IN_CH_SIZE) -1):0] dkAddr_r;
 wire  [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][0:(N_FEATURE_READ -1)][(NBITS-1):0]featuresInBwDk;
 
 /////////////////////////// BACKWARD ADDRESS MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\
-BWDKAddrManager BWDK (.clk(clk),.rst((rst|bw)),
+BWDKAddrManager BWDK (.clk(clk),.rst((rst|~bw[0])),
                         .featureInActChSize(featureInActChSize),
                         .featureOutActChSize(featureOutActChSize),
                         .featureOutActRowSize(featureOutActRowSize),
@@ -94,7 +93,7 @@ reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] kernelsFw
 reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] featuresInFw;
 ///////////////////////////FORWARD ADDRESS MAMANGER \\\\\\\\\\\\\\\\\\\\\\\\\
 // Genera gli indirizzi per il FW . Cicla su i feature out row and column e poi su channel out
-FWAddrManager FWAM(.clk(clk),.rst((rst|bw)) ,
+FWAddrManager FWAM(.clk(clk),.rst((rst|bw[0]|bw[1])) ,
                     .featureInActChSize(featureInActChSize),
                     .featureOutActChSize(featureOutActChSize),
                     .featureOutActRowSize(featureOutActRowSize),
@@ -105,9 +104,9 @@ FWAddrManager FWAM(.clk(clk),.rst((rst|bw)) ,
                     .featureInChAddr(featureInChAddrFW));
 //////////////////////////// KERNEL REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\
 // Manage the movement of the kernels across the 3x3 mac grid
-kernelRegisters KR (.clk(clk),.rst((rst|bw)),.load(loadKernelFW),.kernelIn(kernelValsFW),.kernelOut(kernelsFw));
+kernelRegisters KR (.clk(clk),.rst((rst|bw[0]|bw[1])),.load(loadKernelFW),.kernelIn(kernelValsFW),.kernelOut(kernelsFw));
 ///////////////////////////FEATURE REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\
-featureRegister FR (.right(right),.left(left),.rst((rst|bw)),.clk(clk),
+featureRegister FR (.right(right),.left(left),.rst((rst|bw[0]|bw[1])),.clk(clk),
                     .featureInP1(featureInP1FW),
                     .featureInP2(featureInP2FW),
                     .featureInP3(featureInP3FW),
@@ -182,27 +181,28 @@ end
 
 //////////////////////////// KERNEL REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\
 // Manage the movement of the kernels across the 3x3 mac grid
-kernelRegistersBWDX KRBWDX (.clk(clk),.rst((rst|bw)),.stride(stride)
+kernelRegistersBWDX KRBWDX (.clk(clk),.rst((rst|~bw[1])),.stride(stride)
                             ,.j(gradientOutRowAddrBWDX[0])
                             ,.k(gradientOutColumnAddrBWDX[0])
                             ,.load(loadKernelBWDX)
                             ,.kernelIn(kernelBWDX)
                             ,.kernelOut(kernelsBWDX));
 ///////////////////////////FEATURE REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\
-featureRegisterBWDX FRBWDX (.right(right),.left(left),.rst((rst|bw)),.clk(clk),
+featureRegisterBWDX FRBWDX (.right(right),.left(left),.rst((rst|~bw[0])),.clk(clk),
                     .stride(stride),
-                    .featureInP1(DyP1BWDX),
-                    .featureInP2(DyP2BWDX),
-                    .featureInP3(DyP3BWDX),
-                    .featureOut(DyBWDX));
- AddrManagerBWDX AMBWDX (.clk(clk),.rst(rst),.stride(stride)
+                    .j(gradientOutRowAddrBWDX[0]),
+                    .gradientInP1(DyP1BWDX),
+                    .gradientInP2(DyP2BWDX),
+                    .gradientInP3(DyP3BWDX),
+                    .gradientOut(DyBWDX));
+AddrManagerBWDX AMBWDX (.clk(clk),.rst(rst),.stride(stride)
                         ,.gradientInActChSize(featureOutActChSize)
                         ,.gradientOutActChSize(featureInActChSize)
                         ,.gradientOutActRowSize(featureOutActRowSize*stride)
                         ,.gradientOutActColumnSize(featureOutActColumnSize*stride) 
                         ,.gradientOutRowAddr(gradientOutRowAddrBWDX)
                         ,.gradientOutColumAddr(gradientOutColumnAddrBWDX)
-                        ,.gradientOutChAddr(gradinetOutChAddrBWDX)
-                        ,.gradientInChAddr(gradinetInChAddrBWDX));
+                        ,.gradientOutChAddr(gradientOutChAddrBWDX)
+                        ,.gradientInChAddr(gradientInChAddrBWDX));
 endmodule
 

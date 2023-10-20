@@ -7,8 +7,8 @@ module FWAddrManager #
 )
 (
     //kernel inp
-    input logic clk,
-    input logic rst,
+    input  clk,
+    input  rst,
     //Actual feature size
     input [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInActChSize,
     input [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutActChSize,

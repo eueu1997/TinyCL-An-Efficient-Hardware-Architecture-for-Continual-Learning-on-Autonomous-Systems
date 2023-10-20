@@ -9,7 +9,8 @@ module featureRegisterBWDX #
     input  left,
     input  rst,
     input  clk,
-    input stride,j ,// used to modify the matrix according to stride value and if we are in a odd or even column/row
+    input  [1:0]stride,
+    input  j,// used to modify the matrix according to stride value and if we are in a odd or even column/row
     input  [(NBITS*NCHANNELOUT-1):0] gradientInP1,
     input  [(NBITS*NCHANNELOUT-1):0] gradientInP2,
     input  [(NBITS*NCHANNELOUT-1):0] gradientInP3,
@@ -24,9 +25,7 @@ always @ (*)begin
         newRegisters = '{'{'{default:0},'{default:0},'{default:0}},'{'{default:0},'{default:0},'{default:0}},'{'{default:0},'{default:0},'{default:0}}};
     end 
     else begin 
-        if((stride == 2) && (j == 1))begin
-            newRegisters = registers;
-        end else begin
+        
         if ((right == 1) & (left == 0))begin
             newRegisters[0][0] = registers [0][1];
             newRegisters[1][0] = registers [1][1];
@@ -72,7 +71,6 @@ always @ (*)begin
             newRegisters[2][2] = registers [2][2];
         end
     end
-    end
 end
 
 always @ ( posedge clk) begin
@@ -92,7 +90,15 @@ always @ (*) begin
         gradientOut[2][1] = 0;
         gradientOut[2][2] = 0;
     end else begin
-        gradientOut = registers;
+        gradientOut[0][0] = registers [0][0];
+        gradientOut[0][1] = registers [0][1];
+        gradientOut[0][2] = registers [0][2];
+        gradientOut[1][0] = registers [1][0];
+        gradientOut[1][1] = registers [1][1];
+        gradientOut[1][2] = registers [1][2];
+        gradientOut[2][0] = registers [2][0];
+        gradientOut[2][1] = registers [2][1];
+        gradientOut[2][2] = registers [2][2];
     end
 end
 endmodule

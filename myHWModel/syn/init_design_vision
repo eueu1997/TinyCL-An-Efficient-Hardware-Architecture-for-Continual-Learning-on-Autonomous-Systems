@@ -17,3 +17,4 @@ echo "-> dc_shell-xg-t for Design Compiler"
 echo "-> design_vision for Design Vision"
 echo "-> lc_shell for Library Compiler"
 echo "-> pt_shell for Prime Time"
+
