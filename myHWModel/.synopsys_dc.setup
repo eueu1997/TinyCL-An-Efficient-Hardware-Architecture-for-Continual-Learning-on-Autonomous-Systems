@@ -1,5 +1,5 @@
 define_design_lib WORK -path ./work
-set search_path [list . /eda/synopsys/2021-22/RHELx86/SYN_2021.06-SP4/libraries/syn /eda/dk/SAED14nm/stdcell_slvt/db_ccs/ ]
-set link_library [list "*" "saed14slvt_dlvl_ff0p7v25c_i0p7v.db" "dw_foundation.sldb" ]
-set target_library [list "saed14slvt_dlvl_ff0p7v25c_i0p7v.db" ]
+set search_path [list . /software/synopsys/syn_current/libraries/syn /software/dk/umc65/Core-lib_LL_Multi-Voltage_Reg.Vt/synopsys ]
+set link_library [list "*" "uk65lscllmvbbr_120c25_tc.db" "dw_foundation.sldb" ]
+set target_library [list "uk65lscllmvbbr_120c25_tc.db" ]
 set synthetic_library [list "dw_foundation.sldb" ]

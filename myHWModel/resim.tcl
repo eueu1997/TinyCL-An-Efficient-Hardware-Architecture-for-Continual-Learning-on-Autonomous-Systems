@@ -24,6 +24,7 @@ vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel
 
 vsim -batch -t ns -voptargs=+acc work.NN_tb
 add wave -position insertpoint sim:/NN_tb/uut/*
+#add wave -position insertpoint sim:/NN_tb/uut/FW_BW_PU_i/*
 #add wave *
 run 300000 ns
 

@@ -2,6 +2,7 @@
 
     parameter PORT_WIDTH = 16,
     parameter MEMORY_WIDHT = 1024
+
 )
 (
     input [($clog2(MEMORY_WIDHT)-1):0]writeAddr,
@@ -18,7 +19,7 @@ reg [PORT_WIDTH-1:0] mem[(MEMORY_WIDHT -1):0];
     always @(posedge clk) begin
         if (rst == 1) begin 
             for (int i =0; i<MEMORY_WIDHT; i = i+1)begin
-                mem[i] <= i<<12;
+                mem[i] <= 16'h0100;
             end
         end else begin
             if(writeEn == 1) begin

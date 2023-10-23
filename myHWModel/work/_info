@@ -20,25 +20,24 @@ n@_opt
 Z4 OL;O;2020.4;71
 R0
 T_opt1
-!s110 1696864753
-VT4o];5ZY2C7`fgYfJ8@c>3
-R1
-=1-bae7b88e9de4-652419f1-907d6-583b
+!s110 1698047120
+VM3g?fRg3:VieXoZcA73EG1
+04 22 4 work tb_kernelRegistersBWDX fast 0
+=1-bae7b88e9de4-65362490-51ed1-1063
 R2
 R3
 n@_opt1
 R4
 R0
 T_opt12
-Z5 !s110 1697806804
-Vd86[163S<DOSW3fdQJnY]3
+!s110 1698076192
+VHA:GeOU_z6PzSJ;FjDCYB2
 04 5 4 work NN_tb fast 0
-=1-bae7b88e9de4-653279d4-95a69-5ca4
+=1-bae7b88e9de4-6536961f-bf5d5-3a3d
 R2
 R3
 n@_opt12
 R4
-R0
 T_opt13
 !s110 1697812445
 VM[2ESOcgNhXOGA[WZn=RP1
@@ -58,6 +57,7 @@ R2
 R3
 n@_opt14
 R4
+R0
 T_opt15
 !s110 1696865929
 VOC5@6Q42b;0G<WBMzLQ300
@@ -99,62 +99,62 @@ n@_opt4
 R4
 R0
 vactivation
-Z6 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
-Z7 !s110 1697806801
+Z5 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+!s110 1698076188
 !i10b 1
 !s100 a4UW7JT_mNG8OO2n9H7Q32
-Z8 !s11b Dg1SIo80bB@j0V0VzS_@n1
+Z6 !s11b Dg1SIo80bB@j0V0VzS_@n1
 I?:Ra:oZgCW]=2gk^DE:Ja2
 S1
 R0
 w1697721685
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/activation/activation.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/activation/activation.sv
-!i122 1704
+!i122 2350
 L0 1 27
-Z9 VDg1SIo80bB@j0V0VzS_@n1
-Z10 OL;L;2020.4;71
+Z7 VDg1SIo80bB@j0V0VzS_@n1
+Z8 OL;L;2020.4;71
 r1
 !s85 0
 31
-Z11 !s108 1697806801.000000
+Z9 !s108 1698076188.000000
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/activation/activation.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/activation/activation.sv|
 !i113 0
-Z12 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z10 o-work work -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
 R3
 vAddrManagerBWDX
-R6
-!s110 1697812426
+R5
+Z11 !s110 1698076190
 !i10b 1
-!s100 j:2EY6>jF[F[?`^WHlhio3
-R8
-IomcNL7UE=^h_4QDV0Z7Ug0
+!s100 k>:EHk3U@;I4?9[JTfZN12
+R6
+I?GWL;XJnDmNX0KP;Kc1930
 S1
 R0
-w1697812402
+w1698066974
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDX.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDX.sv
-!i122 1735
+!i122 2361
 L0 1 116
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
-!s108 1697812426.000000
+Z12 !s108 1698076190.000000
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDX.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDX.sv|
 !i113 0
-R12
+R10
 R3
 n@addr@manager@b@w@d@x
 vBW_PU
-R6
+R5
 !s110 1696597517
 !i10b 1
 !s100 Dc]E0lOY1a6aRS^lVcLPT2
-R8
+R6
 I8P:MaBRY;h0XgK_[o8^X;3
 S1
 R0
@@ -163,8 +163,8 @@ w1696404265
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv
 !i122 453
 L0 6 65
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -172,92 +172,92 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/BW_PU.sv|
 !i113 0
-R12
+R10
 R3
 n@b@w_@p@u
 vBWDKAddrManager
-R6
-Z13 !s110 1697806803
+R5
+R11
 !i10b 1
 !s100 :JE=EzcYLDiW1<B]7PUAM0
-R8
+R6
 I;m>P1RE0Lc8eW0NoVlSZ32
 S1
 R0
 w1696499994
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDK.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDK.sv
-!i122 1714
-Z14 L0 1 115
-R9
-R10
+!i122 2360
+Z13 L0 1 115
+R7
+R8
 r1
 !s85 0
 31
-Z15 !s108 1697806803.000000
+R12
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDK.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDK.sv|
 !i113 0
-R12
+R10
 R3
 n@b@w@d@k@addr@manager
 vdadda_top
-R6
-Z16 !s110 1697806802
+R5
+Z14 !s110 1698076189
 !i10b 1
 !s100 @OdQDSY>eY?3^F]A8BdNo3
-R8
+R6
 I;?J?jf8_g_bdd7e3=BCMa3
 S1
 R0
 w1697721866
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv
-!i122 1706
+!i122 2352
 L0 1 160
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
-R11
+Z15 !s108 1698076189.000000
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv|
 !i113 0
-R12
+R10
 R3
 vfeatureInBWMngr
-R6
-R13
+R5
+R11
 !i10b 1
 !s100 5Y;Nj641CJkHol;mbT^:R2
-R8
+R6
 IOJF:UK1I<Y[V971=bYjZL2
 S1
 R0
 w1696515424
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngrBWDK.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngrBWDK.sv
-!i122 1713
+!i122 2359
 L0 4 91
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
-Z17 !s108 1697806802.000000
+R12
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngrBWDK.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngrBWDK.sv|
 !i113 0
-R12
+R10
 R3
 nfeature@in@b@w@mngr
 vfeatureInMngr
-R6
+R5
 !s110 1695978570
 !i10b 1
 !s100 l_`BTj495_[IaGFiVHU?b0
-R8
+R6
 IMkR?DT67NNFz9I3P;zH__0
 S1
 R0
@@ -266,8 +266,8 @@ w1695810559
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngr.sv
 !i122 246
 L0 4 88
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -275,118 +275,118 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngr.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngr.sv|
 !i113 0
-R12
+R10
 R3
 nfeature@in@mngr
 vfeatureRegister
-R6
-R16
+R5
+R14
 !i10b 1
 !s100 ^:Ua6X8CG[]a>IWfJLD;m3
-R8
+R6
 Ia@Yf2o5K;3VNR6[QLo`lK1
 S1
 R0
 w1695724310
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv
-!i122 1708
+!i122 2354
 L0 1 83
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
-R17
+R15
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv|
 !i113 0
-R12
+R10
 R3
 nfeature@register
 vfeatureRegisterBWDX
-R6
-!s110 1697814662
+R5
+R11
 !i10b 1
 !s100 1O_bCJHVdkQ8hl:NIU^PH2
-R8
+R6
 IeCiLOL1NUn63HmB7X]6_01
 S1
 R0
 w1697814295
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureRegistersBWDX.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureRegistersBWDX.sv
-!i122 1748
-L0 1 104
-R9
-R10
+!i122 2362
+Z16 L0 1 104
+R7
+R8
 r1
 !s85 0
 31
-!s108 1697814662.000000
+R12
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureRegistersBWDX.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureRegistersBWDX.sv|
 !i113 0
-R12
+R10
 R3
 nfeature@register@b@w@d@x
 vfixed_multi
-R6
-R7
+R5
+R14
 !i10b 1
 !s100 7Q8I6J@7k;gM^k3BP7:N`1
-R8
+R6
 IVb:e>je96WRh<YzhEg9]X0
 S1
 R0
 w1697112799
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
-!i122 1705
+!i122 2351
 L0 2 103
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
-R11
+R9
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv|
 !i113 0
-R12
+R10
 R3
 vFW_BW_PU
-R6
-R13
+R5
+Z17 !s110 1698076191
 !i10b 1
-!s100 4BYFh?d2FWz_213@GMSWO1
-R8
-IEYo7:_DG_H<_QP722;3OP1
+!s100 Rn14@95I0_aDEcAV7Uc5D1
+R6
+I5FK?Og=fLTo72cTGbE<aM1
 S1
 R0
-w1697720219
+w1698073223
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW_BW_PU.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW_BW_PU.sv
-!i122 1718
-L0 1 207
-R9
-R10
+!i122 2364
+L0 1 243
+R7
+R8
 r1
 !s85 0
 31
-R15
+Z18 !s108 1698076191.000000
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW_BW_PU.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW_BW_PU.sv|
 !i113 0
-R12
+R10
 R3
 n@f@w_@b@w_@p@u
 vFW_BW_PU_tb
-R6
+R5
 !s110 1696923057
 !i10b 1
 !s100 k>Cma8ZaN<i4UYbeFQS;Z0
-R8
+R6
 Ii<cF;<z<TVea1l@C<87QC3
 S1
 R0
@@ -395,8 +395,8 @@ w1696922967
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW_BW_tb.sv
 !i122 1350
 L0 2 262
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -404,15 +404,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW_BW_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW_BW_tb.sv|
 !i113 0
-R12
+R10
 R3
 n@f@w_@b@w_@p@u_tb
 vFW_PU
-R6
+R5
 !s110 1695991369
 !i10b 1
 !s100 MbInCLGb??DRF`S;BP0QQ1
-R8
+R6
 I>3FK_`jP1LU3m4QeA=4h@1
 S1
 R0
@@ -421,8 +421,8 @@ w1695990479
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FW_PU.sv
 !i122 278
 L0 2 101
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -430,155 +430,155 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FW_PU.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FW_PU.sv|
 !i113 0
-R12
+R10
 R3
 n@f@w_@p@u
 vFWAddrManager
-R6
-R16
+R5
+R14
 !i10b 1
 !s100 :gCY1amPn1m9zcCZlLN7Q3
-R8
+R6
 I;1]T`WWTOCNNT<Af<STRl3
 S1
 R0
-w1697719428
+w1698051230
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
-!i122 1710
-R14
-R9
-R10
+!i122 2356
+R13
+R7
+R8
 r1
 !s85 0
 31
-R17
+R15
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv|
 !i113 0
-R12
+R10
 R3
 n@f@w@addr@manager
 vkernelRegisters
-R6
-R16
+R5
+R14
 !i10b 1
 !s100 eRddnPgY2ha[2fOYCO>2G1
-R8
+R6
 I7zVm_fBK<iWnOzjgfD>]d3
 S1
 R0
 w1696325073
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/kernelsRegisters.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/kernelsRegisters.sv
-!i122 1709
+!i122 2355
 L0 1 41
-R9
-R10
-r1
-!s85 0
-31
-R17
-!s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/kernelsRegisters.sv|
-!s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/kernelsRegisters.sv|
-!i113 0
-R12
-R3
-nkernel@registers
-vkernelRegistersBWDX
-R6
-R13
-!i10b 1
-!s100 Fle>:jQLVA6FY]6Iih?8>2
+R7
 R8
-InKE4in1F=m;1nN;<gUB<<2
-S1
-R0
-w1697719908
-8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv
-F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv
-!i122 1717
-L0 1 108
-R9
-R10
 r1
 !s85 0
 31
 R15
+!s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/kernelsRegisters.sv|
+!s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/kernelsRegisters.sv|
+!i113 0
+R10
+R3
+nkernel@registers
+vkernelRegistersBWDX
+R5
+R17
+!i10b 1
+!s100 a^ARe?M6;5M62@;87@dkO1
+R6
+I:57Y5Ad]@`<2nE1dKYkYI0
+S1
+R0
+w1698046662
+8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv
+F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv
+!i122 2363
+R16
+R7
+R8
+r1
+!s85 0
+31
+R12
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv|
 !i113 0
-R12
+R10
 R3
 nkernel@registers@b@w@d@x
 vMAC
-R6
-R16
+R5
+R14
 !i10b 1
 !s100 NYP0>D7Jhb:k2GLVo>iAU2
-R8
+R6
 IhMk`SI^a2BS7Cf3YcA8C72
 S1
 R0
 w1697721991
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv
-!i122 1707
+!i122 2353
 L0 1 30
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
-R17
+R15
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv|
 !i113 0
-R12
+R10
 R3
 n@m@a@c
 vNN
-R6
 R5
+R17
 !i10b 1
-!s100 51<ZdF<EZUP?ekPX1=4RI3
-R8
-IX=e<eH`fEI>j=M==FS@j_0
+!s100 3YGnI@I35mDz]`4_9GIUY2
+R6
+I86`DMz:a;PTT[o?DQNlCQ2
 S1
 R0
-w1697806784
+w1698076178
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/NN.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/NN.sv
-!i122 1719
-L0 5 940
-R9
-R10
+!i122 2365
+L0 8 989
+R7
+R8
 r1
 !s85 0
 31
-Z18 !s108 1697806804.000000
+R18
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/NN.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/NN.sv|
 !i113 0
-R12
+R10
 R3
 n@n@n
 vNN_tb
-R6
 R5
+R17
 !i10b 1
-!s100 zBD;`]Cj:Oi72Qb`E9Bh[2
-R8
-IEVXjj0Tn_]LC0<D@mENRo3
+!s100 h334=ZAdbd9]LGLEC2Dam2
+R6
+Ik;EM8`QKX0OP^cbb?O8BL2
 S1
 R0
-w1697786515
+w1698071196
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/NN_tb.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/NN_tb.sv
-!i122 1720
+!i122 2366
 L0 1 49
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -586,15 +586,15 @@ R18
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/NN_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/NN_tb.sv|
 !i113 0
-R12
+R10
 R3
 n@n@n_tb
 voperatorCore_sim
-R6
+R5
 !s110 1696933467
 !i10b 1
 !s100 cJczjPe1_zb9ZWSb`LWUS1
-R8
+R6
 IX01DNOP]OhfOHXI8aUcZF1
 S1
 R0
@@ -603,8 +603,8 @@ w1696929926
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv
 !i122 1369
 L0 16 39
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -612,66 +612,66 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/multiplier_tb.sv|
 !i113 0
-R12
+R10
 R3
 noperator@core_sim
 vregister
-R6
-R16
+R5
+R11
 !i10b 1
 !s100 oDT:Iz9YidJ14bK;IR;NX1
-R8
+R6
 IjERRVeZ=5Y@:S=9aLS1A13
 S1
 R0
 w1695980894
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv
-!i122 1712
+!i122 2358
 L0 1 20
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
-R17
+R12
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv|
 !i113 0
-R12
+R10
 R3
 vSRAM
-R6
-R16
+R5
+R11
 !i10b 1
-!s100 W8Bd25lakHQdRPHOhl<ok3
-R8
-IKb^:F@<n:MBmi^S0>SH2c2
+!s100 e<C0WKHe1;39DY8W13kVj0
+R6
+IoG2XB^aj[?nf9Un_K28<T0
 S1
 R0
-w1697712472
+w1698072057
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/memory/SRAM.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/memory/SRAM.sv
-!i122 1711
-L0 1 33
-R9
-R10
+!i122 2357
+L0 1 34
+R7
+R8
 r1
 !s85 0
 31
-R17
+R15
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/memory/SRAM.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/memory/SRAM.sv|
 !i113 0
-R12
+R10
 R3
 n@s@r@a@m
 vtb_AddrManagerBWDX
-R6
+R5
 !s110 1697812432
 !i10b 1
 !s100 T40[@T1zQeW^UDbhIjJ]Q1
-R8
+R6
 I5>T_Q2>Qc]_iIFYLPKV1d3
 S1
 R0
@@ -680,8 +680,8 @@ w1697808890
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/AddrManagerBWDX_tb.sv
 !i122 1736
 Z19 L0 1 61
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -689,15 +689,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/AddrManagerBWDX_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/AddrManagerBWDX_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_@addr@manager@b@w@d@x
 vtb_BW_PU
-R6
+R5
 !s110 1695981647
 !i10b 1
 !s100 GXMAenQ@m@@Z__mIc`ChH1
-R8
+R6
 IJ`nXaj1U3;<?=H8A[IBE23
 S1
 R0
@@ -706,8 +706,8 @@ w1695979322
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv
 !i122 260
 L0 1 80
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -715,15 +715,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BW_PU_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_@b@w_@p@u
 vtb_BWAddrManager
-R6
+R5
 !s110 1696500020
 !i10b 1
 !s100 FdMM>j?QF>oE?LlF[b3@Z0
-R8
+R6
 IzDDMKkmmk@JCjXDT64b9c3
 S1
 R0
@@ -732,8 +732,8 @@ w1696499610
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BWAddrManager_tb.sv
 !i122 297
 Z20 L0 1 69
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -741,15 +741,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BWAddrManager_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/BWAddrManager_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_@b@w@addr@manager
 vtb_BWDKAddrManager
-R6
+R5
 !s110 1695822247
 !i10b 1
 !s100 DQ?QfdI]zmh8jk1[h;@d:2
-R8
+R6
 IflTK]RGLC9D?^6bgS`B`T2
 S1
 R0
@@ -758,8 +758,8 @@ w1695821419
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/AddrMngr_tb.sv
 !i122 229
 L0 1 50
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -767,15 +767,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/AddrMngr_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/AddrMngr_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_@b@w@d@k@addr@manager
 vtb_dadda_top
-R6
+R5
 !s110 1695733100
 !i10b 1
 !s100 MN?l_[TCK]b1zkJBN5TJz0
-R8
+R6
 IYK1VHLkh9Rc7baXERk`3=3
 S1
 R0
@@ -784,8 +784,8 @@ w1695715682
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/dadda_tb.sv
 !i122 173
 L0 1 51
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -793,14 +793,14 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/dadda_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/dadda_tb.sv|
 !i113 0
-R12
+R10
 R3
 vtb_featureInBWMngr
-R6
+R5
 !s110 1696515452
 !i10b 1
 !s100 [lMHM`bnHBb54hQm_[@B:2
-R8
+R6
 I_7RL7PDKb9];KaMKQT>PK3
 S1
 R0
@@ -809,8 +809,8 @@ w1696514307
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureInBWMngr_tb.sv
 !i122 312
 L0 1 155
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -818,15 +818,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureInBWMngr_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureInBWMngr_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_feature@in@b@w@mngr
 vtb_featureInMngr
-R6
+R5
 !s110 1695811118
 !i10b 1
 !s100 l^oVKT:R2Cofb8zMBfKNg3
-R8
+R6
 IezoNT?7QgNRaD1TX<H92P2
 S1
 R0
@@ -835,8 +835,8 @@ w1695810938
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureInMngr_tb.sv
 !i122 210
 L0 1 58
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -844,15 +844,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureInMngr_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureInMngr_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_feature@in@mngr
 vtb_featureRegister
-R6
+R5
 !s110 1695314039
 !i10b 1
 !s100 Y0I7]bcaKFe6cRe8m@5c?1
-R8
+R6
 I?d@FA<1`cz4D6iD>Kj?Y_3
 S1
 R0
@@ -860,9 +860,9 @@ w1695314035
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv
 !i122 30
-L0 1 97
-R9
-R10
+Z21 L0 1 97
+R7
+R8
 r1
 !s85 0
 31
@@ -870,41 +870,41 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/featureRegister_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_feature@register
 vtb_featureRegisterBWDX
-R6
-!s110 1697814667
+R5
+!s110 1698045490
 !i10b 1
 !s100 Pg^[QdZNNk>cnYDihANT?0
-R8
+R6
 I?`fOH6fPlSKLMeZEPEQO;2
 S1
 R0
 w1697814654
 8/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureRegisterBWDX_tb.sv
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureRegisterBWDX_tb.sv
-!i122 1749
+!i122 1751
 L0 1 63
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
-!s108 1697814667.000000
+!s108 1698045490.000000
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureRegisterBWDX_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/featureRegisterBWDX_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_feature@register@b@w@d@x
 vtb_FW_PU
-R6
+R5
 !s110 1695991376
 !i10b 1
 !s100 j6CVk3<W=`fI9RPclcZM93
-R8
+R6
 If]70hI=PA3N8=57kdiVS;0
 S1
 R0
@@ -913,8 +913,8 @@ w1695991229
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW/FW_PU_tb.sv
 !i122 279
 L0 1 127
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -922,15 +922,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW/FW_PU_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW/FW_PU_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_@f@w_@p@u
 vtb_FWAddrManager
-R6
+R5
 !s110 1696429267
 !i10b 1
 !s100 l0ZUD^:bA9aM?<:@8RcXD2
-R8
+R6
 IG<j6D9n1AeFFA=Nj5kaOn1
 S1
 R0
@@ -939,8 +939,8 @@ w1696429200
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW/FWAddrManager_tb.sv
 !i122 291
 R20
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -948,15 +948,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW/FWAddrManager_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/FW/FWAddrManager_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_@f@w@addr@manager
 vtb_kernelRegisters
-R6
+R5
 !s110 1695389792
 !i10b 1
 !s100 7_Q=KFM?gcW:R9CDn>8<@0
-R8
+R6
 IaXVaiUKJ^cElRWEB3[`lR1
 S1
 R0
@@ -965,8 +965,8 @@ w1695389729
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/kernelRegister_tb.sv
 !i122 72
 R19
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -974,15 +974,41 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/kernelRegister_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/kernelRegister_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_kernel@registers
-vtb_MAC
+vtb_kernelRegistersBWDX
+R5
+!s110 1698047111
+!i10b 1
+!s100 [7a@3fIE5^=P@:6nhGPg90
 R6
+IR6fB3o[@Z?_=OQX>KeX;n0
+S1
+R0
+w1698047106
+8/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/kernelRegisterBWDX_tb.sv
+F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/kernelRegisterBWDX_tb.sv
+!i122 1757
+R21
+R7
+R8
+r1
+!s85 0
+31
+!s108 1698047111.000000
+!s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/kernelRegisterBWDX_tb.sv|
+!s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/BW/kernelRegisterBWDX_tb.sv|
+!i113 0
+R10
+R3
+ntb_kernel@registers@b@w@d@x
+vtb_MAC
+R5
 !s110 1696925529
 !i10b 1
 !s100 ZX]?2Ce1Vm]@8VnYU=`MR3
-R8
+R6
 I;eSVERC<l?^5AhITzJO2S3
 S1
 R0
@@ -991,8 +1017,8 @@ w1696925355
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/MAC_tb.sv
 !i122 1354
 L0 1 48
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -1000,15 +1026,15 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/MAC_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/MAC_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_@m@a@c
 vtb_SRAM
-R6
+R5
 !s110 1697712760
 !i10b 1
 !s100 `f9[?PPK2fR0Hf9UheDl]3
-R8
+R6
 IDC2DHGWRM7Ll0AzP^Zj2G3
 S1
 R0
@@ -1017,8 +1043,8 @@ w1697711428
 F/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/memory/SRAM_tb.sv
 !i122 1376
 L0 1 91
-R9
-R10
+R7
+R8
 r1
 !s85 0
 31
@@ -1026,6 +1052,6 @@ r1
 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/memory/SRAM_tb.sv|
 !s90 -reportprogress|300|-work|work|/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/memory/SRAM_tb.sv|
 !i113 0
-R12
+R10
 R3
 ntb_@s@r@a@m

@@ -35,7 +35,7 @@ module FW_BW_PU #
     output [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutChAddrFW,
     output [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutRowAddrFW,
     output [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutColumnAddrFW, 
-    output [(NBITS-1):0] featureOutValFW,
+    output reg [(NBITS-1):0] featureOutValFW,
     // BACKWARD DK SIGNALS
     output [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddrBWDK,
     output [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutChAddrBWDK,
@@ -62,7 +62,7 @@ module FW_BW_PU #
 
 );
 ////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////BACKWARD LOGIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+///////////////////////////////////BACKWARD DK LOGIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ////////////////////////////////////////////////////////////////////////////////
 reg [($clog2(FEATURE_IN_ROW_SIZE) + $clog2(FEATURE_IN_COLUMN_SIZE) -1):0] convAddr_r;
 reg [($clog2(FEATURE_OUT_CH_SIZE) + $clog2(FEATURE_IN_CH_SIZE) -1):0] dkAddr_r;
@@ -130,6 +130,7 @@ end
 reg [0:(N_OF_MAC_ROWS -1 )][0:(N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ -1 ):0] data1,data2;
 reg [0:(N_OF_MAC_ROWS -1)][0:(N_OF_MAC_CLMN -1)][(NBITS-1):0]partialSumIn,partialSumMAC,partialSumMAC_r,partialSumMACDadda;
 reg daddaEn;
+reg [(NBITS-1):0]daddaOut_r;
 
 genvar i,j;
 generate 
@@ -146,35 +147,70 @@ generate
     end
 endgenerate
 // Ultimo dadda che somma i 9 prodotti della convoluzione per il forward
-dadda_top DD(.DataIn(partialSumMACDadda) , .DataOut (featureOutValFW));
+dadda_top DD(.DataIn(partialSumMACDadda) , .DataOut (daddaOut_r));
 reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] DyBWDX;
 reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] kernelsBWDX;
 
 // Muxing of signal on forward of backward
 always @ (* ) begin 
     if(bw == 0)begin // forward
-        data1 = featuresInFw;
+        data1[0][0] = featuresInFw[0][0];
+        data1[0][1] = featuresInFw[0][1];
+        data1[0][2] = featuresInFw[0][2];
+        data1[1][0] = featuresInFw[1][0];
+        data1[1][1] = featuresInFw[1][1];
+        data1[1][2] = featuresInFw[1][2];
+        data1[2][0] = featuresInFw[2][0];
+        data1[2][1] = featuresInFw[2][1];
+        data1[2][2] = featuresInFw[2][2];
+
         partialSumIn = 0;
         data2 = kernelsFw;
         partialSumMACDadda = partialSumMAC;
         dkBWDK = 0; // TODO : si potrebbe mettere alta impedenza
-    end if(bw == 1) begin // bw dk
+        featureOutValFW = daddaOut_r;
+        dxBWDX = 0;
+        valid = 0;
+    end else if(bw == 1) begin // bw dk
         data1 = featuresInBwDk;
         partialSumIn = partialSumMAC_r;
         data2 = dyBWDK;
         partialSumMACDadda = 0;
-        if ( convAddr_r == (FEATURE_IN_ROW_SIZE*FEATURE_IN_COLUMN_SIZE-N_FEATURE_READ) )begin
+        featureOutValFW =0 ;
+        if ( (featureInRowAddrBWDK == featureOutActRowSize) && (featureInColumnAddrBWDK == 0) )begin
             valid = 1;
-            dkBWDK = partialSumMAC_r;
+            dkBWDK[0][0] = partialSumMAC_r[0][0];
+            dkBWDK[0][1] = partialSumMAC_r[0][1];
+            dkBWDK[0][2] = partialSumMAC_r[0][2];
+            dkBWDK[1][0] = partialSumMAC_r[1][0];
+            dkBWDK[1][1] = partialSumMAC_r[1][1];
+            dkBWDK[1][2] = partialSumMAC_r[1][2];
+            dkBWDK[2][0] = partialSumMAC_r[2][0];
+            dkBWDK[2][1] = partialSumMAC_r[2][1];
+            dkBWDK[2][2] = partialSumMAC_r[2][2];
+
         end else begin
             valid = 0;
             dkBWDK = 0;
         end
-    end else begin // bw dx
+    end else if ( bw == 2) begin // bw dx
+        valid = 0;
         data1 = DyBWDX;
         partialSumIn = 0;
         data2 = kernelsBWDX;
         partialSumMACDadda = 0;
+        dkBWDK = 0;
+        dxBWDX = daddaOut_r;
+        featureOutValFW = 0;
+    end else begin 
+        valid = 0;
+        data1 = 0;
+        partialSumIn = 0;
+        data2 = 0;
+        partialSumMACDadda = 0;
+        dkBWDK = 0;
+        dxBWDX = 0;
+        featureOutValFW = 0;
     end
 
 end
@@ -188,14 +224,14 @@ kernelRegistersBWDX KRBWDX (.clk(clk),.rst((rst|~bw[1])),.stride(stride)
                             ,.kernelIn(kernelBWDX)
                             ,.kernelOut(kernelsBWDX));
 ///////////////////////////FEATURE REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\
-featureRegisterBWDX FRBWDX (.right(right),.left(left),.rst((rst|~bw[0])),.clk(clk),
+featureRegisterBWDX FRBWDX (.right(right),.left(left),.rst((rst|~bw[1])),.clk(clk),
                     .stride(stride),
                     .j(gradientOutRowAddrBWDX[0]),
                     .gradientInP1(DyP1BWDX),
                     .gradientInP2(DyP2BWDX),
                     .gradientInP3(DyP3BWDX),
                     .gradientOut(DyBWDX));
-AddrManagerBWDX AMBWDX (.clk(clk),.rst(rst),.stride(stride)
+AddrManagerBWDX AMBWDX (.clk(clk),.rst((rst|~bw[1])),.stride(stride)
                         ,.gradientInActChSize(featureOutActChSize)
                         ,.gradientOutActChSize(featureInActChSize)
                         ,.gradientOutActRowSize(featureOutActRowSize*stride)
