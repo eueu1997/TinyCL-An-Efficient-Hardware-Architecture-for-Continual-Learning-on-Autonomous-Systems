@@ -29,16 +29,16 @@ module FW_BW_PU #
     input  [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelValsFW,
     input  loadKernelFW,
     // Feature in 
-    output [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddrFW,
+    output [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddrFW,NewFeatureInChAddrFW,
     input  [(NBITS*N_OF_CH_READ-1):0] featureInP1FW,featureInP2FW,featureInP3FW,
     //feature out
-    output [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutChAddrFW,
+    output [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutChAddrFW,NewFeatureOutChAddrFW,
     output [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutRowAddrFW,
     output [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutColumnAddrFW, 
     output reg [(NBITS-1):0] featureOutValFW,
     // BACKWARD DK SIGNALS
-    output [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddrBWDK,
-    output [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutChAddrBWDK,
+    output [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddrBWDK,NewFeatureInChAddrBWDK,
+    output [($clog2(FEATURE_OUT_CH_SIZE)-1):0] featureOutChAddrBWDK,NewFeatureOutChAddrBWDK,
     output [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureInRowAddrBWDK,
     output [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureInColumnAddrBWDK, 
     // Feature in
@@ -53,8 +53,8 @@ module FW_BW_PU #
     input  [(NBITS*N_OF_CH_READ-1):0] DyP1BWDX,DyP2BWDX,DyP3BWDX,
     output reg [0:(N_FEATURE_READ -1)][(NBITS-1):0]dxBWDX,
     // DX address signals
-    output reg[($clog2(FEATURE_IN_CH_SIZE)-1):0] gradientInChAddrBWDX,
-    output reg[($clog2(FEATURE_OUT_CH_SIZE)-1):0] gradientOutChAddrBWDX,
+    output reg[($clog2(FEATURE_IN_CH_SIZE)-1):0] gradientInChAddrBWDX,NewGradientInChAddrBWDX,
+    output reg[($clog2(FEATURE_OUT_CH_SIZE)-1):0] gradientOutChAddrBWDX,NewGradientOutChAddrBWDX,
     output reg[($clog2(FEATURE_OUT_ROW_SIZE) -1):0] gradientOutRowAddrBWDX,
     output reg[($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] gradientOutColumnAddrBWDX, 
     input  loadKernelBWDX
@@ -78,7 +78,9 @@ BWDKAddrManager BWDK (.clk(clk),.rst((rst|~bw[0])),
                         .featureOutRowAddr(featureInRowAddrBWDK),
                         .featureOutColumAddr(featureInColumnAddrBWDK),
                         .featureOutChAddr(featureOutChAddrBWDK),
-                        .featureInChAddr(featureInChAddrBWDK));
+                        .NewFeatureOutChAddr(NewFeatureOutChAddrBWDK),
+                        .featureInChAddr(featureInChAddrBWDK),
+                        .NewFeatureInChAddr(NewFeatureInChAddrBWDK));
 ////////////////////////// BACKWARD FEATURE MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\\
 featureInBWMngr FIN(.featureOutRowAddr(featureInRowAddrBWDK),
                     .featureOutColumAddr(featureInColumnAddrBWDK),
@@ -101,7 +103,10 @@ FWAddrManager FWAM(.clk(clk),.rst((rst|bw[0]|bw[1])) ,
                     .featureOutRowAddr(featureOutRowAddrFW),
                     .featureOutColumAddr(featureOutColumnAddrFW),
                     .featureOutChAddr(featureOutChAddrFW),
-                    .featureInChAddr(featureInChAddrFW));
+                    .NewFeatureOutChAddr(NewFeatureOutChAddrFW),
+                    .featureInChAddr(featureInChAddrFW),
+                    .NewFeatureInChAddr(NewFeatureInChAddrFW)
+                    );
 //////////////////////////// KERNEL REGISTER MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\
 // Manage the movement of the kernels across the 3x3 mac grid
 kernelRegisters KR (.clk(clk),.rst((rst|bw[0]|bw[1])),.load(loadKernelFW),.kernelIn(kernelValsFW),.kernelOut(kernelsFw));
@@ -117,12 +122,22 @@ featureRegister FR (.right(right),.left(left),.rst((rst|bw[0]|bw[1])),.clk(clk),
 always @ (*) begin
 
     if (featureOutRowAddrFW[0]== 0)begin
-        right = 1;
-        left = 0;
+        if(featureOutColumnAddrFW == 0)begin // new row, go down
+            right = 0;
+            left = 0;
+        end else begin
+            right = 1;
+            left = 0;
+        end
     end
     else if (featureOutRowAddrFW[0]== 1)begin
-        right = 0;
-        left = 1;
+        if(featureOutColumnAddrFW == featureOutActColumnSize)begin // new row, go down
+            right = 0;
+            left = 0;
+        end else begin
+            right = 0;
+            left = 1;
+        end
     end
 end
 ////////////////////////////////////////// MAC GENERATION \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -239,6 +254,8 @@ AddrManagerBWDX AMBWDX (.clk(clk),.rst((rst|~bw[1])),.stride(stride)
                         ,.gradientOutRowAddr(gradientOutRowAddrBWDX)
                         ,.gradientOutColumAddr(gradientOutColumnAddrBWDX)
                         ,.gradientOutChAddr(gradientOutChAddrBWDX)
-                        ,.gradientInChAddr(gradientInChAddrBWDX));
+                        ,.NewGradientOutChAddr(NewGradientOutChAddrBWDX)
+                        ,.gradientInChAddr(gradientInChAddrBWDX)
+                        ,.NewGradientInChAddr(NewGradientInChAddrBWDX));
 endmodule
 

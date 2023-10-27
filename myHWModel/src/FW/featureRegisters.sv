@@ -78,7 +78,7 @@ always @ ( posedge clk) begin
 
 end
 
-assign featureOut = registers;
+assign featureOut = newRegisters;
 
 endmodule
 

@@ -1,6 +1,7 @@
 echo "resim run"
 set workdir /home/thesis/eugenio.ressa/Desktop/myHWModel/src
 quit -sim
+
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/activation/activation.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv
@@ -22,12 +23,16 @@ vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel
 #vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/GDumb.sv
 
 
-vsim -batch -t ns -voptargs=+acc work.NN_tb
-add wave -position insertpoint sim:/NN_tb/uut/*
+vsim -t ns -voptargs=+acc work.NN_tb
+#add wave -position insertpoint sim:/NN_tb/uut/*
+#add wave -position insertpoint sim:/NN_tb/uut/FW_BW_PU_i/*
+run 300040 ns
+quit
+#add wave -position insertpoint sim:/NN_tb/uut/*
 #add wave -position insertpoint sim:/NN_tb/uut/FW_BW_PU_i/*
 #add wave *
-run 300000 ns
-
+#run 300000 ns
+#quit -sim
 #vsim -debugDB -t 1ns work.tb_dadda
 #add wave *
 

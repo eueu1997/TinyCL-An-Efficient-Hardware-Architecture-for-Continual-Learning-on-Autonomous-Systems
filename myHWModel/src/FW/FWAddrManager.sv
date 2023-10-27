@@ -17,8 +17,8 @@ module FWAddrManager #
     // address generated
     output reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0]featureOutRowAddr,
     output reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0]featureOutColumAddr,
-    output reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0]featureOutChAddr,
-    output reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddr
+    output reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0]featureOutChAddr,NewFeatureOutChAddr,
+    output reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddr,NewFeatureInChAddr
 );
 reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0] featureOutColum,NewFeatureOutColum;
 reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0] featureOutRow,NewFeatureOutRow;
@@ -111,5 +111,7 @@ assign featureInChAddr = featureInCh;
 assign featureOutRowAddr = featureOutRow;
 assign featureOutColumAddr = featureOutColum;
 assign featureOutChAddr = featureOutCh;
+assign NewFeatureInChAddr = NewFeatureInCh;
+assign NewFeatureOutChAddr = NewFeatureOutCh;
 
 endmodule

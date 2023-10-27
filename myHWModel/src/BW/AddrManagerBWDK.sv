@@ -17,8 +17,8 @@ module BWDKAddrManager #
     // address generated
     output reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0]featureOutRowAddr,
     output reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0]featureOutColumAddr,
-    output reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0]featureOutChAddr,
-    output reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddr
+    output reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0]featureOutChAddr,NewFeatureOutChAddr,
+    output reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddr,NewFeatureInChAddr
 );
 reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0] featureOutColum,NewFeatureOutColum;
 reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0] featureOutRow,NewFeatureOutRow;
@@ -71,7 +71,7 @@ always @ (*) begin
         if ((featureOutRow == featureOutActRowSize ) & (featureOutColum == 0))begin// If we are at the end of the feature
             if(featureInCh == featureInActChSize)begin // if we have passed all channel in 
                 NewFeatureInCh = 0;
-            end else begin// otherwise iterate
+            end else begin// otherwise increment
                 NewFeatureInCh= featureInCh + 1; 
             end
         end else begin // otherwise
@@ -105,11 +105,13 @@ always @ ( posedge clk) begin
     featureOutRow = NewFeatureOutRow;
     featureOutColum = NewFeatureOutColum;
     featureOutCh = NewFeatureOutCh;
+    
 
 end
 assign featureInChAddr = featureInCh;
 assign featureOutRowAddr = featureOutRow;
 assign featureOutColumAddr = featureOutColum;
 assign featureOutChAddr = featureOutCh;
-
+assign NewFeatureOutChAddr = NewFeatureOutCh;
+assign NewFeatureInChAddr = NewFeatureInCh;
 endmodule

@@ -87,7 +87,7 @@ class Conv3D():
     def Conv3dForward(self,featureIn):
 
         featureOut = np.zeros((self.channelOutDim,self.featureOutDim,self.featureOutDim))
-        self.featureIn = np.pad(featureIn, ((0,0), (1, 1), (1, 1)), mode='constant', constant_values=0)
+        #self.featureIn = np.pad(featureIn, ((0,0), (1, 1), (1, 1)), mode='constant', constant_values=0)
         for i in range(self.channelOutDim):
             for j in range(self.featureOutDim):
                 for k in range(self.featureOutDim):

@@ -1,3 +1,4 @@
+
 module NN_tb;
 
     // Parameters
@@ -6,9 +7,9 @@ module NN_tb;
 
     // Signals
     reg clk, rst;
-    wire [0:9] featureInReadAddrFWGDUMB;
+    wire [9:0] featureInReadAddrFWGDUMB;
     wire featureInReadEnFWGDUMB;
-    reg [0:7][(N_FEATURE_READ*NBITS-1):0] featureInReadValueFWGDUMB;
+    reg [0:7][(N_FEATURE_READ*NBITS-1):0] featureInReadValueFWGDUMB,next_featureInReadValueFWGDUMB;
 
     // Instantiate feature_module
     NN uut (
@@ -18,11 +19,40 @@ module NN_tb;
         .featureInReadEnFWGDUMB(featureInReadEnFWGDUMB),
         .featureInReadValueFWGDUMB(featureInReadValueFWGDUMB)
     );
+
+    // GDumb ram memory instantiation
+    genvar j ;
+    
+    generate
+    for( j=0; j< 3; j=j+1) begin
+    SRAM # (.PORT_WIDTH(128),
+        .MEMORY_WIDHT(32*32/8),
+        .MEMORY_TYPE("GDUMB"),
+        .CHANNEL_IN(j),
+        .CHANNEL_OUT(0)
+        )
+    SRAMgdumb (.writeAddr(),
+        .readAddr(featureInReadAddrFWGDUMB[9:3]),
+        .writeEn(),
+        .readEn(featureInReadEnFWGDUMB),
+        .readValue(featureInReadValueFWGDUMB[j]),
+        .writeValue(),
+        .clk(clk),
+        .rst(rst));
+    end
+    endgenerate
     // Clock generation
     always #5 clk = ~clk;
-
+   
     // Test stimulus
     initial begin
+
+     featureInReadValueFWGDUMB[3] = 0;
+     featureInReadValueFWGDUMB[4] = 0;
+     featureInReadValueFWGDUMB[5] = 0;
+     featureInReadValueFWGDUMB[6] = 0;
+     featureInReadValueFWGDUMB[7] = 0;
+
         // Initialize signals
         clk = 0;
         rst = 0;
@@ -32,18 +62,11 @@ module NN_tb;
         #10;
         rst = 0;
 
-        // Generate some activity
-        featureInReadValueFWGDUMB[0] = 'h10001000100010001000100010001000 ; // Set feature address
-        featureInReadValueFWGDUMB[1] = 'h10001000100010001000100010001000; // Set feature address
-        featureInReadValueFWGDUMB[2] = 'h10001000100010001000100010001000; // Set feature address
-        featureInReadValueFWGDUMB[3] = 'h10001000100010001000100010001000; // Set feature address
-        featureInReadValueFWGDUMB[4] = 'h10001000100010001000100010001000; // Set feature address
-        featureInReadValueFWGDUMB[5] = 'h10001000100010001000100010001000; // Set feature address
-        featureInReadValueFWGDUMB[6] = 'h10001000100010001000100010001000; // Set feature address
-        featureInReadValueFWGDUMB[7] = 'h10001000100010001000100010001000; // Set feature address
 
+        #300000;
+        rst =1;
         #10;
-
-        
+        rst =0;
+        //$finish;
     end
 endmodule

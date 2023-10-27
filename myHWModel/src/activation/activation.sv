@@ -15,12 +15,8 @@ module activation #
             end else begin
                 output_value = 32'h0; // Output is 0 if input < 0
             end
-        end else begin // default : relu
-        if (input_value >= 0) begin
-                output_value = input_value; // Output is the same as input if input >= 0
-            end else begin
-                output_value = 32'h0; // Output is 0 if input < 0
-            end
+        end else begin // default : out=in
+            output_value = input_value; // Output is the same as input if input >= 0            
         end
     end
 
