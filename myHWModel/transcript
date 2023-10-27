@@ -4573,3 +4573,416 @@ do resim.tcl
 #  From GDUMB CHANNEL 2 mem read addr 1: 00000000000000000000000000000000
 #  From GDUMB CHANNEL 2 mem read addr 2: 00000000000000000000000000000000
 #  From GDUMB CHANNEL 2 mem read addr 3: 00000000000000000000000000000000
+do resim.tcl
+# resim run
+# /home/thesis/eugenio.ressa/Desktop/myHWModel/src
+# End time: 16:25:36 on Oct 27,2023, Elapsed time: 1:04:02
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:36 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/activation/activation.sv 
+# -- Compiling module activation
+# 
+# Top level modules:
+# 	activation
+# End time: 16:25:36 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:36 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 16:25:36 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:36 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv 
+# -- Compiling module dadda_top
+# 
+# Top level modules:
+# 	dadda_top
+# End time: 16:25:36 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:36 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv 
+# -- Compiling module MAC
+# 
+# Top level modules:
+# 	MAC
+# End time: 16:25:36 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:36 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
+# -- Compiling module featureRegister
+# 
+# Top level modules:
+# 	featureRegister
+# End time: 16:25:37 on Oct 27,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:37 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/kernelsRegisters.sv 
+# -- Compiling module kernelRegisters
+# 
+# Top level modules:
+# 	kernelRegisters
+# End time: 16:25:37 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:37 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 16:25:37 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:37 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/memory/SRAM.sv 
+# -- Compiling module SRAM
+# 
+# Top level modules:
+# 	SRAM
+# End time: 16:25:37 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:37 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv 
+# -- Compiling module register
+# 
+# Top level modules:
+# 	register
+# End time: 16:25:37 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:37 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngrBWDK.sv 
+# -- Compiling module featureInBWMngr
+# 
+# Top level modules:
+# 	featureInBWMngr
+# End time: 16:25:37 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:38 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDK.sv 
+# -- Compiling module BWDKAddrManager
+# 
+# Top level modules:
+# 	BWDKAddrManager
+# End time: 16:25:38 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:38 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDX.sv 
+# -- Compiling module AddrManagerBWDX
+# 
+# Top level modules:
+# 	AddrManagerBWDX
+# End time: 16:25:38 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:38 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureRegistersBWDX.sv 
+# -- Compiling module featureRegisterBWDX
+# 
+# Top level modules:
+# 	featureRegisterBWDX
+# End time: 16:25:38 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:38 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv 
+# -- Compiling module kernelRegistersBWDX
+# 
+# Top level modules:
+# 	kernelRegistersBWDX
+# End time: 16:25:38 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:38 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW_BW_PU.sv 
+# -- Compiling module FW_BW_PU
+# 
+# Top level modules:
+# 	FW_BW_PU
+# End time: 16:25:38 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:38 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/NN.sv 
+# -- Compiling module NN
+# 
+# Top level modules:
+# 	NN
+# End time: 16:25:38 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:25:39 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/NN_tb.sv 
+# -- Compiling module NN_tb
+# 
+# Top level modules:
+# 	NN_tb
+# End time: 16:25:39 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.NN_tb 
+# Start time: 16:25:39 on Oct 27,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# ** Note: (vopt-143) Recognized 1 FSM in module "NN(fast)".
+# Loading sv_std.std
+# Loading work.NN_tb(fast)
+# Loading work.NN(fast)
+# Loading work.FW_BW_PU(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInBWMngr(fast)
+# Loading work.FWAddrManager(fast)
+# Loading work.kernelRegisters(fast)
+# Loading work.featureRegister(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.register(fast)
+# Loading work.kernelRegistersBWDX(fast)
+# Loading work.featureRegisterBWDX(fast)
+# Loading work.AddrManagerBWDX(fast)
+# Loading work.SRAM(fast)
+# Loading work.activation(fast)
+# Loading work.SRAM(fast__1)
+# Loading work.SRAM(fast__2)
+# Loading work.SRAM(fast__3)
+#  From GDUMB CHANNEL 0 mem read addr 0: 00070006000500040003000200010000
+#  From GDUMB CHANNEL 0 mem read addr 1: 000f000e000d000c000b000a00090008
+#  From GDUMB CHANNEL 0 mem read addr 2: 00170016001500140013001200110010
+#  From GDUMB CHANNEL 0 mem read addr 3: 001f001e001d001c001b001a00190018
+#  From GDUMB CHANNEL 1 mem read addr 0: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 1: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 2: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 3: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 0: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 1: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 2: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 3: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 0 mem read addr 0: 00070006000500040003000200010000
+#  From GDUMB CHANNEL 0 mem read addr 1: 000f000e000d000c000b000a00090008
+#  From GDUMB CHANNEL 0 mem read addr 2: 00170016001500140013001200110010
+#  From GDUMB CHANNEL 0 mem read addr 3: 001f001e001d001c001b001a00190018
+#  From GDUMB CHANNEL 1 mem read addr 0: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 1: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 2: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 3: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 0: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 1: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 2: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 3: 00000000000000000000000000000000
+do resim.tcl
+# resim run
+# /home/thesis/eugenio.ressa/Desktop/myHWModel/src
+# End time: 16:32:46 on Oct 27,2023, Elapsed time: 0:07:07
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:46 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/activation/activation.sv 
+# -- Compiling module activation
+# 
+# Top level modules:
+# 	activation
+# End time: 16:32:46 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:46 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv 
+# -- Compiling module fixed_multi
+# 
+# Top level modules:
+# 	fixed_multi
+# End time: 16:32:46 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:46 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv 
+# -- Compiling module dadda_top
+# 
+# Top level modules:
+# 	dadda_top
+# End time: 16:32:46 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:46 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv 
+# -- Compiling module MAC
+# 
+# Top level modules:
+# 	MAC
+# End time: 16:32:46 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:46 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/featureRegisters.sv 
+# -- Compiling module featureRegister
+# 
+# Top level modules:
+# 	featureRegister
+# End time: 16:32:46 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:46 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/kernelsRegisters.sv 
+# -- Compiling module kernelRegisters
+# 
+# Top level modules:
+# 	kernelRegisters
+# End time: 16:32:47 on Oct 27,2023, Elapsed time: 0:00:01
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:47 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv 
+# -- Compiling module FWAddrManager
+# 
+# Top level modules:
+# 	FWAddrManager
+# End time: 16:32:47 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:47 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/memory/SRAM.sv 
+# -- Compiling module SRAM
+# 
+# Top level modules:
+# 	SRAM
+# End time: 16:32:47 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:47 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv 
+# -- Compiling module register
+# 
+# Top level modules:
+# 	register
+# End time: 16:32:47 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:47 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngrBWDK.sv 
+# -- Compiling module featureInBWMngr
+# 
+# Top level modules:
+# 	featureInBWMngr
+# End time: 16:32:47 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:47 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDK.sv 
+# -- Compiling module BWDKAddrManager
+# 
+# Top level modules:
+# 	BWDKAddrManager
+# End time: 16:32:47 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:48 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDX.sv 
+# -- Compiling module AddrManagerBWDX
+# 
+# Top level modules:
+# 	AddrManagerBWDX
+# End time: 16:32:48 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:48 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureRegistersBWDX.sv 
+# -- Compiling module featureRegisterBWDX
+# 
+# Top level modules:
+# 	featureRegisterBWDX
+# End time: 16:32:48 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:48 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/kernelRegisterBWDX.sv 
+# -- Compiling module kernelRegistersBWDX
+# 
+# Top level modules:
+# 	kernelRegistersBWDX
+# End time: 16:32:48 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:48 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW_BW_PU.sv 
+# -- Compiling module FW_BW_PU
+# 
+# Top level modules:
+# 	FW_BW_PU
+# End time: 16:32:48 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:48 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/NN.sv 
+# -- Compiling module NN
+# 
+# Top level modules:
+# 	NN
+# End time: 16:32:48 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# QuestaSim-64 vlog 2020.4 Compiler 2020.10 Oct 13 2020
+# Start time: 16:32:48 on Oct 27,2023
+# vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/tb/NN_tb.sv 
+# -- Compiling module NN_tb
+# 
+# Top level modules:
+# 	NN_tb
+# End time: 16:32:48 on Oct 27,2023, Elapsed time: 0:00:00
+# Errors: 0, Warnings: 0
+# vsim -t ns -voptargs="+acc" work.NN_tb 
+# Start time: 16:32:49 on Oct 27,2023
+# ** Note: (vsim-3813) Design is being optimized due to module recompilation...
+# Loading sv_std.std
+# Loading work.NN_tb(fast)
+# Loading work.NN(fast)
+# Loading work.FW_BW_PU(fast)
+# Loading work.BWDKAddrManager(fast)
+# Loading work.featureInBWMngr(fast)
+# Loading work.FWAddrManager(fast)
+# Loading work.kernelRegisters(fast)
+# Loading work.featureRegister(fast)
+# Loading work.MAC(fast)
+# Loading work.fixed_multi(fast)
+# Loading work.dadda_top(fast)
+# Loading work.register(fast)
+# Loading work.kernelRegistersBWDX(fast)
+# Loading work.featureRegisterBWDX(fast)
+# Loading work.AddrManagerBWDX(fast)
+# Loading work.SRAM(fast)
+# Loading work.activation(fast)
+# Loading work.SRAM(fast__1)
+# Loading work.SRAM(fast__2)
+# Loading work.SRAM(fast__3)
+#  From GDUMB CHANNEL 0 mem read addr 0: 00070006000500040003000200010000
+#  From GDUMB CHANNEL 0 mem read addr 1: 000f000e000d000c000b000a00090008
+#  From GDUMB CHANNEL 0 mem read addr 2: 00170016001500140013001200110010
+#  From GDUMB CHANNEL 0 mem read addr 3: 001f001e001d001c001b001a00190018
+#  From GDUMB CHANNEL 1 mem read addr 0: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 1: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 2: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 3: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 0: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 1: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 2: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 3: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 0 mem read addr 0: 00070006000500040003000200010000
+#  From GDUMB CHANNEL 0 mem read addr 1: 000f000e000d000c000b000a00090008
+#  From GDUMB CHANNEL 0 mem read addr 2: 00170016001500140013001200110010
+#  From GDUMB CHANNEL 0 mem read addr 3: 001f001e001d001c001b001a00190018
+#  From GDUMB CHANNEL 1 mem read addr 0: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 1: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 2: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 1 mem read addr 3: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 0: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 1: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 2: 00000000000000000000000000000000
+#  From GDUMB CHANNEL 2 mem read addr 3: 00000000000000000000000000000000

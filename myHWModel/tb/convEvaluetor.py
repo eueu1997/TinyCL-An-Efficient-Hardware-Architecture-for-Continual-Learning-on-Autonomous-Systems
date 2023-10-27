@@ -257,7 +257,7 @@ if __name__ == '__main__':
         featureInExt = np.zeros((8,32,32))
         for i in range(32):
             for j in range(32):
-                featureInExt[0][i][j] = j / 4092 
+                featureInExt[0][i][j] = ((i*32)+j) / 4092 
         #featureInExt[0:3] = feature.numpy()
         f2 = np.vectorize(fxdPointCnv)
         # SAVE FEATURE INTO FILES 
@@ -325,7 +325,7 @@ if __name__ == '__main__':
     
     np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureOutOptiFeatureOut0.txt", fmt='%1.4f',X = optiFeatureOut[0])
     np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureOutFeatureOut0.txt", fmt='%1.4f',X = featureOut[1])
-    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureOutDiff0.txt", fmt='%2.1f',X = diffFeature[1])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureOutDiff0.txt", fmt='%d',X = diffFeature[1])
 
 '''
 if (MEMORY_TYPE == "KERNEL") begin

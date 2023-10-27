@@ -860,7 +860,7 @@ end
 // update of feature in buffer
 always @ (*) begin
     if(bw==0)begin
-    if((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 6)&&(featureOutRowAddrFW[0]==0)||(featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 7)&&(featureOutRowAddrFW[0]==1))begin // new 8 feature are loaded
+    if(((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 6)&&(featureOutRowAddrFW[0]==0))||((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 7)&&(featureOutRowAddrFW[0]==1))||((featureOutColumnAddrFW == 0)&&(featureOutRowAddrFW[0]==0)))begin // new 8 feature are loaded
         featureInBufferOfReadValueFW = next_featureInBufferOfReadValueFW;
     end
     end
@@ -933,14 +933,14 @@ always @ (*)begin
     end else begin
         if(featureOutColumnAddrFW == featureOutActColumnSize)begin
             // new row, pass p1 = [row][maxColumn], p2 = , p3 = 0
-            featureInP1FW[(1*NBITS-1):0*NBITS] = featureInBufferOfReadValueFW[0][0][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
-            featureInP1FW[(2*NBITS-1):1*NBITS] = featureInBufferOfReadValueFW[0][1][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
-            featureInP1FW[(3*NBITS-1):2*NBITS] = featureInBufferOfReadValueFW[0][2][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
-            featureInP1FW[(4*NBITS-1):3*NBITS] = featureInBufferOfReadValueFW[0][3][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
-            featureInP1FW[(5*NBITS-1):4*NBITS] = featureInBufferOfReadValueFW[0][4][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
-            featureInP1FW[(6*NBITS-1):5*NBITS] = featureInBufferOfReadValueFW[0][5][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
-            featureInP1FW[(7*NBITS-1):6*NBITS] = featureInBufferOfReadValueFW[0][6][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
-            featureInP1FW[(8*NBITS-1):7*NBITS] = featureInBufferOfReadValueFW[0][7][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+            featureInP1FW[(1*NBITS-1):0*NBITS] = featureInBufferOfReadValueFW[2][0][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            featureInP1FW[(2*NBITS-1):1*NBITS] = featureInBufferOfReadValueFW[2][1][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+            featureInP1FW[(3*NBITS-1):2*NBITS] = featureInBufferOfReadValueFW[2][2][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+            featureInP1FW[(4*NBITS-1):3*NBITS] = featureInBufferOfReadValueFW[2][3][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+            featureInP1FW[(5*NBITS-1):4*NBITS] = featureInBufferOfReadValueFW[2][4][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+            featureInP1FW[(6*NBITS-1):5*NBITS] = featureInBufferOfReadValueFW[2][5][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+            featureInP1FW[(7*NBITS-1):6*NBITS] = featureInBufferOfReadValueFW[2][6][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
+            featureInP1FW[(8*NBITS-1):7*NBITS] = featureInBufferOfReadValueFW[2][7][featureOutColumnAddrFW[2:0]*NBITS+:NBITS]; 
             featureInP2FW = 0;
             featureInP3FW = 0;
         end else begin // otherwise, normal

@@ -50,9 +50,9 @@ always @ (*)begin
             newRegisters[0][0] = registers [1][0];
             newRegisters[0][1] = registers [1][1];
             newRegisters[0][2] = registers [1][2];
-            newRegisters[1][0] = registers [0][0];
-            newRegisters[1][1] = registers [0][1];
-            newRegisters[1][2] = registers [0][2];
+            newRegisters[1][0] = registers [2][0];
+            newRegisters[1][1] = registers [2][1];
+            newRegisters[1][2] = registers [2][2];
             newRegisters[2][0] = featureInP1;
             newRegisters[2][1] = featureInP2;
             newRegisters[2][2] = featureInP3;
