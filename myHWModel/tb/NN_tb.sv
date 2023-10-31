@@ -8,7 +8,7 @@ module NN_tb;
     // Signals
     reg clk, rst;
     wire [9:0] featureInReadAddrFWGDUMB;
-    wire featureInReadEnFWGDUMB;
+    wire [0:2]featureInReadEnFWGDUMB;
     reg [0:7][(N_FEATURE_READ*NBITS-1):0] featureInReadValueFWGDUMB,next_featureInReadValueFWGDUMB;
 
     // Instantiate feature_module
@@ -34,7 +34,7 @@ module NN_tb;
     SRAMgdumb (.writeAddr(),
         .readAddr(featureInReadAddrFWGDUMB[9:3]),
         .writeEn(),
-        .readEn(featureInReadEnFWGDUMB),
+        .readEn(featureInReadEnFWGDUMB[j]),
         .readValue(featureInReadValueFWGDUMB[j]),
         .writeValue(),
         .clk(clk),
@@ -63,7 +63,7 @@ module NN_tb;
         rst = 0;
 
 
-        #300000;
+        #245765;
         rst =1;
         #10;
         rst =0;

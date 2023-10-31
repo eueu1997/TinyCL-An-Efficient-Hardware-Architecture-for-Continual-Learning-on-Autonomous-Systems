@@ -4,6 +4,8 @@
 // TODO : apply input feture read during DX calculation to apply ReLU derivative ( set 0 the gradient input whose position was at 0 on feature in)
 // TODO : avendo fetchato , bisogna incrementare i valori di ch da leggere, considerando che se abbiamo finito un canale in ingresso dovremmo incrementare il canale in uscita
 // TODO : do better stride assignation
+// TODO : in dk dovrebbe essere possibile eseguire la modifica dei kernel in 9 cili di clock mentre si inizia a calcolare la convoluzione successiva
+// qiventa un problema nel caso di feature 8x8 perche in 8 cc finirà la convoluzione, mentre non avremo finito di aggiornare i kernel
 // TODO : TIMING PROBLEMS :
 //   - WHILE APPLYING DK ( READ KERNEL,SUM TO DK AND WRITE BACK) THE COMPUTATIONS GO ON. SHALL BE STOPPED. WE CANNOT FETCH THIS BECAUSE THE VALUE TO
 //     ADD IS READY AT THE END .
@@ -41,7 +43,7 @@ module NN #
 )
 (   input clk,rst,
     output [9:0]featureInReadAddrFWGDUMB, // address of the feature
-    output featureInReadEnFWGDUMB, // Enable of GDUMB RAM memory. It read on all channels ( 3 extendet to 8 just for compatibility), always port widht of 8*NBITS, so same logic as SRAM
+    output [0:2]featureInReadEnFWGDUMB, // Enable of GDUMB RAM memory. It read on all channels ( 3 extendet to 8 just for compatibility), always port widht of 8*NBITS, so same logic as SRAM
     input [0:7][(N_FEATURE_READ*NBITS-1):0] featureInReadValueFWGDUMB
 );
 
@@ -53,19 +55,42 @@ module NN #
     reg [($clog2(FEATURE_OUT_CH_SIZE[NLAYER-1])-1):0] featureOutActChSize;
     reg [($clog2(FEATURE_OUT_ROW_SIZE[0])-1):0] featureOutActRowSize;
     reg [($clog2(FEATURE_OUT_COLUMN_SIZE[0])-1):0] featureOutActColumnSize;
-    // matrix of 8*9 kernel values
-    reg [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelValsFW;
-    // flag saing kernel il ready to be loaded
-    reg loadKernelFW;
-    // FEATURE IN AND OUT ACTUAL LAYER SIZE
+        // FEATURE IN AND OUT ACTUAL LAYER SIZE
     reg [($clog2(FEATURE_IN_CH_SIZE[NLAYER-1])-1):0] featureInChAddrFW,NewFeatureInChAddrFW;
     reg [($clog2(FEATURE_OUT_CH_SIZE[NLAYER-1])-1):0] featureOutChAddrFW,NewFeatureOutChAddrFW;
     reg [($clog2(FEATURE_OUT_ROW_SIZE[0]) -1):0] featureOutRowAddrFW;
     reg [($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):0] featureOutColumnAddrFW;
+    // LOCAL SIGNALS PREFETCHING FETURE ADDRESS
+    reg [($clog2(FEATURE_IN_COLUMN_SIZE[0])-1):0] NewFeatureInColumnPreFetch;
+    reg [($clog2(FEATURE_IN_ROW_SIZE[0])-1):0] NewFeatureInRowPreFetch;
+    reg [($clog2(FEATURE_IN_CH_SIZE[NLAYER-1])-1):0] NewFeatureInChAddrPreFetch;
+    reg [($clog2(FEATURE_OUT_CH_SIZE[NLAYER-1])-1):0] NewFeatureOutChAddrPreFetch;
+    reg [0:($clog2(NLAYER)-1)]NewFeatureLayerPreFetch;
+    // matrix of 8*9 kernel values
+
+    //LOCAL SIGNALS KERNEL LOAD
+    reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)] kernelReadEn_r,kernelWriteEn_r;
+    reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)][(NBITS-1):0] kernelReadValues_r;
+    reg [(NBITS-1):0] kernelWriteValue_r;
+    // KERNEL LOAD TO PU
+    reg [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelValsFW;
+    // flag saing kernel il ready to be loaded
+    reg loadKernelFW;
+
+    reg [($clog2(FEATURE_IN_ROW_SIZE[0]) + $clog2(FEATURE_IN_COLUMN_SIZE[0]) -1) :0] featureInReadAddr_r;
+    // cè un alayer in piu solo per assegnazione comoda di sram in ciclo for. initilizzato
+    reg [0:(NLAYER)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)][(N_FEATURE_READ*NBITS-1):0] featureInReadValue_r;
+    reg [0:(NLAYER)][0: ( FEATURE_IN_CH_SIZE[NLAYER-1] -1)] featureInReadEn_r;
+    reg [0:2][0:(N_OF_CH_READ-1)][(N_FEATURE_READ*NBITS-1):0] featureInBufferOfReadValueFW,next_featureInBufferOfReadValueFW; // buffer dove salviamo le tre righe lette e mandiamo i pixel alla PU. Ne abbiamo due perche mentre carichiamo i nuovi i vecchi dobbiamo ancora usarli
+    // cè una layer in piu che va assenato all'ultima sram ma che sara inutilizzato
     // 3 new pixels needed by MAC in forward computation
     reg [(NBITS*N_OF_CH_READ-1):0] featureInP1FW, featureInP2FW, featureInP3FW;
     // pixel of feature out : result of 3d convolution
     reg [(NBITS-1):0] featureOutValFW,featureOutValFWActivated;
+    reg [($clog2(FEATURE_OUT_ROW_SIZE[0]) + $clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1) :0] featureOutWriteAddrFW;
+    reg [(N_FEATURE_READ*NBITS-1):0] featureOutWriteValueFW,next_featureOutWriteValueFW;
+
+
     // BW SIGNALS : indexing of DK ( channel in, out , row and column.)
     reg [($clog2(FEATURE_IN_CH_SIZE[NLAYER-1])-1):0] featureInChAddrBWDK,temp_featureInChAddrBWDK_r,NewFeatureInChAddrBWDK;
     reg [($clog2(FEATURE_OUT_CH_SIZE[NLAYER-1])-1):0] featureOutChAddrBWDK,temp_featureOutChAddrBWDK_r,NewFeatureOutChAddrBWDK;
@@ -76,20 +101,48 @@ module NN #
     reg [0:(N_FEATURE_READ -1)][(NBITS-1):0] dyBWDK;
     // dk output
     reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] dkBWDK;
+    reg [0:(KERNEL_SIZE * KERNEL_SIZE -1)][(NBITS-1):0] dk_r;
     // flag: is 1 when dkBWDK is valid and can be stored( used to modify kernels)
     reg valid;
     // DX SIGNALS 
-    reg  [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelBWDX;
-    reg [(NBITS*N_OF_CH_READ-1):0] DyP1BWDX,DyP2BWDX,DyP3BWDX;
-    reg [0:(N_FEATURE_READ -1)][(NBITS-1):0]dxBWDX;
     // DX address signals
     reg [($clog2(FEATURE_IN_CH_SIZE[NLAYER-1])-1):0] gradientInChAddrBWDX,NewGradientInChAddrBWDX;
     reg [($clog2(FEATURE_OUT_CH_SIZE[NLAYER-1])-1):0] gradientOutChAddrBWDX,NewGradientOutChAddrBWDX;
     reg [($clog2(FEATURE_OUT_ROW_SIZE[0]) -1):0] gradientOutRowAddrBWDX;
     reg [($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):0] gradientOutColumnAddrBWDX; 
+    // DX PREFETCHING SIGNALS 
+    reg [($clog2(FEATURE_IN_COLUMN_SIZE[0])-1):0] NewGradientInColumnPreFetch;
+    reg [($clog2(FEATURE_IN_ROW_SIZE[0])-1):0] NewGradientInRowPreFetch;
+    reg [($clog2(FEATURE_IN_CH_SIZE[NLAYER-1])-1):0] NewGradientInChAddrPreFetch;
+    reg [($clog2(FEATURE_OUT_CH_SIZE[NLAYER-1])-1):0] NewGradientOutChAddrPreFetch;
+    // GRADIENT IN SIGNALS
+    reg [0: (GRADIENT_OUT_CH_SIZE[0]-1)]gradientInReadEn_r;
+    reg [($clog2(GRADIENT_IN_ROW_SIZE[0]) + $clog2(GRADIENT_IN_COLUMN_SIZE[0]) -1) :0]gradientInReadAddr_r;
+    reg [0: (GRADIENT_OUT_CH_SIZE[0]-1)][(NBITS*N_FEATURE_READ-1):0]gradientInReadValue_r;
+    reg [0:2][0:(N_OF_CH_READ-1)][(N_FEATURE_READ*NBITS-1):0] gradientInBufferOfReadValue,next_gradientInBufferOfReadValue;
+    // KERNEL IN  SIGNALS
+    reg  [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelBWDX;
+    reg [(NBITS*N_OF_CH_READ-1):0] DyP1BWDX,DyP2BWDX,DyP3BWDX;
+    reg [(NBITS-1):0]dxBWDX;
+    // DX WRITE SIGNALS
+    reg [0: (GRADIENT_OUT_CH_SIZE[0]-1)]gradientOutWriteEn_r;
+    reg [($clog2(GRADIENT_OUT_ROW_SIZE[0]) + $clog2(GRADIENT_OUT_COLUMN_SIZE[0]) -1) :0]gradientOutWriteAddr_r;
+    reg [(N_FEATURE_READ*NBITS-1):0] gradientOutWriteValue,next_gradientOutWriteValue;
+
     reg loadKernelBWDX;
     reg [0:($clog2(NLAYER)-1)]actLayer,next_actLayer;
     reg [1:0] stride;
+
+    // Define states
+    typedef enum logic [1:0] {
+        LOAD_KERNEL = 2'b00,
+        RUNNING = 2'b10
+
+    } FW_FSM_t;
+
+    FW_FSM_t state_reg, next_state;
+    reg [3:0] kernelAddrRead,next_kernelAddrRead;
+    reg stall,clk_stalled;
 
     // Instantiate the module
     FW_BW_PU #(MAC_SIZE, KERNEL_SIZE, N_OF_MAC_ROWS, N_OF_MAC_CLMN, N_OF_CH_READ,
@@ -97,7 +150,7 @@ module NN #
               FEATURE_OUT_ROW_SIZE[0], FEATURE_OUT_COLUMN_SIZE[0], FEATURE_OUT_CH_SIZE[NLAYER-1],
               N_FEATURE_READ) FW_BW_PU_i (
         .bw(bw),
-        .clk(clk),
+        .clk(clk_stalled),
         .rst(rst),
         .featureInActChSize(featureInActChSize),
         .featureOutActChSize(featureOutActChSize),
@@ -140,26 +193,59 @@ module NN #
         ,.loadKernelBWDX(loadKernelBWDX)
 
     );
+always @ (*)begin
+
+    if ((gradientOutColumnAddrBWDX == 0)&&(gradientOutRowAddrBWDX ==0)&&(gradientOutChAddrBWDX == 0) && (gradientInChAddrBWDX == 0)&&(bw == 2)&&(kernelAddrRead != 8))begin
+        stall <= 1;
+    end else begin
+        stall <= 0;    
+    end
+
+end
+
+always @(*) begin
+    if( stall == 1)begin
+        clk_stalled <= 0;
+    end else begin
+        clk_stalled <= clk;
+    end
+end
+// bit to stall PU
 
 assign stride = 1;
 /////////////////////////////// LAYER LOGIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 // layer counter updating logic. The logic depends of which operation we are
+// According to wich operation we are processing ( BW = 0 : FORWARD ( FW ), BW = 1 : WEIGHT GRADIENT ( DK ), BW = 2 : GRADIENT PROPAGATION ( DX ))
+// we set the boundaries to new layer. In forward the layer is increased when the all channel in are processed with all the channel out kernels
+// In weight gradient calculation, when all the channels on the input gradeints has been convolved with the input features
+// In gradient propagation , after the convolution of all the channels of the input gradient with all the kernels
+
 always @ (*)begin
 
     if(rst== 1) begin
         next_actLayer = 0;
     end else begin
         if ( bw == 0)begin
+            // if FW , check if all CH_IN are processed( +8 is because of we process 8 input channels at a time), all CH_OUT were processed, we are at the last row, we are at position 0 of the olumn counter ( not at MAX_COLUMN due to "snake" movememnt). check also if it is not last layer. ( if it is mantain layer and start backword)
             if(((featureInChAddrFW+8) == (FEATURE_IN_CH_SIZE[actLayer])) && (featureOutChAddrFW == (FEATURE_OUT_CH_SIZE[actLayer]-1)) && (featureOutRowAddrFW == (FEATURE_OUT_ROW_SIZE[actLayer]-1)) && (featureOutColumnAddrFW == 0)&&(actLayer !=(NLAYER-1))) begin
                 next_actLayer <= actLayer +1;
             end else begin
+                // if not, don't change layer
                 next_actLayer <= actLayer;
             end 
         end else if (bw == 1)begin
+            // in DK, we do not change layer, the layer will be updated while in DX
                 next_actLayer <= actLayer; 
         end else if (bw == 2) begin
+            // in DX, the conditions are the same of FW ( using gradient address ). 
             if(((gradientInChAddrBWDX+8) == (GRADIENT_IN_CH_SIZE[actLayer])) && (gradientOutChAddrBWDX == (GRADIENT_OUT_CH_SIZE[actLayer]-1)) && (gradientOutRowAddrBWDX == (GRADIENT_OUT_ROW_SIZE[actLayer]-1)) && (gradientOutColumnAddrBWDX == 0)) begin
-                next_actLayer <= actLayer -1;
+                if(actLayer == 0) begin
+                    // if we concluded the DX, we shall start to process a new image. The layer shall remain 0, while in the fetching logic it will already read the new kernel and the new feature
+                    next_actLayer <= actLayer;
+                end else begin
+                    // othwerwise, decrement ( remember in back propagation the movement is from higher layer ( nearest to loss calculation) to lower ( near to GDumb memory))
+                    next_actLayer <= actLayer -1;
+                end
             end else begin
                 next_actLayer <= actLayer;
             end 
@@ -174,31 +260,38 @@ always @ ( posedge clk )begin
 end
 
 /////////////////////////////// BW SIGNAL LOGIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+// It manage the bw signal which paresent which operation we are performing ( FW, DK or DX ) 
 
 always @ (*) begin
     if( rst == 1)begin
         next_bw <= 0;
     end else begin
-        if(bw == 0)begin
+        if(bw == 0)begin 
+            // When the convolution has been executed to the whole feature producing the whole feature out for all the layers, start backward
             if((actLayer == (NLAYER-1))&&(((featureInChAddrFW+8) == (FEATURE_IN_CH_SIZE[actLayer])) && (featureOutChAddrFW == (FEATURE_OUT_CH_SIZE[actLayer]-1)) && (featureOutRowAddrFW == (FEATURE_OUT_ROW_SIZE[actLayer]-1)) && (featureOutColumnAddrFW == 0))) begin
                 next_bw <= 1;
             end else begin
                 next_bw <= 0;
             end
         end else if ( bw == 1)begin
-            if((featureInChAddrBWDK == (FEATURE_IN_CH_SIZE[actLayer]-1)) && (featureOutChAddrBWDK == (FEATURE_OUT_CH_SIZE[actLayer]-1)) && (featureInRowAddrBWDK == (FEATURE_IN_ROW_SIZE[actLayer]-1)) && (featureInColumnAddrBWDK == 0)) begin
+            // Also here iterate over all the 4 dimensions . Over them, move to DX
+            if((featureInChAddrBWDK == (FEATURE_IN_CH_SIZE[actLayer]-1)) && (featureOutChAddrBWDK == (FEATURE_OUT_CH_SIZE[actLayer]-1)) && (featureInRowAddrBWDK == (FEATURE_IN_ROW_SIZE[actLayer]-1)) && ((featureInColumnAddrBWDK+7) == (FEATURE_IN_COLUMN_SIZE[actLayer]-1))) begin
                 next_bw <= 2;
             end else begin
                 next_bw <= 1;
             end
         end else if ( bw == 2) begin
+            // Also there iterate over all 4 dimensiong. Over them , come back to DK calculation. In other process, the layer will be decreased
             if(((gradientInChAddrBWDX+8) == (GRADIENT_IN_CH_SIZE[actLayer])) && (gradientOutChAddrBWDX == (GRADIENT_OUT_CH_SIZE[actLayer]-1)) && (gradientOutRowAddrBWDX == (GRADIENT_OUT_ROW_SIZE[actLayer]-1)) && (gradientOutColumnAddrBWDX == 0)) begin
                 next_bw <= 1;
+                
             end else begin
                 next_bw <= 2;
+                
             end
         end else begin
             next_bw <= 0;
+            
         end
     end
 end
@@ -219,16 +312,6 @@ end
 
 // HERE IS PRESENT THE LOGIC MANAGING WHEN THE KERNEL HAS TO BE LOADED AND WHEN NOT
 
-    // Define states
-    typedef enum logic [1:0] {
-        LOAD_KERNEL = 2'b00,
-        RUNNING = 2'b10
-
-    } FW_FSM_t;
-
-    // Define state register and next state variable
-    FW_FSM_t state_reg, next_state;
-    reg [3:0] kernelAddrRead,next_kernelAddrRead;
 
     // Define state update logic
     always_ff @(posedge clk or posedge rst) begin
@@ -236,7 +319,7 @@ end
         kernelAddrRead <= next_kernelAddrRead;
     end
 
-    // Define state transition logic
+    // Define state transition logic between LOAD_KERNEL and RUNNING
     always_ff @(*) begin
         if (rst == 1) begin
             next_state <= LOAD_KERNEL; // Initialize next state to S0 on reset
@@ -284,11 +367,15 @@ end
         
                 RUNNING : begin 
                     if((valid == 1)) begin
-                        temp_featureOutChAddrBWDK_r <= featureOutChAddrBWDK;
-                        temp_featureInChAddrBWDK_r <= featureInChAddrBWDK;
-                        next_state <= LOAD_KERNEL;
-                        next_kernelAddrRead <= 0;
+                        if((featureInChAddrBWDK == featureInActChSize) &&( featureOutChAddrBWDK == featureOutActChSize))begin
+                            next_state <= RUNNING;
+                            next_kernelAddrRead <= 0;
+                        end else begin
+                            next_state = LOAD_KERNEL;
+                            next_kernelAddrRead <= 0;
+                        end
                     end else begin
+
                         next_state <= RUNNING;
                         next_kernelAddrRead <= 0;
                     end
@@ -311,7 +398,10 @@ end
                 end
         
                 RUNNING : begin 
-                    if((gradientOutColumnAddrBWDX == 9) && (gradientOutRowAddrBWDX == (GRADIENT_OUT_ROW_SIZE[actLayer]-1))) begin
+                    if ((gradientOutColumnAddrBWDX == 0)&&(gradientOutRowAddrBWDX ==0)&&(gradientOutChAddrBWDX == 0) && (gradientInChAddrBWDX == 0)) begin // if we are just entered DX, move to load kernel and stall ( stall in other process)
+                        next_state <= LOAD_KERNEL;
+                        next_kernelAddrRead <= 0;
+                    end else if((gradientOutColumnAddrBWDX == 9) && (gradientOutRowAddrBWDX == (GRADIENT_OUT_ROW_SIZE[actLayer]-1))) begin
                         next_state <= LOAD_KERNEL;
                         next_kernelAddrRead <= 0;
                     end else begin
@@ -331,6 +421,12 @@ end
             end
         end
     end
+// Save the address for kernel writing
+always @ (posedge valid)begin
+    temp_featureOutChAddrBWDK_r <= featureOutChAddrBWDK;
+    temp_featureInChAddrBWDK_r <= featureInChAddrBWDK;
+end
+// Combinational logic over state 
 always @(*)begin
     if (bw == 0)begin
     case(state_reg)
@@ -367,11 +463,7 @@ always @(*)begin
         loadKernelBWDX <= 0;
     end
 end
-reg [($clog2(FEATURE_IN_COLUMN_SIZE[0])-1):0] NewFeatureInColumnPreFetch;
-reg [($clog2(FEATURE_IN_ROW_SIZE[0])-1):0] NewFeatureInRowPreFetch;
-reg [($clog2(FEATURE_IN_CH_SIZE[NLAYER-1])-1):0] NewFeatureInChAddrPreFetch;
-reg [($clog2(FEATURE_OUT_CH_SIZE[NLAYER-1])-1):0] NewFeatureOutChAddrPreFetch;
-reg [0:($clog2(NLAYER)-1)]NewFeatureLayerPreFetch;
+
 
 // Prefetching addresses calculation
 always @ (*) begin
@@ -382,11 +474,14 @@ always @ (*) begin
             // Channel in and out addr is calculated
             if((featureInChAddrFW+7) == featureInActChSize)begin
                 NewFeatureInChAddrPreFetch = 0;
-                if((featureOutChAddrFW) == featureOutActChSize)begin
+                if(featureOutChAddrFW == featureOutActChSize)begin
+                    // If we compute the convolution for all the output feature, we can increment the layer counter
                     NewFeatureOutChAddrPreFetch = 0;
                     NewFeatureLayerPreFetch = actLayer +1;
                 end else begin
+                    // otherwise we mantain same layer and increase counter of outchannel
                     NewFeatureOutChAddrPreFetch = featureOutChAddrFW+1;
+                    NewFeatureLayerPreFetch = actLayer;
                 end
             end else begin
                 NewFeatureLayerPreFetch = actLayer;
@@ -402,34 +497,35 @@ always @ (*) begin
             NewFeatureInChAddrPreFetch = featureInChAddrFW ;
             NewFeatureOutChAddrPreFetch = featureOutChAddrFW;
             if (featureOutRowAddrFW[0]==0)begin
-            if((featureOutColumnAddrFW+8) > featureOutActColumnSize)begin
-                // if we are at the end of the column of the feature, due to " snake " movement of addresses, we do not update column
-                // set to 0 the first 3 bits so we will read the last column index
-                NewFeatureInColumnPreFetch = {featureOutColumnAddrFW[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3],3'b0};
-                if(featureOutRowAddrFW == featureOutActRowSize)begin
-                    //if last row, restart from zero
-                    NewFeatureInRowPreFetch = 0;
+            // check if we are at end of column
+                if((featureOutColumnAddrFW+8) > featureOutActColumnSize)begin
+                    // if we are at the end of the column of the feature, due to " snake " movement of addresses, we do not update column
+                    // set to 0 the first 3 bits so we will read the last column index
+                    NewFeatureInColumnPreFetch = {featureOutColumnAddrFW[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3],3'b0};
+                    if(featureOutRowAddrFW == featureOutActRowSize)begin
+                        //if last row, restart from zero
+                        NewFeatureInRowPreFetch = 0;
+                    end else begin
+                        // if is not the last row,add 1 to row
+                        NewFeatureInRowPreFetch = featureOutRowAddrFW +1;
+                    end
                 end else begin
-                    // if is not the last row,add 1 to row
-                    NewFeatureInRowPreFetch = featureOutRowAddrFW +1;
+                    // not end of column, take the next 8 pixel block. we must increase by 1 the 4th bit and set to 0 the 3 LSB
+                    NewFeatureInColumnPreFetch = {featureOutColumnAddrFW[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3]+1,3'b0};
+                    NewFeatureInRowPreFetch = featureOutRowAddrFW;
                 end
-            end else begin
-                // not end of column, take the next 8 pixel block. we must increase by 1 the 4th bit and set to 0 the 3 LSB
-                NewFeatureInColumnPreFetch = {featureOutColumnAddrFW[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3]+1,3'b0};
-                NewFeatureInRowPreFetch = featureOutRowAddrFW;
-            end
             end else begin
                 if((featureOutColumnAddrFW[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3]) == 0)begin // if we are approaching the lest boerder of the matrix
-                //for same reason, this is the last block to be loaded in the row, no column updated
-                NewFeatureInColumnPreFetch = {featureOutColumnAddrFW[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3],3'b0};
-                if(featureOutRowAddrFW == featureOutActRowSize)begin
-                    //if last row, restart from zero
-                    NewFeatureInRowPreFetch = 0;
+                    //for same reason, this is the last block to be loaded in the row, no column updated
+                    NewFeatureInColumnPreFetch = {featureOutColumnAddrFW[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3],3'b0};
+                    if(featureOutRowAddrFW == featureOutActRowSize)begin
+                        //if last row, restart from zero
+                        NewFeatureInRowPreFetch = 0;
+                    end else begin
+                        // if is not the last row,add 1 to row
+                        NewFeatureInRowPreFetch = featureOutRowAddrFW +1;
+                    end
                 end else begin
-                    // if is not the last row,add 1 to row
-                    NewFeatureInRowPreFetch = featureOutRowAddrFW +1;
-                end
-            end else begin
                 // not end of column, take the next 8 pixel block. we must increase by 1 the 4th bit and set to 0 the 3 LSB
                 NewFeatureInColumnPreFetch = {featureOutColumnAddrFW[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3]-1,3'b0};
                 NewFeatureInRowPreFetch = featureOutRowAddrFW;
@@ -444,12 +540,13 @@ always @ (*) begin
         end
     end else if ( bw == 2) begin // on bw == 2 same logic as bw == 0, change only feature channel address with gradient channel address
         if(state_reg == LOAD_KERNEL) begin
-            if((gradientInChAddrBWDX+7) == GRADIENT_IN_CH_SIZE[actLayer])begin
+            if((gradientInChAddrBWDX+8) == GRADIENT_IN_CH_SIZE[actLayer])begin
                 NewFeatureInChAddrPreFetch = 0;
-                if((gradientOutChAddrBWDX) == GRADIENT_OUT_CH_SIZE[actLayer])begin
+                if(gradientOutChAddrBWDX == (GRADIENT_OUT_CH_SIZE[actLayer]-1))begin
                     NewFeatureOutChAddrPreFetch = 0;
                     NewFeatureLayerPreFetch = actLayer +1;
                 end else begin
+                    NewFeatureLayerPreFetch = actLayer;
                     NewFeatureOutChAddrPreFetch = gradientOutChAddrBWDX+1;
                 end
             end else begin
@@ -460,48 +557,69 @@ always @ (*) begin
             NewFeatureInColumnPreFetch = 0;
             NewFeatureInRowPreFetch = 0;
         end else if ( state_reg == RUNNING) begin
+            // if we are in running, channel in and out will be the same, only row and column has to be recalculated
             NewFeatureLayerPreFetch = actLayer;
             NewFeatureInChAddrPreFetch = gradientInChAddrBWDX ;
             NewFeatureOutChAddrPreFetch = gradientOutChAddrBWDX;
-            if((gradientOutColumnAddrBWDX+8) == GRADIENT_OUT_COLUMN_SIZE[actLayer])begin
-                // if we are at the end of the column of the feature, due to " snake " movement of addresses, we do not change column
-                NewFeatureInColumnPreFetch = gradientOutColumnAddrBWDX;
-                if(gradientOutRowAddrBWDX == GRADIENT_OUT_ROW_SIZE[actLayer])begin
-                    //if last row, restart from zero
-                    NewFeatureInRowPreFetch = 0;
+            if (gradientOutRowAddrBWDX[0]==0)begin
+            // check if we are at end of column
+                if((gradientOutColumnAddrBWDX+8) > (GRADIENT_OUT_COLUMN_SIZE[actLayer]-1))begin
+                    // if we are at the end of the column of the feature, due to " snake " movement of addresses, we do not update column
+                    // set to 0 the first 3 bits so we will read the last column index
+                    NewFeatureInColumnPreFetch = {gradientOutColumnAddrBWDX[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3],3'b0};
+                    if(gradientOutRowAddrBWDX == (GRADIENT_OUT_ROW_SIZE[actLayer]-1))begin
+                        //if last row, restart from zero
+                        NewFeatureInRowPreFetch = 0;
+                    end else begin
+                        // if is not the last row,add 1 to row
+                        NewFeatureInRowPreFetch = gradientOutRowAddrBWDX +1;
+                    end
                 end else begin
-                    // if is not the last row,add 1 to row
-                    NewFeatureInRowPreFetch = gradientOutRowAddrBWDX +1;
+                    // not end of column, take the next 8 pixel block. we must increase by 1 the 4th bit and set to 0 the 3 LSB
+                    NewFeatureInColumnPreFetch = {gradientOutColumnAddrBWDX[($clog2(GRADIENT_OUT_COLUMN_SIZE[0]) -1):3]+1,3'b0};
+                    NewFeatureInRowPreFetch = gradientOutRowAddrBWDX;
                 end
             end else begin
-                // not end of column
-                NewFeatureInColumnPreFetch = gradientOutColumnAddrBWDX+8;
+                if((gradientOutColumnAddrBWDX[($clog2(GRADIENT_OUT_COLUMN_SIZE[0]) -1):3]) == 0)begin // if we are approaching the lest boerder of the matrix
+                    //for same reason, this is the last block to be loaded in the row, no column updated
+                    NewFeatureInColumnPreFetch = {gradientOutColumnAddrBWDX[($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):3],3'b0};
+                    if(gradientOutRowAddrBWDX == (GRADIENT_OUT_ROW_SIZE[actLayer]-1))begin
+                        //if last row, restart from zero
+                        NewFeatureInRowPreFetch = 0;
+                    end else begin
+                        // if is not the last row,add 1 to row
+                        NewFeatureInRowPreFetch = gradientOutRowAddrBWDX +1;
+                    end
+                end else begin
+                // not end of column, take the next 8 pixel block. we must increase by 1 the 4th bit and set to 0 the 3 LSB
+                NewFeatureInColumnPreFetch = {gradientOutColumnAddrBWDX[($clog2(GRADIENT_OUT_COLUMN_SIZE[0]) -1):3]-1,3'b0};
                 NewFeatureInRowPreFetch = gradientOutRowAddrBWDX;
             end
-        end else begin
-            NewFeatureInChAddrPreFetch = 0;
-            NewFeatureOutChAddrPreFetch = 0;
-            NewFeatureLayerPreFetch = 0;
-            NewFeatureInColumnPreFetch = 0;
-            NewFeatureInRowPreFetch = 0;
         end
-    end else begin // so far, bw = 1 has no fetch
+        end else begin // DEFAULT
         NewFeatureInChAddrPreFetch = 0;
         NewFeatureOutChAddrPreFetch = 0;
         NewFeatureLayerPreFetch = 0;
         NewFeatureInColumnPreFetch = 0;
         NewFeatureInRowPreFetch = 0;
+        end
     end
+end
+
+always @ (*)begin
+    NewGradientInColumnPreFetch = NewFeatureInColumnPreFetch;
+    NewGradientInRowPreFetch = NewFeatureInRowPreFetch;
+    NewGradientInChAddrPreFetch = NewFeatureInChAddrPreFetch;
+    NewGradientOutChAddrPreFetch = NewFeatureOutChAddrPreFetch;
 end
 ////////////////////////////////////////// KERNEL MEMORY LOGIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 // kernel read enable and kernel read value register. Used to enable and read value from the matrix of SRAM.
 // Due to unability to dynamic indexing, declared with maximum sizes then will be partially used
-reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)] kernelReadEn_r,kernelWriteEn_r;
-reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)][(NBITS-1):0] kernelReadValues_r;
-reg [(NBITS-1):0] kernelWriteValue_r;
-reg [0:(KERNEL_SIZE * KERNEL_SIZE -1)][(NBITS-1):0] dk_r;
+
 // se siamo in LOAD_KERNEL status, allora leggiamoo i kernel e salviamo in buffer
 // TODO : check sensitivity list. actually read wrongly the values
+
+// KERNEL READ BUFFER FILLING
 always @ (*) begin
     if ( state_reg == LOAD_KERNEL) begin
         if ( bw == 0) begin
@@ -518,20 +636,21 @@ always @ (*) begin
         end else if( bw == 1) begin
             // If we are in Dk, the actual valid DK is summed and written back in SRAM
             kernelValsFW = 0;
-            kernelWriteValue_r          =  kernelReadValues_r[actLayer][temp_featureOutChAddrBWDK_r][temp_featureInChAddrBWDK_r] + dk_r[kernelAddrRead];
+            kernelWriteValue_r = 4096;
+            //kernelWriteValue_r          =  dk_r[kernelAddrRead];
             kernelBWDX = 0;
         end else if ( bw == 2) begin
             // If we are in Dx, kernel is loaded as in forward. Is only chaned the PU port
             kernelValsFW = 0;
             kernelWriteValue_r = 0;
-            kernelBWDX[kernelAddrRead][(NBITS-1):0]           =  kernelReadValues_r[NewFeatureLayerPreFetch][NewFeatureOutChAddrPreFetch][NewFeatureInChAddrPreFetch]; // first channel in kernel 
-            kernelBWDX[kernelAddrRead][(2*NBITS-1):NBITS]     =  kernelReadValues_r[NewFeatureLayerPreFetch][NewFeatureOutChAddrPreFetch][NewFeatureInChAddrPreFetch+1]; // 2nd channel in kernel 
-            kernelBWDX[kernelAddrRead][(3*NBITS-1):(2*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewFeatureOutChAddrPreFetch][NewFeatureInChAddrPreFetch+2]; // 3th channel in kernel 
-            kernelBWDX[kernelAddrRead][(4*NBITS-1):(3*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewFeatureOutChAddrPreFetch][NewFeatureInChAddrPreFetch+3]; // 4th channel in kernel 
-            kernelBWDX[kernelAddrRead][(5*NBITS-1):(4*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewFeatureOutChAddrPreFetch][NewFeatureInChAddrPreFetch+4]; // 5th channel in kernel 
-            kernelBWDX[kernelAddrRead][(6*NBITS-1):(5*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewFeatureOutChAddrPreFetch][NewFeatureInChAddrPreFetch+5]; // 6th channel in kernel 
-            kernelBWDX[kernelAddrRead][(7*NBITS-1):(6*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewFeatureOutChAddrPreFetch][NewFeatureInChAddrPreFetch+6]; // 7th channel in kernel 
-            kernelBWDX[kernelAddrRead][(8*NBITS-1):(7*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewFeatureOutChAddrPreFetch][NewFeatureInChAddrPreFetch+7]; // 8th channel in kernel 
+            kernelBWDX[kernelAddrRead][(NBITS-1):0]           =  kernelReadValues_r[NewFeatureLayerPreFetch][NewGradientOutChAddrPreFetch][NewGradientInChAddrPreFetch]; // first channel in kernel 
+            kernelBWDX[kernelAddrRead][(2*NBITS-1):NBITS]     =  kernelReadValues_r[NewFeatureLayerPreFetch][NewGradientOutChAddrPreFetch][NewGradientInChAddrPreFetch+1]; // 2nd channel in kernel 
+            kernelBWDX[kernelAddrRead][(3*NBITS-1):(2*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewGradientOutChAddrPreFetch][NewGradientInChAddrPreFetch+2]; // 3th channel in kernel 
+            kernelBWDX[kernelAddrRead][(4*NBITS-1):(3*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewGradientOutChAddrPreFetch][NewGradientInChAddrPreFetch+3]; // 4th channel in kernel 
+            kernelBWDX[kernelAddrRead][(5*NBITS-1):(4*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewGradientOutChAddrPreFetch][NewGradientInChAddrPreFetch+4]; // 5th channel in kernel 
+            kernelBWDX[kernelAddrRead][(6*NBITS-1):(5*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewGradientOutChAddrPreFetch][NewGradientInChAddrPreFetch+5]; // 6th channel in kernel 
+            kernelBWDX[kernelAddrRead][(7*NBITS-1):(6*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewGradientOutChAddrPreFetch][NewGradientInChAddrPreFetch+6]; // 7th channel in kernel 
+            kernelBWDX[kernelAddrRead][(8*NBITS-1):(7*NBITS)] =  kernelReadValues_r[NewFeatureLayerPreFetch][NewGradientOutChAddrPreFetch][NewGradientInChAddrPreFetch+7]; // 8th channel in kernel 
         end else begin
             kernelValsFW = 0;
             kernelWriteValue_r = 0;
@@ -597,13 +716,13 @@ always @ ( *) begin
                 for(int kk=0; kk < FEATURE_IN_CH_SIZE[NLAYER-1]; kk=kk+1)begin
                     if ( state_reg == LOAD_KERNEL )begin
                         // WHEN CALCULATION DK KERNEL IS READ AND WRITTEN BACK 
-                        if((ii == (NewFeatureLayerPreFetch)) && (jj == (NewFeatureOutChAddrPreFetch)) && (kk == (NewFeatureInChAddrPreFetch)))begin
-                            kernelReadEn_r[ii][jj][kk]   = 1;
+                        if((ii == (actLayer)) && (jj == (temp_featureOutChAddrBWDK_r)) && (kk == (temp_featureInChAddrBWDK_r)))begin
                             kernelWriteEn_r[ii][jj][kk] = 1;
+                            kernelReadEn_r[ii][jj][kk]   = 1;
                         end else begin
-                            kernelReadEn_r[ii][jj][kk]   = 0;
                             kernelWriteEn_r[ii][jj][kk] = 0;
-                    end
+                            kernelReadEn_r[ii][jj][kk]   = 0;
+                        end
                     end else begin
                         kernelReadEn_r[ii][jj][kk]   = 0;
                         kernelWriteEn_r[ii][jj][kk] = 0;
@@ -617,7 +736,7 @@ always @ ( *) begin
         for (int jj=0; jj< GRADIENT_IN_CH_SIZE[NLAYER-1]; jj=jj+1)begin
             for(int kk=0; kk < GRADIENT_OUT_CH_SIZE[NLAYER-1]; kk=kk+8)begin
                 if (state_reg == LOAD_KERNEL)begin // if we are loading the kernels
-                    if((ii == (NewFeatureLayerPreFetch)) && (jj == (NewFeatureInChAddrPreFetch)) && (kk == (NewFeatureOutChAddrPreFetch)))begin // set to 1 the kernel enable according with the actual layer, channel out and channel in
+                    if((ii == (NewFeatureLayerPreFetch)) && (jj == (NewGradientInChAddrPreFetch)) && (kk == (NewGradientOutChAddrPreFetch)))begin // set to 1 the kernel enable according with the actual layer, channel out and channel in
                         kernelReadEn_r[ii][jj][kk]   = 1;
                         kernelReadEn_r[ii][jj][kk+1] = 1;
                         kernelReadEn_r[ii][jj][kk+2] = 1;
@@ -684,19 +803,6 @@ generate
 endgenerate
 
 
-
-
-
-reg [($clog2(FEATURE_OUT_ROW_SIZE[0]) + $clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1) :0] featureOutWriteAddrFW;
-reg [(N_FEATURE_READ*NBITS-1):0] featureOutWriteValueFW,next_featureOutWriteValueFW;
-reg [($clog2(FEATURE_IN_ROW_SIZE[0]) + $clog2(FEATURE_IN_COLUMN_SIZE[0]) -1) :0] featureInReadAddr_r;
-// cè un alayer in piu solo per assegnazione comoda di sram in ciclo for. initilizzato
-reg [0:(NLAYER)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)][(N_FEATURE_READ*NBITS-1):0] featureInReadValue_r;
-reg [0:2][0:(N_OF_CH_READ-1)][(N_FEATURE_READ*NBITS-1):0] featureInBufferOfReadValueFW,next_featureInBufferOfReadValueFW; // buffer dove salviamo le tre righe lette e mandiamo i pixel alla PU. Ne abbiamo due perche mentre carichiamo i nuovi i vecchi dobbiamo ancora usarli
-// cè una layer in piu che va assenato all'ultima sram ma che sara inutilizzato
-reg [0:(NLAYER)][0: ( FEATURE_IN_CH_SIZE[NLAYER-1] -1)] featureInReadEn_r;
-
-
 // READ ENABLE FOR FEATURE IN READING
 always @ ( * ) begin 
     if(bw==0) begin // IF WE ARE IN FORWARD, READ 8 CHANNEL IN
@@ -753,8 +859,11 @@ always @ ( * ) begin
     end
 end
 // GDumb read logic
-assign featureInReadEnFWGDUMB = featureInReadEn_r[0][0]; // when we are on layer 0, enable read from external GDumb RAM
+assign featureInReadEnFWGDUMB[0] = featureInReadEn_r[0][0]; // when we are on layer 0, enable read from external GDumb RAM
+assign featureInReadEnFWGDUMB[1] = featureInReadEn_r[0][1];
+assign featureInReadEnFWGDUMB[2] = featureInReadEn_r[0][2];
 assign featureInReadAddrFWGDUMB = featureInReadAddr_r;
+// GDUMB VALUE READ LOADED INTO FEATURE IN SIGNALS
 always @ (*)begin
     featureInReadValue_r[0][featureInChAddrFW]   = featureInReadValueFWGDUMB[0]; // the feature for layer 0 came from GDumb RAM
     featureInReadValue_r[0][featureInChAddrFW+1] = featureInReadValueFWGDUMB[1];
@@ -767,7 +876,7 @@ always @ (*)begin
 end
 reg [0:(NLAYER-1)][0: ( FEATURE_OUT_CH_SIZE[NLAYER-1] -1)] featureOutWriteEnFW;
 
-// write  enable for feature out writing
+// FEATURE OUT WRITE ENABLE
 always @ ( * ) begin 
     for(int ii=0; ii<NLAYER; ii=ii+1)begin
         for (int jj=0; jj< FEATURE_OUT_CH_SIZE[NLAYER-1]; jj=jj+1)begin
@@ -787,7 +896,7 @@ always @ ( * ) begin
         end
     end
 end
-// LOGICA PER CARICARE NEI 3 CICLI PRECEDENTI I TRE NUOVI GRUPPI DI PIXEL
+// FEATURE IN PREFETCHING - BUFFER LOADING AND FEATURE IN ADDRESS ASSIGN. 
 always @(*)begin
     if(bw==0)begin
         if(((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 2)&&(featureOutRowAddrFW[0]==1))||((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 3)&&(featureOutRowAddrFW[0]==0))||(kernelAddrRead == 6))begin // carichiamo primo pixel
@@ -832,11 +941,18 @@ always @(*)begin
         // no fetching of data, the data is read and used in the same cycle
         featureInReadAddr_r = (featureInRowAddrBWDK << ($clog2(FEATURE_OUT_COLUMN_SIZE[actLayer])))+featureInColumnAddrBWDK;
         // One channel only is read, assigned to featureInBWDK port of FW_BW_PU
-        featureInBWDK = featureInReadValue_r[actLayer][featureInChAddrBWDK]; 
+        featureInBWDK[0] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(1*NBITS-1):(0*NBITS)]; 
+        featureInBWDK[1] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(2*NBITS-1):(1*NBITS)]; 
+        featureInBWDK[2] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(3*NBITS-1):(2*NBITS)]; 
+        featureInBWDK[3] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(4*NBITS-1):(3*NBITS)]; 
+        featureInBWDK[4] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(5*NBITS-1):(4*NBITS)]; 
+        featureInBWDK[5] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(6*NBITS-1):(5*NBITS)]; 
+        featureInBWDK[6] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(7*NBITS-1):(6*NBITS)]; 
+        featureInBWDK[7] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(8*NBITS-1):(7*NBITS)]; 
     end 
 
 end
-// FEATURE OUT WRITE value 
+// FEATURE OUT WRITE BUFFER VALUE LOAD 
 always @ (*)begin
     if ( bw == 0)
         if (featureOutRowAddrFW[0] == 0)begin
@@ -853,11 +969,12 @@ always @ (*)begin
             end
         end
 end
+
 always @ (posedge clk) begin
     featureOutWriteValueFW = next_featureOutWriteValueFW;
 end
 
-// update of feature in buffer
+// WRITING OF FEATURE OUT BUFFER
 always @ (*) begin
     if(bw==0)begin
     if(((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 6)&&(featureOutRowAddrFW[0]==0))||((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 7)&&(featureOutRowAddrFW[0]==1))||((featureOutColumnAddrFW == 0)&&(featureOutRowAddrFW[0]==0)))begin // new 8 feature are loaded
@@ -867,7 +984,8 @@ always @ (*) begin
 end
 // Activation layer : module to apply activation to pixel 
 activation # (.act_rule(ACTIVATION)) activation (.input_value(featureOutValFW),.output_value(featureOutValFWActivated));
-// load FW PU from buffers
+
+// PIXELS LOAD FROM FEATURE IN BUFFER READ
 always @ (*)begin
     if(bw==0)begin
     if(featureOutRowAddrFW[0] == 0)begin
@@ -1029,39 +1147,64 @@ always @(*)begin
     featureOutActColumnSize = FEATURE_OUT_COLUMN_SIZE[actLayer]-1;
 end
 ////////////////////////////// GRADIENT PROPAGATION LOGIC \\\\\\\\\\\\\\\\\\\\\\\\\\
-reg [0: (GRADIENT_OUT_CH_SIZE[0]-1)]gradientInReadEn_r,gradientOutWriteEn_r;
-reg [0: (GRADIENT_OUT_CH_SIZE[0]-1)][(NBITS*N_FEATURE_READ-1):0]gradientInReadValue_r;
-reg [0:2][0:(N_OF_CH_READ-1)][(N_FEATURE_READ*NBITS-1):0] gradientInBufferOfReadValue,next_gradientInBufferOfReadValue;
-reg [($clog2(GRADIENT_IN_ROW_SIZE[0]) + $clog2(GRADIENT_IN_COLUMN_SIZE[0]/N_FEATURE_READ) -1) :0]gradientInReadAddr_r;
 
 // READ GRADIENT ENABLE
 always @(*) begin
-    for ( int jj = 0; jj < FEATURE_OUT_CH_SIZE[0]; jj=jj+1)begin
-        if ( bw == 0)begin // Forward operation , no read over gradient memory
+    if ( bw == 0)begin
+        for ( int jj = 0; jj < FEATURE_OUT_CH_SIZE[0]; jj=jj+1)begin // Forward operation , no read over gradient memory
             gradientInReadEn_r[jj]=0;
-        end else if ( bw == 1 ) begin // if dk calculation , read given dk channel
-            if(NewFeatureOutChAddrPreFetch == jj)begin
+        end 
+    end else if ( bw == 1 ) begin // if dk calculation , read given dk channel
+        for ( int jj = 0; jj < FEATURE_OUT_CH_SIZE[0]; jj=jj+1)begin 
+            if(featureOutChAddrBWDK == jj)begin
                 gradientInReadEn_r[jj]=1;
             end else begin
                 gradientInReadEn_r[jj]=0;       
             end
-        end else if ( bw == 2 ) begin // if dx, read of dx channel
-            if(NewFeatureInChAddrPreFetch == jj)begin
-                gradientInReadEn_r[jj]=1;
-            end else begin
-                gradientInReadEn_r[jj]=0;       
-            end
-        end else begin // default . dont read
-            gradientInReadEn_r[jj]=0;
+        end
+    end else if ( bw == 2 ) begin // if dx, read of dx channel
+        for (int jj=0; jj< GRADIENT_IN_CH_SIZE[NLAYER-1]; jj=jj+8)begin
+                if(((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] < 3)&&(gradientOutRowAddrBWDX[0]==1))||((((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0]+2)&7) > 4)&&(gradientOutRowAddrBWDX[0]==0))||((state_reg == LOAD_KERNEL) && (kernelAddrRead > 5)))begin // se mancano 3 clock al nuovo blocco di feature inizio a leggere
+                    if(jj == NewFeatureInChAddrPreFetch)begin // set to 1 the feature in enable according with the actual layer, channel out and channel in
+                        gradientInReadEn_r[jj]   = 1;
+                        gradientInReadEn_r[jj+1] = 1;
+                        gradientInReadEn_r[jj+2] = 1;
+                        gradientInReadEn_r[jj+3] = 1;
+                        gradientInReadEn_r[jj+4] = 1;
+                        gradientInReadEn_r[jj+5] = 1;
+                        gradientInReadEn_r[jj+6] = 1;
+                        gradientInReadEn_r[jj+7] = 1;
+                    end else begin 
+                        gradientInReadEn_r[jj]   = 0;
+                        gradientInReadEn_r[jj+1] = 0;
+                        gradientInReadEn_r[jj+2] = 0;
+                        gradientInReadEn_r[jj+3] = 0;
+                        gradientInReadEn_r[jj+4] = 0;
+                        gradientInReadEn_r[jj+5] = 0;
+                        gradientInReadEn_r[jj+6] = 0;
+                        gradientInReadEn_r[jj+7] = 0;
+                    end
+                end else begin
+                    gradientInReadEn_r[jj]   = 0;
+                    gradientInReadEn_r[jj+1] = 0;
+                    gradientInReadEn_r[jj+2] = 0;
+                    gradientInReadEn_r[jj+3] = 0;
+                    gradientInReadEn_r[jj+4] = 0;
+                    gradientInReadEn_r[jj+5] = 0;
+                    gradientInReadEn_r[jj+6] = 0;
+                    gradientInReadEn_r[jj+7] = 0;
+                end
         end
     end
 end
+
+
 // WRITE GRADIENT ENABLE
 always @ ( * ) begin 
         for (int jj=0; jj< GRADIENT_OUT_CH_SIZE[NLAYER-1]; jj=jj+1)begin
             if(bw==2)begin
-                if(gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 0) begin// SCRIVIAMO SOLO OGNI 8 COLONNE PERCHE ABBIAMO PORTA DA 8*16 BIT
-                    if(jj == (gradientOutChAddrBWDX-1))begin // set to 1 the kernel enable according with the actual layer, channel out and channel in
+                if(((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] ==0)&&(gradientOutRowAddrBWDX[0] == 0)) || ((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] ==7)&&(gradientOutRowAddrBWDX[0] == 1))) begin// SCRIVIAMO SOLO OGNI 8 COLONNE PERCHE ABBIAMO PORTA DA 8*16 BIT
+                    if(jj == gradientOutChAddrBWDX)begin // set to 1 the kernel enable according with the actual layer, channel out and channel in
                         gradientOutWriteEn_r[jj]   = 1;
                     end else begin 
                         gradientOutWriteEn_r[jj]   = 0;
@@ -1074,19 +1217,30 @@ always @ ( * ) begin
             end
         end
 end
-reg [(N_FEATURE_READ*NBITS-1):0] gradientOutWriteValue;
+
 // GRADIENT OUT BUFFER FILL
 always @ (*)begin  
     if( bw == 2)begin
-        if (gradientOutColumnAddrBWDX[2:0] == 0)begin // if we are calculated 8 gradient out, for the new cycle , reset the buffer
-            gradientOutWriteValue = {{(7*NBITS){1'b0}},dxBWDX} ;
-        end else begin // otherwise continue to load the buffer
-            gradientOutWriteValue = gradientOutWriteValue | (dxBWDX << (NBITS*gradientOutColumnAddrBWDX[2:0])); // filling of write out buffer
-        end     end else begin
-        gradientOutWriteValue = 0;
+        if (gradientOutRowAddrBWDX[0] == 0)begin
+            if (gradientOutColumnAddrBWDX[2:0] == 0)begin
+                next_gradientOutWriteValue = {{(7*NBITS){1'b0}},dxBWDX} ;
+            end else begin
+                next_gradientOutWriteValue = gradientOutWriteValue | (dxBWDX << (NBITS*gradientOutColumnAddrBWDX[2:0])); // filling of write out buffer
+            end
+        end else begin
+            if (gradientOutColumnAddrBWDX[2:0] == 7)begin
+                next_gradientOutWriteValue = {dxBWDX,{(7*NBITS){1'b0}}} ;
+            end else begin
+                next_gradientOutWriteValue = gradientOutWriteValue | (dxBWDX << (NBITS*gradientOutColumnAddrBWDX[2:0])); // filling of write out buffer
+            end
+        end
     end
 end
 
+always @(posedge clk)begin
+
+    gradientOutWriteValue <= next_gradientOutWriteValue;
+end
 // PU GRADIENT IN ASSIGN FOR DK CALCULATION
 always @(*)begin
     dyBWDK = gradientInReadValue_r[featureOutChAddrBWDK];
@@ -1106,102 +1260,190 @@ always @(*)begin
         dk_r[8] = dkBWDK[2][2]; 
     end
 end
-
-// FEATURE OUT WRITE ADDRESS COMPOSITION
-reg [($clog2(GRADIENT_OUT_ROW_SIZE[0]) + $clog2(GRADIENT_OUT_COLUMN_SIZE[0]/N_FEATURE_READ) -1) :0]  gradientOutWriteAddr_r;
+// GRADIENT OUT WRITE ADDRESS COMPOSITION
 always @(*) begin
-    gradientOutWriteAddr_r = (gradientOutRowAddrBWDX << ($clog2(GRADIENT_OUT_COLUMN_SIZE[actLayer])))+gradientOutColumnAddrBWDX; // ricomponi l'indirizzo di scrittura. uso shift come moltiplicazione
+    if (gradientOutRowAddrBWDX[0] == 0)begin
+        if (gradientOutColumnAddrBWDX == 0 ) begin
+            // if im even but at beginnig, the previus block to be written was in a odd block in a previous row
+            gradientOutWriteAddr_r = ((gradientOutRowAddrBWDX-1) << ($clog2(GRADIENT_OUT_COLUMN_SIZE[actLayer])))+gradientOutColumnAddrBWDX; // ricomponi l'indirizzo di scrittura. uso shift come moltiplicazione
+        end else begin
+            // otherwise, the block to be saved is of the previous 8 feture out
+            gradientOutWriteAddr_r = (gradientOutRowAddrBWDX << ($clog2(GRADIENT_OUT_COLUMN_SIZE[actLayer])))+gradientOutColumnAddrBWDX-8; // ricomponi l'indirizzo di scrittura. uso shift come moltiplicazione
+        end
+    end else begin
+        if (gradientOutColumnAddrBWDX == (GRADIENT_OUT_COLUMN_SIZE[actLayer]-1)) begin
+            // if we are into new odd block , our feture out was of the previous even row
+            gradientOutWriteAddr_r = ((gradientOutRowAddrBWDX-1) << ($clog2(GRADIENT_OUT_COLUMN_SIZE[actLayer])))+gradientOutColumnAddrBWDX-7; // ricomponi l'indirizzo di scrittura. uso shift come moltiplicazione
+        end else begin
+            gradientOutWriteAddr_r = (gradientOutRowAddrBWDX << ($clog2(GRADIENT_OUT_COLUMN_SIZE[actLayer])))+gradientOutColumnAddrBWDX+1; // ricomponi l'indirizzo di scrittura. uso shift come moltiplicazione
+        end
+    end
 end
+
 always @ (*) begin
     if(bw == 1)begin 
         gradientInReadAddr_r = featureInReadAddr_r;
     end 
 end
 // GRADIENT IN BUFFER FILLING  AND WRITE/READ ADDRESS ASSIGNATION
-always @( *)begin
-    if (bw == 2) begin
-        if(state_reg == RUNNING)begin
-            if((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 5)||(kernelAddrRead == 6))begin // carichiamo primo pixel
-            // carica il valore della riga corrente ,l'indirizzo colonna è preso INTERO ( i primi 3 bit verranno tagliati quando mandati alla memoria). il +8 dice di prende la parola successiva
+always@(*)begin
+    if(bw==2)begin
+        if(((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 2)&&(gradientOutRowAddrBWDX[0]==1))||((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 3)&&(gradientOutRowAddrBWDX[0]==0))||(kernelAddrRead == 6))begin // carichiamo primo pixel
+             // carica il valore della riga corrente ,l'indirizzo colonna è preso INTERO ( i primi 3 bit verranno tagliati quando mandati alla memoria). il +8 dice di prende la parola successiva
             // Nel caso fossiamo a fine colonna, anziche aggiungere 8 all indirizzo colonna , aggiungiamo 1 a quello riga
-                gradientInReadAddr_r = (NewFeatureInRowPreFetch << ($clog2(GRADIENT_OUT_COLUMN_SIZE[actLayer])))+NewFeatureInColumnPreFetch +8;
-                
-                next_gradientInBufferOfReadValue[0][0] = gradientInReadValue_r[NewFeatureInChAddrPreFetch]; // save 8 channel of first row
-                next_gradientInBufferOfReadValue[0][1] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+1];
-                next_gradientInBufferOfReadValue[0][2] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+2];
-                next_gradientInBufferOfReadValue[0][3] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+3];
-                next_gradientInBufferOfReadValue[0][4] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+4];
-                next_gradientInBufferOfReadValue[0][5] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+5];
-                next_gradientInBufferOfReadValue[0][6] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+6];
-                next_gradientInBufferOfReadValue[0][7] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+7];
-            end else if((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 6)||(kernelAddrRead == 7))begin 
-                // SAve check as above. In this case we also sum 1 to row
-                gradientInReadAddr_r = (NewFeatureInRowPreFetch+1 << ($clog2(GRADIENT_OUT_COLUMN_SIZE[actLayer])))+NewFeatureInColumnPreFetch +8;           
-                next_gradientInBufferOfReadValue[1][0] = gradientInReadValue_r[NewFeatureInChAddrPreFetch]; // save 8 channel of second row
-                next_gradientInBufferOfReadValue[1][1] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+1];
-                next_gradientInBufferOfReadValue[1][2] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+2];
-                next_gradientInBufferOfReadValue[1][3] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+3];
-                next_gradientInBufferOfReadValue[1][4] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+4];
-                next_gradientInBufferOfReadValue[1][5] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+5];
-                next_gradientInBufferOfReadValue[1][6] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+6];
-                next_gradientInBufferOfReadValue[1][7] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+7];
-            end else if((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 7)||(kernelAddrRead == 8))begin 
-                // same reason as above
-                gradientInReadAddr_r = (NewFeatureInRowPreFetch+2 << ($clog2(GRADIENT_OUT_COLUMN_SIZE[actLayer])))+NewFeatureInColumnPreFetch +8;             
-                next_gradientInBufferOfReadValue[2][0] = gradientInReadValue_r[NewFeatureInChAddrPreFetch]; // save 8 channel of third row
-                next_gradientInBufferOfReadValue[2][1] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+1];
-                next_gradientInBufferOfReadValue[2][2] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+2];
-                next_gradientInBufferOfReadValue[2][3] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+3];
-                next_gradientInBufferOfReadValue[2][4] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+4];
-                next_gradientInBufferOfReadValue[2][5] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+5];
-                next_gradientInBufferOfReadValue[2][6] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+6]; 
-                next_gradientInBufferOfReadValue[2][7] = gradientInReadValue_r[NewFeatureInChAddrPreFetch+7];
-            end else begin
-                gradientInReadAddr_r = (gradientOutRowAddrBWDX << ($clog2(GRADIENT_OUT_COLUMN_SIZE[actLayer])))+gradientOutColumnAddrBWDX+8; // default . 
-                next_gradientInBufferOfReadValue = 0;
-            end
+            gradientInReadAddr_r <= (NewGradientInRowPreFetch << ($clog2(GRADIENT_IN_COLUMN_SIZE[actLayer])))+NewGradientInColumnPreFetch;   
+            next_gradientInBufferOfReadValue[0][0] <= gradientInReadValue_r[NewGradientInChAddrPreFetch]; // save 8 channel of first row
+            next_gradientInBufferOfReadValue[0][1] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+1];
+            next_gradientInBufferOfReadValue[0][2] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+2];
+            next_gradientInBufferOfReadValue[0][3] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+3];
+            next_gradientInBufferOfReadValue[0][4] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+4];
+            next_gradientInBufferOfReadValue[0][5] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+5];
+            next_gradientInBufferOfReadValue[0][6] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+6];
+            next_gradientInBufferOfReadValue[0][7] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+7];
+        end else if(((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 1)&&(gradientOutRowAddrBWDX[0]==1))||((gradientOutRowAddrBWDX[0]==0)&&(gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 4))||(kernelAddrRead == 7))begin 
+            // SAve check as above. In this case we also sum 1 to row
+            gradientInReadAddr_r <= (NewGradientInRowPreFetch+1 << ($clog2(GRADIENT_IN_COLUMN_SIZE[actLayer])))+NewGradientInColumnPreFetch;           
+            next_gradientInBufferOfReadValue[1][0] <= gradientInReadValue_r[NewGradientInChAddrPreFetch]; // save 8 channel of second row
+            next_gradientInBufferOfReadValue[1][1] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+1];
+            next_gradientInBufferOfReadValue[1][2] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+2];
+            next_gradientInBufferOfReadValue[1][3] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+3];
+            next_gradientInBufferOfReadValue[1][4] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+4];
+            next_gradientInBufferOfReadValue[1][5] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+5];
+            next_gradientInBufferOfReadValue[1][6] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+6];
+            next_gradientInBufferOfReadValue[1][7] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+7];
+        end else if(((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 0)&&(gradientOutRowAddrBWDX[0]==1))||((gradientOutRowAddrBWDX[0]==0)&&(gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 5))||(kernelAddrRead == 8))begin 
+            // same reason as above
+            gradientInReadAddr_r <= (NewGradientInRowPreFetch+2 << ($clog2(GRADIENT_IN_COLUMN_SIZE[actLayer])))+NewGradientInColumnPreFetch;           
+            next_gradientInBufferOfReadValue[2][0] <= gradientInReadValue_r[NewGradientInChAddrPreFetch]; // save 8 channel of third row
+            next_gradientInBufferOfReadValue[2][1] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+1];
+            next_gradientInBufferOfReadValue[2][2] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+2];
+            next_gradientInBufferOfReadValue[2][3] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+3];
+            next_gradientInBufferOfReadValue[2][4] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+4];
+            next_gradientInBufferOfReadValue[2][5] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+5];
+            next_gradientInBufferOfReadValue[2][6] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+6]; 
+            next_gradientInBufferOfReadValue[2][7] <= gradientInReadValue_r[NewGradientInChAddrPreFetch+7];
+        end else begin
+            gradientInReadAddr_r <= 0; // default . 
         end
     end
 end
 // GRADIENT BUFFER UPDATE
 always @ (*) begin
     if(bw==2)begin
-        if(gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 0)begin // new 8 gradient are loaded
+        if(((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 6)&&(gradientOutRowAddrBWDX[0]==0))||((gradientOutColumnAddrBWDX[($clog2(N_FEATURE_READ)-1):0] == 7)&&(gradientOutRowAddrBWDX[0]==1))||((gradientOutColumnAddrBWDX == 0)&&(gradientOutRowAddrBWDX[0]==0)))begin // new 8 gradient are loaded
             gradientInBufferOfReadValue = next_gradientInBufferOfReadValue;
         end 
     end
 end
-// GRADIENT IN PIXEL TO PU ASSIGNATION
+
+// GRADEINT IN PIXEL PU ASSIGNATION
 always @ (*)begin
-    if (bw == 2)begin
-    DyP1BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[0][0][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; // take NBITS of the gradient  pixel given the actual column address
-    DyP1BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[0][1][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP1BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[0][2][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP1BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[0][3][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP1BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[0][4][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP1BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[0][5][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP1BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[0][6][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP1BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[0][7][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+    if(bw==2)begin
+    if(gradientOutRowAddrBWDX[0] == 0)begin
+        if(gradientOutColumnAddrBWDX > (GRADIENT_OUT_COLUMN_SIZE[actLayer]-3))begin
+            DyP1BWDX = 0;
+            DyP2BWDX = 0;
+            DyP3BWDX = 0;
+        end else if (gradientOutColumnAddrBWDX == 0)begin 
+            DyP1BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[2][0][((gradientOutColumnAddrBWDX[2:0])&7)*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP1BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[2][1][((gradientOutColumnAddrBWDX[2:0])&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[2][2][((gradientOutColumnAddrBWDX[2:0])&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[2][3][((gradientOutColumnAddrBWDX[2:0])&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[2][4][((gradientOutColumnAddrBWDX[2:0])&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[2][5][((gradientOutColumnAddrBWDX[2:0])&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[2][6][((gradientOutColumnAddrBWDX[2:0])&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[2][7][((gradientOutColumnAddrBWDX[2:0])&7)*NBITS+:NBITS]; 
 
-    DyP2BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[1][0][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; // take NBITS of the gradient pixel given the actual column address
-    DyP2BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[1][1][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP2BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[1][2][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP2BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[1][3][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP2BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[1][4][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP2BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[1][5][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP2BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[1][6][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP2BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[1][7][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP2BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[2][0][((gradientOutColumnAddrBWDX[2:0]+1)&7)*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP2BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[2][1][((gradientOutColumnAddrBWDX[2:0]+1)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[2][2][((gradientOutColumnAddrBWDX[2:0]+1)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[2][3][((gradientOutColumnAddrBWDX[2:0]+1)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[2][4][((gradientOutColumnAddrBWDX[2:0]+1)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[2][5][((gradientOutColumnAddrBWDX[2:0]+1)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[2][6][((gradientOutColumnAddrBWDX[2:0]+1)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[2][7][((gradientOutColumnAddrBWDX[2:0]+1)&7)*NBITS+:NBITS]; 
 
-    DyP3BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[2][0][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; // take NBITS of the gradient pixel given the actual column address
-    DyP3BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[2][1][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP3BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[2][2][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP3BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[2][3][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP3BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[2][4][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP3BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[2][5][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP3BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[2][6][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
-    DyP3BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[2][7][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP3BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[2][0][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP3BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[2][1][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[2][2][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[2][3][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[2][4][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[2][5][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[2][6][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[2][7][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS];
+        end else begin
+            DyP1BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[0][0][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP1BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[0][1][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[0][2][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[0][3][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[0][4][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[0][5][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[0][6][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP1BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[0][7][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+
+            DyP2BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[1][0][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP2BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[1][1][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[1][2][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[1][3][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[1][4][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[1][5][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[1][6][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP2BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[1][7][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+
+            DyP3BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[2][0][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP3BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[2][1][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[2][2][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[2][3][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[2][4][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[2][5][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[2][6][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+            DyP3BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[2][7][((gradientOutColumnAddrBWDX[2:0]+2)&7)*NBITS+:NBITS]; 
+        end
+    end else begin
+        if(gradientOutColumnAddrBWDX == (GRADIENT_OUT_COLUMN_SIZE[actLayer]-1))begin
+            // new row, pass p1 = [row][maxColumn], p2 = , p3 = 0
+            DyP1BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[2][0][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP1BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[2][1][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[2][2][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[2][3][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[2][4][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[2][5][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[2][6][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[2][7][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP2BWDX = 0;
+            DyP3BWDX = 0;
+        end else begin // otherwise, normal
+            DyP1BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[0][0][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP1BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[0][1][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[0][2][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[0][3][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[0][4][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[0][5][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[0][6][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP1BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[0][7][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+
+            DyP2BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[1][0][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP2BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[1][1][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP2BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[1][2][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP2BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[1][3][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP2BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[1][4][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP2BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[1][5][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP2BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[1][6][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP2BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[1][7][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+
+            DyP3BWDX[(1*NBITS-1):0*NBITS] = gradientInBufferOfReadValue[2][0][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+            DyP3BWDX[(2*NBITS-1):1*NBITS] = gradientInBufferOfReadValue[2][1][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP3BWDX[(3*NBITS-1):2*NBITS] = gradientInBufferOfReadValue[2][2][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP3BWDX[(4*NBITS-1):3*NBITS] = gradientInBufferOfReadValue[2][3][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP3BWDX[(5*NBITS-1):4*NBITS] = gradientInBufferOfReadValue[2][4][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP3BWDX[(6*NBITS-1):5*NBITS] = gradientInBufferOfReadValue[2][5][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP3BWDX[(7*NBITS-1):6*NBITS] = gradientInBufferOfReadValue[2][6][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+            DyP3BWDX[(8*NBITS-1):7*NBITS] = gradientInBufferOfReadValue[2][7][gradientOutColumnAddrBWDX[2:0]*NBITS+:NBITS]; 
+        end
     end
+    end 
 end
+
 /////////////////////////////// GRADIENT PROPAGATION MEMORY \\\\\\\\\\\\\\\\\\\\
 for(j=0; j< GRADIENT_OUT_CH_SIZE[0]; j=j+1) begin
 SRAM # (.PORT_WIDTH(NBITS*N_FEATURE_READ),
@@ -1210,8 +1452,8 @@ SRAM # (.PORT_WIDTH(NBITS*N_FEATURE_READ),
         .CHANNEL_IN(j),
         .CHANNEL_OUT(j)
         )
-SRAMdx (.writeAddr(gradientOutWriteAddr_r),
-        .readAddr(gradientInReadAddr_r),
+SRAMdx (.writeAddr(gradientOutWriteAddr_r[($clog2(GRADIENT_OUT_ROW_SIZE[0]) + $clog2(GRADIENT_OUT_COLUMN_SIZE[0]) -1):$clog2(N_FEATURE_READ)]),
+        .readAddr(gradientInReadAddr_r[($clog2(GRADIENT_IN_ROW_SIZE[0]) + $clog2(GRADIENT_IN_COLUMN_SIZE[0]) -1):$clog2(N_FEATURE_READ)]),
         .writeEn(gradientOutWriteEn_r[j]),
         .readEn(gradientInReadEn_r[j]),
         .readValue(gradientInReadValue_r[j]),

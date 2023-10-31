@@ -4,7 +4,7 @@ import torchvision
 import torchvision.transforms as transforms
 import time
 import os,subprocess
-
+fakeValues = 1
 def rotateMatrix(mat):
  
     # Simply print from
@@ -54,7 +54,10 @@ def rotateMatrix(mat):
 class Conv3D():
     
     def __init__(self,channelInDim,featureInDim,channelOutDim,stride,kernelSize):
-        self.kernel = (np.random.rand(channelOutDim,channelInDim,kernelSize,kernelSize)*0)+1
+        if (fakeValues == 1):
+            self.kernel = (np.random.rand(channelOutDim,channelInDim,kernelSize,kernelSize)*0)+1
+        else:
+            self.kernel = (np.random.rand(channelOutDim,channelInDim,kernelSize,kernelSize)*2)-1            
         self.dk = np.zeros((channelOutDim,channelInDim,kernelSize,kernelSize))
         self.channelInDim = channelInDim
         self.featureInDim = featureInDim
@@ -99,7 +102,7 @@ class Conv3D():
                             for q in range(self.channelOutDim):
                                 dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n] 
        
-        dy = np.pad(dy, ((0,0), (2,0), (2,0)), mode='constant', constant_values=0)
+        dy = np.pad(dy, ((0,0), (0,2), (0,2)), mode='constant', constant_values=0)
         for i in range(self.channelInDim):
             #for q in range(self.channelOutDim):
             for j in range(self.featureInDim):
@@ -109,7 +112,7 @@ class Conv3D():
                     * dy[:,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride+0.5)),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride+0.5))],(0,1,2))
         
         self.dk += dk
-        return dx[:,0:-2,0:-2]                       
+        return dx1[:,0:-1,0:-1]                       
     
     def paramUpdate(self,lr,batchSize):
         self.kernel -= self.dk/batchSize*lr
@@ -248,6 +251,7 @@ def converter (input,isKernel):
     else:
         output = output.reshape((32,32))
     return output
+
 if __name__ == '__main__':
     conv3d1 = Conv3D(8,32,8,1,3)
     relu1 = ReLU(32,32)
@@ -255,10 +259,18 @@ if __name__ == '__main__':
     trainLoader, testLoader = getLoader()
     for feature,labels in trainLoader:
         featureInExt = np.zeros((8,32,32))
-        for i in range(32):
-            for j in range(32):
-                featureInExt[0][i][j] = ((i*32)+j) / 4092 
-        #featureInExt[0:3] = feature.numpy()
+        featureInErrRel = np.zeros((32,32))
+        dxErrRel = np.zeros((32,32))
+        if(fakeValues == 1):
+            for i in range(32):
+                for j in range(32):
+                    featureInExt[0][i][j] = j / 4096 
+                    featureInExt[1][i][j] = j / 4096 
+                    featureInExt[2][i][j] = j / 4096 
+                    featureInErrRel[i][j] = 2*((1/4096)/((i+j+1) / 4096 ))
+        else:
+            featureInExt[0:3] = feature.numpy()
+        np.savetxt(f"/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureErrRel",featureInErrRel,fmt = '%s', delimiter='\n')
         f2 = np.vectorize(fxdPointCnv)
         # SAVE FEATURE INTO FILES 
         for i in range(3):
@@ -282,18 +294,42 @@ if __name__ == '__main__':
         dx = lossBackward(lOutput,convOneHot(labels))
         dx = soft1.back_prop(dx)
         dx = relu1.reluBackward(dx)
+        
+        if(fakeValues == 1):
+            #dx = (np.random.rand(8,32,32))
+            for i in range(32):
+                for j in range(32):
+                    dx[0][i][j] = j / 4096 
+                    dx[1][i][j] = j/ 4096
+                    dx[2][i][j] = j / 4096
+                    dx[3][i][j] = 0
+                    dx[4][i][j] = 0
+                    dx[5][i][j] = 0
+                    dx[6][i][j] = 0
+                    dx[7][i][j] = 0
+            
+        pp = np.zeros((32,32))
+        for i in range(32):
+            for j in range(32):
+                
+                pp[i][j] = dx[0][i][j] *featureInExt[0][i][j]
+                
+        np.savetxt(f"/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/pp",pp,fmt = '%s', delimiter='\n')
+        featureInErrAss = pp*featureInErrRel
+        print(np.sum(featureInErrAss))
         for i in range(8):
             fp = open(f"/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/gradients_in/{i}.txt","w")
             for j in range (32):
                 for k in range (0,32,8):
-                    fp.write(''.join(f2(dx[i,j,k:k+8].flatten())))
+                    fp.write(''.join(f2(np.flip(dx[i,j,k:k+8].flatten(),0))))
                     fp.write("\n")
             fp.close()            
             np.savetxt(f"/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/gradients_in/{i}_2.txt", f2(dx[i].flatten()),fmt = '%s', delimiter='\n')
             np.savetxt(f"/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/gradients_in/{i}_float.txt", dx[i].flatten(),fmt = '%s', delimiter='\n')
         gradientOut = conv3d1.Conv3dBackward(dx)
-        conv3d1.paramUpdate(0.0001,1)
-        kernelOut = conv3d1.kernel
+        kernelOut = conv3d1.dk
+        #conv3d1.paramUpdate(1,1)
+        #kernelOut = conv3d1.kernel
         break
     # Call verilog simulation. Output is on featureOut1.txt
     os.chmod('/home/thesis/eugenio.ressa/Desktop/myHWModel/init.sh', 0b111101101) # rwxr-xr-x make it executable                       
@@ -321,11 +357,30 @@ if __name__ == '__main__':
         
     diffFeature = ((optiFeatureOut - featureOut)/featureOut)*100
     diffKernel = optiKernelOut - kernelOut
-    diffGradient = optiGradientOut - gradientOut
+    diffGradient = ((optiGradientOut - gradientOut)/(gradientOut+0.0000001))*100
     
     np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureOutOptiFeatureOut0.txt", fmt='%1.4f',X = optiFeatureOut[0])
     np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureOutFeatureOut0.txt", fmt='%1.4f',X = featureOut[1])
     np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureOutDiff0.txt", fmt='%d',X = diffFeature[1])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/diffKernel00.txt", fmt='%f',X = diffKernel[0][0])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/diffKernel01.txt", fmt='%f',X = diffKernel[0][1])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/diffKernel02.txt", fmt='%f',X = diffKernel[0][2])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/diffKernel03.txt", fmt='%f',X = diffKernel[0][3])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/Kernel00.txt", fmt='%f',X = kernelOut[0][0])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/Kernel01.txt", fmt='%f',X = kernelOut[0][1])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/Kernel02.txt", fmt='%f',X = kernelOut[0][2])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/Kernel03.txt", fmt='%f',X = kernelOut[0][3])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/OptiKernel00.txt", fmt='%f',X = optiKernelOut[0][0])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/OptiKernel01.txt", fmt='%f',X = optiKernelOut[0][1])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/OptiKernel02.txt", fmt='%f',X = optiKernelOut[0][2])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/OptiKernel03.txt", fmt='%f',X = optiKernelOut[0][3])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/optiGradientOut0.txt", fmt='%f',X = optiGradientOut[0])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/optiGradientOut1.txt", fmt='%f',X = optiGradientOut[1])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/gradientOut0.txt", fmt='%f',X = gradientOut[0])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/gradientOut1.txt", fmt='%f',X = gradientOut[1])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/diffGradient0.txt", fmt='%d',X = diffGradient[0])
+    np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/diffGradient1.txt", fmt='%d',X = diffGradient[1])
+
 
 '''
 if (MEMORY_TYPE == "KERNEL") begin

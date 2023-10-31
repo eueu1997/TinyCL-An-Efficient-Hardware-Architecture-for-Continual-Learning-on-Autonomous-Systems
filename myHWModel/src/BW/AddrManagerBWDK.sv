@@ -30,19 +30,11 @@ always @ (*) begin
     if ( rst == 1)begin
         NewFeatureOutColum = '{default:0};
     end else begin
-        if (featureOutRow[0]==0)begin // if moving to right
-	        if((featureOutColum +7) == featureOutActColumnSize )begin // if reach end of column
-		        NewFeatureOutColum = featureOutColum ;
-	        end else begin // otherwise
-        	    NewFeatureOutColum = featureOutColum + 8 ;
-	        end
-        end else begin // if we are moving to left
-            if(featureOutColum == 0)begin // if reaching column 0
-		        NewFeatureOutColum = featureOutColum ;
-	        end else begin // otherwise
-        	    NewFeatureOutColum = featureOutColum - 8 ;
-	        end
-        end
+	    if((featureOutColum +7) == featureOutActColumnSize )begin // if reach end of column
+		    NewFeatureOutColum = 0 ;
+	    end else begin // otherwise
+            NewFeatureOutColum = featureOutColum + 8 ;
+	    end
     end
 end
 
@@ -51,10 +43,10 @@ always @ (*) begin
     if ( rst == 1)begin
         NewFeatureOutRow = 0;
     end else begin
-        if ((featureOutRow == featureOutActRowSize)&(featureOutColum == 0)) begin // if the whole feature has been iterated
+        if ((featureOutRow == featureOutActRowSize)&((featureOutColum +7) == featureOutActColumnSize)) begin // if the whole feature has been iterated
             NewFeatureOutRow = 0;
         end else begin 
-            if(((((featureOutColum +7) == featureOutActColumnSize)&((NewFeatureOutColum +7) == featureOutActColumnSize)) | (((featureOutColum ==0)&(NewFeatureOutColum ==0) )&(featureOutRow != 0))))begin
+            if(((featureOutColum +7) == featureOutActColumnSize))begin
                 NewFeatureOutRow = featureOutRow + 1;
             end else begin
                 NewFeatureOutRow = featureOutRow;
@@ -68,7 +60,7 @@ always @ (*) begin
     if (rst == 1) begin
         NewFeatureInCh = 0;
     end else begin
-        if ((featureOutRow == featureOutActRowSize ) & (featureOutColum == 0))begin// If we are at the end of the feature
+        if (((featureOutColum +7) == featureOutActColumnSize)&&(featureOutRow == featureOutActRowSize))begin// If we are at the end of the feature
             if(featureInCh == featureInActChSize)begin // if we have passed all channel in 
                 NewFeatureInCh = 0;
             end else begin// otherwise increment
@@ -84,7 +76,7 @@ always @ (*) begin
     if (rst == 1) begin
         NewFeatureOutCh = 0;
     end else begin
-        if ((featureOutRow == featureOutActRowSize ) & (featureOutColum == 0) & ((featureInCh) == featureInActChSize))begin // if iterate all channel in
+        if (((featureOutColum +7) == featureOutActColumnSize)&&(featureOutRow == featureOutActRowSize)& ((featureInCh) == featureInActChSize))begin // if iterate all channel in
             if(featureOutCh ==  featureOutActChSize)begin // if iterate also all channel out
                 NewFeatureOutCh = 0;
             end else begin // otherwise, increment

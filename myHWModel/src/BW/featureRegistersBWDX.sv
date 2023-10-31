@@ -52,9 +52,9 @@ always @ (*)begin
             newRegisters[0][0] = registers [1][0];
             newRegisters[0][1] = registers [1][1];
             newRegisters[0][2] = registers [1][2];
-            newRegisters[1][0] = registers [0][0];
-            newRegisters[1][1] = registers [0][1];
-            newRegisters[1][2] = registers [0][2];
+            newRegisters[1][0] = registers [2][0];
+            newRegisters[1][1] = registers [2][1];
+            newRegisters[1][2] = registers [2][2];
             newRegisters[2][0] = gradientInP1;
             newRegisters[2][1] = gradientInP2;
             newRegisters[2][2] = gradientInP3;
@@ -80,25 +80,25 @@ always @ ( posedge clk) begin
 end
 always @ (*) begin
     if (stride == 2) begin
-        gradientOut[0][0] = registers [0][0];
-        gradientOut[0][1] = registers [0][1];
+        gradientOut[0][0] = newRegisters [0][0];
+        gradientOut[0][1] = newRegisters [0][1];
         gradientOut[0][2] = 0;
-        gradientOut[1][0] = registers [1][0];
-        gradientOut[1][1] = registers [1][1];
+        gradientOut[1][0] = newRegisters [1][0];
+        gradientOut[1][1] = newRegisters [1][1];
         gradientOut[1][2] = 0;
         gradientOut[2][0] = 0;
         gradientOut[2][1] = 0;
         gradientOut[2][2] = 0;
     end else begin
-        gradientOut[0][0] = registers [0][0];
-        gradientOut[0][1] = registers [0][1];
-        gradientOut[0][2] = registers [0][2];
-        gradientOut[1][0] = registers [1][0];
-        gradientOut[1][1] = registers [1][1];
-        gradientOut[1][2] = registers [1][2];
-        gradientOut[2][0] = registers [2][0];
-        gradientOut[2][1] = registers [2][1];
-        gradientOut[2][2] = registers [2][2];
+        gradientOut[0][0] = newRegisters [0][0];
+        gradientOut[0][1] = newRegisters [0][1];
+        gradientOut[0][2] = newRegisters [0][2];
+        gradientOut[1][0] = newRegisters [1][0];
+        gradientOut[1][1] = newRegisters [1][1];
+        gradientOut[1][2] = newRegisters [1][2];
+        gradientOut[2][0] = newRegisters [2][0];
+        gradientOut[2][1] = newRegisters [2][1];
+        gradientOut[2][2] = newRegisters [2][2];
     end
 end
 endmodule

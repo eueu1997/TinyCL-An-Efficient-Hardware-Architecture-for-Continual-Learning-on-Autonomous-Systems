@@ -51,7 +51,7 @@ module FW_BW_PU #
     // BACKWARD DX SIGNALS
     input [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelBWDX,
     input  [(NBITS*N_OF_CH_READ-1):0] DyP1BWDX,DyP2BWDX,DyP3BWDX,
-    output reg [0:(N_FEATURE_READ -1)][(NBITS-1):0]dxBWDX,
+    output reg [(NBITS-1):0]dxBWDX,
     // DX address signals
     output reg[($clog2(FEATURE_IN_CH_SIZE)-1):0] gradientInChAddrBWDX,NewGradientInChAddrBWDX,
     output reg[($clog2(FEATURE_OUT_CH_SIZE)-1):0] gradientOutChAddrBWDX,NewGradientOutChAddrBWDX,
@@ -120,7 +120,7 @@ featureRegister FR (.right(right),.left(left),.rst((rst|bw[0]|bw[1])),.clk(clk),
 // It manage, given the indexing of the feature, the direction of movement of the kernel register
 
 always @ (*) begin
-
+if(bw == 0)begin
     if (featureOutRowAddrFW[0]== 0)begin
         if(featureOutColumnAddrFW == 0)begin // new row, go down
             right = 0;
@@ -139,6 +139,26 @@ always @ (*) begin
             left = 1;
         end
     end
+end else if ( bw==2) begin
+    if (gradientOutRowAddrBWDX[0]== 0)begin
+        if(gradientOutColumnAddrBWDX == 0)begin // new row, go down
+            right = 0;
+            left = 0;
+        end else begin
+            right = 1;
+            left = 0;
+        end
+    end
+    else if (gradientOutRowAddrBWDX[0]== 1)begin
+        if(gradientOutColumnAddrBWDX == featureOutActColumnSize)begin // new row, go down
+            right = 0;
+            left = 0;
+        end else begin
+            right = 0;
+            left = 1;
+        end
+    end
+end
 end
 ////////////////////////////////////////// MAC GENERATION \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 // Generazione dei MAC. Le 9 feature e i 9 kernel provengono da i due manager
@@ -146,7 +166,7 @@ reg [0:(N_OF_MAC_ROWS -1 )][0:(N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ -1 ):0] dat
 reg [0:(N_OF_MAC_ROWS -1)][0:(N_OF_MAC_CLMN -1)][(NBITS-1):0]partialSumIn,partialSumMAC,partialSumMAC_r,partialSumMACDadda;
 reg daddaEn;
 reg [(NBITS-1):0]daddaOut_r;
-
+reg regRst;
 genvar i,j;
 generate 
     for (i=0;i < N_OF_MAC_ROWS; i= i+1) begin 
@@ -156,7 +176,7 @@ generate
             .partialSumIn(partialSumIn[i][j]),
             .Kernel(data2[i][j]),
             .featureOut(partialSumMAC[i][j]));
-            register #(.WIDTH(NBITS)) PSi(.data_in(partialSumMAC[i][j]),.clk(clk),.rst(rst),.data_out(partialSumMAC_r[i][j]));
+            register #(.WIDTH(NBITS)) PSi(.data_in(partialSumMAC[i][j]),.clk(clk),.rst(regRst),.data_out(partialSumMAC_r[i][j]));
 
         end
     end
@@ -179,17 +199,52 @@ always @ (* ) begin
         data1[2][1] = featuresInFw[2][1];
         data1[2][2] = featuresInFw[2][2];
 
+        data2[0][0] = kernelsFw[0][0];
+        data2[0][1] = kernelsFw[0][1];
+        data2[0][2] = kernelsFw[0][2];
+        data2[1][0] = kernelsFw[1][0];
+        data2[1][1] = kernelsFw[1][1];
+        data2[1][2] = kernelsFw[1][2];
+        data2[2][0] = kernelsFw[2][0];
+        data2[2][1] = kernelsFw[2][1];
+        data2[2][2] = kernelsFw[2][2];
         partialSumIn = 0;
-        data2 = kernelsFw;
         partialSumMACDadda = partialSumMAC;
         dkBWDK = 0; // TODO : si potrebbe mettere alta impedenza
         featureOutValFW = daddaOut_r;
         dxBWDX = 0;
         valid = 0;
     end else if(bw == 1) begin // bw dk
-        data1 = featuresInBwDk;
-        partialSumIn = partialSumMAC_r;
-        data2 = dyBWDK;
+        data1[0][0] = {featuresInBwDk[0][0][0],featuresInBwDk[0][0][1],featuresInBwDk[0][0][2],featuresInBwDk[0][0][3],featuresInBwDk[0][0][4],featuresInBwDk[0][0][5],featuresInBwDk[0][0][6],featuresInBwDk[0][0][7]};
+        data1[0][1] = {featuresInBwDk[0][1][0],featuresInBwDk[0][1][1],featuresInBwDk[0][1][2],featuresInBwDk[0][1][3],featuresInBwDk[0][1][4],featuresInBwDk[0][1][5],featuresInBwDk[0][1][6],featuresInBwDk[0][1][7]};
+        data1[0][2] = {featuresInBwDk[0][2][0],featuresInBwDk[0][2][1],featuresInBwDk[0][2][2],featuresInBwDk[0][2][3],featuresInBwDk[0][2][4],featuresInBwDk[0][2][5],featuresInBwDk[0][2][6],featuresInBwDk[0][2][7]};
+        data1[1][0] = {featuresInBwDk[1][0][0],featuresInBwDk[1][0][1],featuresInBwDk[1][0][2],featuresInBwDk[1][0][3],featuresInBwDk[1][0][4],featuresInBwDk[1][0][5],featuresInBwDk[1][0][6],featuresInBwDk[1][0][7]};
+        data1[1][1] = {featuresInBwDk[1][1][0],featuresInBwDk[1][1][1],featuresInBwDk[1][1][2],featuresInBwDk[1][1][3],featuresInBwDk[1][1][4],featuresInBwDk[1][1][5],featuresInBwDk[1][1][6],featuresInBwDk[1][1][7]};
+        data1[1][2] = {featuresInBwDk[1][2][0],featuresInBwDk[1][2][1],featuresInBwDk[1][2][2],featuresInBwDk[1][2][3],featuresInBwDk[1][2][4],featuresInBwDk[1][2][5],featuresInBwDk[1][2][6],featuresInBwDk[1][2][7]};
+        data1[2][0] = {featuresInBwDk[2][0][0],featuresInBwDk[2][0][1],featuresInBwDk[2][0][2],featuresInBwDk[2][0][3],featuresInBwDk[2][0][4],featuresInBwDk[2][0][5],featuresInBwDk[2][0][6],featuresInBwDk[2][0][7]};
+        data1[2][1] = {featuresInBwDk[2][1][0],featuresInBwDk[2][1][1],featuresInBwDk[2][1][2],featuresInBwDk[2][1][3],featuresInBwDk[2][1][4],featuresInBwDk[2][1][5],featuresInBwDk[2][1][6],featuresInBwDk[2][1][7]};
+        data1[2][2] = {featuresInBwDk[2][2][0],featuresInBwDk[2][2][1],featuresInBwDk[2][2][2],featuresInBwDk[2][2][3],featuresInBwDk[2][2][4],featuresInBwDk[2][2][5],featuresInBwDk[2][2][6],featuresInBwDk[2][2][7]};
+
+        data2[0][0] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+        data2[0][1] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+        data2[0][2] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+        data2[1][0] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+        data2[1][1] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+        data2[1][2] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+        data2[2][0] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+        data2[2][1] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+        data2[2][2] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+
+        partialSumIn[0][0] = partialSumMAC_r[0][0];
+        partialSumIn[0][1] = partialSumMAC_r[0][1];
+        partialSumIn[0][2] = partialSumMAC_r[0][2];
+        partialSumIn[1][0] = partialSumMAC_r[1][0];
+        partialSumIn[1][1] = partialSumMAC_r[1][1];
+        partialSumIn[1][2] = partialSumMAC_r[1][2];
+        partialSumIn[2][0] = partialSumMAC_r[2][0];
+        partialSumIn[2][1] = partialSumMAC_r[2][1];
+        partialSumIn[2][2] = partialSumMAC_r[2][2];
+
         partialSumMACDadda = 0;
         featureOutValFW =0 ;
         if ( (featureInRowAddrBWDK == featureOutActRowSize) && (featureInColumnAddrBWDK == 0) )begin
@@ -208,12 +263,34 @@ always @ (* ) begin
             valid = 0;
             dkBWDK = 0;
         end
+        if ( (featureInRowAddrBWDK == 0) && (featureInColumnAddrBWDK == 0) )begin
+            regRst = 1;
+        end else begin
+            regRst = 0;
+        end
     end else if ( bw == 2) begin // bw dx
-        valid = 0;
-        data1 = DyBWDX;
+        data1[0][0] = DyBWDX[0][0];
+        data1[0][1] = DyBWDX[0][1];
+        data1[0][2] = DyBWDX[0][2];
+        data1[1][0] = DyBWDX[1][0];
+        data1[1][1] = DyBWDX[1][1];
+        data1[1][2] = DyBWDX[1][2];
+        data1[2][0] = DyBWDX[2][0];
+        data1[2][1] = DyBWDX[2][1];
+        data1[2][2] = DyBWDX[2][2];
+
+        data2[0][0] = kernelsBWDX[0][0];
+        data2[0][1] = kernelsBWDX[0][1];
+        data2[0][2] = kernelsBWDX[0][2];
+        data2[1][0] = kernelsBWDX[1][0];
+        data2[1][1] = kernelsBWDX[1][1];
+        data2[1][2] = kernelsBWDX[1][2];
+        data2[2][0] = kernelsBWDX[2][0];
+        data2[2][1] = kernelsBWDX[2][1];
+        data2[2][2] = kernelsBWDX[2][2];
         partialSumIn = 0;
-        data2 = kernelsBWDX;
-        partialSumMACDadda = 0;
+        partialSumMACDadda = partialSumMAC;
+        valid = 0;
         dkBWDK = 0;
         dxBWDX = daddaOut_r;
         featureOutValFW = 0;
