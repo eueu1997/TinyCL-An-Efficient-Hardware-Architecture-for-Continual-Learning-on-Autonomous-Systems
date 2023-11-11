@@ -1,0 +1,29 @@
+Warning: Design 'FW_BW_PU' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : resources
+Design : FW_BW_PU
+Version: R-2020.09-SP2
+Date   : Sat Nov 11 10:12:59 2023
+****************************************
+
+Resource Sharing Report for design FW_BW_PU in file
+        /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/src/FW_BW_PU.sv
+
+===============================================================================
+|          |              |            | Contained     |                      |
+| Resource | Module       | Parameters | Resources     | Contained Operations |
+===============================================================================
+| r315     | DW_cmp       | width=5    |               | eq_144               |
+| r317     | DW_cmp       | width=5    |               | eq_163               |
+| r319     | DW_cmp       | width=5    |               | eq_263               |
+| r321     | DW_cmp       | width=5    |               | eq_263_2             |
+| r886     | DW_mult_uns  | a_width=5  |               | mult_339             |
+|          |              | b_width=2  |               |                      |
+| r888     | DW_mult_uns  | a_width=5  |               | mult_339_2           |
+|          |              | b_width=2  |               |                      |
+===============================================================================
+
+
+No implementations to report
+1

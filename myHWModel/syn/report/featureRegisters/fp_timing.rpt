@@ -1,0 +1,57 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'featureRegister' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Warning: There are infeasible paths detected in your design that were ignored during optimization. Please run 'report_timing -attributes' and/or 'create_qor_snapshot/query_qor_snapshot -infeasible_paths' to identify these paths.  (OPT-1721)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : featureRegister
+Version: R-2020.09-SP2
+Date   : Wed Nov  1 18:20:39 2023
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
+Wire Load Model Mode: top
+
+  Startpoint: registers_reg[1][0][7]
+              (rising edge-triggered flip-flop clocked by MY_CLK)
+  Endpoint: registers_reg[1][1][7]
+            (rising edge-triggered flip-flop clocked by MY_CLK)
+  Path Group: MY_CLK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  featureRegister    wl0                   uk65lscllmvbbr_120c25_tc
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  clock MY_CLK (rise edge)                 0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  registers_reg[1][0][7]/CK (DFQM1RA)      0.00 #     0.00 r
+  registers_reg[1][0][7]/Q (DFQM1RA)       0.24       0.24 r
+  U4200/Z (ND2M2R)                         0.05       0.29 f
+  U4747/Z (OAI21B10M4R)                    0.04       0.33 r
+  U4748/Z (CKINVM3R)                       0.02       0.35 f
+  U4759/Z (OAI211B100M2R)                  0.03       0.38 r
+  registers_reg[1][1][7]/D (DFQM2RA)       0.00       0.38 r
+  data arrival time                                   0.38
+
+  clock MY_CLK (rise edge)                 0.00       0.00
+  clock network delay (ideal)              0.00       0.00
+  clock uncertainty                       -0.07      -0.07
+  registers_reg[1][1][7]/CK (DFQM2RA)      0.00      -0.07 r
+  library setup time                      -0.02      -0.09
+  data required time                                 -0.09
+  -----------------------------------------------------------
+  data required time                                 -0.09
+  data arrival time                                  -0.38
+  -----------------------------------------------------------
+  slack (VIOLATED)                                   -0.47
+
+
+1

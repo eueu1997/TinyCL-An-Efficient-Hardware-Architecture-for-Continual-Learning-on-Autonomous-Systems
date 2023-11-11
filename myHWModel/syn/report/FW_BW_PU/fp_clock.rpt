@@ -1,0 +1,31 @@
+Information: Building the design 'gradientInRegisterBWDK' instantiated from design 'FW_BW_PU' with
+	the parameters "8,3,3,16". (HDL-193)
+Warning: Cannot find the design 'gradientInRegisterBWDK' in the library 'WORK'. (LBR-1)
+Information: Building the design 'register' instantiated from design 'FW_BW_PU' with
+	the parameters "WIDTH=128". (HDL-193)
+Warning: Cannot find the design 'register' in the library 'WORK'. (LBR-1)
+Warning: Unable to resolve reference 'gradientInRegisterBWDK' in 'FW_BW_PU'. (LINK-5)
+Warning: Unable to resolve reference 'register' in 'FW_BW_PU'. (LINK-5)
+Warning: Design 'FW_BW_PU' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Information: Updating graph... (UID-83)
+Warning: Design 'FW_BW_PU' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : clocks
+Design : FW_BW_PU
+Version: R-2020.09-SP2
+Date   : Sat Nov 11 10:12:40 2023
+****************************************
+
+Attributes:
+    d - dont_touch_network
+    f - fix_hold
+    p - propagated_clock
+    G - generated_clock
+    g - lib_generated_clock
+
+Clock          Period   Waveform            Attrs     Sources
+--------------------------------------------------------------------------------
+MY_CLK           0.00   {0 0}               d         {clk}
+--------------------------------------------------------------------------------
+1

@@ -1,0 +1,58 @@
+Warning: Design 'FW_BW_PU' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Information: Updating design information... (UID-85)
+Warning: Design 'FW_BW_PU' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : FW_BW_PU
+Version: R-2020.09-SP2
+Date   : Sat Nov 11 10:12:46 2023
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
+Wire Load Model Mode: top
+
+  Startpoint: BWDK/featureOutRow_reg[4]
+              (rising edge-triggered flip-flop clocked by MY_CLK)
+  Endpoint: BWDK/featureOutCh_reg[1]
+            (rising edge-triggered flip-flop clocked by MY_CLK)
+  Path Group: MY_CLK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  FW_BW_PU           wl0                   uk65lscllmvbbr_120c25_tc
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock MY_CLK (rise edge)                                0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  BWDK/featureOutRow_reg[4]/CK (DFQM8RA)                  0.00 #     0.00 r
+  BWDK/featureOutRow_reg[4]/Q (DFQM8RA)                   0.10       0.10 f
+  BWDK/U57/Z (CKXOR2M12RA)                                0.05       0.14 r
+  BWDK/U79/Z (NR4B1M2R)                                   0.09       0.23 r
+  BWDK/U76/Z (AN3M6R)                                     0.06       0.29 r
+  BWDK/U49/Z (ND2M4R)                                     0.03       0.32 f
+  BWDK/U40/Z (NR2M3R)                                     0.03       0.35 r
+  BWDK/U115/Z (MUX2M3RA)                                  0.05       0.40 r
+  BWDK/featureOutCh_reg[1]/D (DFQM2RA)                    0.00       0.40 r
+  data arrival time                                                  0.40
+
+  clock MY_CLK (rise edge)                                0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  BWDK/featureOutCh_reg[1]/CK (DFQM2RA)                   0.00       0.00 r
+  library setup time                                     -0.01      -0.01
+  data required time                                                -0.01
+  --------------------------------------------------------------------------
+  data required time                                                -0.01
+  data arrival time                                                 -0.40
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.41
+
+
+1

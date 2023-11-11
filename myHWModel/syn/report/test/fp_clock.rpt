@@ -1,0 +1,21 @@
+Information: Updating graph... (UID-83)
+ 
+****************************************
+Report : clocks
+Design : test
+Version: R-2020.09-SP2
+Date   : Wed Nov  1 18:58:30 2023
+****************************************
+
+Attributes:
+    d - dont_touch_network
+    f - fix_hold
+    p - propagated_clock
+    G - generated_clock
+    g - lib_generated_clock
+
+Clock          Period   Waveform            Attrs     Sources
+--------------------------------------------------------------------------------
+MY_CLK           0.00   {0 0}               d         {clk}
+--------------------------------------------------------------------------------
+1

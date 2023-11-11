@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1699607209" />
+    <testcase name="adder_randomised_test" classname="test_MAC" file="/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC/test_MAC.py" lineno="14" time="0.0074155330657958984" sim_time_ns="20.001" ratio_time="2697.176295019773" />
+  </testsuite>
+</testsuites>

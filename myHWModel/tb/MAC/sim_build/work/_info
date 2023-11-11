@@ -1,0 +1,99 @@
+m255
+K4
+z2
+!s11f vlog 2020.4 2020.10, Oct 13 2020
+13
+!s112 1.1
+!i10d 8192
+!i10e 25
+!i10f 100
+cModel Technology
+Z0 d/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/MAC
+T_opt
+!s110 1699607208
+V;C0PJhiQF8OEKcgO_ZT^@1
+04 3 4 work MAC fast 0
+=1-16aa77b234af-654df2a8-13c6b-89f
+o-quiet +acc -auto_acc_if_foreign -work sim_build/work
+Z1 tCvgOpt 0
+n@_opt
+OL;O;2020.4;71
+vfixed_add
+Z2 DXx6 sv_std 3 std 0 22 9oUSJO;AeEaW`l:M@^WG92
+Z3 !s110 1699607207
+!i10b 1
+!s100 R9fa:j4AAl[Mo6ZKAmSWD0
+Z4 !s11b Dg1SIo80bB@j0V0VzS_@n1
+IlKO9LDj@6VPl7BkAk>>m;0
+S1
+R0
+Z5 w1699604492
+Z6 8/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv
+Z7 F/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv
+!i122 0
+L0 105 14
+Z8 VDg1SIo80bB@j0V0VzS_@n1
+Z9 OL;L;2020.4;71
+r1
+!s85 0
+31
+Z10 !s108 1699607207.000000
+Z11 !s107 /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv|
+Z12 !s90 -work|work|+define+COCOTB_SIM|-sv|-timescale|1ns/1ps|-mfcu|+acc|/home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MAC.sv|
+!i113 0
+Z13 o-work work -sv -timescale 1ns/1ps -mfcu +acc -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+Z14 !s92 -work work +define+COCOTB_SIM -sv -timescale 1ns/1ps -mfcu +acc -L mtiAvm -L mtiRnm -L mtiOvm -L mtiUvm -L mtiUPF -L infact
+R1
+vfixed_multi
+R2
+R3
+!i10b 1
+!s100 >J?4@]SNIfbcHD32F[M?53
+R4
+IJ7[6TI:PE2cj^DGnL[3IU2
+S1
+R0
+R5
+R6
+R7
+!i122 0
+L0 2 103
+R8
+R9
+r1
+!s85 0
+31
+R10
+R11
+R12
+!i113 0
+R13
+R14
+R1
+vMAC
+R2
+R3
+!i10b 1
+!s100 Yg5ICoPmR_ON34T;g7LOU2
+R4
+IhJZ7[Z^ZKbLTIz8<IjG]Y0
+S1
+R0
+R5
+R6
+R7
+!i122 0
+L0 119 83
+R8
+R9
+r1
+!s85 0
+31
+R10
+R11
+R12
+!i113 0
+R13
+R14
+R1
+n@m@a@c

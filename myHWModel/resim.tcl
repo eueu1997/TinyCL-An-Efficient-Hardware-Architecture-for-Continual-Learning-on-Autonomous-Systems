@@ -1,7 +1,7 @@
 echo "resim run"
 set workdir /home/thesis/eugenio.ressa/Desktop/myHWModel/src
 quit -sim
-
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/adder.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/activation/activation.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/multiplier.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/MAC/MultiOpAdderDadda.sv
@@ -11,7 +11,7 @@ vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/FW/FWAddrManager.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/memory/SRAM.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/register.sv
-vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureInMngrBWDK.sv
+vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/gradientInRegisterBWDK.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDK.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/AddrManagerBWDX.sv
 vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel/src/BW/featureRegistersBWDX.sv
@@ -25,11 +25,11 @@ vlog -reportprogress 300 -work work /home/thesis/eugenio.ressa/Desktop/myHWModel
 
 vsim -t ns -voptargs=+acc work.NN_tb
 #add wave -position insertpoint {sim:/NN_tb/uut/FW_BW_PU_i/genblk1[0]/genblk1[0]/MACij/*}
-#add wave -position insertpoint sim:/NN_tb/uut/*
-#add wave -position insertpoint sim:/NN_tb/uut/FW_BW_PU_i/*
+add wave -position insertpoint sim:/NN_tb/uut/*
+add wave -position insertpoint sim:/NN_tb/uut/FW_BW_PU_i/*
 
-run 245785 ns
-quit
+run 30000 ns
+#quit
 #add wave -position insertpoint sim:/NN_tb/uut/*
 #add wave -position insertpoint sim:/NN_tb/uut/FW_BW_PU_i/*
 #add wave *

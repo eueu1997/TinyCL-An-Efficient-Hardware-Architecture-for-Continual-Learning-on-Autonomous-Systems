@@ -1,0 +1,13 @@
+Information: Updating graph... (UID-83)
+Warning: Design 'kernelRegisters' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : clocks
+Design : kernelRegisters
+Version: R-2020.09-SP2
+Date   : Wed Nov  1 18:06:59 2023
+****************************************
+
+No clocks in this design.
+
+1

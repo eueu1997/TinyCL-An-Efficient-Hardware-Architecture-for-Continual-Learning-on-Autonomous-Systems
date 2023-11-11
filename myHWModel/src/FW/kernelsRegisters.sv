@@ -36,7 +36,7 @@ always @ ( posedge clk) begin
 
 end
 
-assign kernelOut = registers;
+assign kernelOut = newRegisters;
 
 endmodule
 

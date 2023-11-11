@@ -42,12 +42,12 @@ module FW_BW_PU #
     output [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureInRowAddrBWDK,
     output [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureInColumnAddrBWDK, 
     // Feature in
-    input  [0:(N_FEATURE_READ -1)][(NBITS-1):0]featureInBWDK,
+    input  [0:(KERNEL_SIZE-1)][(N_FEATURE_READ*NBITS-1):0]featureInBWDK,
     // Dy in
-    input  [0:(N_FEATURE_READ -1)][(NBITS-1):0]dyBWDK,
+    input  [(N_OF_CH_READ*NBITS-1):0]dyBWDK,
     // dk out
-    output reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] dkBWDK,
-    output reg valid, // VALIDITY SIGNAL FOR DK
+    output reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] dkBWDK,
+    output reg valid, // VALIDITY SIGNAL FOR DK, RST SIGNAL FOR GIR
     // BACKWARD DX SIGNALS
     input [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelBWDX,
     input  [(NBITS*N_OF_CH_READ-1):0] DyP1BWDX,DyP2BWDX,DyP3BWDX,
@@ -66,9 +66,9 @@ module FW_BW_PU #
 ////////////////////////////////////////////////////////////////////////////////
 reg [($clog2(FEATURE_IN_ROW_SIZE) + $clog2(FEATURE_IN_COLUMN_SIZE) -1):0] convAddr_r;
 reg [($clog2(FEATURE_OUT_CH_SIZE) + $clog2(FEATURE_IN_CH_SIZE) -1):0] dkAddr_r;
-
-wire  [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][0:(N_FEATURE_READ -1)][(NBITS-1):0]featuresInBwDk;
-
+reg rstGIR;
+wire  [0:(KERNEL_SIZE -1)][(N_OF_CH_READ*NBITS-1):0]featuresInBWDK;
+wire  [0:(KERNEL_SIZE -1)][(N_OF_CH_READ*NBITS-1):0]dyBWDK_r;
 /////////////////////////// BACKWARD ADDRESS MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\
 BWDKAddrManager BWDK (.clk(clk),.rst((rst|~bw[0])),
                         .featureInActChSize(featureInActChSize),
@@ -82,11 +82,21 @@ BWDKAddrManager BWDK (.clk(clk),.rst((rst|~bw[0])),
                         .featureInChAddr(featureInChAddrBWDK),
                         .NewFeatureInChAddr(NewFeatureInChAddrBWDK));
 ////////////////////////// BACKWARD FEATURE MANAGER \\\\\\\\\\\\\\\\\\\\\\\\\\\
-featureInBWMngr FIN(.featureOutRowAddr(featureInRowAddrBWDK),
-                    .featureOutColumAddr(featureInColumnAddrBWDK),
-                    .featureIn(featureInBWDK),
-                    .featuresInMngd(featuresInBwDk));
 
+gradientInRegisterBWDK # ( N_OF_CH_READ,KERNEL_SIZE,KERNEL_SIZE,NBITS ) 
+GIR(.clk(clk),
+.rst(rst|rstGIR),
+.dy(dyBWDK),
+.dy_out(dyBWDK_r));
+
+always @ (*) begin
+
+    if(featureInColumnAddrBWDK == 0)begin
+        rstGIR = 1;
+    end else begin
+        rstGIR = 0;
+    end
+end
 ///////////////////////////////////////////////////////////////////////////////
 /////////////////////////// FORWARD LOGIC \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 ///////////////////////////////////////////////////////////////////////////////
@@ -163,7 +173,8 @@ end
 ////////////////////////////////////////// MAC GENERATION \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 // Generazione dei MAC. Le 9 feature e i 9 kernel provengono da i due manager
 reg [0:(N_OF_MAC_ROWS -1 )][0:(N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ -1 ):0] data1,data2;
-reg [0:(N_OF_MAC_ROWS -1)][0:(N_OF_MAC_CLMN -1)][(NBITS-1):0]partialSumIn,partialSumMAC,partialSumMAC_r,partialSumMACDadda;
+reg [0:(N_OF_MAC_ROWS -1)][0:(N_OF_MAC_CLMN -1)][(NBITS*N_OF_CH_READ-1):0]partialSumIn,partialSumOutDk,partialSumMAC_r;
+reg [0:(N_OF_MAC_ROWS -1)][0:(N_OF_MAC_CLMN -1)][(NBITS-1):0] partialSumMACDadda,partialSumMAC;
 reg daddaEn;
 reg [(NBITS-1):0]daddaOut_r;
 reg regRst;
@@ -172,16 +183,18 @@ generate
     for (i=0;i < N_OF_MAC_ROWS; i= i+1) begin 
         for(j=0;j < N_OF_MAC_CLMN; j= j+1)begin
             MAC MACij (
+            .select(bw[0]),
             .featureIn(data1[i][j]),
             .partialSumIn(partialSumIn[i][j]),
             .Kernel(data2[i][j]),
-            .featureOut(partialSumMAC[i][j]));
-            register #(.WIDTH(NBITS)) PSi(.data_in(partialSumMAC[i][j]),.clk(clk),.rst(regRst),.data_out(partialSumMAC_r[i][j]));
+            .featureOut(partialSumMAC[i][j]),
+            .featureOutDk(partialSumOutDk[i][j]));
+            register #(.WIDTH(128)) PSi(.data_in(partialSumOutDk[i][j]),.clk(clk),.rst(regRst),.data_out(partialSumMAC_r[i][j]));
 
         end
     end
 endgenerate
-// Ultimo dadda che somma i 9 prodotti della convoluzione per il forward
+// Ultimo dadda che somma i 9 prodotti della convoluzione per il forward e il dx
 dadda_top DD(.DataIn(partialSumMACDadda) , .DataOut (daddaOut_r));
 reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] DyBWDX;
 reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] kernelsBWDX;
@@ -215,25 +228,25 @@ always @ (* ) begin
         dxBWDX = 0;
         valid = 0;
     end else if(bw == 1) begin // bw dk
-        data1[0][0] = {featuresInBwDk[0][0][0],featuresInBwDk[0][0][1],featuresInBwDk[0][0][2],featuresInBwDk[0][0][3],featuresInBwDk[0][0][4],featuresInBwDk[0][0][5],featuresInBwDk[0][0][6],featuresInBwDk[0][0][7]};
-        data1[0][1] = {featuresInBwDk[0][1][0],featuresInBwDk[0][1][1],featuresInBwDk[0][1][2],featuresInBwDk[0][1][3],featuresInBwDk[0][1][4],featuresInBwDk[0][1][5],featuresInBwDk[0][1][6],featuresInBwDk[0][1][7]};
-        data1[0][2] = {featuresInBwDk[0][2][0],featuresInBwDk[0][2][1],featuresInBwDk[0][2][2],featuresInBwDk[0][2][3],featuresInBwDk[0][2][4],featuresInBwDk[0][2][5],featuresInBwDk[0][2][6],featuresInBwDk[0][2][7]};
-        data1[1][0] = {featuresInBwDk[1][0][0],featuresInBwDk[1][0][1],featuresInBwDk[1][0][2],featuresInBwDk[1][0][3],featuresInBwDk[1][0][4],featuresInBwDk[1][0][5],featuresInBwDk[1][0][6],featuresInBwDk[1][0][7]};
-        data1[1][1] = {featuresInBwDk[1][1][0],featuresInBwDk[1][1][1],featuresInBwDk[1][1][2],featuresInBwDk[1][1][3],featuresInBwDk[1][1][4],featuresInBwDk[1][1][5],featuresInBwDk[1][1][6],featuresInBwDk[1][1][7]};
-        data1[1][2] = {featuresInBwDk[1][2][0],featuresInBwDk[1][2][1],featuresInBwDk[1][2][2],featuresInBwDk[1][2][3],featuresInBwDk[1][2][4],featuresInBwDk[1][2][5],featuresInBwDk[1][2][6],featuresInBwDk[1][2][7]};
-        data1[2][0] = {featuresInBwDk[2][0][0],featuresInBwDk[2][0][1],featuresInBwDk[2][0][2],featuresInBwDk[2][0][3],featuresInBwDk[2][0][4],featuresInBwDk[2][0][5],featuresInBwDk[2][0][6],featuresInBwDk[2][0][7]};
-        data1[2][1] = {featuresInBwDk[2][1][0],featuresInBwDk[2][1][1],featuresInBwDk[2][1][2],featuresInBwDk[2][1][3],featuresInBwDk[2][1][4],featuresInBwDk[2][1][5],featuresInBwDk[2][1][6],featuresInBwDk[2][1][7]};
-        data1[2][2] = {featuresInBwDk[2][2][0],featuresInBwDk[2][2][1],featuresInBwDk[2][2][2],featuresInBwDk[2][2][3],featuresInBwDk[2][2][4],featuresInBwDk[2][2][5],featuresInBwDk[2][2][6],featuresInBwDk[2][2][7]};
+        data1[0][0] = featureInBWDK[0];
+        data1[0][1] = featureInBWDK[0];
+        data1[0][2] = featureInBWDK[0];
+        data1[1][0] = featureInBWDK[1];
+        data1[1][1] = featureInBWDK[1];
+        data1[1][2] = featureInBWDK[1];
+        data1[2][0] = featureInBWDK[2];
+        data1[2][1] = featureInBWDK[2];
+        data1[2][2] = featureInBWDK[2];
 
-        data2[0][0] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
-        data2[0][1] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
-        data2[0][2] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
-        data2[1][0] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
-        data2[1][1] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
-        data2[1][2] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
-        data2[2][0] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
-        data2[2][1] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
-        data2[2][2] = {dyBWDK[0],dyBWDK[1],dyBWDK[2],dyBWDK[3],dyBWDK[4],dyBWDK[5],dyBWDK[6],dyBWDK[7]};
+        data2[0][0] = dyBWDK_r[0];
+        data2[0][1] = dyBWDK_r[1];
+        data2[0][2] = dyBWDK_r[2];
+        data2[1][0] = dyBWDK_r[0];
+        data2[1][1] = dyBWDK_r[1];
+        data2[1][2] = dyBWDK_r[2];
+        data2[2][0] = dyBWDK_r[0];
+        data2[2][1] = dyBWDK_r[1];
+        data2[2][2] = dyBWDK_r[2];
 
         partialSumIn[0][0] = partialSumMAC_r[0][0];
         partialSumIn[0][1] = partialSumMAC_r[0][1];
@@ -247,7 +260,7 @@ always @ (* ) begin
 
         partialSumMACDadda = 0;
         featureOutValFW =0 ;
-        if ( (featureInRowAddrBWDK == featureOutActRowSize) && (featureInColumnAddrBWDK == 0) )begin
+        if ( (featureInRowAddrBWDK == featureOutActRowSize) && (featureInColumnAddrBWDK == featureOutActColumnSize) )begin
             valid = 1;
             dkBWDK[0][0] = partialSumMAC_r[0][0];
             dkBWDK[0][1] = partialSumMAC_r[0][1];
@@ -263,7 +276,7 @@ always @ (* ) begin
             valid = 0;
             dkBWDK = 0;
         end
-        if ( (featureInRowAddrBWDK == 0) && (featureInColumnAddrBWDK == 0) )begin
+        if ( (featureInRowAddrBWDK == 0) && (featureInColumnAddrBWDK == 0) )begin // TODO : dovrebbe resettare il registro solo con colonna == 0, a ogni giro.
             regRst = 1;
         end else begin
             regRst = 0;

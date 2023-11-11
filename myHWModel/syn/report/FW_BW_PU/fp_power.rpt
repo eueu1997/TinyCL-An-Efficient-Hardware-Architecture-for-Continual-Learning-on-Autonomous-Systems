@@ -1,0 +1,59 @@
+Loading db file '/software/dk/umc65/Core-lib_LL_Multi-Voltage_Reg.Vt/synopsys/uk65lscllmvbbr_120c25_tc.db'
+Information: Propagating switching activity (low effort zero delay simulation). (PWR-6)
+Warning: There is no defined clock in the design. (PWR-80)
+Warning: Design has unannotated primary inputs. (PWR-414)
+Warning: Design has unannotated sequential cell outputs. (PWR-415)
+Warning: Design has unannotated black box outputs. (PWR-428)
+ 
+****************************************
+Report : power
+        -analysis_effort low
+Design : FW_BW_PU
+Version: R-2020.09-SP2
+Date   : Sat Nov 11 10:12:58 2023
+****************************************
+
+
+Library(s) Used:
+
+    uk65lscllmvbbr_120c25_tc (File: /software/dk/umc65/Core-lib_LL_Multi-Voltage_Reg.Vt/synopsys/uk65lscllmvbbr_120c25_tc.db)
+
+
+Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
+Wire Load Model Mode: top
+
+Design        Wire Load Model            Library
+------------------------------------------------
+FW_BW_PU               wl0               uk65lscllmvbbr_120c25_tc
+
+
+Global Operating Voltage = 1.2  
+Power-specific unit information :
+    Voltage Units = 1V
+    Capacitance Units = 1.000000pf
+    Time Units = 1ns
+    Dynamic Power Units = 1mW    (derived from V,C,T units)
+    Leakage Power Units = 1pW
+
+
+  Cell Internal Power  =   4.2715 mW   (60%)
+  Net Switching Power  =   2.8326 mW   (40%)
+                         ---------
+Total Dynamic Power    =   7.1040 mW  (100%)
+
+Cell Leakage Power     =  27.8278 uW
+
+
+                 Internal         Switching           Leakage            Total
+Power Group      Power            Power               Power              Power   (   %    )  Attrs
+--------------------------------------------------------------------------------------------------
+io_pad             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
+black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
+clock_network      0.7919            0.5174        5.2788e+05            1.3098  (  18.36%)
+register           1.4816            0.0000        3.5218e+06            1.4851  (  20.82%)
+sequential         0.4009        4.1806e-04        6.8471e+05            0.4020  (   5.64%)
+combinational      1.5971            2.3148        2.3093e+07            3.9351  (  55.18%)
+--------------------------------------------------------------------------------------------------
+Total              4.2715 mW         2.8325 mW     2.7828e+07 pW         7.1319 mW
+1

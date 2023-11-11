@@ -1,63 +1,61 @@
 module tb_MAC;
 
-    // Define parameters
-    parameter int NBit = 16;
-    parameter int NBitOut = 20;
-    parameter int NOperands = 8;
+    // Define parameters for the module
+    parameter NBit = 16;
+    parameter NOperands = 8;
 
-    // Define signals
-    reg [0:(NOperands-1)][(NBit-1):0] tb_featureIn;
-    reg [0:(NOperands-1)][(NBit-1):0] tb_Kernel;
-    wire [(NBit-1):0] tb_featureOut;
+    // Define time scale and resolution
+    `timescale 1ns/1ps
 
-    // Instantiate the MAC module
-    MAC#(.NBit(NBit), .NBitOut(NBitOut), .NOperands(NOperands))
-        uut (
-            .featureIn(tb_featureIn),
-            .partialSumIn(16'h0000),
-            .Kernel(tb_Kernel),
-            .featureOut(tb_featureOut)
-        );
+    // Define signals for the testbench
+    reg select;
+    reg [0:(NOperands-1)][(NBit-1):0] featureIn;
+    reg [(NOperands*NBit-1):0] partialSumIn;
+    reg [0:(NOperands-1)][(NBit-1):0] Kernel;
+    reg [(NBit-1):0] featureOut;
+    reg [(NOperands*NBit-1):0] featureOutDk;
 
-    // Initialize inputs
+    // Instantiate the MAC# module
+    MAC# (NBit,  NOperands) uut (
+        .select(select),
+        .featureIn(featureIn),
+        .partialSumIn(partialSumIn),
+        .Kernel(Kernel),
+        .featureOut(featureOut),
+        .featureOutDk(featureOutDk)
+    );
+
+    // Clock generation
+    reg clk = 0;
+    always #5 clk = ~clk;
+
+    // Test vectors
     initial begin
-    
-        tb_featureIn[0] = 'h0033;
-        tb_featureIn[1] = 'h0001;
-        tb_featureIn[2] = 'h0009;
-        tb_featureIn[3] = 'h0031;
-        tb_featureIn[4] = 'h0029;
-        tb_featureIn[5] = 'hFFFB;
-        tb_featureIn[6] = 'h002D;
-        tb_featureIn[7] = 'h002B;
-        tb_Kernel[0] = 'hFF89;
-        tb_Kernel[1] = 'hFF46;
-        tb_Kernel[2] = 'hFF81;
-        tb_Kernel[3] = 'hFFEF;
-        tb_Kernel[4] = 'hFF3E;
-        tb_Kernel[5] = 'hFF20;
-        tb_Kernel[6] = 'hFFBF;
-        tb_Kernel[7] = 'h00F1;
+        // Initialize signals
+        select = 0;
+        Kernel = '{16'h1800, 16'h1800, 16'h1000, 16'h1000, 16'h1000, 16'h1000, 16'h1000, 16'h1000};
+        featureIn = '{16'h1800, 16'h2000, 16'h3000, 16'h4000, 16'h5000, 16'h6000, 16'h7000, 16'h8000};
+        partialSumIn[(1*NBit-1):0*NBit]=16'h1000;
+        partialSumIn[(2*NBit-1):1*NBit]=16'h1000;
+        partialSumIn[(3*NBit-1):2*NBit]=16'h1000;
+        partialSumIn[(4*NBit-1):3*NBit]=16'h1000;
+        partialSumIn[(5*NBit-1):4*NBit]=16'h1000;
+        partialSumIn[(6*NBit-1):5*NBit]=16'h1000;
+        partialSumIn[(7*NBit-1):6*NBit]=16'h1000;
+        partialSumIn[(8*NBit-1):7*NBit]=16'h1000;
+        // Test with select = 0
         #10
-        tb_featureIn[0] = 'h02A0;
-        tb_featureIn[1] = 'h0280;
-        tb_featureIn[2] = 'h0180;
-        tb_featureIn[3] = 'h0180;
-        tb_featureIn[4] = 'h0380;
-        tb_featureIn[5] = 'hFE00;
-        tb_featureIn[6] = 'h0110;
-        tb_featureIn[7] = 'h0110;
-        tb_Kernel[0] = 'h0230;
-        tb_Kernel[1] = 'h0230;
-        tb_Kernel[2] = 'h0230;
-        tb_Kernel[3] = 'h02C0;
-        tb_Kernel[4] = 'h02A0;
-        tb_Kernel[5] = 'h0220;
-        tb_Kernel[6] = 'h0220;
-        tb_Kernel[7] = 'h0220;
-  
+        select = 1;
+        Kernel = '{16'h1800, 16'h1800, 16'h1000, 16'h1000, 16'h1000, 16'h1000, 16'h1000, 16'h1000};
+        featureIn = '{16'h1800, 16'h2000, 16'h3000, 16'h4000, 16'h5000, 16'h6000, 16'h7000, 16'h8000};
+        partialSumIn[(1*NBit-1):0*NBit]=16'h1000;
+        partialSumIn[(2*NBit-1):1*NBit]=16'h1000;
+        partialSumIn[(3*NBit-1):2*NBit]=16'h1000;
+        partialSumIn[(4*NBit-1):3*NBit]=16'h1000;
+        partialSumIn[(5*NBit-1):4*NBit]=16'h1000;
+        partialSumIn[(6*NBit-1):5*NBit]=16'h1000;
+        partialSumIn[(7*NBit-1):6*NBit]=16'h1000;
+        partialSumIn[(8*NBit-1):7*NBit]=16'h1000;
     end
-
-    // Monitor outputs
-
 endmodule
+

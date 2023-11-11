@@ -10,7 +10,10 @@
 //   - WHILE APPLYING DK ( READ KERNEL,SUM TO DK AND WRITE BACK) THE COMPUTATIONS GO ON. SHALL BE STOPPED. WE CANNOT FETCH THIS BECAUSE THE VALUE TO
 //     ADD IS READY AT THE END .
 //   -  AT BEGINNING (FIRST PIXELS OF GDUMB), WHILE LOADING THE FIRST KERNELS, WE HAVE ALSO TO WAIT, BECAUSE IN GENERAL IT IS PREFETCHED
-
+// TODO : per qualche motivo se in DK metto valid a 1 quando indirizzi colonna e riga sono a 0, non va in load kernel. ad ora va il clock prim
+// quando sono a max row e max column
+//TODO : nel mac, fai tutti i calcoli a 32 bit, poi ritorna solo 16
+// TODO : oramai, avendo cambiato la DK, non ci serve piu leggere 8 pixel alal volta, basta che siano piu di 3 . potrebbe essere utile scendere a PORT_WIDHT = 4*16, cosi possiamo fare anche matrici 4x4
 
 // LA LETTURA DEI KERNEL SEMBRA CORRETTA ( NONOSTANZE LE LETTURE STRANE, ALLA FINE IL BLOCCO DI KERNEL SEMBRA GIUSTO) PERO A USA CHANNEL OUT = 1 ANZICHE CH OUT = 0
 // QUESTO è DOVUTO AL FATTO DI SOPRA, CHE PER FARE PREFETCH DEL KERNLE, AUMENTO DI 1 IL CH. NON VA FATTO QUANDO I CH IN CH OUT E LAYER SONO A 0
@@ -71,7 +74,7 @@ module NN #
     //LOCAL SIGNALS KERNEL LOAD
     reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)] kernelReadEn_r,kernelWriteEn_r;
     reg [0:(NLAYER-1)][0:(FEATURE_OUT_CH_SIZE[NLAYER-1]-1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1]-1)][(NBITS-1):0] kernelReadValues_r;
-    reg [(NBITS-1):0] kernelWriteValue_r;
+    reg [0:(FEATURE_OUT_CH_SIZE[NLAYER-1] -1)][0:(FEATURE_IN_CH_SIZE[NLAYER-1] -1)][(NBITS-1):0] kernelWriteValue_r;
     // KERNEL LOAD TO PU
     reg [0:(N_OF_MAC_ROWS*N_OF_MAC_CLMN-1)][(NBITS*N_OF_CH_READ-1):0] kernelValsFW;
     // flag saing kernel il ready to be loaded
@@ -97,11 +100,11 @@ module NN #
     reg [($clog2(FEATURE_OUT_ROW_SIZE[0]) -1):0] featureInRowAddrBWDK;
     reg [($clog2(FEATURE_OUT_COLUMN_SIZE[0]) -1):0] featureInColumnAddrBWDK;
     // 8 pixel used for dk calculation 
-    reg [0:(N_FEATURE_READ -1)][(NBITS-1):0] featureInBWDK;
-    reg [0:(N_FEATURE_READ -1)][(NBITS-1):0] dyBWDK;
+    reg [0:(KERNEL_SIZE-1)][(N_OF_CH_READ*NBITS-1):0] featureInBWDK;
+    reg [(N_OF_CH_READ*NBITS-1):0] dyBWDK;
     // dk output
-    reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS-1):0] dkBWDK;
-    reg [0:(KERNEL_SIZE * KERNEL_SIZE -1)][(NBITS-1):0] dk_r;
+    reg [0:(KERNEL_SIZE -1)][0:(KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] dkBWDK;
+    reg [0:(KERNEL_SIZE * KERNEL_SIZE -1)][(NBITS*N_OF_CH_READ-1):0] dk_r;
     // flag: is 1 when dkBWDK is valid and can be stored( used to modify kernels)
     reg valid;
     // DX SIGNALS 
@@ -275,7 +278,7 @@ always @ (*) begin
             end
         end else if ( bw == 1)begin
             // Also here iterate over all the 4 dimensions . Over them, move to DX
-            if((featureInChAddrBWDK == (FEATURE_IN_CH_SIZE[actLayer]-1)) && (featureOutChAddrBWDK == (FEATURE_OUT_CH_SIZE[actLayer]-1)) && (featureInRowAddrBWDK == (FEATURE_IN_ROW_SIZE[actLayer]-1)) && ((featureInColumnAddrBWDK+7) == (FEATURE_IN_COLUMN_SIZE[actLayer]-1))) begin
+            if(((featureInChAddrBWDK+7) == (FEATURE_IN_CH_SIZE[actLayer]-1)) && (featureOutChAddrBWDK == (FEATURE_OUT_CH_SIZE[actLayer]-1)) && (featureInRowAddrBWDK == (FEATURE_IN_ROW_SIZE[actLayer]-1)) && ((featureInColumnAddrBWDK+7) == (FEATURE_IN_COLUMN_SIZE[actLayer]-1))) begin
                 next_bw <= 2;
             end else begin
                 next_bw <= 1;
@@ -366,8 +369,8 @@ end
                 end
         
                 RUNNING : begin 
-                    if((valid == 1)) begin
-                        if((featureInChAddrBWDK == featureInActChSize) &&( featureOutChAddrBWDK == featureOutActChSize))begin
+                    if(valid == 1) begin
+                        if(((featureInChAddrBWDK+7) == featureInActChSize) &&( featureOutChAddrBWDK == featureOutActChSize))begin
                             next_state <= RUNNING;
                             next_kernelAddrRead <= 0;
                         end else begin
@@ -636,8 +639,14 @@ always @ (*) begin
         end else if( bw == 1) begin
             // If we are in Dk, the actual valid DK is summed and written back in SRAM
             kernelValsFW = 0;
-            kernelWriteValue_r = 4096;
-            //kernelWriteValue_r          =  dk_r[kernelAddrRead];
+            kernelWriteValue_r[temp_featureOutChAddrBWDK_r][temp_featureInChAddrBWDK_r]     =  dk_r[kernelAddrRead][(1*NBITS-1):(0*NBITS)];
+            kernelWriteValue_r[temp_featureOutChAddrBWDK_r][temp_featureInChAddrBWDK_r+1]   =  dk_r[kernelAddrRead][(2*NBITS-1):(1*NBITS)];
+            kernelWriteValue_r[temp_featureOutChAddrBWDK_r][temp_featureInChAddrBWDK_r+2]   =  dk_r[kernelAddrRead][(3*NBITS-1):(2*NBITS)];
+            kernelWriteValue_r[temp_featureOutChAddrBWDK_r][temp_featureInChAddrBWDK_r+3]   =  dk_r[kernelAddrRead][(4*NBITS-1):(3*NBITS)];
+            kernelWriteValue_r[temp_featureOutChAddrBWDK_r][temp_featureInChAddrBWDK_r+4]   =  dk_r[kernelAddrRead][(5*NBITS-1):(4*NBITS)];
+            kernelWriteValue_r[temp_featureOutChAddrBWDK_r][temp_featureInChAddrBWDK_r+5]   =  dk_r[kernelAddrRead][(6*NBITS-1):(5*NBITS)];
+            kernelWriteValue_r[temp_featureOutChAddrBWDK_r][temp_featureInChAddrBWDK_r+6]   =  dk_r[kernelAddrRead][(7*NBITS-1):(6*NBITS)];
+            kernelWriteValue_r[temp_featureOutChAddrBWDK_r][temp_featureInChAddrBWDK_r+7]   =  dk_r[kernelAddrRead][(8*NBITS-1):(7*NBITS)];
             kernelBWDX = 0;
         end else if ( bw == 2) begin
             // If we are in Dx, kernel is loaded as in forward. Is only chaned the PU port
@@ -713,19 +722,61 @@ always @ ( *) begin
     end else if ( bw == 1) begin
         for(int ii=0; ii<NLAYER; ii=ii+1)begin
             for (int jj=0; jj< FEATURE_OUT_CH_SIZE[NLAYER-1]; jj=jj+1)begin
-                for(int kk=0; kk < FEATURE_IN_CH_SIZE[NLAYER-1]; kk=kk+1)begin
+                for(int kk=0; kk < FEATURE_IN_CH_SIZE[NLAYER-1]; kk=kk+8)begin
                     if ( state_reg == LOAD_KERNEL )begin
                         // WHEN CALCULATION DK KERNEL IS READ AND WRITTEN BACK 
                         if((ii == (actLayer)) && (jj == (temp_featureOutChAddrBWDK_r)) && (kk == (temp_featureInChAddrBWDK_r)))begin
                             kernelWriteEn_r[ii][jj][kk] = 1;
-                            kernelReadEn_r[ii][jj][kk]   = 1;
+                            kernelWriteEn_r[ii][jj][kk+1] = 1;
+                            kernelWriteEn_r[ii][jj][kk+2] = 1;
+                            kernelWriteEn_r[ii][jj][kk+3] = 1;
+                            kernelWriteEn_r[ii][jj][kk+4] = 1;
+                            kernelWriteEn_r[ii][jj][kk+5] = 1;
+                            kernelWriteEn_r[ii][jj][kk+6] = 1;
+                            kernelWriteEn_r[ii][jj][kk+7] = 1;
+                            kernelReadEn_r[ii][jj][kk] = 1;
+                            kernelReadEn_r[ii][jj][kk+1] = 1;
+                            kernelReadEn_r[ii][jj][kk+2] = 1;
+                            kernelReadEn_r[ii][jj][kk+3] = 1;
+                            kernelReadEn_r[ii][jj][kk+4] = 1;
+                            kernelReadEn_r[ii][jj][kk+5] = 1;
+                            kernelReadEn_r[ii][jj][kk+6] = 1;
+                            kernelReadEn_r[ii][jj][kk+7] = 1;
                         end else begin
                             kernelWriteEn_r[ii][jj][kk] = 0;
-                            kernelReadEn_r[ii][jj][kk]   = 0;
+                            kernelWriteEn_r[ii][jj][kk+1] = 0;
+                            kernelWriteEn_r[ii][jj][kk+2] = 0;
+                            kernelWriteEn_r[ii][jj][kk+3] = 0;
+                            kernelWriteEn_r[ii][jj][kk+4] = 0;
+                            kernelWriteEn_r[ii][jj][kk+5] = 0;
+                            kernelWriteEn_r[ii][jj][kk+6] = 0;
+                            kernelWriteEn_r[ii][jj][kk+7] = 0;
+                            kernelReadEn_r[ii][jj][kk] = 0;
+                            kernelReadEn_r[ii][jj][kk+1] = 0;
+                            kernelReadEn_r[ii][jj][kk+2] = 0;
+                            kernelReadEn_r[ii][jj][kk+3] = 0;
+                            kernelReadEn_r[ii][jj][kk+4] = 0;
+                            kernelReadEn_r[ii][jj][kk+5] = 0;
+                            kernelReadEn_r[ii][jj][kk+6] = 0;
+                            kernelReadEn_r[ii][jj][kk+7] = 0;
                         end
                     end else begin
-                        kernelReadEn_r[ii][jj][kk]   = 0;
                         kernelWriteEn_r[ii][jj][kk] = 0;
+                            kernelWriteEn_r[ii][jj][kk+1] = 0;
+                            kernelWriteEn_r[ii][jj][kk+2] = 0;
+                            kernelWriteEn_r[ii][jj][kk+3] = 0;
+                            kernelWriteEn_r[ii][jj][kk+4] = 0;
+                            kernelWriteEn_r[ii][jj][kk+5] = 0;
+                            kernelWriteEn_r[ii][jj][kk+6] = 0;
+                            kernelWriteEn_r[ii][jj][kk+7] = 0;
+                            kernelReadEn_r[ii][jj][kk] = 0;
+                            kernelReadEn_r[ii][jj][kk+1] = 0;
+                            kernelReadEn_r[ii][jj][kk+2] = 0;
+                            kernelReadEn_r[ii][jj][kk+3] = 0;
+                            kernelReadEn_r[ii][jj][kk+4] = 0;
+                            kernelReadEn_r[ii][jj][kk+5] = 0;
+                            kernelReadEn_r[ii][jj][kk+6] = 0;
+                            kernelReadEn_r[ii][jj][kk+7] = 0;
                     end
                 end
             end
@@ -794,7 +845,7 @@ generate
                 .writeEn(kernelWriteEn_r[i][j][k]),
                 .readEn(kernelReadEn_r[i][j][k]),
                 .readValue(kernelReadValues_r[i][j][k]),
-                .writeValue(kernelWriteValue_r),
+                .writeValue(kernelWriteValue_r[i][j]),
                 .clk(clk),
                 .rst(rst));
             end
@@ -842,11 +893,36 @@ always @ ( * ) begin
         end
     end else if ( bw == 1) begin // if we are in BACKWARD PROPAGATION, DK CALCULATION READ ONE CHANNEL AT A TIME
         for(int ii=0; ii<NLAYER; ii=ii+1)begin
-            for (int jj=0; jj< FEATURE_IN_CH_SIZE[NLAYER-1]; jj=jj+1)begin
+            for (int jj=0; jj< FEATURE_IN_CH_SIZE[NLAYER-1]; jj=jj+8)begin
+                if(featureInColumnAddrBWDK[($clog2(N_FEATURE_READ)-1):0] > 4) begin
                 if((ii == actLayer) && (jj == featureInChAddrBWDK))begin // set to 1 the feature in enable according with the actual layer, channel out and channel in
                     featureInReadEn_r[ii][jj]   = 1;
-                end else begin 
+                    featureInReadEn_r[ii][jj+1] = 1;
+                    featureInReadEn_r[ii][jj+2] = 1;
+                    featureInReadEn_r[ii][jj+3] = 1;
+                    featureInReadEn_r[ii][jj+4] = 1;
+                    featureInReadEn_r[ii][jj+5] = 1;
+                    featureInReadEn_r[ii][jj+6] = 1;
+                    featureInReadEn_r[ii][jj+7] = 1;
+                    end else begin 
                     featureInReadEn_r[ii][jj]   = 0;
+                    featureInReadEn_r[ii][jj+1] = 0;
+                    featureInReadEn_r[ii][jj+2] = 0;
+                    featureInReadEn_r[ii][jj+3] = 0;
+                    featureInReadEn_r[ii][jj+4] = 0;
+                    featureInReadEn_r[ii][jj+5] = 0;
+                    featureInReadEn_r[ii][jj+6] = 0;
+                    featureInReadEn_r[ii][jj+7] = 0;
+                end
+                end else begin
+                    featureInReadEn_r[ii][jj]   = 0;
+                    featureInReadEn_r[ii][jj+1] = 0;
+                    featureInReadEn_r[ii][jj+2] = 0;
+                    featureInReadEn_r[ii][jj+3] = 0;
+                    featureInReadEn_r[ii][jj+4] = 0;
+                    featureInReadEn_r[ii][jj+5] = 0;
+                    featureInReadEn_r[ii][jj+6] = 0;
+                    featureInReadEn_r[ii][jj+7] = 0;
                 end
             end
         end
@@ -899,6 +975,44 @@ end
 // FEATURE IN PREFETCHING - BUFFER LOADING AND FEATURE IN ADDRESS ASSIGN. 
 always @(*)begin
     if(bw==0)begin
+        if((featureOutRowAddrFW == featureOutActRowSize)&&(featureOutColumnAddrFW < 3)) begin
+            if(featureOutColumnAddrFW == 2)begin // carichiamo primo pixel
+             // carica il valore della riga corrente ,l'indirizzo colonna è preso INTERO ( i primi 3 bit verranno tagliati quando mandati alla memoria). il +8 dice di prende la parola successiva
+            // Nel caso fossiamo a fine colonna, anziche aggiungere 8 all indirizzo colonna , aggiungiamo 1 a quello riga
+            featureInReadAddr_r <= 0  ;
+            next_featureInBufferOfReadValueFW[0][0] <= featureInReadValue_r[actLayer][0]; // save 8 channel of first row
+            next_featureInBufferOfReadValueFW[0][1] <= featureInReadValue_r[actLayer][0+1];
+            next_featureInBufferOfReadValueFW[0][2] <= featureInReadValue_r[actLayer][0+2];
+            next_featureInBufferOfReadValueFW[0][3] <= featureInReadValue_r[actLayer][0+3];
+            next_featureInBufferOfReadValueFW[0][4] <= featureInReadValue_r[actLayer][0+4];
+            next_featureInBufferOfReadValueFW[0][5] <= featureInReadValue_r[actLayer][0+5];
+            next_featureInBufferOfReadValueFW[0][6] <= featureInReadValue_r[actLayer][0+6];
+            next_featureInBufferOfReadValueFW[0][7] <= featureInReadValue_r[actLayer][0+7];
+            end else if(featureOutColumnAddrFW == 1)begin 
+            // SAve check as above. In this case we also sum 1 to row
+            featureInReadAddr_r <= (1 << ($clog2(FEATURE_OUT_COLUMN_SIZE[actLayer])));           
+            next_featureInBufferOfReadValueFW[1][0] <= featureInReadValue_r[actLayer][0]; // save 8 channel of second row
+            next_featureInBufferOfReadValueFW[1][1] <= featureInReadValue_r[actLayer][0+1];
+            next_featureInBufferOfReadValueFW[1][2] <= featureInReadValue_r[actLayer][0+2];
+            next_featureInBufferOfReadValueFW[1][3] <= featureInReadValue_r[actLayer][0+3];
+            next_featureInBufferOfReadValueFW[1][4] <= featureInReadValue_r[actLayer][0+4];
+            next_featureInBufferOfReadValueFW[1][5] <= featureInReadValue_r[actLayer][0+5];
+            next_featureInBufferOfReadValueFW[1][6] <= featureInReadValue_r[actLayer][0+6];
+            next_featureInBufferOfReadValueFW[1][7] <= featureInReadValue_r[actLayer][0+7];
+            end else if(featureOutColumnAddrFW == 0)begin 
+            // same reason as above
+            featureInReadAddr_r <=  (2 << ($clog2(FEATURE_OUT_COLUMN_SIZE[actLayer])));           
+            next_featureInBufferOfReadValueFW[2][0] <= featureInReadValue_r[actLayer][0]; // save 8 channel of third row
+            next_featureInBufferOfReadValueFW[2][1] <= featureInReadValue_r[actLayer][0+1];
+            next_featureInBufferOfReadValueFW[2][2] <= featureInReadValue_r[actLayer][0+2];
+            next_featureInBufferOfReadValueFW[2][3] <= featureInReadValue_r[actLayer][0+3];
+            next_featureInBufferOfReadValueFW[2][4] <= featureInReadValue_r[actLayer][0+4];
+            next_featureInBufferOfReadValueFW[2][5] <= featureInReadValue_r[actLayer][0+5];
+            next_featureInBufferOfReadValueFW[2][6] <= featureInReadValue_r[actLayer][0+6]; 
+            next_featureInBufferOfReadValueFW[2][7] <= featureInReadValue_r[actLayer][0+7];
+            end
+        end else begin
+
         if(((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 2)&&(featureOutRowAddrFW[0]==1))||((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 3)&&(featureOutRowAddrFW[0]==0))||(kernelAddrRead == 6))begin // carichiamo primo pixel
              // carica il valore della riga corrente ,l'indirizzo colonna è preso INTERO ( i primi 3 bit verranno tagliati quando mandati alla memoria). il +8 dice di prende la parola successiva
             // Nel caso fossiamo a fine colonna, anziche aggiungere 8 all indirizzo colonna , aggiungiamo 1 a quello riga
@@ -935,20 +1049,46 @@ always @(*)begin
             next_featureInBufferOfReadValueFW[2][7] <= featureInReadValue_r[NewFeatureLayerPreFetch][NewFeatureInChAddrPreFetch+7];
         end else begin
             featureInReadAddr_r <= 0; // default . 
-        end
-        
+        end  
+        end     
     end else if ( bw == 1) begin // if we are in bw
-        // no fetching of data, the data is read and used in the same cycle
-        featureInReadAddr_r = (featureInRowAddrBWDK << ($clog2(FEATURE_OUT_COLUMN_SIZE[actLayer])))+featureInColumnAddrBWDK;
-        // One channel only is read, assigned to featureInBWDK port of FW_BW_PU
-        featureInBWDK[0] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(1*NBITS-1):(0*NBITS)]; 
-        featureInBWDK[1] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(2*NBITS-1):(1*NBITS)]; 
-        featureInBWDK[2] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(3*NBITS-1):(2*NBITS)]; 
-        featureInBWDK[3] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(4*NBITS-1):(3*NBITS)]; 
-        featureInBWDK[4] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(5*NBITS-1):(4*NBITS)]; 
-        featureInBWDK[5] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(6*NBITS-1):(5*NBITS)]; 
-        featureInBWDK[6] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(7*NBITS-1):(6*NBITS)]; 
-        featureInBWDK[7] = featureInReadValue_r[actLayer][featureInChAddrBWDK][(8*NBITS-1):(7*NBITS)]; 
+        if(featureInColumnAddrBWDK[($clog2(N_FEATURE_READ)-1):0] == 5)begin // carichiamo primo pixel
+             // carica il valore della riga corrente ,l'indirizzo colonna è preso INTERO ( i primi 3 bit verranno tagliati quando mandati alla memoria). il +8 dice di prende la parola successiva
+            // Nel caso fossiamo a fine colonna, anziche aggiungere 8 all indirizzo colonna , aggiungiamo 1 a quello riga
+            featureInReadAddr_r <= (featureInRowAddrBWDK << ($clog2(FEATURE_OUT_COLUMN_SIZE[actLayer])))+featureInColumnAddrBWDK+3;   
+            next_featureInBufferOfReadValueFW[0][0] <= featureInReadValue_r[actLayer][featureInChAddrBWDK]; // save 8 channel of first row
+            next_featureInBufferOfReadValueFW[0][1] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+1];
+            next_featureInBufferOfReadValueFW[0][2] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+2];
+            next_featureInBufferOfReadValueFW[0][3] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+3];
+            next_featureInBufferOfReadValueFW[0][4] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+4];
+            next_featureInBufferOfReadValueFW[0][5] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+5];
+            next_featureInBufferOfReadValueFW[0][6] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+6];
+            next_featureInBufferOfReadValueFW[0][7] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+7];
+        end else if(featureInColumnAddrBWDK[($clog2(N_FEATURE_READ)-1):0] == 6)begin 
+            // SAve check as above. In this case we also sum 1 to row
+            featureInReadAddr_r <= ((featureInRowAddrBWDK+1) << ($clog2(FEATURE_OUT_COLUMN_SIZE[actLayer])))+featureInColumnAddrBWDK+2;           
+            next_featureInBufferOfReadValueFW[1][0] <= featureInReadValue_r[actLayer][featureInChAddrBWDK]; // save 8 channel of second row
+            next_featureInBufferOfReadValueFW[1][1] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+1];
+            next_featureInBufferOfReadValueFW[1][2] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+2];
+            next_featureInBufferOfReadValueFW[1][3] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+3];
+            next_featureInBufferOfReadValueFW[1][4] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+4];
+            next_featureInBufferOfReadValueFW[1][5] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+5];
+            next_featureInBufferOfReadValueFW[1][6] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+6];
+            next_featureInBufferOfReadValueFW[1][7] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+7];
+        end else if(featureInColumnAddrBWDK[($clog2(N_FEATURE_READ)-1):0] == 7)begin 
+            // same reason as above
+            featureInReadAddr_r <= ((featureInRowAddrBWDK+2) << ($clog2(FEATURE_OUT_COLUMN_SIZE[actLayer])))+featureInColumnAddrBWDK+1;           
+            next_featureInBufferOfReadValueFW[2][0] <= featureInReadValue_r[actLayer][featureInChAddrBWDK]; // save 8 channel of third row
+            next_featureInBufferOfReadValueFW[2][1] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+1];
+            next_featureInBufferOfReadValueFW[2][2] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+2];
+            next_featureInBufferOfReadValueFW[2][3] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+3];
+            next_featureInBufferOfReadValueFW[2][4] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+4];
+            next_featureInBufferOfReadValueFW[2][5] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+5];
+            next_featureInBufferOfReadValueFW[2][6] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+6]; 
+            next_featureInBufferOfReadValueFW[2][7] <= featureInReadValue_r[actLayer][featureInChAddrBWDK+7];
+        end else begin
+            featureInReadAddr_r <= 0; // default . 
+        end
     end 
 
 end
@@ -980,7 +1120,12 @@ always @ (*) begin
     if(((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 6)&&(featureOutRowAddrFW[0]==0))||((featureOutColumnAddrFW[($clog2(N_FEATURE_READ)-1):0] == 7)&&(featureOutRowAddrFW[0]==1))||((featureOutColumnAddrFW == 0)&&(featureOutRowAddrFW[0]==0)))begin // new 8 feature are loaded
         featureInBufferOfReadValueFW = next_featureInBufferOfReadValueFW;
     end
+    end else if (bw==1) begin
+    if(featureInColumnAddrBWDK[($clog2(N_FEATURE_READ)-1):0] == 0)begin // new 8 feature are loaded
+        featureInBufferOfReadValueFW = next_featureInBufferOfReadValueFW;
     end
+    end 
+
 end
 // Activation layer : module to apply activation to pixel 
 activation # (.act_rule(ACTIVATION)) activation (.input_value(featureOutValFW),.output_value(featureOutValFWActivated));
@@ -1093,6 +1238,73 @@ always @ (*)begin
     end 
 end
 
+// FEATURE IN BWDK
+always @(*)begin
+    if(bw == 1)begin
+    if(featureInRowAddrBWDK < (featureOutActRowSize-1))begin
+    featureInBWDK[0][(1*NBITS-1):0*NBITS] = featureInBufferOfReadValueFW[0][0][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; // channel 0, featureInColumnAddrBWDK-th feature of the buffer
+    featureInBWDK[0][(2*NBITS-1):1*NBITS] = featureInBufferOfReadValueFW[0][1][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; // channel 1
+    featureInBWDK[0][(3*NBITS-1):2*NBITS] = featureInBufferOfReadValueFW[0][2][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(4*NBITS-1):3*NBITS] = featureInBufferOfReadValueFW[0][3][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(5*NBITS-1):4*NBITS] = featureInBufferOfReadValueFW[0][4][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(6*NBITS-1):5*NBITS] = featureInBufferOfReadValueFW[0][5][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(7*NBITS-1):6*NBITS] = featureInBufferOfReadValueFW[0][6][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(8*NBITS-1):7*NBITS] = featureInBufferOfReadValueFW[0][7][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+
+    featureInBWDK[1][(1*NBITS-1):0*NBITS] = featureInBufferOfReadValueFW[1][0][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+    featureInBWDK[1][(2*NBITS-1):1*NBITS] = featureInBufferOfReadValueFW[1][1][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(3*NBITS-1):2*NBITS] = featureInBufferOfReadValueFW[1][2][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(4*NBITS-1):3*NBITS] = featureInBufferOfReadValueFW[1][3][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(5*NBITS-1):4*NBITS] = featureInBufferOfReadValueFW[1][4][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(6*NBITS-1):5*NBITS] = featureInBufferOfReadValueFW[1][5][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(7*NBITS-1):6*NBITS] = featureInBufferOfReadValueFW[1][6][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(8*NBITS-1):7*NBITS] = featureInBufferOfReadValueFW[1][7][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+
+    featureInBWDK[2][(1*NBITS-1):0*NBITS] = featureInBufferOfReadValueFW[2][0][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+    featureInBWDK[2][(2*NBITS-1):1*NBITS] = featureInBufferOfReadValueFW[2][1][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[2][(3*NBITS-1):2*NBITS] = featureInBufferOfReadValueFW[2][2][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[2][(4*NBITS-1):3*NBITS] = featureInBufferOfReadValueFW[2][3][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[2][(5*NBITS-1):4*NBITS] = featureInBufferOfReadValueFW[2][4][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[2][(6*NBITS-1):5*NBITS] = featureInBufferOfReadValueFW[2][5][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[2][(7*NBITS-1):6*NBITS] = featureInBufferOfReadValueFW[2][6][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[2][(8*NBITS-1):7*NBITS] = featureInBufferOfReadValueFW[2][7][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    end else if(featureInRowAddrBWDK == (featureOutActRowSize-1))begin
+    featureInBWDK[0][(1*NBITS-1):0*NBITS] = featureInBufferOfReadValueFW[0][0][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+    featureInBWDK[0][(2*NBITS-1):1*NBITS] = featureInBufferOfReadValueFW[0][1][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(3*NBITS-1):2*NBITS] = featureInBufferOfReadValueFW[0][2][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(4*NBITS-1):3*NBITS] = featureInBufferOfReadValueFW[0][3][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(5*NBITS-1):4*NBITS] = featureInBufferOfReadValueFW[0][4][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(6*NBITS-1):5*NBITS] = featureInBufferOfReadValueFW[0][5][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(7*NBITS-1):6*NBITS] = featureInBufferOfReadValueFW[0][6][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(8*NBITS-1):7*NBITS] = featureInBufferOfReadValueFW[0][7][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+
+    featureInBWDK[1][(1*NBITS-1):0*NBITS] = featureInBufferOfReadValueFW[1][0][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+    featureInBWDK[1][(2*NBITS-1):1*NBITS] = featureInBufferOfReadValueFW[1][1][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(3*NBITS-1):2*NBITS] = featureInBufferOfReadValueFW[1][2][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(4*NBITS-1):3*NBITS] = featureInBufferOfReadValueFW[1][3][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(5*NBITS-1):4*NBITS] = featureInBufferOfReadValueFW[1][4][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(6*NBITS-1):5*NBITS] = featureInBufferOfReadValueFW[1][5][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(7*NBITS-1):6*NBITS] = featureInBufferOfReadValueFW[1][6][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[1][(8*NBITS-1):7*NBITS] = featureInBufferOfReadValueFW[1][7][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+
+    featureInBWDK[2] = 0;
+
+    end else if(featureInRowAddrBWDK == featureOutActRowSize)begin
+    featureInBWDK[0][(1*NBITS-1):0*NBITS] = featureInBufferOfReadValueFW[0][0][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+    featureInBWDK[0][(2*NBITS-1):1*NBITS] = featureInBufferOfReadValueFW[0][1][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(3*NBITS-1):2*NBITS] = featureInBufferOfReadValueFW[0][2][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(4*NBITS-1):3*NBITS] = featureInBufferOfReadValueFW[0][3][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(5*NBITS-1):4*NBITS] = featureInBufferOfReadValueFW[0][4][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(6*NBITS-1):5*NBITS] = featureInBufferOfReadValueFW[0][5][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(7*NBITS-1):6*NBITS] = featureInBufferOfReadValueFW[0][6][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    featureInBWDK[0][(8*NBITS-1):7*NBITS] = featureInBufferOfReadValueFW[0][7][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+
+    featureInBWDK[1]  = 0;
+
+    featureInBWDK[2] = 0;
+    end
+    end
+end
 // FEATURE OUT WRITE ADDRESS COMPOSITION
 always @(*) begin
     if (featureOutRowAddrFW[0] == 0)begin
@@ -1155,11 +1367,36 @@ always @(*) begin
             gradientInReadEn_r[jj]=0;
         end 
     end else if ( bw == 1 ) begin // if dk calculation , read given dk channel
-        for ( int jj = 0; jj < FEATURE_OUT_CH_SIZE[0]; jj=jj+1)begin 
-            if(featureOutChAddrBWDK == jj)begin
-                gradientInReadEn_r[jj]=1;
+        for ( int jj = 0; jj < FEATURE_OUT_CH_SIZE[0]; jj=jj+8)begin 
+            if(featureInColumnAddrBWDK[2:0] == 0)begin
+                if(featureOutChAddrBWDK == jj)begin
+                        gradientInReadEn_r[jj]   = 1;
+                        gradientInReadEn_r[jj+1] = 1;
+                        gradientInReadEn_r[jj+2] = 1;
+                        gradientInReadEn_r[jj+3] = 1;
+                        gradientInReadEn_r[jj+4] = 1;
+                        gradientInReadEn_r[jj+5] = 1;
+                        gradientInReadEn_r[jj+6] = 1;
+                        gradientInReadEn_r[jj+7] = 1;
+                    end else begin 
+                        gradientInReadEn_r[jj]   = 0;
+                        gradientInReadEn_r[jj+1] = 0;
+                        gradientInReadEn_r[jj+2] = 0;
+                        gradientInReadEn_r[jj+3] = 0;
+                        gradientInReadEn_r[jj+4] = 0;
+                        gradientInReadEn_r[jj+5] = 0;
+                        gradientInReadEn_r[jj+6] = 0;
+                        gradientInReadEn_r[jj+7] = 0;    
+                    end
             end else begin
-                gradientInReadEn_r[jj]=0;       
+                gradientInReadEn_r[jj]   = 0;
+                gradientInReadEn_r[jj+1] = 0;
+                gradientInReadEn_r[jj+2] = 0;
+                gradientInReadEn_r[jj+3] = 0;
+                gradientInReadEn_r[jj+4] = 0;
+                gradientInReadEn_r[jj+5] = 0;
+                gradientInReadEn_r[jj+6] = 0;
+                gradientInReadEn_r[jj+7] = 0;    
             end
         end
     end else if ( bw == 2 ) begin // if dx, read of dx channel
@@ -1243,7 +1480,14 @@ always @(posedge clk)begin
 end
 // PU GRADIENT IN ASSIGN FOR DK CALCULATION
 always @(*)begin
-    dyBWDK = gradientInReadValue_r[featureOutChAddrBWDK];
+    dyBWDK[(1*NBITS-1):0*NBITS] = gradientInReadValue_r[0][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; // take NBITS of the featurep ixel given the actual column address
+    dyBWDK[(2*NBITS-1):1*NBITS] = gradientInReadValue_r[1][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    dyBWDK[(3*NBITS-1):2*NBITS] = gradientInReadValue_r[2][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    dyBWDK[(4*NBITS-1):3*NBITS] = gradientInReadValue_r[3][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    dyBWDK[(5*NBITS-1):4*NBITS] = gradientInReadValue_r[4][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    dyBWDK[(6*NBITS-1):5*NBITS] = gradientInReadValue_r[5][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    dyBWDK[(7*NBITS-1):6*NBITS] = gradientInReadValue_r[6][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
+    dyBWDK[(8*NBITS-1):7*NBITS] = gradientInReadValue_r[7][featureInColumnAddrBWDK[2:0]*NBITS+:NBITS]; 
 end
 
 // DK READ FROM PU
@@ -1282,7 +1526,7 @@ end
 
 always @ (*) begin
     if(bw == 1)begin 
-        gradientInReadAddr_r = featureInReadAddr_r;
+        gradientInReadAddr_r = (featureInRowAddrBWDK << ($clog2(FEATURE_OUT_COLUMN_SIZE[actLayer])))+featureInColumnAddrBWDK;;
     end 
 end
 // GRADIENT IN BUFFER FILLING  AND WRITE/READ ADDRESS ASSIGNATION

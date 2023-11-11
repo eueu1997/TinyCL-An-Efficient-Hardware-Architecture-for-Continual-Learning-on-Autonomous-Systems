@@ -264,9 +264,9 @@ if __name__ == '__main__':
         if(fakeValues == 1):
             for i in range(32):
                 for j in range(32):
-                    featureInExt[0][i][j] = j / 4096 
-                    featureInExt[1][i][j] = j / 4096 
-                    featureInExt[2][i][j] = j / 4096 
+                    featureInExt[0][i][j] = 1 / 4096 
+                    featureInExt[1][i][j] = 2*(j+i*32) / 4096 
+                    featureInExt[2][i][j] = 3*(j+i*32) / 4096 
                     featureInErrRel[i][j] = 2*((1/4096)/((i+j+1) / 4096 ))
         else:
             featureInExt[0:3] = feature.numpy()
@@ -299,14 +299,14 @@ if __name__ == '__main__':
             #dx = (np.random.rand(8,32,32))
             for i in range(32):
                 for j in range(32):
-                    dx[0][i][j] = j / 4096 
-                    dx[1][i][j] = j/ 4096
-                    dx[2][i][j] = j / 4096
-                    dx[3][i][j] = 0
-                    dx[4][i][j] = 0
+                    dx[0][i][j] =  1
+                    dx[1][i][j] =  0 
+                    dx[2][i][j] =  0
+                    dx[3][i][j] =  0
+                    dx[4][i][j] =  0
                     dx[5][i][j] = 0
-                    dx[6][i][j] = 0
-                    dx[7][i][j] = 0
+                    dx[6][i][j] =  0
+                    dx[7][i][j] =0
             
         pp = np.zeros((32,32))
         for i in range(32):

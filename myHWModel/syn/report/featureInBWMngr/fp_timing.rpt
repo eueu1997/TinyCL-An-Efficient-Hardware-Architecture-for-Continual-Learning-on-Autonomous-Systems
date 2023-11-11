@@ -1,0 +1,42 @@
+Information: Updating design information... (UID-85)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : featureInBWMngr
+Version: R-2020.09-SP2
+Date   : Wed Nov  1 19:05:20 2023
+****************************************
+
+Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
+Wire Load Model Mode: top
+
+  Startpoint: featureOutRowAddr[2]
+              (input port)
+  Endpoint: featuresInMngd[1][0][2][15]
+            (output port)
+  Path Group: (none)
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  featureInBWMngr    wl0                   uk65lscllmvbbr_120c25_tc
+
+  Point                                    Incr       Path
+  -----------------------------------------------------------
+  input external delay                     0.00       0.00 f
+  featureOutRowAddr[2] (in)                0.00       0.00 f
+  U854/Z (NR4M1R)                          0.14       0.14 r
+  U754/Z (OR2M1R)                          0.27       0.42 r
+  U430/Z (ND2B1M4R)                        0.32       0.74 f
+  U676/Z (AN2M1R)                          0.14       0.88 f
+  U675/Z (AO21M1RA)                        0.07       0.95 f
+  featuresInMngd[1][0][2][15] (out)        0.00       0.95 f
+  data arrival time                                   0.95
+  -----------------------------------------------------------
+  (Path is unconstrained)
+
+
+1
