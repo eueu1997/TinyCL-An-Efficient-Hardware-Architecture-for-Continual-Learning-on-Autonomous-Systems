@@ -183,6 +183,7 @@ generate
     for (i=0;i < N_OF_MAC_ROWS; i= i+1) begin 
         for(j=0;j < N_OF_MAC_CLMN; j= j+1)begin
             MAC MACij (
+            .clk(clk),
             .select(bw[0]),
             .featureIn(data1[i][j]),
             .partialSumIn(partialSumIn[i][j]),

@@ -59,13 +59,13 @@ module NN_tb;
 
         // Apply reset
         rst = 1;
-        #5;
+        #10;
         rst = 0;
 
 
         #245765;
         rst =1;
-        #5;
+        #10;
         rst =0;
         //$finish;
     end

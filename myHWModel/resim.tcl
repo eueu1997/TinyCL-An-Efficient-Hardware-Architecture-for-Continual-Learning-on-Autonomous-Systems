@@ -27,8 +27,9 @@ vsim -t ns -voptargs=+acc work.NN_tb
 #add wave -position insertpoint {sim:/NN_tb/uut/FW_BW_PU_i/genblk1[0]/genblk1[0]/MACij/*}
 add wave -position insertpoint sim:/NN_tb/uut/*
 add wave -position insertpoint sim:/NN_tb/uut/FW_BW_PU_i/*
+add wave -position insertpoint sim:/NN_tb/uut/FW_BW_PU_i/FWAM/*
 
-run 30000 ns
+run 245775 ns
 #quit
 #add wave -position insertpoint sim:/NN_tb/uut/*
 #add wave -position insertpoint sim:/NN_tb/uut/FW_BW_PU_i/*

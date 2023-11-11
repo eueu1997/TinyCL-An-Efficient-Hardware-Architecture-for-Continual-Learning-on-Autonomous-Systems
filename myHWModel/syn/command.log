@@ -1,6 +1,6 @@
 #@ # 
 #@ # Running dc_shell Version R-2020.09-SP2 for linux64 -- Dec 03, 2020
-#@ # Date:   Sat Nov 11 10:24:06 2023
+#@ # Date:   Sat Nov 11 12:19:31 2023
 #@ # Run by: eugenio.ressa@vlsi21.vlsilab
 #@ 
 
@@ -6727,3 +6727,14 @@ source -echo -verbose /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/resyn.bas
 #@ link
 #@ check_design > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/check_design.txt
 #@ compile 
+#@ report_clock > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_clock.rpt
+#@ report_timing > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_timing.rpt
+#@ report_power > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_power.rpt
+#@ report_area > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_area.rpt
+#@ report_resources > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_resources.rpt
+#@ ungroup -all -flatten
+#@ change_names -hierarchy -rules verilog
+#@ write_sdf /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.sdf
+#@ write -f verilog -hierarchy -output /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.v
+#@ write_sdc /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.sdc
+#@ quit

@@ -1,15 +1,15 @@
 // memory data file (do not edit the following line - required for mem load use)
 // instance=/NN_tb/uut/genblk1[0]/genblk1[7]/genblk1[6]/SRAMKijk/mem
 // format=hex addressradix=h dataradix=h version=1.0 wordsperline=1 noaddress
-xxxx
-xxxx
-xxxx
-xxxx
-xxxx
-xxxx
-xxxx
-xxxx
-xxxx
+f5e9
+071c
+fac3
+f1f1
+0e02
+0dc7
+0261
+f987
+0eb9
 xxxx
 xxxx
 xxxx

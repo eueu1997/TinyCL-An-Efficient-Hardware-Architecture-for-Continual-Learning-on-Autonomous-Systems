@@ -4,7 +4,7 @@ import torchvision
 import torchvision.transforms as transforms
 import time
 import os,subprocess
-fakeValues = 1
+fakeValues = 0
 def rotateMatrix(mat):
  
     # Simply print from
@@ -259,18 +259,14 @@ if __name__ == '__main__':
     trainLoader, testLoader = getLoader()
     for feature,labels in trainLoader:
         featureInExt = np.zeros((8,32,32))
-        featureInErrRel = np.zeros((32,32))
-        dxErrRel = np.zeros((32,32))
         if(fakeValues == 1):
             for i in range(32):
                 for j in range(32):
-                    featureInExt[0][i][j] = 1 / 4096 
+                    featureInExt[0][i][j] = (j+i*32) / 4096 
                     featureInExt[1][i][j] = 2*(j+i*32) / 4096 
-                    featureInExt[2][i][j] = 3*(j+i*32) / 4096 
-                    featureInErrRel[i][j] = 2*((1/4096)/((i+j+1) / 4096 ))
+                    featureInExt[2][i][j] = (j+i*32) / (4096*2) 
         else:
             featureInExt[0:3] = feature.numpy()
-        np.savetxt(f"/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureErrRel",featureInErrRel,fmt = '%s', delimiter='\n')
         f2 = np.vectorize(fxdPointCnv)
         # SAVE FEATURE INTO FILES 
         for i in range(3):
@@ -315,8 +311,6 @@ if __name__ == '__main__':
                 pp[i][j] = dx[0][i][j] *featureInExt[0][i][j]
                 
         np.savetxt(f"/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/pp",pp,fmt = '%s', delimiter='\n')
-        featureInErrAss = pp*featureInErrRel
-        print(np.sum(featureInErrAss))
         for i in range(8):
             fp = open(f"/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/gradients_in/{i}.txt","w")
             for j in range (32):
@@ -355,9 +349,9 @@ if __name__ == '__main__':
     for i in range (8):
         optiGradientOut[i] = converter(optiGradientOut[i],False)
         
-    diffFeature = ((optiFeatureOut - featureOut)/featureOut)*100
-    diffKernel = optiKernelOut - kernelOut
-    diffGradient = ((optiGradientOut - gradientOut)/(gradientOut+0.0000001))*100
+    diffFeature = ((optiFeatureOut - featureOut))/(1/4096)
+    diffKernel = optiKernelOut - kernelOut/(1/4096)
+    diffGradient = (optiGradientOut - gradientOut)/(1/4096)
     
     np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureOutOptiFeatureOut0.txt", fmt='%1.4f',X = optiFeatureOut[0])
     np.savetxt("/home/thesis/eugenio.ressa/Desktop/myHWModel/tb/files/featureOutFeatureOut0.txt", fmt='%1.4f',X = featureOut[1])

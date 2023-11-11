@@ -30,7 +30,7 @@ report_area > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChe
 report_resources > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_resources.rpt
 ungroup -all -flatten
 change_names -hierarchy -rules verilog
-write_sdf /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.sdf
-write -f verilog -hierarchy -output /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.v
-write_sdc /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.sdc
+#write_sdf /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.sdf
+#write -f verilog -hierarchy -output /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.v
+#write_sdc /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.sdc
 quit

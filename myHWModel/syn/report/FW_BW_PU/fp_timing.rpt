@@ -1,4 +1,4 @@
-Warning: Design 'FW_BW_PU' has '2' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Warning: Design 'FW_BW_PU' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
 Information: Updating design information... (UID-85)
 Warning: Design 'FW_BW_PU' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
  
@@ -9,7 +9,7 @@ Report : timing
         -max_paths 1
 Design : FW_BW_PU
 Version: R-2020.09-SP2
-Date   : Sat Nov 11 10:12:46 2023
+Date   : Sat Nov 11 12:35:57 2023
 ****************************************
 
  # A fanout number of 1000 was used for high fanout net computations.
@@ -17,9 +17,9 @@ Date   : Sat Nov 11 10:12:46 2023
 Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
 Wire Load Model Mode: top
 
-  Startpoint: BWDK/featureOutRow_reg[4]
+  Startpoint: AMBWDX/gradientOutRow_reg[0]
               (rising edge-triggered flip-flop clocked by MY_CLK)
-  Endpoint: BWDK/featureOutCh_reg[1]
+  Endpoint: genblk1[1].genblk1[0].MACij/Kernel_r_reg[0][11]
             (rising edge-triggered flip-flop clocked by MY_CLK)
   Path Group: MY_CLK
   Path Type: max
@@ -32,27 +32,34 @@ Wire Load Model Mode: top
   --------------------------------------------------------------------------
   clock MY_CLK (rise edge)                                0.00       0.00
   clock network delay (ideal)                             0.00       0.00
-  BWDK/featureOutRow_reg[4]/CK (DFQM8RA)                  0.00 #     0.00 r
-  BWDK/featureOutRow_reg[4]/Q (DFQM8RA)                   0.10       0.10 f
-  BWDK/U57/Z (CKXOR2M12RA)                                0.05       0.14 r
-  BWDK/U79/Z (NR4B1M2R)                                   0.09       0.23 r
-  BWDK/U76/Z (AN3M6R)                                     0.06       0.29 r
-  BWDK/U49/Z (ND2M4R)                                     0.03       0.32 f
-  BWDK/U40/Z (NR2M3R)                                     0.03       0.35 r
-  BWDK/U115/Z (MUX2M3RA)                                  0.05       0.40 r
-  BWDK/featureOutCh_reg[1]/D (DFQM2RA)                    0.00       0.40 r
-  data arrival time                                                  0.40
+  AMBWDX/gradientOutRow_reg[0]/CK (DFQM8RA)               0.00 #     0.00 r
+  AMBWDX/gradientOutRow_reg[0]/Q (DFQM8RA)                0.09       0.09 r
+  AMBWDX/gradientOutRowAddr[0] (AddrManagerBWDX)          0.00       0.09 r
+  KRBWDX/j (kernelRegistersBWDX)                          0.00       0.09 r
+  KRBWDX/U513/Z (INVM12R)                                 0.02       0.11 f
+  KRBWDX/U149/Z (ND3M6RA)                                 0.02       0.13 r
+  KRBWDX/U40/Z (BUFM6R)                                   0.07       0.21 r
+  KRBWDX/U545/Z (CKINVM12R)                               0.03       0.24 f
+  KRBWDX/U2280/Z (AOI22M2R)                               0.04       0.28 r
+  KRBWDX/U2281/Z (OAI221M2R)                              0.04       0.33 f
+  KRBWDX/kernelOut[1][0][11] (kernelRegistersBWDX)        0.00       0.33 f
+  U11698/Z (AO221M1RA)                                    0.11       0.44 f
+  genblk1[1].genblk1[0].MACij/Kernel[0][11] (MAC_6)       0.00       0.44 f
+  genblk1[1].genblk1[0].MACij/Kernel_r_reg[0][11]/D (DFQM1RA)
+                                                          0.00       0.44 f
+  data arrival time                                                  0.44
 
   clock MY_CLK (rise edge)                                0.00       0.00
   clock network delay (ideal)                             0.00       0.00
-  BWDK/featureOutCh_reg[1]/CK (DFQM2RA)                   0.00       0.00 r
-  library setup time                                     -0.01      -0.01
-  data required time                                                -0.01
+  genblk1[1].genblk1[0].MACij/Kernel_r_reg[0][11]/CK (DFQM1RA)
+                                                          0.00       0.00 r
+  library setup time                                      0.00       0.00
+  data required time                                                 0.00
   --------------------------------------------------------------------------
-  data required time                                                -0.01
-  data arrival time                                                 -0.40
+  data required time                                                 0.00
+  data arrival time                                                 -0.44
   --------------------------------------------------------------------------
-  slack (VIOLATED)                                                  -0.41
+  slack (VIOLATED)                                                  -0.44
 
 
 1
