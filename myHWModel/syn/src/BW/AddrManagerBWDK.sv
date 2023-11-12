@@ -15,10 +15,10 @@ module BWDKAddrManager #
     input [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] featureOutActRowSize,
     input [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] featureOutActColumnSize, 
     // address generated
-    output reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0]featureOutRowAddr,
-    output reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0]featureOutColumAddr,
-    output reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0]featureOutChAddr,NewFeatureOutChAddr,
-    output reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddr,NewFeatureInChAddr
+    output  [($clog2(FEATURE_OUT_ROW_SIZE)-1):0]featureOutRowAddr,
+    output  [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0]featureOutColumAddr,
+    output  [($clog2(FEATURE_OUT_CH_SIZE)-1):0]featureOutChAddr,
+    output  [($clog2(FEATURE_IN_CH_SIZE)-1):0] featureInChAddr
 );
 reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0] featureOutColum,NewFeatureOutColum;
 reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0] featureOutRow,NewFeatureOutRow;
@@ -104,6 +104,5 @@ assign featureInChAddr = featureInCh;
 assign featureOutRowAddr = featureOutRow;
 assign featureOutColumAddr = featureOutColum;
 assign featureOutChAddr = featureOutCh;
-assign NewFeatureOutChAddr = NewFeatureOutCh;
-assign NewFeatureInChAddr = NewFeatureInCh;
+
 endmodule

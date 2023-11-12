@@ -7,29 +7,27 @@ Report : timing
         -max_paths 1
 Design : test
 Version: R-2020.09-SP2
-Date   : Wed Nov  1 18:58:30 2023
+Date   : Sun Nov 12 10:40:10 2023
 ****************************************
 
-Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
+Operating Conditions: nom_pvt   Library: gtech
 Wire Load Model Mode: top
 
-  Startpoint: data_out_reg[15]
-              (rising edge-triggered flip-flop clocked by MY_CLK)
-  Endpoint: data_out[15]
-            (output port)
+  Startpoint: featureInColumnAddrBWDK[0]
+              (input port)
+  Endpoint: out (output port)
   Path Group: (none)
   Path Type: max
 
-  Des/Clust/Port     Wire Load Model       Library
-  ------------------------------------------------
-  test               wl0                   uk65lscllmvbbr_120c25_tc
-
   Point                                    Incr       Path
   -----------------------------------------------------------
-  data_out_reg[15]/CK (DFQZRM2RA)          0.00       0.00 r
-  data_out_reg[15]/Q (DFQZRM2RA)           0.10       0.10 f
-  data_out[15] (out)                       0.00       0.10 f
-  data arrival time                                   0.10
+  input external delay                     0.00       0.00 f
+  featureInColumnAddrBWDK[0] (in)          0.00       0.00 f
+  C13/Z (GTECH_OR2)                        0.00       0.00 f
+  I_0/Z (GTECH_NOT)                        0.00       0.00 r
+  B_0/Z (GTECH_BUF)                        0.00       0.00 r
+  out (out)                                0.00       0.00 r
+  data arrival time                                   0.00
   -----------------------------------------------------------
   (Path is unconstrained)
 

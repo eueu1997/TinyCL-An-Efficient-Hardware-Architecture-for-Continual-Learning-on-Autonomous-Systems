@@ -9,7 +9,7 @@ Report : power
         -analysis_effort low
 Design : MAC
 Version: R-2020.09-SP2
-Date   : Sat Nov 11 09:47:16 2023
+Date   : Sat Nov 11 17:00:56 2023
 ****************************************
 
 
@@ -35,12 +35,12 @@ Power-specific unit information :
     Leakage Power Units = 1pW
 
 
-  Cell Internal Power  =  83.2220 uW  (100%)
-  Net Switching Power  =   0.0000 mW    (0%)
+  Cell Internal Power  = 183.8184 uW   (70%)
+  Net Switching Power  =  80.5682 uW   (30%)
                          ---------
-Total Dynamic Power    =  83.2220 uW  (100%)
+Total Dynamic Power    = 264.3867 uW  (100%)
 
-Cell Leakage Power     =   2.4666 uW
+Cell Leakage Power     =   2.5996 uW
 
 
                  Internal         Switching           Leakage            Total
@@ -50,9 +50,9 @@ io_pad             0.0000            0.0000            0.0000            0.0000 
 memory             0.0000            0.0000            0.0000            0.0000  (   0.00%)
 black_box          0.0000            0.0000            0.0000            0.0000  (   0.00%)
 clock_network      0.0000            0.0000            0.0000            0.0000  (   0.00%)
-register       8.3222e-02            0.0000        1.5192e+05        8.3374e-02  (  97.30%)
+register       8.3222e-02            0.0000        1.5192e+05        8.3374e-02  (  31.23%)
 sequential         0.0000            0.0000            0.0000            0.0000  (   0.00%)
-combinational      0.0000            0.0000        2.3146e+06        2.3146e-03  (   2.70%)
+combinational      0.1006        8.0568e-02        2.4477e+06            0.1836  (  68.77%)
 --------------------------------------------------------------------------------------------------
-Total          8.3222e-02 mW         0.0000 mW     2.4666e+06 pW     8.5689e-02 mW
+Total              0.1838 mW     8.0568e-02 mW     2.5996e+06 pW         0.2670 mW
 1

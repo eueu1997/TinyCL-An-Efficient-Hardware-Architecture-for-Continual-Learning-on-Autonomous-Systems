@@ -4,26 +4,12 @@ Warning: Design 'FW_BW_PU' has '1' unresolved references. For more detailed info
 Report : resources
 Design : FW_BW_PU
 Version: R-2020.09-SP2
-Date   : Sat Nov 11 12:36:09 2023
+Date   : Sun Nov 12 10:44:07 2023
 ****************************************
 
-Resource Sharing Report for design FW_BW_PU in file
-        /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/src/FW_BW_PU.sv
 
-===============================================================================
-|          |              |            | Contained     |                      |
-| Resource | Module       | Parameters | Resources     | Contained Operations |
-===============================================================================
-| r315     | DW_cmp       | width=5    |               | eq_144               |
-| r317     | DW_cmp       | width=5    |               | eq_163               |
-| r319     | DW_cmp       | width=5    |               | eq_264               |
-| r321     | DW_cmp       | width=5    |               | eq_264_2             |
-| r886     | DW_mult_uns  | a_width=5  |               | mult_340             |
-|          |              | b_width=2  |               |                      |
-| r888     | DW_mult_uns  | a_width=5  |               | mult_340_2           |
-|          |              | b_width=2  |               |                      |
-===============================================================================
-
+Resource sharing reports are created during the compile command,
+so the design must be compiled before resource sharing can be reported.
 
 No implementations to report
 1

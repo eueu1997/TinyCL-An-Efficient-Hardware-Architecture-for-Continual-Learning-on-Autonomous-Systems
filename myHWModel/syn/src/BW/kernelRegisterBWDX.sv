@@ -6,13 +6,13 @@ module kernelRegistersBWDX #
 )
 (
     //kernel inp
-    input reg clk,
-    input reg rst,
-    input reg load,
+    input  clk,
+    input  rst,
+    input  load,
     input [1:0]stride,
     input j,k,
-    input var [0:(NKERNEL -1)][0:(NKERNEL -1)][(NCHANNELOUT*NBITS-1):0] kernelIn,
-    output reg [0:(NKERNEL -1)][0:(NKERNEL -1)][(NBITS*NCHANNELOUT-1):0] kernelOut
+    input  [0:(NKERNEL -1)][0:(NKERNEL -1)][(NCHANNELOUT*NBITS-1):0] kernelIn,
+    output reg  [0:(NKERNEL -1)][0:(NKERNEL -1)][(NBITS*NCHANNELOUT-1):0] kernelOut
 );
 
 reg [0:(NKERNEL -1)][0:(NKERNEL-1)][(NBITS*NCHANNELOUT-1):0]registers ;

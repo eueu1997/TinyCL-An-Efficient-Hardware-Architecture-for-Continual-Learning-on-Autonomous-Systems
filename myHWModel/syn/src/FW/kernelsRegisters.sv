@@ -6,11 +6,11 @@ module kernelRegisters #
 )
 (
     //kernel inp
-    input reg clk,
-    input reg rst,
-    input reg load,
-    input var [0:(nKernel -1)][0:(nKernel -1)][(nChannelIn*nBits-1):0] kernelIn,
-    output reg [0:(nKernel -1)][0:(nKernel -1)][(nBits*nChannelIn-1):0] kernelOut
+    input  clk,
+    input  rst,
+    input  load,
+    input  [0:(nKernel -1)][0:(nKernel -1)][(nChannelIn*nBits-1):0] kernelIn,
+    output  [0:(nKernel -1)][0:(nKernel -1)][(nBits*nChannelIn-1):0] kernelOut
 );
 
 reg [0:(nKernel -1)][0:(nKernel-1)][(nBits*nChannelIn-1):0]registers ;

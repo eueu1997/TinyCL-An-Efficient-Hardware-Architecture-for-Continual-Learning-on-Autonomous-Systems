@@ -1,5 +1,6 @@
 set power "preserve rtl hier names true"
 set designChecked "FW_BW_PU"
+#analyze -f sverilog -lib WORK /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/src/test.sv
 analyze -f sverilog -lib WORK /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/src/MAC/adder.sv
 analyze -f sverilog -lib WORK /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/src/activation/activation.sv
 analyze -f sverilog -lib WORK /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/src/MAC/multiplier.sv
@@ -18,18 +19,18 @@ analyze -f sverilog -lib WORK /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/s
 analyze -f sverilog -lib WORK /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/src/memory/SRAM.sv
 analyze -f sverilog -lib WORK /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/src/NN.sv
 elaborate $designChecked -lib WORK
-create_clock -name MY_CLK -period 0 clk
-set_dont_touch_network MY_CLK
-link
-check_design > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/check_design.txt
-compile 
-report_clock > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_clock.rpt
-report_timing > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_timing.rpt
-report_power > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_power.rpt
-report_area > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_area.rpt
-report_resources > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_resources.rpt
-ungroup -all -flatten
-change_names -hierarchy -rules verilog
+#create_clock -name MY_CLK -period 0 clk
+#set_dont_touch_network MY_CLK
+#link
+#check_design > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/check_design.txt
+#compile 
+#report_clock > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_clock.rpt
+#report_timing > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_timing.rpt
+#report_power > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_power.rpt
+#report_area > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_area.rpt
+#report_resources > /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/fp_resources.rpt
+#ungroup -all -flatten
+#change_names -hierarchy -rules verilog
 #write_sdf /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.sdf
 #write -f verilog -hierarchy -output /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.v
 #write_sdc /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/report/$designChecked/netlist/$designChecked.sdc

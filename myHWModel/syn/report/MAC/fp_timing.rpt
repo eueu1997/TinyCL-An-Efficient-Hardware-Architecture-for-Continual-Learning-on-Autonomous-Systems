@@ -7,13 +7,13 @@ Report : timing
         -max_paths 1
 Design : MAC
 Version: R-2020.09-SP2
-Date   : Sat Nov 11 09:47:13 2023
+Date   : Sat Nov 11 17:00:53 2023
 ****************************************
 
 Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
 Wire Load Model Mode: top
 
-  Startpoint: featureIn_r_reg[0][4]
+  Startpoint: featureIn_r_reg[4][4]
               (rising edge-triggered flip-flop clocked by MY_CLK)
   Endpoint: featureOut[15]
             (output port)
@@ -26,101 +26,104 @@ Wire Load Model Mode: top
 
   Point                                                   Incr       Path
   --------------------------------------------------------------------------
-  featureIn_r_reg[0][4]/CK (DFQM2RA)                      0.00       0.00 r
-  featureIn_r_reg[0][4]/Q (DFQM2RA)                       0.10       0.10 f
-  genblk1[0].Mi/num1[4] (fixed_multi_0)                   0.00       0.10 f
-  genblk1[0].Mi/U262/Z (INVM2R)                           0.07       0.17 r
-  genblk1[0].Mi/U213/Z (NR2M2R)                           0.04       0.21 f
-  genblk1[0].Mi/U292/Z (AN2M1R)                           0.07       0.28 f
-  genblk1[0].Mi/add_25_root_add_0_root_add_14_3/U1_1/CO (ADFM2RA)
+  featureIn_r_reg[4][4]/CK (DFQM2RA)                      0.00       0.00 r
+  featureIn_r_reg[4][4]/Q (DFQM2RA)                       0.10       0.10 f
+  genblk1[4].Mi/num1[4] (fixed_multi_4)                   0.00       0.10 f
+  genblk1[4].Mi/U262/Z (INVM2R)                           0.07       0.17 r
+  genblk1[4].Mi/U213/Z (NR2M2R)                           0.04       0.21 f
+  genblk1[4].Mi/U292/Z (AN2M1R)                           0.07       0.28 f
+  genblk1[4].Mi/add_25_root_add_0_root_add_14_3/U1_1/CO (ADFM2RA)
                                                           0.08       0.36 f
-  genblk1[0].Mi/add_25_root_add_0_root_add_14_3/U1_2/CO (ADFM2RA)
+  genblk1[4].Mi/add_25_root_add_0_root_add_14_3/U1_2/CO (ADFM2RA)
                                                           0.08       0.43 f
-  genblk1[0].Mi/add_25_root_add_0_root_add_14_3/U1_3/CO (ADFM2RA)
+  genblk1[4].Mi/add_25_root_add_0_root_add_14_3/U1_3/CO (ADFM2RA)
                                                           0.08       0.51 f
-  genblk1[0].Mi/add_25_root_add_0_root_add_14_3/U1_4/CO (ADFM2RA)
+  genblk1[4].Mi/add_25_root_add_0_root_add_14_3/U1_4/CO (ADFM2RA)
                                                           0.08       0.59 f
-  genblk1[0].Mi/add_25_root_add_0_root_add_14_3/U1_5/CO (ADFM2RA)
+  genblk1[4].Mi/add_25_root_add_0_root_add_14_3/U1_5/CO (ADFM2RA)
                                                           0.08       0.66 f
-  genblk1[0].Mi/add_25_root_add_0_root_add_14_3/U1_6/CO (ADFM2RA)
+  genblk1[4].Mi/add_25_root_add_0_root_add_14_3/U1_6/CO (ADFM2RA)
                                                           0.08       0.74 f
-  genblk1[0].Mi/add_25_root_add_0_root_add_14_3/U1_7/CO (ADFM2RA)
+  genblk1[4].Mi/add_25_root_add_0_root_add_14_3/U1_7/CO (ADFM2RA)
                                                           0.08       0.81 f
-  genblk1[0].Mi/add_25_root_add_0_root_add_14_3/U1_8/CO (ADFM2RA)
+  genblk1[4].Mi/add_25_root_add_0_root_add_14_3/U1_8/CO (ADFM2RA)
                                                           0.08       0.89 f
-  genblk1[0].Mi/add_25_root_add_0_root_add_14_3/U1_9/CO (ADFM2RA)
+  genblk1[4].Mi/add_25_root_add_0_root_add_14_3/U1_9/CO (ADFM2RA)
                                                           0.08       0.97 f
-  genblk1[0].Mi/U317/Z (AOI222M1RA)                       0.15       1.11 r
-  genblk1[0].Mi/U314/Z (OAI222M1RA)                       0.13       1.24 f
-  genblk1[0].Mi/U3/Z (XOR3M2RA)                           0.28       1.53 r
-  genblk1[0].Mi/add_7_root_add_0_root_add_14_3/A[12] (fixed_multi_0_DW01_add_24_DW01_add_32)
+  genblk1[4].Mi/U317/Z (AOI222M1RA)                       0.15       1.11 r
+  genblk1[4].Mi/U314/Z (OAI222M1RA)                       0.13       1.24 f
+  genblk1[4].Mi/U3/Z (XOR3M2RA)                           0.28       1.53 r
+  genblk1[4].Mi/add_7_root_add_0_root_add_14_3/A[12] (fixed_multi_4_DW01_add_24_DW01_add_156)
                                                           0.00       1.53 r
-  genblk1[0].Mi/add_7_root_add_0_root_add_14_3/U1_12/CO (ADFM2RA)
+  genblk1[4].Mi/add_7_root_add_0_root_add_14_3/U1_12/CO (ADFM2RA)
                                                           0.14       1.67 r
-  genblk1[0].Mi/add_7_root_add_0_root_add_14_3/U1_13/CO (ADFM2RA)
+  genblk1[4].Mi/add_7_root_add_0_root_add_14_3/U1_13/CO (ADFM2RA)
                                                           0.08       1.74 r
-  genblk1[0].Mi/add_7_root_add_0_root_add_14_3/U1_14/CO (ADFM2RA)
-                                                          0.08       1.82 r
-  genblk1[0].Mi/add_7_root_add_0_root_add_14_3/U1_15/CO (ADFM2RA)
-                                                          0.08       1.90 r
-  genblk1[0].Mi/add_7_root_add_0_root_add_14_3/U1_16/CO (ADFM2RA)
-                                                          0.08       1.98 r
-  genblk1[0].Mi/add_7_root_add_0_root_add_14_3/U1_17/S (ADFM2RA)
-                                                          0.13       2.11 f
-  genblk1[0].Mi/add_7_root_add_0_root_add_14_3/SUM[17] (fixed_multi_0_DW01_add_24_DW01_add_32)
-                                                          0.00       2.11 f
-  genblk1[0].Mi/add_2_root_add_0_root_add_14_3/B[17] (fixed_multi_0_DW01_add_2_DW01_add_10)
-                                                          0.00       2.11 f
-  genblk1[0].Mi/add_2_root_add_0_root_add_14_3/U1_17/CO (ADFM2RA)
-                                                          0.09       2.19 f
-  genblk1[0].Mi/add_2_root_add_0_root_add_14_3/U1_18/S (ADFM2RA)
-                                                          0.13       2.32 r
-  genblk1[0].Mi/add_2_root_add_0_root_add_14_3/SUM[18] (fixed_multi_0_DW01_add_2_DW01_add_10)
-                                                          0.00       2.32 r
-  genblk1[0].Mi/add_1_root_add_0_root_add_14_3/B[18] (fixed_multi_0_DW01_add_1_DW01_add_9)
-                                                          0.00       2.32 r
-  genblk1[0].Mi/add_1_root_add_0_root_add_14_3/U1_18/S (ADFM2RA)
-                                                          0.13       2.46 f
-  genblk1[0].Mi/add_1_root_add_0_root_add_14_3/SUM[18] (fixed_multi_0_DW01_add_1_DW01_add_9)
-                                                          0.00       2.46 f
-  genblk1[0].Mi/add_0_root_add_0_root_add_14_3/B[18] (fixed_multi_0_DW01_add_0_DW01_add_8)
-                                                          0.00       2.46 f
-  genblk1[0].Mi/add_0_root_add_0_root_add_14_3/U1_18/CO (ADFM2RA)
-                                                          0.09       2.54 f
-  genblk1[0].Mi/add_0_root_add_0_root_add_14_3/U1_19/S (ADFM2RA)
-                                                          0.13       2.67 r
-  genblk1[0].Mi/add_0_root_add_0_root_add_14_3/SUM[19] (fixed_multi_0_DW01_add_0_DW01_add_8)
-                                                          0.00       2.67 r
-  genblk1[0].Mi/result_full[19] (fixed_multi_0)           0.00       2.67 r
-  genblk1[0].Ai/num1[19] (fixed_add_NBit32_NBitOut32_0)
-                                                          0.00       2.67 r
-  genblk1[0].Ai/add_12/A[19] (fixed_add_NBit32_NBitOut32_0_DW01_add_0_DW01_add_7)
-                                                          0.00       2.67 r
-  genblk1[0].Ai/add_12/U1_19/S (ADFM2RA)                  0.13       2.81 f
-  genblk1[0].Ai/add_12/SUM[19] (fixed_add_NBit32_NBitOut32_0_DW01_add_0_DW01_add_7)
-                                                          0.00       2.81 f
-  genblk1[0].Ai/result[19] (fixed_add_NBit32_NBitOut32_0)
-                                                          0.00       2.81 f
-  genblk1[4].Ai/num1[19] (fixed_add_NBit32_NBitOut32_4)
-                                                          0.00       2.81 f
-  genblk1[4].Ai/add_12/A[19] (fixed_add_NBit32_NBitOut32_4_DW01_add_0_DW01_add_3)
-                                                          0.00       2.81 f
-  genblk1[4].Ai/add_12/U1_19/S (ADFM2RA)                  0.14       2.94 r
+  genblk1[4].Mi/add_7_root_add_0_root_add_14_3/U1_14/S (ADFM2RA)
+                                                          0.13       1.87 f
+  genblk1[4].Mi/add_7_root_add_0_root_add_14_3/SUM[14] (fixed_multi_4_DW01_add_24_DW01_add_156)
+                                                          0.00       1.87 f
+  genblk1[4].Mi/add_2_root_add_0_root_add_14_3/B[14] (fixed_multi_4_DW01_add_2_DW01_add_134)
+                                                          0.00       1.87 f
+  genblk1[4].Mi/add_2_root_add_0_root_add_14_3/U1_14/S (ADFM2RA)
+                                                          0.13       2.00 f
+  genblk1[4].Mi/add_2_root_add_0_root_add_14_3/SUM[14] (fixed_multi_4_DW01_add_2_DW01_add_134)
+                                                          0.00       2.00 f
+  genblk1[4].Mi/add_1_root_add_0_root_add_14_3/B[14] (fixed_multi_4_DW01_add_1_DW01_add_133)
+                                                          0.00       2.00 f
+  genblk1[4].Mi/add_1_root_add_0_root_add_14_3/U1_14/CO (ADFM2RA)
+                                                          0.09       2.09 f
+  genblk1[4].Mi/add_1_root_add_0_root_add_14_3/U1_15/S (ADFM2RA)
+                                                          0.13       2.21 r
+  genblk1[4].Mi/add_1_root_add_0_root_add_14_3/SUM[15] (fixed_multi_4_DW01_add_1_DW01_add_133)
+                                                          0.00       2.21 r
+  genblk1[4].Mi/add_0_root_add_0_root_add_14_3/B[15] (fixed_multi_4_DW01_add_0_DW01_add_132)
+                                                          0.00       2.21 r
+  genblk1[4].Mi/add_0_root_add_0_root_add_14_3/U1_15/S (ADFM2RA)
+                                                          0.12       2.34 f
+  genblk1[4].Mi/add_0_root_add_0_root_add_14_3/SUM[15] (fixed_multi_4_DW01_add_0_DW01_add_132)
+                                                          0.00       2.34 f
+  genblk1[4].Mi/result_full[15] (fixed_multi_4)           0.00       2.34 f
+  U927/Z (AO22M1RA)                                       0.11       2.45 f
+  genblk1[0].Ai/num2[15] (fixed_add_NBit32_NBitOut32_0)
+                                                          0.00       2.45 f
+  genblk1[0].Ai/add_12/B[15] (fixed_add_NBit32_NBitOut32_0_DW01_add_0_DW01_add_7)
+                                                          0.00       2.45 f
+  genblk1[0].Ai/add_12/U1_15/CO (ADFM2RA)                 0.09       2.54 f
+  genblk1[0].Ai/add_12/U1_16/S (ADFM2RA)                  0.11       2.66 r
+  genblk1[0].Ai/add_12/SUM[16] (fixed_add_NBit32_NBitOut32_0_DW01_add_0_DW01_add_7)
+                                                          0.00       2.66 r
+  genblk1[0].Ai/result[16] (fixed_add_NBit32_NBitOut32_0)
+                                                          0.00       2.66 r
+  U676/Z (INVM2R)                                         0.02       2.68 f
+  U848/Z (OAI22M2R)                                       0.07       2.74 r
+  genblk1[4].Ai/num1[16] (fixed_add_NBit32_NBitOut32_4)
+                                                          0.00       2.74 r
+  genblk1[4].Ai/add_12/A[16] (fixed_add_NBit32_NBitOut32_4_DW01_add_0_DW01_add_3)
+                                                          0.00       2.74 r
+  genblk1[4].Ai/add_12/U1_16/CO (ADFM2RA)                 0.10       2.84 r
+  genblk1[4].Ai/add_12/U1_17/CO (ADFM2RA)                 0.08       2.92 r
+  genblk1[4].Ai/add_12/U1_18/CO (ADFM2RA)                 0.08       2.99 r
+  genblk1[4].Ai/add_12/U1_19/S (ADFM2RA)                  0.12       3.11 f
   genblk1[4].Ai/add_12/SUM[19] (fixed_add_NBit32_NBitOut32_4_DW01_add_0_DW01_add_3)
-                                                          0.00       2.94 r
+                                                          0.00       3.11 f
   genblk1[4].Ai/result[19] (fixed_add_NBit32_NBitOut32_4)
-                                                          0.00       2.94 r
+                                                          0.00       3.11 f
+  U675/Z (INVM2R)                                         0.03       3.14 r
+  U1078/Z (OAI22M2R)                                      0.04       3.17 f
   genblk1[6].Ai/num1[19] (fixed_add_NBit32_NBitOut32_2)
-                                                          0.00       2.94 r
+                                                          0.00       3.17 f
   genblk1[6].Ai/add_12/A[19] (fixed_add_NBit32_NBitOut32_2_DW01_add_0_DW01_add_1)
-                                                          0.00       2.94 r
-  genblk1[6].Ai/add_12/U1_19/S (ADFM2RA)                  0.12       3.06 f
+                                                          0.00       3.17 f
+  genblk1[6].Ai/add_12/U1_19/Z (XOR3M2RA)                 0.16       3.33 r
   genblk1[6].Ai/add_12/SUM[19] (fixed_add_NBit32_NBitOut32_2_DW01_add_0_DW01_add_1)
-                                                          0.00       3.06 f
+                                                          0.00       3.33 r
   genblk1[6].Ai/result[19] (fixed_add_NBit32_NBitOut32_2)
-                                                          0.00       3.06 f
-  featureOut[15] (out)                                    0.00       3.06 f
-  data arrival time                                                  3.06
+                                                          0.00       3.33 r
+  U1076/Z (INVM2R)                                        0.02       3.35 f
+  U1116/Z (NR2M2R)                                        0.02       3.37 r
+  featureOut[15] (out)                                    0.00       3.37 r
+  data arrival time                                                  3.37
   --------------------------------------------------------------------------
   (Path is unconstrained)
 

@@ -10,7 +10,7 @@ module featureInBWMngr # (
 )
 (
     input  [0:(NFEATURE_READ-1)][(NBITS-1):0]featureIn,
-    output reg [0:(KERNEL_SIZE - 1)][0:(KERNEL_SIZE - 1)][0:(NFEATURE_READ-1)][(NBITS-1):0]featuresInMngd,
+    output  reg [0:(KERNEL_SIZE - 1)][0:(KERNEL_SIZE - 1)][0:(NFEATURE_READ-1)][(NBITS-1):0]featuresInMngd,
     // address generated
     input  [($clog2(FEATURE_OUT_ROW_SIZE)-1):0]featureOutRowAddr,
     input  [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0]featureOutColumAddr

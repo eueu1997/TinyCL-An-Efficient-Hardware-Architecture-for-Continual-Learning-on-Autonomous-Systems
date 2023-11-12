@@ -14,7 +14,7 @@ module featureRegisterBWDX #
     input  [(NBITS*NCHANNELOUT-1):0] gradientInP1,
     input  [(NBITS*NCHANNELOUT-1):0] gradientInP2,
     input  [(NBITS*NCHANNELOUT-1):0] gradientInP3,
-    output reg [0:2][0:2][(NBITS*NCHANNELOUT-1):0] gradientOut 
+    output  reg [0:2][0:2][(NBITS*NCHANNELOUT-1):0] gradientOut 
 );
 
 reg [0:2][0:2][(NBITS*NCHANNELOUT-1):0]registers ;

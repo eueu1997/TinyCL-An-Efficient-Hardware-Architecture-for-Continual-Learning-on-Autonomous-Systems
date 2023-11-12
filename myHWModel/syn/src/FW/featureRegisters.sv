@@ -12,7 +12,7 @@ module featureRegister #
     input  [(nBits*nChannelIn-1):0] featureInP1,
     input  [(nBits*nChannelIn-1):0] featureInP2,
     input  [(nBits*nChannelIn-1):0] featureInP3,
-    output reg [0:2][0:2][(nBits*nChannelIn-1):0] featureOut 
+    output  [0:2][0:2][(nBits*nChannelIn-1):0] featureOut 
 );
 
 reg [0:2][0:2][(nBits*nChannelIn-1):0]registers ;

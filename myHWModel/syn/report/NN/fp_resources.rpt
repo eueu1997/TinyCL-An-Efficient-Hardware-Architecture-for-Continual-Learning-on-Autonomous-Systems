@@ -1,0 +1,164 @@
+ 
+****************************************
+Report : resources
+Design : NN
+Version: R-2020.09-SP2
+Date   : Sat Nov 11 23:14:03 2023
+****************************************
+
+Resource Sharing Report for design NN in file
+        /home/thesis/eugenio.ressa/Desktop/myHWModel/syn/src/NN.sv
+
+===============================================================================
+|          |              |            | Contained     |                      |
+| Resource | Module       | Parameters | Resources     | Contained Operations |
+===============================================================================
+| r27612   | DW01_add     | width=5    |               | add_230 add_271      |
+| r27613   | DW_cmp       | width=32   |               | eq_230 eq_271_2      |
+| r27614   | DW_cmp       | width=32   |               | eq_230_2 eq_271_3    |
+| r27615   | DW_cmp       | width=32   |               | eq_230_3 eq_271_4    |
+| r27616   | DW01_inc     | width=2    |               | add_231 add_480      |
+|          |              |            |               | add_547              |
+| r27617   | DW01_add     | width=5    |               | add_241 add_285      |
+|          |              |            |               | add_543              |
+| r27618   | DW_cmp       | width=32   |               | eq_241 eq_285 eq_543 |
+| r27619   | DW_cmp       | width=32   |               | eq_241_2 eq_285_2    |
+|          |              |            |               | eq_545               |
+| r27620   | DW_cmp       | width=32   |               | eq_241_3 eq_285_3    |
+|          |              |            |               | eq_404_2 eq_570      |
+|          |              |            |               | eq_586               |
+| r27627   | DW01_inc     | width=4    |               | add_337 add_364      |
+|          |              |            |               | add_396              |
+| r27628   | DW_cmp       | width=5    |               | eq_342_2 eq_505      |
+|          |              |            |               | eq_521               |
+| r27631   | DW01_add     | width=4    |               | add_475 add_875      |
+| r27637   | DW01_inc     | width=5    |               | add_510 add_526      |
+| r27643   | DW01_inc     | width=5    |               | add_575 add_591      |
+| r27646   | DW01_inc     | width=3    |               | add_627 add_647      |
+|          |              |            |               | add_907 add_918      |
+|          |              |            |               | add_929              |
+| r27647   | DW01_add     | width=3    |               | add_628 add_648      |
+|          |              |            |               | add_908 add_919      |
+|          |              |            |               | add_930              |
+| r27648   | DW01_add     | width=3    |               | add_629 add_649      |
+|          |              |            |               | add_909 add_920      |
+|          |              |            |               | add_931              |
+| r27649   | DW01_add     | width=3    |               | add_630 add_650      |
+|          |              |            |               | add_910 add_921      |
+|          |              |            |               | add_932              |
+| r27650   | DW01_add     | width=3    |               | add_631 add_651      |
+|          |              |            |               | add_911 add_922      |
+|          |              |            |               | add_933              |
+| r27651   | DW01_add     | width=3    |               | add_632 add_652      |
+|          |              |            |               | add_912 add_923      |
+|          |              |            |               | add_934              |
+| r27652   | DW01_add     | width=3    |               | add_633 add_653      |
+|          |              |            |               | add_913 add_924      |
+|          |              |            |               | add_935              |
+| r27654   | DW01_add     | width=3    |               | add_1015 add_1016    |
+|          |              |            |               | add_1017 add_1018    |
+|          |              |            |               | add_1019 add_1020    |
+|          |              |            |               | add_1021 add_1022    |
+|          |              |            |               | add_1024 add_1025    |
+|          |              |            |               | add_1026 add_1027    |
+|          |              |            |               | add_1028 add_1029    |
+|          |              |            |               | add_1030 add_1031    |
+|          |              |            |               | add_1033 add_1034    |
+|          |              |            |               | add_1035 add_1036    |
+|          |              |            |               | add_1037 add_1038    |
+|          |              |            |               | add_1039 add_1040    |
+|          |              |            |               | add_1042 add_1043    |
+|          |              |            |               | add_1044 add_1045    |
+|          |              |            |               | add_1046 add_1047    |
+|          |              |            |               | add_1048 add_1049    |
+|          |              |            |               | add_811              |
+| r27656   | DW_cmp       | width=4    |               | gt_1166_2 gt_811_2   |
+| r27663   | DW01_add     | width=10   |               | add_1295 add_905     |
+| r27669   | DW_leftsh    | A_width=128 |              | sll_962 sll_968      |
+|          |              | SH_width=7 |               |                      |
+| r27672   | DW01_inc     | width=3    |               | add_1006 add_1007    |
+|          |              |            |               | add_1008 add_1009    |
+|          |              |            |               | add_1010 add_1011    |
+|          |              |            |               | add_1012 add_1013    |
+| r27682   | DW01_add     | width=3    |               | add_1166 add_1367    |
+|          |              |            |               | add_1368 add_1369    |
+|          |              |            |               | add_1370 add_1371    |
+|          |              |            |               | add_1372 add_1373    |
+|          |              |            |               | add_1374 add_1376    |
+|          |              |            |               | add_1377 add_1378    |
+|          |              |            |               | add_1379 add_1380    |
+|          |              |            |               | add_1381 add_1382    |
+|          |              |            |               | add_1383 add_1385    |
+|          |              |            |               | add_1386 add_1387    |
+|          |              |            |               | add_1388 add_1389    |
+|          |              |            |               | add_1390 add_1391    |
+|          |              |            |               | add_1392 add_1394    |
+|          |              |            |               | add_1395 add_1396    |
+|          |              |            |               | add_1397 add_1398    |
+|          |              |            |               | add_1399 add_1400    |
+|          |              |            |               | add_1401             |
+| r27684   | DW_leftsh    | A_width=128 |              | sll_1227 sll_1233    |
+|          |              | SH_width=7 |               |                      |
+| r27685   | DW_cmp       | width=32   |               | eq_1273 eq_1404      |
+| r27696   | DW01_inc     | width=3    |               | add_1358 add_1359    |
+|          |              |            |               | add_1360 add_1361    |
+|          |              |            |               | add_1362 add_1363    |
+|          |              |            |               | add_1364 add_1365    |
+| r27749   | DW01_sub     | width=2    |               | sub_247_aco          |
+| r27751   | DW_cmp       | width=32   |               | eq_278               |
+| r27753   | DW_cmp       | width=32   |               | eq_278_2             |
+| r27755   | DW_cmp       | width=32   |               | eq_278_3             |
+| r27757   | DW01_add     | width=6    |               | add_278              |
+| r27759   | DW_cmp       | width=32   |               | eq_278_4             |
+| r27761   | DW_cmp       | width=3    |               | eq_370               |
+| r27763   | DW_cmp       | width=3    |               | eq_370_2             |
+| r27765   | DW_cmp       | width=4    |               | eq_475               |
+| r27767   | DW_cmp       | width=3    |               | eq_477               |
+| r27769   | DW01_inc     | width=3    |               | add_483              |
+| r27771   | DW01_add     | width=6    |               | add_501              |
+| r27773   | DW_cmp       | width=6    |               | gt_501               |
+| r27775   | DW01_inc     | width=2    |               | add_514              |
+| r27777   | DW01_dec     | width=2    |               | sub_530              |
+| r27779   | DW01_inc     | width=3    |               | add_550              |
+| r27781   | DW01_add     | width=6    |               | add_566              |
+| r27783   | DW_cmp       | width=32   |               | gt_566               |
+| r27785   | DW01_inc     | width=2    |               | add_579              |
+| r27787   | DW01_dec     | width=2    |               | sub_595              |
+| r27789   | DW_cmp       | width=3    |               | lt_811               |
+| r27791   | DW_cmp       | width=3    |               | gt_811               |
+| r27793   | DW01_inc     | width=4    |               | add_869              |
+| r27795   | DW01_add     | width=4    |               | add_870              |
+| r27797   | DW01_add     | width=4    |               | add_871              |
+| r27799   | DW01_add     | width=4    |               | add_872              |
+| r27801   | DW01_add     | width=4    |               | add_873              |
+| r27803   | DW01_add     | width=4    |               | add_874              |
+| r27809   | DW01_add     | width=10   |               | add_942              |
+| r27811   | DW_cmp       | width=5    |               | eq_1052              |
+| r27813   | DW_cmp       | width=32   |               | gt_992               |
+| r27815   | DW_cmp       | width=32   |               | eq_1107              |
+| r27827   | DW01_add     | width=10   |               | add_1_root_add_1111_2 |
+| r27829   | DW_cmp       | width=3    |               | lt_1166              |
+| r27831   | DW_cmp       | width=3    |               | gt_1166              |
+| r27843   | DW01_add     | width=10   |               | add_1_root_add_1277_2 |
+| r27849   | DW_cmp       | width=32   |               | gt_1344              |
+| r28411   | DW01_add     | width=10   |               | add_1306_2 add_916_2 |
+| r28414   | DW01_inc     | width=5    |               | add_1306 add_916     |
+| r28977   | DW01_add     | width=10   |               | add_1317_2 add_927_2 |
+| r28980   | DW01_add     | width=5    |               | add_1317 add_927     |
+| r29551   | DW01_dec     | width=5    |               | sub_1101 sub_1109    |
+| r29553   | DW01_add     | width=10   |               | add_1101             |
+| r29555   | DW01_sub     | width=10   |               | sub_1_root_sub_0_root_sub_1109_2 |
+| r29557   | DW01_add     | width=10   |               | add_0_root_sub_0_root_sub_1109_2 |
+| r30119   | DW01_sub     | width=10   |               | sub_1_root_sub_0_root_sub_1104 |
+| r30121   | DW01_add     | width=10   |               | add_0_root_sub_0_root_sub_1104 |
+| r30692   | DW01_dec     | width=5    |               | sub_1267 sub_1275    |
+| r30694   | DW01_add     | width=10   |               | add_1267             |
+| r30696   | DW01_sub     | width=10   |               | sub_1_root_sub_0_root_sub_1275_2 |
+| r30698   | DW01_add     | width=10   |               | add_0_root_sub_0_root_sub_1275_2 |
+| r31260   | DW01_sub     | width=10   |               | sub_1_root_sub_0_root_sub_1270 |
+| r31262   | DW01_add     | width=10   |               | add_0_root_sub_0_root_sub_1270 |
+===============================================================================
+
+
+No implementations to report
+1

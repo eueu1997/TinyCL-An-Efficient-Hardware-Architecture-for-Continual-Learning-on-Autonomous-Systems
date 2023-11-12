@@ -3,28 +3,30 @@
 Report : area
 Design : test
 Version: R-2020.09-SP2
-Date   : Wed Nov  1 18:58:31 2023
+Date   : Sun Nov 12 10:40:10 2023
 ****************************************
 
 Library(s) Used:
 
-    uk65lscllmvbbr_120c25_tc (File: /software/dk/umc65/Core-lib_LL_Multi-Voltage_Reg.Vt/synopsys/uk65lscllmvbbr_120c25_tc.db)
+    gtech (File: /eda/synopsys/2020-21/RHELx86/SYN_2020.09-SP2/libraries/syn/gtech.db)
 
-Number of ports:                           34
-Number of nets:                            35
-Number of cells:                           17
-Number of combinational cells:              1
-Number of sequential cells:                16
+Number of ports:                            8
+Number of nets:                            11
+Number of cells:                            6
+Number of combinational cells:              6
+Number of sequential cells:                 0
 Number of macros/black boxes:               0
-Number of buf/inv:                          1
-Number of references:                       2
+Number of buf/inv:                          2
+Number of references:                       3
 
-Combinational area:                  1.080000
-Buf/Inv area:                        1.080000
-Noncombinational area:             115.199997
+Combinational area:                  0.000000
+Buf/Inv area:                        0.000000
+Noncombinational area:               0.000000
 Macro/Black Box area:                0.000000
-Net Interconnect area:      undefined  (Wire load has zero net area)
+Net Interconnect area:      undefined  (No wire load specified)
 
-Total cell area:                   116.279997
+Total cell area:                     0.000000
 Total area:                 undefined
+
+Information: This design contains unmapped logic. (RPT-7)
 1

@@ -3,28 +3,28 @@
 Report : area
 Design : MAC
 Version: R-2020.09-SP2
-Date   : Sat Nov 11 09:47:16 2023
+Date   : Sat Nov 11 17:00:56 2023
 ****************************************
 
 Library(s) Used:
 
     uk65lscllmvbbr_120c25_tc (File: /software/dk/umc65/Core-lib_LL_Multi-Voltage_Reg.Vt/synopsys/uk65lscllmvbbr_120c25_tc.db)
 
-Number of ports:                        13520
-Number of nets:                         23184
-Number of cells:                         8202
-Number of combinational cells:           7548
+Number of ports:                        13714
+Number of nets:                         24289
+Number of cells:                         8853
+Number of combinational cells:           8196
 Number of sequential cells:               256
 Number of macros/black boxes:               0
-Number of buf/inv:                        392
-Number of references:                      16
+Number of buf/inv:                        458
+Number of references:                      23
 
-Combinational area:              37604.879856
-Buf/Inv area:                      437.760017
+Combinational area:              39624.479893
+Buf/Inv area:                      509.040020
 Noncombinational area:            1751.040039
 Macro/Black Box area:                0.000000
 Net Interconnect area:      undefined  (Wire load has zero net area)
 
-Total cell area:                 39355.919895
+Total cell area:                 41375.519933
 Total area:                 undefined
 1

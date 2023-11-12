@@ -16,10 +16,10 @@ module AddrManagerBWDX #
     input [($clog2(FEATURE_OUT_ROW_SIZE) -1):0] gradientOutActRowSize,
     input [($clog2(FEATURE_OUT_COLUMN_SIZE) -1):0] gradientOutActColumnSize, 
     // address generated
-    output reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0]gradientOutRowAddr,
-    output reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0]gradientOutColumAddr,
-    output reg [($clog2(FEATURE_OUT_CH_SIZE)-1):0]gradientOutChAddr,NewGradientOutChAddr,
-    output reg [($clog2(FEATURE_IN_CH_SIZE)-1):0] gradientInChAddr,NewGradientInChAddr
+    output  [($clog2(FEATURE_OUT_ROW_SIZE)-1):0]gradientOutRowAddr,
+    output  [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0]gradientOutColumAddr,
+    output  [($clog2(FEATURE_OUT_CH_SIZE)-1):0]gradientOutChAddr,
+    output  [($clog2(FEATURE_IN_CH_SIZE)-1):0] gradientInChAddr
 );
 reg [($clog2(FEATURE_OUT_COLUMN_SIZE)-1):0] gradientOutColum,NewGradientOutColum;
 reg [($clog2(FEATURE_OUT_ROW_SIZE)-1):0] gradientOutRow,NewGradientOutRow;
@@ -112,7 +112,6 @@ assign gradientInChAddr = gradientInCh;
 assign gradientOutRowAddr = gradientOutRow;
 assign gradientOutColumAddr = gradientOutColum;
 assign gradientOutChAddr = gradientOutCh;
-assign NewGradientInChAddr = NewGradientInCh;
-assign NewGradientOutChAddr = NewGradientOutCh;
+
 
 endmodule
