@@ -1,5 +1,37 @@
 # myHWModel
 
+## Guida allo snapshot
+
+Workspace sperimentale di accelerazione convoluzionale: percorso forward (FW),
+gradiente dei pesi (DK) e gradiente degli input (DX), memorie e aritmetica
+fixed-point. Non e' un acceleratore GDumb completo certificato: il modulo
+`GDumb` e' sperimentale e non fa parte del flusso di simulazione principale.
+
+Guide locali dettagliate: [RTL](src/README.md), [testbench](tb/README.md),
+[sintesi](syn/README.md), [archivio](other%20files/README.md) e
+[libreria Questa](work/README.md). Ogni sottocartella documenta anche prodotti
+generati, input/output e limiti. La guida inglese originaria qui sotto resta
+come contesto; le precisazioni finali descrivono lo stato effettivo dei sorgenti.
+
+Per simulare occorrono Questa/ModelSim SystemVerilog e licenza valida; per la
+sintesi Design Compiler e librerie tecnologiche compatibili. WSL da solo non
+fornisce questi strumenti. Configurare installazione/licenza senza pubblicare
+credenziali, adattare i percorsi assoluti in script e SRAM e lavorare da questa
+directory. In una sessione Questa configurata, creare/mappare `work` se manca:
+
+```tcl
+vlib work
+vmap work work
+do resim_py.tcl
+```
+
+La ricetta batch esegue `NN_tb` per 245785 ns e termina il simulatore. Gli output
+sono transcript, waveform e dump di memoria; non sono automaticamente un
+resoconto pass/fail. Prima di rigenerarli conservare i risultati storici utili.
+Le directory `work` sono rigenerabili **con tool e sorgenti adeguati**, ma non
+vanno cancellate mentre Questa le usa. Non sono state eseguite simulazioni o
+sintesi durante questa documentazione.
+
 SystemVerilog hardware model + simulation + synthesis workspace.
 
 At a high level, this folder contains:
@@ -200,3 +232,30 @@ If you want this to run natively on Windows, the fastest path is usually:
 - Hardcoded Linux paths are pervasive (scripts + SRAM + some Python utilities).
 - `src/GDumb.sv` is not part of the default compile flow and appears experimental.
 - Some testbenches/utilities may be older than the current RTL and might require minor fixes if you try to run them.
+
+## Possibili bug e limiti rilevati
+
+- **RTL non unico:** `src` e `syn/src` differiscono in controllo, registri,
+  MAC e SRAM. Un report di sintesi non certifica l'RTL simulato corrente.
+- **Sintesi incompleta nello script:** [resin.tcl](syn/resin.tcl) seleziona
+  `FW_BW_PU` ed elabora; clock, link, compile, report ed export sono commentati.
+- **Parametrizzazione parziale:** MAC accede esplicitamente agli operandi 0..7,
+  usa sommatori a 32 bit e slice `[19:4]`; cambiare `NOperands`/`NBit` non rende
+  automaticamente coerente il circuito. Anche NN contiene dimensioni fisse.
+- **Clock e controllo:** NN genera `clk_stalled` con logica combinatoria; il
+  rischio di glitch/timing va verificato con vincoli e metodologia di clock
+  gating appropriati. I TODO del sorgente segnalano ancora stride, prefetch,
+  stall durante DK e derivata ReLU nel backward: non sono funzionalita' validate.
+- **SRAM:** default `MEMORY_TYPE="GDUMB_MEM"` non gestito dal modello, che
+  accetta `GDUMB`, `KERNEL`, `GRADIENT`, `FEATURE`; con default termina. Il reset
+  puo' scrivere dump prima di caricare la memoria, includendo stati sconosciuti.
+- **Cocotb:** [Makefile](tb/MAC/Makefile) riassegna tre volte `VERILOG_SOURCES`
+  anziche' accumulare i file. [test_MAC.py](tb/MAC/test_MAC.py) non confronta con
+  assert i risultati e crea liste con oggetti BinaryValue condivisi.
+- **Scale numeriche:** il test Cocotb usa scala 4096, mentre il MAC corrente
+  seleziona bit `[19:4]`; la convenzione fixed-point va riconciliata prima di
+  interpretare i confronti. Overflow e perdita di precisione non sono gestiti
+  come errori nel datapath letto.
+- Percorsi assoluti e durate fisse rendono i flussi dipendenti dall'ambiente e
+  dalla configurazione. Il solo exit del simulatore non prova il completamento
+  corretto di tutte le fasi. Rilievi statici; nessun esito EDA nuovo e' dichiarato.
