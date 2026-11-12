@@ -259,3 +259,165 @@ If you want this to run natively on Windows, the fastest path is usually:
 - Percorsi assoluti e durate fisse rendono i flussi dipendenti dall'ambiente e
   dalla configurazione. Il solo exit del simulatore non prova il completamento
   corretto di tutte le fasi. Rilievi statici; nessun esito EDA nuovo e' dichiarato.
+
+---
+
+## NN hierarchy syntax and compilation analysis (2026-11-11)
+
+### Verdict
+
+**The default NN hierarchy passes SystemVerilog parsing and elaboration, but it is not free of design problems.** Compilation errors were also confirmed when increasing `NLAYER` without supplying matching parameter arrays.
+
+Rather than only inspecting the text, an isolated **slang 12.1.0 compiler frontend** was installed to check [NN.sv](src/NN.sv), its dependencies, and [NN_tb.sv](tb/NN_tb.sv), using the source list from [resim.tcl](resim.tcl). **No RTL was modified.**
+
+This validates syntax, name resolution, parameter evaluation, port connections, and hierarchy elaboration. It **does not execute clock cycles or certify numerical correctness**, and it is not a Questa/ModelSim run. Earlier statements in this README about no new EDA results describe the documentation work preceding this analysis; this section records the subsequent slang checks only.
+
+#### Compilation results
+
+| Configuration | Errors | Result |
+|---|---:|---|
+| Default NN | **0** | Parses and elaborates; 369 non-error frontend diagnostics |
+| Default main testbench | **0** | Parses and elaborates; 374 non-error frontend diagnostics |
+| `NLAYER=2`, other parameters unchanged | **6** | Fails: parameter-array lengths do not match |
+| `NBITS=8` | **0** | Elaborates, but introduces serious port-width mismatches |
+| `N_FEATURE_READ=4`, `N_OF_CH_READ=4` | **0** | Elaborates with **152 out-of-bounds index** and **120 out-of-bounds range** diagnostics |
+
+The diagnostic counts are not counts of independent bugs: many are repeated width, signedness, and arithmetic warnings.
+
+### Hierarchy checked
+
+The elaborated default design contains:
+
+- One [FW_BW_PU](src/FW_BW_PU.sv#L1), containing:
+  - FW, DK, and DX address managers.
+  - Feature/kernel register banks and the gradient staging block.
+  - **9 MACs**, containing **72 multipliers and 72 adders** in total.
+  - **9 partial-sum registers** and one Dadda reduction block.
+- **80 SRAM instances** inside NN: 64 kernel, 8 feature, and 8 gradient memories.
+- One activation block.
+- The testbench adds **3 external GDumb SRAMs**.
+
+There were **no unresolved module names or invalid named-port connections** in the checked default hierarchy.
+
+### Important findings
+
+#### 1. Confirmed compilation failure with `NLAYER=2`
+
+At [NN.sv:30](src/NN.sv#L30), the six feature-size arrays have only one initializer element:
+
+```systemverilog
+parameter int FEATURE_IN_ROW_SIZE [0:(NLAYER-1)] = {32};
+```
+
+Changing only `NLAYER` to 2 produces:
+
+```text
+error: array concatenation for 'int$[2]' requires 2 elements
+       but 1 were provided
+```
+
+**Correction:** supply all six arrays with one value per layer, or use assignment-pattern defaults if identical layer sizes are intended:
+
+```systemverilog
+parameter int FEATURE_IN_ROW_SIZE [0:NLAYER-1] = '{default:32};
+```
+
+That resolves the initializer problem, not the other multi-layer limitations below.
+
+#### 2. Incorrect kernel SRAM write-data connection - high-confidence wiring bug
+
+At [NN.sv:848](src/NN.sv#L848):
+
+```systemverilog
+.writeValue(kernelWriteValue_r[i][j]),
+```
+
+Here, `i` is the **layer**, `j` is the **output channel**, and `k` is the **input channel**. However, the write buffer is declared as:
+
+```text
+kernelWriteValue_r[output_channel][input_channel]
+```
+
+The connection therefore selects the wrong dimensions and ignores `k`. With one layer, all input-channel SRAMs for a given output channel receive the same selected value.
+
+**The corresponding connection should be:**
+
+```systemverilog
+.writeValue(kernelWriteValue_r[j][k]),
+```
+
+This is legal syntax, so compilation does not catch it.
+
+#### 3. Kernel prefetch selects the next output channel even during initial loading
+
+At [NN.sv:484](src/NN.sv#L484), initial `LOAD_KERNEL` with the default channel addresses selects:
+
+```systemverilog
+NewFeatureOutChAddrPreFetch = featureOutChAddrFW + 1;
+```
+
+With input-channel address 0 and output-channel address 0, this prefetches **output-channel 1's kernels**, while the output address is still 0.
+
+Also, [NN.sv:481](src/NN.sv#L481) computes `actLayer + 1` without a last-layer guard. With `NLAYER=1`, layer index 1 is outside the kernel-memory layer range.
+
+**Initial loading and terminal-layer transitions need explicit handling.**
+
+#### 4. The advertised parameters do not propagate through the hierarchy
+
+Several child modules in [FW_BW_PU.sv:122](src/FW_BW_PU.sv#L122) and [FW_BW_PU.sv:185](src/FW_BW_PU.sv#L185) are instantiated with their defaults rather than the parent's parameters.
+
+Examples:
+
+- MACs remain **16-bit, 8-operand** blocks.
+- Partial-sum registers are explicitly **128 bits**.
+- Feature/kernel banks retain their default widths.
+- The activation instance at [NN.sv:1131](src/NN.sv#L1131) does not pass `NBITS`.
+
+The eight-bit check confirmed truncation and expansion across these ports. The four-lane check confirmed extensive illegal selections because much of the logic explicitly accesses lanes 0-7.
+
+**Current parameter declarations should not be interpreted as general configuration support.**
+
+#### 5. Procedural constructs need correction before synthesis sign-off
+
+| Location | Finding |
+|---|---|
+| [NN.sv:327](src/NN.sv#L327) | Next-state combinational logic is labeled `always_ff @(*)`. Slang accepts it, but it does not describe edge-triggered storage. Use an appropriate combinational process with complete assignments. |
+| [NN.sv:1527](src/NN.sv#L1527) | `gradientInReadAddr_r` is written by two separate combinational processes, with blocking assignments in one and nonblocking assignments in the other. Consolidate into one driver. |
+| [FW_BW_PU.sv:202](src/FW_BW_PU.sv#L202) | `regRst` is assigned only in DK mode, and `dxBWDX` is not assigned in the DK branch. These signals retain previous values. |
+| [NN.sv:1479](src/NN.sv#L1479) | `dk_r` retains data whenever `valid` is low. This is latch-style storage, not an edge-triggered capture. Verify that this is intentional. |
+
+These are **not reported as default compilation errors**; they are storage, scheduling, and synthesis concerns.
+
+#### 6. Combinational clock gating can create unintended edges
+
+At [NN.sv:208](src/NN.sv#L208), `clk_stalled` is generated combinationally from `clk` and `stall`.
+
+If `stall` changes while `clk` is high, this can create an additional edge or shorten a pulse. Nonblocking assignments add delta-cycle scheduling effects.
+
+**Prefer clock enables, or a proper glitch-free clock-gating structure.** Compilation alone cannot establish safe timing here.
+
+#### 7. SRAM file access prevents a portable Windows simulation
+
+[SRAM.sv:28](src/memory/SRAM.sv#L28) uses hardcoded Linux paths for `$readmemh` and `$writememh`.
+
+These are not syntax errors, but memory initialization will fail unless those paths resolve. Failed reads can leave memory unknown, and the model has no explicit reset assignment for `readValue`.
+
+#### 8. Single-layer counter width is legal but misleading
+
+At [NN.sv:136](src/NN.sv#L136), `NLAYER=1` creates:
+
+```systemverilog
+reg [0:-1] actLayer;
+```
+
+This is a **legal two-bit range**, not a zero-width signal. Use a guarded width such as `max(1, $clog2(NLAYER))` and prevent invalid layer values.
+
+### Saved compiler evidence
+
+The following logs are session-local evidence outside the repository. Their links are specific to the machine where this analysis was performed and are not portable repository resources.
+
+- [Default NN diagnostics](file:///C:/Users/Ressa/.copilot/session-state/af61486e-1985-4990-8cc3-6116fd7aa007/files/NN-diagnostics.txt)
+- [Main testbench diagnostics](file:///C:/Users/Ressa/.copilot/session-state/af61486e-1985-4990-8cc3-6116fd7aa007/files/NN_tb-diagnostics.txt)
+- [Confirmed two-layer compilation errors](file:///C:/Users/Ressa/.copilot/session-state/af61486e-1985-4990-8cc3-6116fd7aa007/files/NN-nlayer2-diagnostics.txt)
+
+**Bottom line:** the default hierarchy is syntactically elaboratable with slang, but the kernel write connection and prefetch selection require attention before trusting results. Parameter overrides, inferred storage, clock gating, and file initialization also prevent a functional or synthesis "clean bill of health."
