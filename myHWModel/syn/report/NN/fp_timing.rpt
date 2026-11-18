@@ -1,5 +1,6 @@
+Warning: Design 'NN' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
 Information: Updating design information... (UID-85)
-Warning: Design 'NN' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Warning: Design 'NN' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
  
 ****************************************
 Report : timing
@@ -8,7 +9,7 @@ Report : timing
         -max_paths 1
 Design : NN
 Version: R-2020.09-SP2
-Date   : Sat Nov 11 23:11:58 2023
+Date   : Mon Nov 20 13:56:51 2023
 ****************************************
 
  # A fanout number of 1000 was used for high fanout net computations.
@@ -16,9 +17,10 @@ Date   : Sat Nov 11 23:11:58 2023
 Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
 Wire Load Model Mode: top
 
-  Startpoint: bw_reg[0] (rising edge-triggered flip-flop clocked by MY_CLK)
-  Endpoint: genblk2[0].genblk1[7].SRAMFij/mem_reg[120][0]
-            (falling edge-triggered flip-flop clocked by MY_CLK)
+  Startpoint: FW_BW_PU_i/genblk1[1].genblk1[1].MACij/Kernel_r_reg[1][5]
+              (rising edge-triggered flip-flop clocked by MY_CLK)
+  Endpoint: writeBuffer_reg[52]
+            (rising edge-triggered flip-flop clocked by MY_CLK)
   Path Group: MY_CLK
   Path Type: max
 
@@ -30,35 +32,161 @@ Wire Load Model Mode: top
   --------------------------------------------------------------------------
   clock MY_CLK (rise edge)                                0.00       0.00
   clock network delay (ideal)                             0.00       0.00
-  bw_reg[0]/CK (DFQM8RA)                                  0.00 #     0.00 r
-  bw_reg[0]/Q (DFQM8RA)                                   0.10       0.10 f
-  U25319/Z (CKINVM12R)                                    0.02       0.12 r
-  U25477/Z (ND2M2R)                                       0.03       0.15 f
-  U25369/Z (CKINVM6R)                                     0.03       0.17 r
-  U25371/Z (AN4M4RA)                                      0.07       0.24 r
-  genblk2[0].genblk1[7].SRAMFij/writeEn (SRAM_PORT_WIDTH128_MEMORY_WIDHT128_CHANNEL_IN0_CHANNEL_OUT7)
-                                                          0.00       0.24 r
-  genblk2[0].genblk1[7].SRAMFij/U75/Z (AN2M6R)            0.06       0.30 r
-  genblk2[0].genblk1[7].SRAMFij/U469/Z (AN2M16RA)         0.06       0.36 r
-  genblk2[0].genblk1[7].SRAMFij/U3443/Z (AN2M2R)          0.07       0.42 r
-  genblk2[0].genblk1[7].SRAMFij/U3308/Z (BUFM2R)          0.05       0.47 r
-  genblk2[0].genblk1[7].SRAMFij/U581/Z (BUFM3R)           0.09       0.56 r
-  genblk2[0].genblk1[7].SRAMFij/U32597/Z (MXB2M1RA)       0.03       0.59 f
-  genblk2[0].genblk1[7].SRAMFij/mem_reg[120][0]/D (DFCM1RA)
-                                                          0.00       0.59 f
-  data arrival time                                                  0.59
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/Kernel_r_reg[1][5]/CK (DFQM2RA)
+                                                          0.00 #     0.00 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/Kernel_r_reg[1][5]/Q (DFQM2RA)
+                                                          0.15       0.15 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/num2[5] (fixed_multi_39)
+                                                          0.00       0.15 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/U384/Z (AN2M2R)
+                                                          0.08       0.22 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/U466/Z (ND2M2R)
+                                                          0.03       0.26 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/U297/Z (XNR3M1R)
+                                                          0.15       0.41 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_5_root_add_0_root_add_14_3/A[1] (fixed_multi_39_DW01_add_65)
+                                                          0.00       0.41 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_5_root_add_0_root_add_14_3/U219/Z (NR2M2R)
+                                                          0.05       0.45 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_5_root_add_0_root_add_14_3/U174/Z (ND2B1M1R)
+                                                          0.05       0.50 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_5_root_add_0_root_add_14_3/U140/Z (XOR2M2RA)
+                                                          0.06       0.57 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_5_root_add_0_root_add_14_3/SUM[1] (fixed_multi_39_DW01_add_65)
+                                                          0.00       0.57 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_3_root_add_0_root_add_14_3/B[1] (fixed_multi_39_DW01_add_49)
+                                                          0.00       0.57 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_3_root_add_0_root_add_14_3/U230/Z (NR2M2R)
+                                                          0.04       0.60 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_3_root_add_0_root_add_14_3/U172/Z (ND2B1M1R)
+                                                          0.05       0.65 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_3_root_add_0_root_add_14_3/U138/Z (XOR2M2RA)
+                                                          0.06       0.72 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_3_root_add_0_root_add_14_3/SUM[1] (fixed_multi_39_DW01_add_49)
+                                                          0.00       0.72 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_0_root_add_0_root_add_14_3/A[1] (fixed_multi_39_DW01_add_62)
+                                                          0.00       0.72 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_0_root_add_0_root_add_14_3/U259/Z (NR2M2R)
+                                                          0.04       0.75 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_0_root_add_0_root_add_14_3/U213/Z (ND2B1M1R)
+                                                          0.05       0.80 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_0_root_add_0_root_add_14_3/U153/Z (XOR2M2RA)
+                                                          0.07       0.87 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/add_0_root_add_0_root_add_14_3/SUM[1] (fixed_multi_39_DW01_add_62)
+                                                          0.00       0.87 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Mi/result_full[1] (fixed_multi_39)
+                                                          0.00       0.87 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Ai/num1[1] (fixed_add_NBit32_NBitOut32_39)
+                                                          0.00       0.87 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Ai/add_12/A[1] (fixed_add_NBit32_NBitOut32_39_DW01_add_5)
+                                                          0.00       0.87 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Ai/add_12/U160/Z (NR2M4R)
+                                                          0.04       0.91 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Ai/add_12/U191/Z (ND2B1M1R)
+                                                          0.05       0.96 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Ai/add_12/U144/Z (XOR2M2RA)
+                                                          0.05       1.00 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Ai/add_12/SUM[1] (fixed_add_NBit32_NBitOut32_39_DW01_add_5)
+                                                          0.00       1.00 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[1].Ai/result[1] (fixed_add_NBit32_NBitOut32_39)
+                                                          0.00       1.00 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/U56/Z (OAI22B20M2R)
+                                                          0.08       1.08 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[5].Ai/num1[1] (fixed_add_NBit32_NBitOut32_35)
+                                                          0.00       1.08 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[5].Ai/add_12/A[1] (fixed_add_NBit32_NBitOut32_35_DW01_add_0_DW01_add_74)
+                                                          0.00       1.08 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[5].Ai/add_12/U1_1/CO (ADFM2RA)
+                                                          0.10       1.17 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[5].Ai/add_12/U1_2/CO (ADFM2RA)
+                                                          0.08       1.25 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[5].Ai/add_12/U1_3/S (ADFM2RA)
+                                                          0.11       1.36 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[5].Ai/add_12/SUM[3] (fixed_add_NBit32_NBitOut32_35_DW01_add_0_DW01_add_74)
+                                                          0.00       1.36 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[5].Ai/result[3] (fixed_add_NBit32_NBitOut32_35)
+                                                          0.00       1.36 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/U528/Z (AO22M1RA)
+                                                          0.11       1.47 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/num2[3] (fixed_add_NBit32_NBitOut32_34)
+                                                          0.00       1.47 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/B[3] (fixed_add_NBit32_NBitOut32_34_DW01_add_3)
+                                                          0.00       1.47 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U30/CO (ADFM2RA)
+                                                          0.09       1.56 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U38/CO (ADFM2RA)
+                                                          0.08       1.63 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U28/CO (ADFM2RA)
+                                                          0.08       1.71 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U40/CO (ADFM2RA)
+                                                          0.08       1.79 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U37/CO (ADFM2RA)
+                                                          0.08       1.86 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U25/CO (ADFM2RA)
+                                                          0.08       1.94 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U24/CO (ADFM2RA)
+                                                          0.08       2.01 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U23/CO (ADFM2RA)
+                                                          0.08       2.09 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U22/CO (ADFM2RA)
+                                                          0.08       2.17 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U39/CO (ADFM2RA)
+                                                          0.08       2.24 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U20/CO (ADFM2RA)
+                                                          0.08       2.32 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/U19/S (ADFM2RA)
+                                                          0.11       2.43 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/add_12/SUM[14] (fixed_add_NBit32_NBitOut32_34_DW01_add_3)
+                                                          0.00       2.43 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/genblk1[6].Ai/result[14] (fixed_add_NBit32_NBitOut32_34)
+                                                          0.00       2.43 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/U467/Z (INVM2R)
+                                                          0.02       2.45 f
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/U6/Z (NR2M3R)
+                                                          0.02       2.48 r
+  FW_BW_PU_i/genblk1[1].genblk1[1].MACij/featureOut[10] (MAC_5)
+                                                          0.00       2.48 r
+  FW_BW_PU_i/U14/Z (CKAN2M3R)                             0.08       2.56 r
+  FW_BW_PU_i/DD/DataIn[4][10] (dadda_top)                 0.00       2.56 r
+  FW_BW_PU_i/DD/U111/Z (XOR4M2RA)                         0.14       2.70 r
+  FW_BW_PU_i/DD/U104/Z (XOR4M2RA)                         0.14       2.83 f
+  FW_BW_PU_i/DD/U441/Z (XOR2M2RA)                         0.07       2.90 r
+  FW_BW_PU_i/DD/U25/Z (INVM2R)                            0.02       2.93 f
+  FW_BW_PU_i/DD/U444/Z (OAI33M2R)                         0.08       3.01 r
+  FW_BW_PU_i/DD/U445/Z (OAI22M2R)                         0.08       3.08 f
+  FW_BW_PU_i/DD/add_32/B[11] (dadda_top_DW01_add_3)       0.00       3.08 f
+  FW_BW_PU_i/DD/add_32/U6/CO (ADFM2RA)                    0.09       3.18 f
+  FW_BW_PU_i/DD/add_32/U25/CO (ADFM2RA)                   0.08       3.25 f
+  FW_BW_PU_i/DD/add_32/U4/CO (ADFM2RA)                    0.08       3.33 f
+  FW_BW_PU_i/DD/add_32/U3/CO (ADFM2RA)                    0.07       3.40 f
+  FW_BW_PU_i/DD/add_32/U32/Z (XOR2M2RA)                   0.08       3.48 r
+  FW_BW_PU_i/DD/add_32/SUM[15] (dadda_top_DW01_add_3)     0.00       3.48 r
+  FW_BW_PU_i/DD/DataOut[15] (dadda_top)                   0.00       3.48 r
+  FW_BW_PU_i/U12/Z (CKINVM6R)                             0.02       3.50 f
+  FW_BW_PU_i/U44/Z (NR2M8R)                               0.03       3.53 r
+  FW_BW_PU_i/featureOutValFW[15] (FW_BW_PU_MAC_SIZE3_KERNEL_SIZE3_N_OF_MAC_ROWS3_N_OF_MAC_CLMN3_N_OF_CH_READ8_NBITS16_FEATURE_IN_ROW_SIZE32_FEATURE_IN_COLUMN_SIZE32_FEATURE_IN_CH_SIZE8_FEATURE_OUT_ROW_SIZE32_FEATURE_OUT_COLUMN_SIZE32_FEATURE_OUT_CH_SIZE8_N_FEATURE_READ8)
+                                                          0.00       3.53 r
+  activation/input_value[15] (activation_act_ruleRELU)
+                                                          0.00       3.53 r
+  activation/U7/Z (INVM12R)                               0.02       3.55 f
+  activation/U5/Z (CKAN2M2R)                              0.06       3.61 f
+  activation/output_value[4] (activation_act_ruleRELU)
+                                                          0.00       3.61 f
+  U39469/Z (INVM4R)                                       0.03       3.64 r
+  U40815/Z (OAI222M1RA)                                   0.07       3.72 f
+  writeBuffer_reg[52]/D (DFQM1RA)                         0.00       3.72 f
+  data arrival time                                                  3.72
 
-  clock MY_CLK (fall edge)                                0.00       0.00
+  clock MY_CLK (rise edge)                                0.00       0.00
   clock network delay (ideal)                             0.00       0.00
-  genblk2[0].genblk1[7].SRAMFij/mem_reg[120][0]/CKB (DFCM1RA)
-                                                          0.00       0.00 f
-  library setup time                                     -0.04      -0.04
-  data required time                                                -0.04
+  writeBuffer_reg[52]/CK (DFQM1RA)                        0.00       0.00 r
+  library setup time                                     -0.01      -0.01
+  data required time                                                -0.01
   --------------------------------------------------------------------------
-  data required time                                                -0.04
-  data arrival time                                                 -0.59
+  data required time                                                -0.01
+  data arrival time                                                 -3.72
   --------------------------------------------------------------------------
-  slack (VIOLATED)                                                  -0.63
+  slack (VIOLATED)                                                  -3.73
 
 
 1

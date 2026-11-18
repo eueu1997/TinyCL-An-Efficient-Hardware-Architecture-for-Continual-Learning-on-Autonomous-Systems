@@ -1,6 +1,8 @@
 import numpy as np
 import torch
 import torchvision
+import tensorflow as tf
+from tensorflow.keras import datasets, layers, models
 import torchvision.transforms as transforms
 import time
 #define
@@ -12,6 +14,12 @@ nClasses = 10
 reluActive = 1
 # Here is the operation executed by the mac. 8 pixel*kernel are summed parallel and the sequentially summed for the whole kernel ( 3x3 or 5x5)
 # Both kernel and image has a 3D shape
+apply_truncation = 0
+def truncate_float(float_number):
+    if(apply_truncation == 0):
+        return float_number
+    multiplier = 1000
+    return int(float_number * multiplier) / multiplier
 def MAC(feature,kernel):
     partialSum = 0
     partialSum = np.sum(feature*kernel,(0,1,2))
@@ -85,14 +93,15 @@ class Conv3D():
         
 
     def Conv3dForward(self,featureIn):
-
+    #output feature
         featureOut = np.zeros((self.channelOutDim,self.featureOutDim,self.featureOutDim))
-        #self.featureIn = np.pad(featureIn, ((0,0), (1, 1), (1, 1)), mode='constant', constant_values=0)
+        self.featureIn = np.pad(featureIn, ((0,0), (1, 1), (1, 1)), mode='constant', constant_values=0)
         for i in range(self.channelOutDim):
             for j in range(self.featureOutDim):
                 for k in range(self.featureOutDim):
                     subFeatureIn = self.featureIn[:,int(j*self.stride):int(j*self.stride+self.kernelSize),int(k*self.stride):int(k*self.stride+self.kernelSize)]
-                    featureOut[i][j][k] = np.sum(subFeatureIn*self.kernel[i],(0,1,2))
+                    #featureOut[i][j][k] = MAC(np.flatten(subFeatureIn),np.flatten(self.kernel[i]))
+                    featureOut[i][j][k] = truncate_float(np.sum(subFeatureIn*self.kernel[i],(0,1,2)))
         return featureOut
 
     def Conv3dBackward(self,dy):
@@ -106,32 +115,24 @@ class Conv3D():
                     for l in range(self.kernelSize):
                         subFeatureIn = self.featureIn[j,k:(self.featureOutDim*self.stride+k):self.stride,l:(self.featureOutDim*self.stride+l):self.stride]
                         #dk[i][j][k][l] = MAC(np.flatten(dy[i]),np.flatten(subFeatureIn))
-                        dk[i][j][k][l] = np.sum(dy[i]*subFeatureIn,(0,1))
-        '''                 
+                        dk[i][j][k][l] = truncate_float(np.sum(dy[i]*subFeatureIn,(0,1)))
+        '''                         
         for i in range(self.channelInDim):
             for l in range(self.featureOutDim):
                 for m in range(self.kernelSize):
                     for n in range(self.featureOutDim):
                         for p in range(self.kernelSize):
                             for q in range(self.channelOutDim):
-                                dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n] 
-        '''
+                                dx[i][((l)*self.stride + m )][((n)*self.stride + p)] += self.kernel[q][i][m][p] * dy[q][l][n]  '''
         dy = np.pad(dy, ((0,0), (1,0), (1,0)), mode='constant', constant_values=0)
         for i in range(self.channelInDim):
+            #for q in range(self.channelOutDim):
             for j in range(self.featureInDim):
                 for k in range(self.featureInDim):                   
                     temp = np.reshape(self.kernel[:,i],(self.channelOutDim,self.kernelSize,self.kernelSize))
-                    temp1 = rotateMatrix(temp[:,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
-                    temp2 = dy[:,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)]
-                    dx[i][j][k]  = np.sum( rotateMatrix(temp[:,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
-                    * dy[:,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)],(0,1,2))
+                    dx[i][j][k]  =truncate_float( np.sum( rotateMatrix(temp[:,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
+                    * dy[:,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)],(0,1,2)))
         
-        
-        #temp = dy[q,int(j/self.stride):int(j/self.stride)+(int(self.kernelSize/self.stride)+1),int(k/self.stride):int(k/self.stride)+(int(self.kernelSize/self.stride)+1)]
-                        #temp1 = rotateMatrix(self.kernel[q,i,(j%self.stride):self.kernelSize:self.stride,(k%self.stride):self.kernelSize:self.stride])
-                        #temp2= np.sum( temp1* temp,(0,1))
-        #diff = dx1[:,0:-1,0:-1] -dx[:,0:-1,0:-1] 
-        #print (dx1 - dx)
         self.dk += dk
         return dx[:,0:-1,0:-1]                       
     
@@ -149,7 +150,7 @@ def train():
     relu1 = ReLU(16,16) # 16x16x16 -> 16x16x16 
     conv3d2 = Conv3D(16,16,32,2,3) # 16x16x16 -> 32x8x8
     relu2 = ReLU(32,8) #32x8x8 -> 32x8x8
-    soft1 = SoftmaxLayer(32*8*8,10) # 32x8x8 -> 10
+    soft1 = SoftmaxLayer(8*8*32,10) # 32x8x8 -> 10
     '''
     conv3d2 = Conv3D(16,16,32,2,3) # 16x16x16 -> 32x8x8
     relu2 = ReLU(32,8)
@@ -157,60 +158,66 @@ def train():
     relu3 = ReLU(64,8)
     fcLayer=FCLayer(64,10,1)'''
     trainLoader, testLoader = getLoader()
+
     cycleCount = 0
     accuracy = 0
-    batchSize = 1
-    # il batch size fatto su dw funziona
-    # fare somma su dx non sembra funzionare
-    # dx sembra funzionare : avendo una NN a due layer, disattivo dk su layer 2 e cosi impara solo layer 1 usando dx layer 2
+    batchSize = 16
     dx = np.zeros(10)
-
-    for feature,labels in trainLoader:
-        featureInExt = np.zeros((8,32,32))
-        featureInExt[0:3] = feature.numpy()
+    f = open("/home/thesis/eugenio.ressa/Desktop/myCNNSimulator/logtest.txt","w")
+    for epoch in range(10):
+        cycleCount = 0
+        accuracy = 0
+        for feature,label in trainLoader:
+            featureInExt = np.zeros((8,32,32))
+            truncate = np.vectorize(truncate_float)
+            featureInExt[0:3] = truncate(feature)
         
-        l1FeatureOut = conv3d1.Conv3dForward(featureInExt)
-        l1FeatureOutAct = relu1.reluForward(l1FeatureOut)
-        l2FeatureOut = conv3d2.Conv3dForward(l1FeatureOutAct)
-        l2FeatureOutAct = relu2.reluForward(l2FeatureOut)
-        l5Output = soft1.forward_prop(l2FeatureOutAct)
-        
-        #cost calc
-        #print(lossForward(l5Output,convOneHot(labels)).max())
-        accuracy += 1 if np.argmax(l5Output) == labels else 0
-        cycleCount += 1
-        if(cycleCount%100 == 0):
-            print(f"Train accuracy{accuracy/cycleCount}at cycle {cycleCount}")
-        batchSize -= 1
-        dx = lossBackward(l5Output,convOneHot(labels))
+            l1FeatureOut = conv3d1.Conv3dForward(featureInExt)
+            l1FeatureOutAct = relu1.reluForward(l1FeatureOut)
+            l2FeatureOut = conv3d2.Conv3dForward(l1FeatureOutAct)
+            l2FeatureOutAct = relu2.reluForward(l2FeatureOut)
+            l5Output = soft1.forward_prop(l2FeatureOutAct)
 
-        dx = soft1.back_prop(dx)
-        dx = relu2.reluBackward(dx)
-        dx= conv3d2.Conv3dBackward(dx)
-        dx = relu1.reluBackward(dx)
-        dx= conv3d1.Conv3dBackward(dx)
-        dx = np.zeros(10)
-        if (batchSize == 0 ):
-            batchSize = 1
+            accuracy += 1 if np.argmax(l5Output) == label else 0
+            cycleCount += 1
+            if(cycleCount%100 == 0):
+                print(f"Train accuracy{accuracy/cycleCount}at cycle {cycleCount}")
+                f.write(f"Train accuracy{accuracy/cycleCount}at cycle {cycleCount}\n")
+            batchSize -= 1
+            dx = lossBackward(l5Output,convOneHot(label))
+            dx = soft1.back_prop(dx)
+            dx = relu2.reluBackward(dx)
+            dx = conv3d2.Conv3dBackward(dx)
+            dx = relu1.reluBackward(dx)
+            dx = conv3d1.Conv3dBackward(dx)
             soft1.paramUpdate(0.0001,16)
-            #conv3d2.paramUpdate(0.0001,16)
+            conv3d2.paramUpdate(0.0001,16)
             conv3d1.paramUpdate(0.0001,16)
+            if (batchSize == 0 ):
+                batchSize = 16
+                
 
-    print(f"Train accuracy{accuracy/cycleCount}")
-    cycleCount = 0
-    accuracy = 0
-    for feature,labels in testLoader:     
-        featureInExt = np.zeros((8,32,32))
-        featureInExt[0:3] = feature.numpy()
+        f.write(f"Train accuracy{accuracy/cycleCount}")
+        cycleCount = 0
+        accuracy = 0
+        for feature,label in testLoader:     
+            featureInExt = np.zeros((8,32,32))
+            featureInExt[0:3] = feature.numpy()
         
-        l1FeatureOut = conv3d1.Conv3dForward(featureInExt)
-        l5Output = soft1.forward_prop(l1FeatureOut)
+            l1FeatureOut = conv3d1.Conv3dForward(featureInExt)
+            l1FeatureOutAct = relu1.reluForward(l1FeatureOut)
+            l2FeatureOut = conv3d2.Conv3dForward(l1FeatureOutAct)
+            l2FeatureOutAct = relu2.reluForward(l2FeatureOut)
+            l5Output = soft1.forward_prop(l2FeatureOutAct)
         
-        accuracy += 1 if np.argmax(l5Output) == labels else 0
-        cycleCount += 1
-        if(cycleCount%100 == 0):
-            print(f"test accuracy{accuracy/cycleCount} at cycle {cycleCount}")
-    print(f"Test accuracy{accuracy/cycleCount}")
+            accuracy += 1 if np.argmax(l5Output) == label else 0
+            cycleCount += 1
+            if(cycleCount%100 == 0):
+                f.write(f"test accuracy{accuracy/cycleCount} at cycle {cycleCount}\n")
+        f.write(f"Test accuracy{accuracy/cycleCount}. End epoch {epoch}")
+    f.close()
+
+
 def convOneHot(input):
     out = np.zeros(10)
     out[int(input.numpy())] = 1

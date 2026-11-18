@@ -1,0 +1,35 @@
+Information: Building the design 'gradientInRegisterBWDK' instantiated from design 'FW_BW_PU_MAC_SIZE3_KERNEL_SIZE3_N_OF_MAC_ROWS3_N_OF_MAC_CLMN3_N_OF_CH_READ8_NBITS16_FEATURE_IN_ROW_SIZE32_FEATURE_IN_COLUMN_SIZE32_FEATURE_IN_CH_SIZE8_FEATURE_OUT_ROW_SIZE32_FEATURE_OUT_COLUMN_SIZE32_FEATURE_OUT_CH_SIZE8_N_FEATURE_READ8' with
+	the parameters "8,3,3,16". (HDL-193)
+Warning: Cannot find the design 'gradientInRegisterBWDK' in the library 'WORK'. (LBR-1)
+Warning: Unable to resolve reference 'gradientInRegisterBWDK' in 'FW_BW_PU_MAC_SIZE3_KERNEL_SIZE3_N_OF_MAC_ROWS3_N_OF_MAC_CLMN3_N_OF_CH_READ8_NBITS16_FEATURE_IN_ROW_SIZE32_FEATURE_IN_COLUMN_SIZE32_FEATURE_IN_CH_SIZE8_FEATURE_OUT_ROW_SIZE32_FEATURE_OUT_COLUMN_SIZE32_FEATURE_OUT_CH_SIZE8_N_FEATURE_READ8'. (LINK-5)
+Warning: Design 'NN' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
+Information: Updating graph... (UID-83)
+Warning: Design 'NN' contains 2 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+Information: Timing loop detected. (OPT-150)
+	FW_BW_PU_i/AMBWDX/gradientOutColum_reg[0]/CK FW_BW_PU_i/AMBWDX/gradientOutColum_reg[0]/Q U40728/A U40728/Z U40730/A U40730/Z U27237/A U27237/Z U27235/A U27235/Z U27258/A U27258/Z U17214/A U17214/Z U17210/A U17210/Z U17209/A U17209/Z U122092/S U122092/Z 
+Information: Timing loop detected. (OPT-150)
+	FW_BW_PU_i/AMBWDX/gradientOutColum_reg[1]/CK FW_BW_PU_i/AMBWDX/gradientOutColum_reg[1]/Q U40725/A U40725/Z U40730/B U40730/Z U27237/A U27237/Z U27235/A U27235/Z U27258/A U27258/Z U17214/A U17214/Z U17210/A U17210/Z U17209/A U17209/Z U122092/S U122092/Z 
+Warning: Disabling timing arc between pins 'S' and 'Z' on cell 'U122092'
+         to break a timing loop. (OPT-314)
+Warning: Disabling timing arc between pins 'S' and 'Z' on cell 'U122092'
+         to break a timing loop. (OPT-314)
+ 
+****************************************
+Report : clocks
+Design : NN
+Version: R-2020.09-SP2
+Date   : Sun Nov 12 18:57:28 2023
+****************************************
+
+Attributes:
+    d - dont_touch_network
+    f - fix_hold
+    p - propagated_clock
+    G - generated_clock
+    g - lib_generated_clock
+
+Clock          Period   Waveform            Attrs     Sources
+--------------------------------------------------------------------------------
+MY_CLK           0.00   {0 0}               d         {clk}
+--------------------------------------------------------------------------------
+1

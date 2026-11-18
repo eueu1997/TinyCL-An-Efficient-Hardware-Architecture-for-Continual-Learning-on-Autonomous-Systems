@@ -1,0 +1,58 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'memories' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : memories
+Version: R-2020.09-SP2
+Date   : Tue Nov 21 05:41:31 2023
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
+Wire Load Model Mode: top
+
+  Startpoint: clk (clock source 'MY_CLK')
+  Endpoint: genblk2[0].genblk1[1].SRAMFij/mem_reg[1][28]
+            (falling edge-triggered flip-flop clocked by MY_CLK)
+  Path Group: MY_CLK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  memories           wl0                   uk65lscllmvbbr_120c25_tc
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock MY_CLK (rise edge)                                0.00       0.00
+  clk (in)                                                0.00 #     0.00 r
+  genblk2[0].genblk1[1].SRAMFij/writeEn (SRAM_PORT_WIDTH128_MEMORY_WIDHT128_CHANNEL_IN0_CHANNEL_OUT1)
+                                                          0.00 #     0.00 r
+  genblk2[0].genblk1[1].SRAMFij/U2194/Z (NR4B1M4R)        0.15 #     0.15 r
+  genblk2[0].genblk1[1].SRAMFij/U43656/Z (ND2M2R)         0.05       0.20 f
+  genblk2[0].genblk1[1].SRAMFij/U180/Z (CKINVM2R)         0.04       0.24 r
+  genblk2[0].genblk1[1].SRAMFij/U6522/Z (BUFM2R)          0.04       0.28 r
+  genblk2[0].genblk1[1].SRAMFij/U3865/Z (BUFM2R)          0.12       0.40 r
+  genblk2[0].genblk1[1].SRAMFij/U43756/Z (MXB2M1RA)       0.04       0.44 f
+  genblk2[0].genblk1[1].SRAMFij/mem_reg[1][28]/D (DFCM1RA)
+                                                          0.00       0.44 f
+  data arrival time                                                  0.44
+
+  clock MY_CLK (fall edge)                                0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  genblk2[0].genblk1[1].SRAMFij/mem_reg[1][28]/CKB (DFCM1RA)
+                                                          0.00       0.00 f
+  library setup time                                     -0.04      -0.04
+  data required time                                                -0.04
+  --------------------------------------------------------------------------
+  data required time                                                -0.04
+  data arrival time                                                 -0.44
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.48
+
+
+1

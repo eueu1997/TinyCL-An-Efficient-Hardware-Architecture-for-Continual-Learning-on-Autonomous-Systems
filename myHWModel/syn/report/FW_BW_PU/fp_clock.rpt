@@ -10,7 +10,7 @@ Warning: Design 'FW_BW_PU' contains 1 high-fanout nets. A fanout number of 1000 
 Report : clocks
 Design : FW_BW_PU
 Version: R-2020.09-SP2
-Date   : Sun Nov 12 11:18:02 2023
+Date   : Sun Nov 12 12:23:13 2023
 ****************************************
 
 Attributes:

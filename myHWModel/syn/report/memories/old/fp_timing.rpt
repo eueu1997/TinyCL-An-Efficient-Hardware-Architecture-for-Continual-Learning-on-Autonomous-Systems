@@ -1,0 +1,59 @@
+Information: Updating design information... (UID-85)
+Warning: Design 'memories' contains 1 high-fanout nets. A fanout number of 1000 will be used for delay calculations involving these nets. (TIM-134)
+ 
+****************************************
+Report : timing
+        -path full
+        -delay max
+        -max_paths 1
+Design : memories
+Version: R-2020.09-SP2
+Date   : Fri Nov 17 18:52:58 2023
+****************************************
+
+ # A fanout number of 1000 was used for high fanout net computations.
+
+Operating Conditions: uk65lscllmvbbr_120c25_tc   Library: uk65lscllmvbbr_120c25_tc
+Wire Load Model Mode: top
+
+  Startpoint: genblk1[0].genblk1[0].genblk1[0].SRAMKijk/mem_reg[0][0]
+              (falling edge-triggered flip-flop clocked by MY_CLK)
+  Endpoint: genblk1[0].genblk1[0].genblk1[0].SRAMKijk/mem_reg[0][0]
+            (falling edge-triggered flip-flop clocked by MY_CLK)
+  Path Group: MY_CLK
+  Path Type: max
+
+  Des/Clust/Port     Wire Load Model       Library
+  ------------------------------------------------
+  memories           wl0                   uk65lscllmvbbr_120c25_tc
+
+  Point                                                   Incr       Path
+  --------------------------------------------------------------------------
+  clock MY_CLK (fall edge)                                0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  genblk1[0].genblk1[0].genblk1[0].SRAMKijk/mem_reg[0][0]/CKB (DFCQM2RA)
+                                                          0.00 #     0.00 f
+  genblk1[0].genblk1[0].genblk1[0].SRAMKijk/mem_reg[0][0]/Q (DFCQM2RA)
+                                                          0.10       0.10 f
+  genblk1[0].genblk1[0].genblk1[0].SRAMKijk/U34/Z (CKINVM2R)
+                                                          0.02       0.12 r
+  genblk1[0].genblk1[0].genblk1[0].SRAMKijk/U505/Z (MXB2M1RA)
+                                                          0.03       0.15 f
+  genblk1[0].genblk1[0].genblk1[0].SRAMKijk/mem_reg[0][0]/D (DFCQM2RA)
+                                                          0.00       0.15 f
+  data arrival time                                                  0.15
+
+  clock MY_CLK (fall edge)                                0.00       0.00
+  clock network delay (ideal)                             0.00       0.00
+  genblk1[0].genblk1[0].genblk1[0].SRAMKijk/mem_reg[0][0]/CKB (DFCQM2RA)
+                                                          0.00       0.00 f
+  library setup time                                     -0.02      -0.02
+  data required time                                                -0.02
+  --------------------------------------------------------------------------
+  data required time                                                -0.02
+  data arrival time                                                 -0.15
+  --------------------------------------------------------------------------
+  slack (VIOLATED)                                                  -0.17
+
+
+1

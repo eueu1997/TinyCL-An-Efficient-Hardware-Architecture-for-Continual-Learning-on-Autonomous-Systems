@@ -1,0 +1,1431 @@
+Train accuracy0.1at cycle 100
+Train accuracy0.105at cycle 200
+Train accuracy0.11at cycle 300
+Train accuracy0.1375at cycle 400
+Train accuracy0.15at cycle 500
+Train accuracy0.16833333333333333at cycle 600
+Train accuracy0.16714285714285715at cycle 700
+Train accuracy0.175at cycle 800
+Train accuracy0.18222222222222223at cycle 900
+Train accuracy0.188at cycle 1000
+Train accuracy0.19545454545454546at cycle 1100
+Train accuracy0.1975at cycle 1200
+Train accuracy0.2053846153846154at cycle 1300
+Train accuracy0.20857142857142857at cycle 1400
+Train accuracy0.20866666666666667at cycle 1500
+Train accuracy0.214375at cycle 1600
+Train accuracy0.21352941176470588at cycle 1700
+Train accuracy0.21388888888888888at cycle 1800
+Train accuracy0.21736842105263157at cycle 1900
+Train accuracy0.2205at cycle 2000
+Train accuracy0.22at cycle 2100
+Train accuracy0.22090909090909092at cycle 2200
+Train accuracy0.2234782608695652at cycle 2300
+Train accuracy0.2275at cycle 2400
+Train accuracy0.2284at cycle 2500
+Train accuracy0.23115384615384615at cycle 2600
+Train accuracy0.2337037037037037at cycle 2700
+Train accuracy0.23464285714285715at cycle 2800
+Train accuracy0.23482758620689656at cycle 2900
+Train accuracy0.23766666666666666at cycle 3000
+Train accuracy0.23967741935483872at cycle 3100
+Train accuracy0.243125at cycle 3200
+Train accuracy0.24636363636363637at cycle 3300
+Train accuracy0.2461764705882353at cycle 3400
+Train accuracy0.25142857142857145at cycle 3500
+Train accuracy0.2538888888888889at cycle 3600
+Train accuracy0.25351351351351353at cycle 3700
+Train accuracy0.2544736842105263at cycle 3800
+Train accuracy0.2571794871794872at cycle 3900
+Train accuracy0.25825at cycle 4000
+Train accuracy0.2578048780487805at cycle 4100
+Train accuracy0.26at cycle 4200
+Train accuracy0.2618604651162791at cycle 4300
+Train accuracy0.2631818181818182at cycle 4400
+Train accuracy0.264at cycle 4500
+Train accuracy0.26565217391304347at cycle 4600
+Train accuracy0.265531914893617at cycle 4700
+Train accuracy0.26729166666666665at cycle 4800
+Train accuracy0.2671428571428571at cycle 4900
+Train accuracy0.268at cycle 5000
+Train accuracy0.2692156862745098at cycle 5100
+Train accuracy0.2696153846153846at cycle 5200
+Train accuracy0.27132075471698114at cycle 5300
+Train accuracy0.2727777777777778at cycle 5400
+Train accuracy0.2747272727272727at cycle 5500
+Train accuracy0.27375at cycle 5600
+Train accuracy0.27473684210526317at cycle 5700
+Train accuracy0.2753448275862069at cycle 5800
+Train accuracy0.2767796610169492at cycle 5900
+Train accuracy0.27666666666666667at cycle 6000
+Train accuracy0.27737704918032785at cycle 6100
+Train accuracy0.27725806451612905at cycle 6200
+Train accuracy0.2779365079365079at cycle 6300
+Train accuracy0.27828125at cycle 6400
+Train accuracy0.2795384615384615at cycle 6500
+Train accuracy0.2796969696969697at cycle 6600
+Train accuracy0.2817910447761194at cycle 6700
+Train accuracy0.28102941176470586at cycle 6800
+Train accuracy0.28101449275362317at cycle 6900
+Train accuracy0.2824285714285714at cycle 7000
+Train accuracy0.28267605633802817at cycle 7100
+Train accuracy0.28347222222222224at cycle 7200
+Train accuracy0.2843835616438356at cycle 7300
+Train accuracy0.28527027027027024at cycle 7400
+Train accuracy0.28613333333333335at cycle 7500
+Train accuracy0.2873684210526316at cycle 7600
+Train accuracy0.28753246753246753at cycle 7700
+Train accuracy0.28717948717948716at cycle 7800
+Train accuracy0.28746835443037977at cycle 7900
+Train accuracy0.2875at cycle 8000
+Train accuracy0.28802469135802466at cycle 8100
+Train accuracy0.2890243902439024at cycle 8200
+Train accuracy0.2893975903614458at cycle 8300
+Train accuracy0.29023809523809524at cycle 8400
+Train accuracy0.29at cycle 8500
+Train accuracy0.29023255813953486at cycle 8600
+Train accuracy0.2903448275862069at cycle 8700
+Train accuracy0.29125at cycle 8800
+Train accuracy0.291123595505618at cycle 8900
+Train accuracy0.2917777777777778at cycle 9000
+Train accuracy0.29285714285714287at cycle 9100
+Train accuracy0.2927173913043478at cycle 9200
+Train accuracy0.2927956989247312at cycle 9300
+Train accuracy0.2937234042553192at cycle 9400
+Train accuracy0.2942105263157895at cycle 9500
+Train accuracy0.294375at cycle 9600
+Train accuracy0.2943298969072165at cycle 9700
+Train accuracy0.2946938775510204at cycle 9800
+Train accuracy0.29454545454545455at cycle 9900
+Train accuracy0.2952at cycle 10000
+Train accuracy0.2962376237623762at cycle 10100
+Train accuracy0.29637254901960786at cycle 10200
+Train accuracy0.2974757281553398at cycle 10300
+Train accuracy0.29817307692307693at cycle 10400
+Train accuracy0.2981904761904762at cycle 10500
+Train accuracy0.2984905660377358at cycle 10600
+Train accuracy0.29906542056074764at cycle 10700
+Train accuracy0.2992592592592593at cycle 10800
+Train accuracy0.30027522935779816at cycle 10900
+Train accuracy0.30072727272727273at cycle 11000
+Train accuracy0.30108108108108106at cycle 11100
+Train accuracy0.30142857142857143at cycle 11200
+Train accuracy0.3015929203539823at cycle 11300
+Train accuracy0.3025438596491228at cycle 11400
+Train accuracy0.3028695652173913at cycle 11500
+Train accuracy0.3031896551724138at cycle 11600
+Train accuracy0.3034188034188034at cycle 11700
+Train accuracy0.30389830508474575at cycle 11800
+Train accuracy0.30428571428571427at cycle 11900
+Train accuracy0.30491666666666667at cycle 12000
+Train accuracy0.305702479338843at cycle 12100
+Train accuracy0.30631147540983605at cycle 12200
+Train accuracy0.3073170731707317at cycle 12300
+Train accuracy0.3075806451612903at cycle 12400
+Train accuracy0.30808at cycle 12500
+Train accuracy0.30738095238095237at cycle 12600
+Train accuracy0.3080314960629921at cycle 12700
+Train accuracy0.30796875at cycle 12800
+Train accuracy0.3087596899224806at cycle 12900
+Train accuracy0.30846153846153845at cycle 13000
+Train accuracy0.30900763358778627at cycle 13100
+Train accuracy0.3084848484848485at cycle 13200
+Train accuracy0.3090225563909774at cycle 13300
+Train accuracy0.3088059701492537at cycle 13400
+Train accuracy0.3085925925925926at cycle 13500
+Train accuracy0.3089705882352941at cycle 13600
+Train accuracy0.3095620437956204at cycle 13700
+Train accuracy0.31at cycle 13800
+Train accuracy0.3097841726618705at cycle 13900
+Train accuracy0.31007142857142855at cycle 14000
+Train accuracy0.31056737588652483at cycle 14100
+Train accuracy0.31098591549295773at cycle 14200
+Train accuracy0.31167832167832166at cycle 14300
+Train accuracy0.3117361111111111at cycle 14400
+Train accuracy0.3122068965517241at cycle 14500
+Train accuracy0.3128767123287671at cycle 14600
+Train accuracy0.31360544217687075at cycle 14700
+Train accuracy0.31385135135135134at cycle 14800
+Train accuracy0.31355704697986575at cycle 14900
+Train accuracy0.31433333333333335at cycle 15000
+Train accuracy0.31456953642384106at cycle 15100
+Train accuracy0.31473684210526315at cycle 15200
+Train accuracy0.31516339869281046at cycle 15300
+Train accuracy0.3155844155844156at cycle 15400
+Train accuracy0.316at cycle 15500
+Train accuracy0.3162179487179487at cycle 15600
+Train accuracy0.31630573248407645at cycle 15700
+Train accuracy0.31645569620253167at cycle 15800
+Train accuracy0.31672955974842765at cycle 15900
+Train accuracy0.3166875at cycle 16000
+Train accuracy0.3177018633540373at cycle 16100
+Train accuracy0.31808641975308644at cycle 16200
+Train accuracy0.3180368098159509at cycle 16300
+Train accuracy0.3180487804878049at cycle 16400
+Train accuracy0.3187878787878788at cycle 16500
+Train accuracy0.3189759036144578at cycle 16600
+Train accuracy0.31892215568862275at cycle 16700
+Train accuracy0.31898809523809524at cycle 16800
+Train accuracy0.31893491124260354at cycle 16900
+Train accuracy0.3196470588235294at cycle 17000
+Train accuracy0.3198830409356725at cycle 17100
+Train accuracy0.31970930232558137at cycle 17200
+Train accuracy0.31982658959537574at cycle 17300
+Train accuracy0.3201149425287356at cycle 17400
+Train accuracy0.3205142857142857at cycle 17500
+Train accuracy0.32073863636363636at cycle 17600
+Train accuracy0.32096045197740114at cycle 17700
+Train accuracy0.3214606741573034at cycle 17800
+Train accuracy0.32145251396648045at cycle 17900
+Train accuracy0.3216111111111111at cycle 18000
+Train accuracy0.3221546961325967at cycle 18100
+Train accuracy0.32247252747252747at cycle 18200
+Train accuracy0.32256830601092895at cycle 18300
+Train accuracy0.3228804347826087at cycle 18400
+Train accuracy0.3230810810810811at cycle 18500
+Train accuracy0.3236021505376344at cycle 18600
+Train accuracy0.3239572192513369at cycle 18700
+Train accuracy0.3243617021276596at cycle 18800
+Train accuracy0.32492063492063494at cycle 18900
+Train accuracy0.3253684210526316at cycle 19000
+Train accuracy0.3253926701570681at cycle 19100
+Train accuracy0.325625at cycle 19200
+Train accuracy0.32569948186528497at cycle 19300
+Train accuracy0.32628865979381444at cycle 19400
+Train accuracy0.32646153846153847at cycle 19500
+Train accuracy0.32627551020408163at cycle 19600
+Train accuracy0.3266497461928934at cycle 19700
+Train accuracy0.32727272727272727at cycle 19800
+Train accuracy0.32753768844221104at cycle 19900
+Train accuracy0.328at cycle 20000
+Train accuracy0.32800995024875623at cycle 20100
+Train accuracy0.3280693069306931at cycle 20200
+Train accuracy0.3288669950738916at cycle 20300
+Train accuracy0.32975490196078433at cycle 20400
+Train accuracy0.3302439024390244at cycle 20500
+Train accuracy0.33at cycle 20600
+Train accuracy0.33043478260869563at cycle 20700
+Train accuracy0.3305769230769231at cycle 20800
+Train accuracy0.33043062200956935at cycle 20900
+Train accuracy0.3304761904761905at cycle 21000
+Train accuracy0.330521327014218at cycle 21100
+Train accuracy0.3308018867924528at cycle 21200
+Train accuracy0.3307981220657277at cycle 21300
+Train accuracy0.3311214953271028at cycle 21400
+Train accuracy0.33144186046511626at cycle 21500
+Train accuracy0.33162037037037034at cycle 21600
+Train accuracy0.3319815668202765at cycle 21700
+Train accuracy0.33238532110091745at cycle 21800
+Train accuracy0.3323287671232877at cycle 21900
+Train accuracy0.33254545454545453at cycle 22000
+Train accuracy0.33244343891402717at cycle 22100
+Train accuracy0.33265765765765765at cycle 22200
+Train accuracy0.33327354260089687at cycle 22300
+Train accuracy0.3336160714285714at cycle 22400
+Train accuracy0.3337333333333333at cycle 22500
+Train accuracy0.33415929203539824at cycle 22600
+Train accuracy0.3345374449339207at cycle 22700
+Train accuracy0.33482456140350875at cycle 22800
+Train accuracy0.33510917030567683at cycle 22900
+Train accuracy0.3352608695652174at cycle 23000
+Train accuracy0.3351948051948052at cycle 23100
+Train accuracy0.33469827586206896at cycle 23200
+Train accuracy0.33493562231759655at cycle 23300
+Train accuracy0.33521367521367523at cycle 23400
+Train accuracy0.3354893617021277at cycle 23500
+Train accuracy0.3355084745762712at cycle 23600
+Train accuracy0.3357805907172996at cycle 23700
+Train accuracy0.3357563025210084at cycle 23800
+Train accuracy0.33589958158995814at cycle 23900
+Train accuracy0.3360416666666667at cycle 24000
+Train accuracy0.33647302904564313at cycle 24100
+Train accuracy0.3366528925619835at cycle 24200
+Train accuracy0.33683127572016464at cycle 24300
+Train accuracy0.3370081967213115at cycle 24400
+Train accuracy0.33722448979591835at cycle 24500
+Train accuracy0.33731707317073173at cycle 24600
+Train accuracy0.3376923076923077at cycle 24700
+Train accuracy0.33810483870967745at cycle 24800
+Train accuracy0.3383132530120482at cycle 24900
+Train accuracy0.33824at cycle 25000
+Train accuracy0.338406374501992at cycle 25100
+Train accuracy0.338531746031746at cycle 25200
+Train accuracy0.3385375494071146at cycle 25300
+Train accuracy0.33858267716535434at cycle 25400
+Train accuracy0.33862745098039215at cycle 25500
+Train accuracy0.33859375at cycle 25600
+Train accuracy0.33898832684824903at cycle 25700
+Train accuracy0.3391860465116279at cycle 25800
+Train accuracy0.3394980694980695at cycle 25900
+Train accuracy0.3395at cycle 26000
+Train accuracy0.33969348659003834at cycle 26100
+Train accuracy0.34011450381679387at cycle 26200
+Train accuracy0.3406844106463878at cycle 26300
+Train accuracy0.3412878787878788at cycle 26400
+Train accuracy0.3412830188679245at cycle 26500
+Train accuracy0.34172932330827066at cycle 26600
+Train accuracy0.34198501872659176at cycle 26700
+Train accuracy0.3421641791044776at cycle 26800
+Train accuracy0.34230483271375467at cycle 26900
+Train accuracy0.34244444444444444at cycle 27000
+Train accuracy0.342619926199262at cycle 27100
+Train accuracy0.34286764705882355at cycle 27200
+Train accuracy0.34300366300366303at cycle 27300
+Train accuracy0.34277372262773725at cycle 27400
+Train accuracy0.3429090909090909at cycle 27500
+Train accuracy0.3427173913043478at cycle 27600
+Train accuracy0.3428880866425993at cycle 27700
+Train accuracy0.34309352517985614at cycle 27800
+Train accuracy0.3433333333333333at cycle 27900
+Train accuracy0.3435714285714286at cycle 28000
+Train accuracy0.34327402135231316at cycle 28100
+Train accuracy0.3434397163120567at cycle 28200
+Train accuracy0.3434275618374558at cycle 28300
+Train accuracy0.34394366197183096at cycle 28400
+Train accuracy0.3445263157894737at cycle 28500
+Train accuracy0.34468531468531466at cycle 28600
+Train accuracy0.34491289198606273at cycle 28700
+Train accuracy0.3449652777777778at cycle 28800
+Train accuracy0.3449134948096886at cycle 28900
+Train accuracy0.3450344827586207at cycle 29000
+Train accuracy0.3452920962199313at cycle 29100
+Train accuracy0.3452054794520548at cycle 29200
+Train accuracy0.3454948805460751at cycle 29300
+Train accuracy0.3458503401360544at cycle 29400
+Train accuracy0.346135593220339at cycle 29500
+Train accuracy0.3461824324324324at cycle 29600
+Train accuracy0.34626262626262627at cycle 29700
+Train accuracy0.3463758389261745at cycle 29800
+Train accuracy0.3465886287625418at cycle 29900
+Train accuracy0.3465666666666667at cycle 30000
+Train accuracy0.346843853820598at cycle 30100
+Train accuracy0.3469867549668874at cycle 30200
+Train accuracy0.346996699669967at cycle 30300
+Train accuracy0.3468421052631579at cycle 30400
+Train accuracy0.34672131147540985at cycle 30500
+Train accuracy0.3466339869281046at cycle 30600
+Train accuracy0.34677524429967427at cycle 30700
+Train accuracy0.3469805194805195at cycle 30800
+Train accuracy0.34702265372168284at cycle 30900
+Train accuracy0.34719354838709676at cycle 31000
+Train accuracy0.3472347266881029at cycle 31100
+Train accuracy0.34724358974358976at cycle 31200
+Train accuracy0.3473482428115016at cycle 31300
+Train accuracy0.34745222929936304at cycle 31400
+Train accuracy0.34755555555555556at cycle 31500
+Train accuracy0.34759493670886077at cycle 31600
+Train accuracy0.3477602523659306at cycle 31700
+Train accuracy0.3478930817610063at cycle 31800
+Train accuracy0.34808777429467086at cycle 31900
+Train accuracy0.34846875at cycle 32000
+Train accuracy0.3485981308411215at cycle 32100
+Train accuracy0.34860248447204967at cycle 32200
+Train accuracy0.34891640866873064at cycle 32300
+Train accuracy0.3490432098765432at cycle 32400
+Train accuracy0.3493538461538462at cycle 32500
+Train accuracy0.3492331288343558at cycle 32600
+Train accuracy0.34914373088685013at cycle 32700
+Train accuracy0.3489634146341463at cycle 32800
+Train accuracy0.3492401215805471at cycle 32900
+Train accuracy0.34954545454545455at cycle 33000
+Train accuracy0.3495468277945619at cycle 33100
+Train accuracy0.3496987951807229at cycle 33200
+Train accuracy0.35009009009009007at cycle 33300
+Train accuracy0.35at cycle 33400
+Train accuracy0.35at cycle 33500
+Train accuracy0.350327380952381at cycle 33600
+Train accuracy0.35038575667655786at cycle 33700
+Train accuracy0.35079881656804734at cycle 33800
+Train accuracy0.3509144542772861at cycle 33900
+Train accuracy0.351at cycle 34000
+Train accuracy0.35117302052785926at cycle 34100
+Train accuracy0.3512573099415205at cycle 34200
+Train accuracy0.3514868804664723at cycle 34300
+Train accuracy0.3514244186046512at cycle 34400
+Train accuracy0.3512463768115942at cycle 34500
+Train accuracy0.3511560693641618at cycle 34600
+Train accuracy0.35097982708933717at cycle 34700
+Train accuracy0.35094827586206895at cycle 34800
+Train accuracy0.3508309455587393at cycle 34900
+Train accuracy0.3507142857142857at cycle 35000
+Train accuracy0.3507122507122507at cycle 35100
+Train accuracy0.3509090909090909at cycle 35200
+Train accuracy0.35121813031161475at cycle 35300
+Train accuracy0.35132768361581923at cycle 35400
+Train accuracy0.3514929577464789at cycle 35500
+Train accuracy0.3517696629213483at cycle 35600
+Train accuracy0.3519327731092437at cycle 35700
+Train accuracy0.3520949720670391at cycle 35800
+Train accuracy0.3520891364902507at cycle 35900
+Train accuracy0.3521944444444444at cycle 36000
+Train accuracy0.3522437673130194at cycle 36100
+Train accuracy0.352292817679558at cycle 36200
+Train accuracy0.35225895316804406at cycle 36300
+Train accuracy0.35225274725274724at cycle 36400
+Train accuracy0.35263013698630136at cycle 36500
+Train accuracy0.35275956284153004at cycle 36600
+Train accuracy0.3528065395095368at cycle 36700
+Train accuracy0.35304347826086957at cycle 36800
+Train accuracy0.3532249322493225at cycle 36900
+Train accuracy0.3532972972972973at cycle 37000
+Train accuracy0.3536118598382749at cycle 37100
+Train accuracy0.35381720430107527at cycle 37200
+Train accuracy0.35404825737265416at cycle 37300
+Train accuracy0.3541711229946524at cycle 37400
+Train accuracy0.3542133333333333at cycle 37500
+Train accuracy0.35425531914893615at cycle 37600
+Train accuracy0.35429708222811673at cycle 37700
+Train accuracy0.3542063492063492at cycle 37800
+Train accuracy0.35437994722955146at cycle 37900
+Train accuracy0.35436842105263155at cycle 38000
+Train accuracy0.3545669291338583at cycle 38100
+Train accuracy0.35479057591623037at cycle 38200
+Train accuracy0.3545953002610966at cycle 38300
+Train accuracy0.35479166666666667at cycle 38400
+Train accuracy0.35493506493506494at cycle 38500
+Train accuracy0.35523316062176163at cycle 38600
+Train accuracy0.3551679586563308at cycle 38700
+Train accuracy0.3552835051546392at cycle 38800
+Train accuracy0.35537275064267354at cycle 38900
+Train accuracy0.3556153846153846at cycle 39000
+Train accuracy0.3557289002557545at cycle 39100
+Train accuracy0.3557908163265306at cycle 39200
+Train accuracy0.3559287531806616at cycle 39300
+Train accuracy0.35609137055837564at cycle 39400
+Train accuracy0.35622784810126584at cycle 39500
+Train accuracy0.3563131313131313at cycle 39600
+Train accuracy0.3563727959697733at cycle 39700
+Train accuracy0.3564070351758794at cycle 39800
+Train accuracy0.35654135338345866at cycle 39900
+Train accuracy0.356875at cycle 40000
+Train accuracy0.35708229426433913at cycle 40100
+Train accuracy0.3571641791044776at cycle 40200
+Train accuracy0.3570967741935484at cycle 40300
+Train accuracy0.3572277227722772at cycle 40400
+Train accuracy0.3570864197530864at cycle 40500
+Train accuracy0.35714285714285715at cycle 40600
+Train accuracy0.35714987714987717at cycle 40700
+Train accuracy0.35720588235294115at cycle 40800
+Train accuracy0.3573349633251834at cycle 40900
+Train accuracy0.35760975609756096at cycle 41000
+Train accuracy0.35771289537712897at cycle 41100
+Train accuracy0.3579126213592233at cycle 41200
+Train accuracy0.3579418886198547at cycle 41300
+Train accuracy0.3580434782608696at cycle 41400
+Train accuracy0.358144578313253at cycle 41500
+Train accuracy0.3580528846153846at cycle 41600
+Train accuracy0.35829736211031177at cycle 41700
+Train accuracy0.3583732057416268at cycle 41800
+Train accuracy0.3582577565632458at cycle 41900
+Train accuracy0.35845238095238097at cycle 42000
+Train accuracy0.3585748218527316at cycle 42100
+Train accuracy0.35872037914691945at cycle 42200
+Train accuracy0.35893617021276597at cycle 42300
+Train accuracy0.35889150943396225at cycle 42400
+Train accuracy0.35896470588235296at cycle 42500
+Train accuracy0.3591549295774648at cycle 42600
+Train accuracy0.35929742388758784at cycle 42700
+Train accuracy0.35927570093457945at cycle 42800
+Train accuracy0.3593006993006993at cycle 42900
+Train accuracy0.35934883720930233at cycle 43000
+Train accuracy0.35953596287703016at cycle 43100
+Train accuracy0.3595601851851852at cycle 43200
+Train accuracy0.3596766743648961at cycle 43300
+Train accuracy0.3596774193548387at cycle 43400
+Train accuracy0.3597471264367816at cycle 43500
+Train accuracy0.3597935779816514at cycle 43600
+Train accuracy0.3599771167048055at cycle 43700
+Train accuracy0.36006849315068495at cycle 43800
+Train accuracy0.3601366742596811at cycle 43900
+Train accuracy0.36018181818181816at cycle 44000
+Train accuracy0.36038548752834465at cycle 44100
+Train accuracy0.3605429864253394at cycle 44200
+Train accuracy0.3606094808126411at cycle 44300
+Train accuracy0.3606981981981982at cycle 44400
+Train accuracy0.3607191011235955at cycle 44500
+Train accuracy0.3607847533632287at cycle 44600
+Train accuracy0.36080536912751676at cycle 44700
+Train accuracy0.3609375at cycle 44800
+Train accuracy0.3611804008908686at cycle 44900
+Train accuracy0.36115555555555556at cycle 45000
+Train accuracy0.3613968957871397at cycle 45100
+Train accuracy0.36159292035398233at cycle 45200
+Train accuracy0.36172185430463577at cycle 45300
+Train accuracy0.36187224669603524at cycle 45400
+Train accuracy0.3619120879120879at cycle 45500
+Train accuracy0.36212719298245616at cycle 45600
+Train accuracy0.36205689277899344at cycle 45700
+Train accuracy0.3622052401746725at cycle 45800
+Train accuracy0.3623747276688453at cycle 45900
+Train accuracy0.3625at cycle 46000
+Train accuracy0.36255965292841646at cycle 46100
+Train accuracy0.3625541125541126at cycle 46200
+Train accuracy0.3626997840172786at cycle 46300
+Train accuracy0.3627586206896552at cycle 46400
+Train accuracy0.36296774193548387at cycle 46500
+Train accuracy0.3628969957081545at cycle 46600
+Train accuracy0.36282655246252676at cycle 46700
+Train accuracy0.36284188034188036at cycle 46800
+Train accuracy0.36300639658848616at cycle 46900
+Train accuracy0.3631063829787234at cycle 47000
+Train accuracy0.3632484076433121at cycle 47100
+Train accuracy0.3633262711864407at cycle 47200
+Train accuracy0.363446088794926at cycle 47300
+Train accuracy0.36348101265822785at cycle 47400
+Train accuracy0.36341052631578946at cycle 47500
+Train accuracy0.36365546218487393at cycle 47600
+Train accuracy0.36371069182389937at cycle 47700
+Train accuracy0.3638284518828452at cycle 47800
+Train accuracy0.3639874739039666at cycle 47900
+Train accuracy0.3639375at cycle 48000
+Train accuracy0.36395010395010396at cycle 48100
+Train accuracy0.3638381742738589at cycle 48200
+Train accuracy0.363871635610766at cycle 48300
+Train accuracy0.36388429752066115at cycle 48400
+Train accuracy0.36397938144329894at cycle 48500
+Train accuracy0.36417695473251027at cycle 48600
+Train accuracy0.3642505133470226at cycle 48700
+Train accuracy0.36444672131147543at cycle 48800
+Train accuracy0.36445807770961147at cycle 48900
+Train accuracy0.364469387755102at cycle 49000
+Train accuracy0.3645621181262729at cycle 49100
+Train accuracy0.3647764227642276at cycle 49200
+Train accuracy0.3649492900608519at cycle 49300
+Train accuracy0.36520242914979756at cycle 49400
+Train accuracy0.36527272727272725at cycle 49500
+Train accuracy0.3652016129032258at cycle 49600
+Train accuracy0.36523138832997987at cycle 49700
+Train accuracy0.36508032128514056at cycle 49800
+Train accuracy0.36529058116232466at cycle 49900
+Train accuracy0.3655at cycle 50000
+Train accuracy0.3655test accuracy0.41 at cycle 100
+test accuracy0.38 at cycle 200
+test accuracy0.38666666666666666 at cycle 300
+test accuracy0.4025 at cycle 400
+test accuracy0.398 at cycle 500
+test accuracy0.4216666666666667 at cycle 600
+test accuracy0.42 at cycle 700
+test accuracy0.42 at cycle 800
+test accuracy0.4288888888888889 at cycle 900
+test accuracy0.429 at cycle 1000
+test accuracy0.43272727272727274 at cycle 1100
+test accuracy0.43416666666666665 at cycle 1200
+test accuracy0.4307692307692308 at cycle 1300
+test accuracy0.4328571428571429 at cycle 1400
+test accuracy0.438 at cycle 1500
+test accuracy0.435625 at cycle 1600
+test accuracy0.43411764705882355 at cycle 1700
+test accuracy0.42777777777777776 at cycle 1800
+test accuracy0.42894736842105263 at cycle 1900
+test accuracy0.4315 at cycle 2000
+test accuracy0.43142857142857144 at cycle 2100
+test accuracy0.4309090909090909 at cycle 2200
+test accuracy0.43130434782608695 at cycle 2300
+test accuracy0.43083333333333335 at cycle 2400
+test accuracy0.434 at cycle 2500
+test accuracy0.42923076923076925 at cycle 2600
+test accuracy0.42777777777777776 at cycle 2700
+test accuracy0.42857142857142855 at cycle 2800
+test accuracy0.426551724137931 at cycle 2900
+test accuracy0.4256666666666667 at cycle 3000
+test accuracy0.42451612903225805 at cycle 3100
+test accuracy0.425625 at cycle 3200
+test accuracy0.4266666666666667 at cycle 3300
+test accuracy0.42676470588235293 at cycle 3400
+test accuracy0.4257142857142857 at cycle 3500
+test accuracy0.42583333333333334 at cycle 3600
+test accuracy0.4245945945945946 at cycle 3700
+test accuracy0.425 at cycle 3800
+test accuracy0.4258974358974359 at cycle 3900
+test accuracy0.426 at cycle 4000
+test accuracy0.424390243902439 at cycle 4100
+test accuracy0.4230952380952381 at cycle 4200
+test accuracy0.4223255813953488 at cycle 4300
+test accuracy0.42363636363636364 at cycle 4400
+test accuracy0.42288888888888887 at cycle 4500
+test accuracy0.42086956521739133 at cycle 4600
+test accuracy0.41936170212765955 at cycle 4700
+test accuracy0.4195833333333333 at cycle 4800
+test accuracy0.42142857142857143 at cycle 4900
+test accuracy0.4208 at cycle 5000
+test accuracy0.4209803921568627 at cycle 5100
+test accuracy0.42096153846153844 at cycle 5200
+test accuracy0.42150943396226415 at cycle 5300
+test accuracy0.4222222222222222 at cycle 5400
+test accuracy0.4223636363636364 at cycle 5500
+test accuracy0.42125 at cycle 5600
+test accuracy0.42140350877192984 at cycle 5700
+test accuracy0.4224137931034483 at cycle 5800
+test accuracy0.4228813559322034 at cycle 5900
+test accuracy0.42333333333333334 at cycle 6000
+test accuracy0.42311475409836063 at cycle 6100
+test accuracy0.4229032258064516 at cycle 6200
+test accuracy0.42253968253968255 at cycle 6300
+test accuracy0.42265625 at cycle 6400
+test accuracy0.42215384615384616 at cycle 6500
+test accuracy0.4221212121212121 at cycle 6600
+test accuracy0.42223880597014923 at cycle 6700
+test accuracy0.42205882352941176 at cycle 6800
+test accuracy0.4217391304347826 at cycle 6900
+test accuracy0.42014285714285715 at cycle 7000
+test accuracy0.42 at cycle 7100
+test accuracy0.41944444444444445 at cycle 7200
+test accuracy0.4197260273972603 at cycle 7300
+test accuracy0.4205405405405405 at cycle 7400
+test accuracy0.4205333333333333 at cycle 7500
+test accuracy0.42039473684210527 at cycle 7600
+test accuracy0.42038961038961037 at cycle 7700
+test accuracy0.42102564102564105 at cycle 7800
+test accuracy0.4210126582278481 at cycle 7900
+test accuracy0.420625 at cycle 8000
+test accuracy0.4204938271604938 at cycle 8100
+test accuracy0.4192682926829268 at cycle 8200
+test accuracy0.4189156626506024 at cycle 8300
+test accuracy0.41833333333333333 at cycle 8400
+test accuracy0.41811764705882354 at cycle 8500
+test accuracy0.4181395348837209 at cycle 8600
+test accuracy0.41770114942528735 at cycle 8700
+test accuracy0.4171590909090909 at cycle 8800
+test accuracy0.41685393258426967 at cycle 8900
+test accuracy0.41755555555555557 at cycle 9000
+test accuracy0.41714285714285715 at cycle 9100
+test accuracy0.4166304347826087 at cycle 9200
+test accuracy0.4170967741935484 at cycle 9300
+test accuracy0.4169148936170213 at cycle 9400
+test accuracy0.41705263157894734 at cycle 9500
+test accuracy0.4164583333333333 at cycle 9600
+test accuracy0.4161855670103093 at cycle 9700
+test accuracy0.415 at cycle 9800
+test accuracy0.41444444444444445 at cycle 9900
+test accuracy0.4137 at cycle 10000
+Test accuracy0.4137. End epoch 0Train accuracy0.38at cycle 100
+Train accuracy0.41at cycle 200
+Train accuracy0.44666666666666666at cycle 300
+Train accuracy0.4375at cycle 400
+Train accuracy0.42at cycle 500
+Train accuracy0.41833333333333333at cycle 600
+Train accuracy0.42at cycle 700
+Train accuracy0.4275at cycle 800
+Train accuracy0.4266666666666667at cycle 900
+Train accuracy0.428at cycle 1000
+Train accuracy0.42272727272727273at cycle 1100
+Train accuracy0.4216666666666667at cycle 1200
+Train accuracy0.4207692307692308at cycle 1300
+Train accuracy0.42642857142857143at cycle 1400
+Train accuracy0.428at cycle 1500
+Train accuracy0.43125at cycle 1600
+Train accuracy0.43470588235294116at cycle 1700
+Train accuracy0.43333333333333335at cycle 1800
+Train accuracy0.4357894736842105at cycle 1900
+Train accuracy0.436at cycle 2000
+Train accuracy0.4328571428571429at cycle 2100
+Train accuracy0.43272727272727274at cycle 2200
+Train accuracy0.4295652173913043at cycle 2300
+Train accuracy0.4270833333333333at cycle 2400
+Train accuracy0.4264at cycle 2500
+Train accuracy0.42115384615384616at cycle 2600
+Train accuracy0.42185185185185187at cycle 2700
+Train accuracy0.4203571428571429at cycle 2800
+Train accuracy0.4206896551724138at cycle 2900
+Train accuracy0.42at cycle 3000
+Train accuracy0.4190322580645161at cycle 3100
+Train accuracy0.4196875at cycle 3200
+Train accuracy0.4193939393939394at cycle 3300
+Train accuracy0.42at cycle 3400
+Train accuracy0.42114285714285715at cycle 3500
+Train accuracy0.42at cycle 3600
+Train accuracy0.42243243243243245at cycle 3700
+Train accuracy0.4226315789473684at cycle 3800
+Train accuracy0.4207692307692308at cycle 3900
+Train accuracy0.42at cycle 4000
+Train accuracy0.42097560975609755at cycle 4100
+Train accuracy0.41904761904761906at cycle 4200
+Train accuracy0.4197674418604651at cycle 4300
+Train accuracy0.4197727272727273at cycle 4400
+Train accuracy0.41933333333333334at cycle 4500
+Train accuracy0.41978260869565215at cycle 4600
+Train accuracy0.41851063829787233at cycle 4700
+Train accuracy0.418125at cycle 4800
+Train accuracy0.41714285714285715at cycle 4900
+Train accuracy0.4152at cycle 5000
+Train accuracy0.4150980392156863at cycle 5100
+Train accuracy0.41673076923076924at cycle 5200
+Train accuracy0.4152830188679245at cycle 5300
+Train accuracy0.4140740740740741at cycle 5400
+Train accuracy0.4138181818181818at cycle 5500
+Train accuracy0.4132142857142857at cycle 5600
+Train accuracy0.4142105263157895at cycle 5700
+Train accuracy0.4146551724137931at cycle 5800
+Train accuracy0.4154237288135593at cycle 5900
+Train accuracy0.4151666666666667at cycle 6000
+Train accuracy0.41508196721311474at cycle 6100
+Train accuracy0.415at cycle 6200
+Train accuracy0.41555555555555557at cycle 6300
+Train accuracy0.41546875at cycle 6400
+Train accuracy0.416at cycle 6500
+Train accuracy0.4165151515151515at cycle 6600
+Train accuracy0.4173134328358209at cycle 6700
+Train accuracy0.41691176470588237at cycle 6800
+Train accuracy0.417536231884058at cycle 6900
+Train accuracy0.4165714285714286at cycle 7000
+Train accuracy0.4176056338028169at cycle 7100
+Train accuracy0.41805555555555557at cycle 7200
+Train accuracy0.4178082191780822at cycle 7300
+Train accuracy0.41702702702702704at cycle 7400
+Train accuracy0.41613333333333336at cycle 7500
+Train accuracy0.41657894736842105at cycle 7600
+Train accuracy0.41623376623376623at cycle 7700
+Train accuracy0.41615384615384615at cycle 7800
+Train accuracy0.4159493670886076at cycle 7900
+Train accuracy0.415875at cycle 8000
+Train accuracy0.41555555555555557at cycle 8100
+Train accuracy0.41560975609756096at cycle 8200
+Train accuracy0.4159036144578313at cycle 8300
+Train accuracy0.4166666666666667at cycle 8400
+Train accuracy0.4171764705882353at cycle 8500
+Train accuracy0.4174418604651163at cycle 8600
+Train accuracy0.41724137931034483at cycle 8700
+Train accuracy0.4171590909090909at cycle 8800
+Train accuracy0.41730337078651686at cycle 8900
+Train accuracy0.4171111111111111at cycle 9000
+Train accuracy0.41604395604395605at cycle 9100
+Train accuracy0.416195652173913at cycle 9200
+Train accuracy0.4161290322580645at cycle 9300
+Train accuracy0.4165957446808511at cycle 9400
+Train accuracy0.416at cycle 9500
+Train accuracy0.4159375at cycle 9600
+Train accuracy0.4162886597938144at cycle 9700
+Train accuracy0.4163265306122449at cycle 9800
+Train accuracy0.4174747474747475at cycle 9900
+Train accuracy0.4173at cycle 10000
+Train accuracy0.4175247524752475at cycle 10100
+Train accuracy0.4176470588235294at cycle 10200
+Train accuracy0.4167961165048544at cycle 10300
+Train accuracy0.4176923076923077at cycle 10400
+Train accuracy0.4179047619047619at cycle 10500
+Train accuracy0.4179245283018868at cycle 10600
+Train accuracy0.41785046728971964at cycle 10700
+Train accuracy0.4187037037037037at cycle 10800
+Train accuracy0.4188073394495413at cycle 10900
+Train accuracy0.41909090909090907at cycle 11000
+Train accuracy0.42027027027027025at cycle 11100
+Train accuracy0.4200892857142857at cycle 11200
+Train accuracy0.4207079646017699at cycle 11300
+Train accuracy0.42078947368421055at cycle 11400
+Train accuracy0.4210434782608696at cycle 11500
+Train accuracy0.42120689655172416at cycle 11600
+Train accuracy0.4214529914529915at cycle 11700
+Train accuracy0.4215254237288136at cycle 11800
+Train accuracy0.42176470588235293at cycle 11900
+Train accuracy0.422at cycle 12000
+Train accuracy0.42140495867768596at cycle 12100
+Train accuracy0.42188524590163934at cycle 12200
+Train accuracy0.4217073170731707at cycle 12300
+Train accuracy0.4216935483870968at cycle 12400
+Train accuracy0.422at cycle 12500
+Train accuracy0.42214285714285715at cycle 12600
+Train accuracy0.42196850393700785at cycle 12700
+Train accuracy0.421953125at cycle 12800
+Train accuracy0.4217829457364341at cycle 12900
+Train accuracy0.4217692307692308at cycle 13000
+Train accuracy0.4221374045801527at cycle 13100
+Train accuracy0.4221212121212121at cycle 13200
+Train accuracy0.4216541353383459at cycle 13300
+Train accuracy0.4217910447761194at cycle 13400
+Train accuracy0.4211111111111111at cycle 13500
+Train accuracy0.4208823529411765at cycle 13600
+Train accuracy0.4208029197080292at cycle 13700
+Train accuracy0.4205797101449275at cycle 13800
+Train accuracy0.4205035971223022at cycle 13900
+Train accuracy0.42042857142857143at cycle 14000
+Train accuracy0.4204255319148936at cycle 14100
+Train accuracy0.4203521126760563at cycle 14200
+Train accuracy0.42027972027972027at cycle 14300
+Train accuracy0.4206944444444444at cycle 14400
+Train accuracy0.4207586206896552at cycle 14500
+Train accuracy0.42041095890410957at cycle 14600
+Train accuracy0.4204081632653061at cycle 14700
+Train accuracy0.41986486486486485at cycle 14800
+Train accuracy0.42006711409395975at cycle 14900
+Train accuracy0.4204at cycle 15000
+Train accuracy0.42026490066225164at cycle 15100
+Train accuracy0.42039473684210527at cycle 15200
+Train accuracy0.4204575163398693at cycle 15300
+Train accuracy0.42045454545454547at cycle 15400
+Train accuracy0.42038709677419356at cycle 15500
+Train accuracy0.4205128205128205at cycle 15600
+Train accuracy0.420828025477707at cycle 15700
+Train accuracy0.42050632911392405at cycle 15800
+Train accuracy0.42012578616352203at cycle 15900
+Train accuracy0.42025at cycle 16000
+Train accuracy0.42006211180124226at cycle 16100
+Train accuracy0.4192592592592593at cycle 16200
+Train accuracy0.4194478527607362at cycle 16300
+Train accuracy0.4195121951219512at cycle 16400
+Train accuracy0.4198181818181818at cycle 16500
+Train accuracy0.4195180722891566at cycle 16600
+Train accuracy0.41946107784431136at cycle 16700
+Train accuracy0.4195833333333333at cycle 16800
+Train accuracy0.41976331360946745at cycle 16900
+Train accuracy0.4194705882352941at cycle 17000
+Train accuracy0.41953216374269003at cycle 17100
+Train accuracy0.42at cycle 17200
+Train accuracy0.4200578034682081at cycle 17300
+Train accuracy0.4200574712643678at cycle 17400
+Train accuracy0.4197714285714286at cycle 17500
+Train accuracy0.42at cycle 17600
+Train accuracy0.420225988700565at cycle 17700
+Train accuracy0.4202247191011236at cycle 17800
+Train accuracy0.42044692737430167at cycle 17900
+Train accuracy0.42033333333333334at cycle 18000
+Train accuracy0.4203314917127072at cycle 18100
+Train accuracy0.42043956043956043at cycle 18200
+Train accuracy0.4205464480874317at cycle 18300
+Train accuracy0.42092391304347826at cycle 18400
+Train accuracy0.42102702702702705at cycle 18500
+Train accuracy0.42123655913978497at cycle 18600
+Train accuracy0.42106951871657755at cycle 18700
+Train accuracy0.42154255319148937at cycle 18800
+Train accuracy0.4217989417989418at cycle 18900
+Train accuracy0.4219473684210526at cycle 19000
+Train accuracy0.42235602094240837at cycle 19100
+Train accuracy0.42223958333333333at cycle 19200
+Train accuracy0.42191709844559583at cycle 19300
+Train accuracy0.42195876288659795at cycle 19400
+Train accuracy0.4216410256410256at cycle 19500
+Train accuracy0.42112244897959183at cycle 19600
+Train accuracy0.4211167512690355at cycle 19700
+Train accuracy0.4212121212121212at cycle 19800
+Train accuracy0.4207537688442211at cycle 19900
+Train accuracy0.4203at cycle 20000
+Train accuracy0.42014925373134326at cycle 20100
+Train accuracy0.4202970297029703at cycle 20200
+Train accuracy0.4203448275862069at cycle 20300
+Train accuracy0.4200980392156863at cycle 20400
+Train accuracy0.41990243902439023at cycle 20500
+Train accuracy0.4199029126213592at cycle 20600
+Train accuracy0.41980676328502414at cycle 20700
+Train accuracy0.42004807692307694at cycle 20800
+Train accuracy0.42028708133971293at cycle 20900
+Train accuracy0.42038095238095236at cycle 21000
+Train accuracy0.42033175355450236at cycle 21100
+Train accuracy0.42066037735849054at cycle 21200
+Train accuracy0.4204225352112676at cycle 21300
+Train accuracy0.4200934579439252at cycle 21400
+Train accuracy0.4198139534883721at cycle 21500
+Train accuracy0.41976851851851854at cycle 21600
+Train accuracy0.41963133640552996at cycle 21700
+Train accuracy0.41926605504587156at cycle 21800
+Train accuracy0.4195890410958904at cycle 21900
+Train accuracy0.4197272727272727at cycle 22000
+Train accuracy0.41990950226244345at cycle 22100
+Train accuracy0.41936936936936936at cycle 22200
+Train accuracy0.41896860986547085at cycle 22300
+Train accuracy0.41897321428571427at cycle 22400
+Train accuracy0.4194222222222222at cycle 22500
+Train accuracy0.41969026548672567at cycle 22600
+Train accuracy0.4197797356828194at cycle 22700
+Train accuracy0.41986842105263156at cycle 22800
+Train accuracy0.4201310043668122at cycle 22900
+Train accuracy0.42at cycle 23000
+Train accuracy0.4201731601731602at cycle 23100
+Train accuracy0.42008620689655174at cycle 23200
+Train accuracy0.41987124463519315at cycle 23300
+Train accuracy0.41991452991452993at cycle 23400
+Train accuracy0.41995744680851066at cycle 23500
+Train accuracy0.42033898305084744at cycle 23600
+Train accuracy0.420295358649789at cycle 23700
+Train accuracy0.4204201680672269at cycle 23800
+Train accuracy0.4207531380753138at cycle 23900
+Train accuracy0.42083333333333334at cycle 24000
+Train accuracy0.42103734439834023at cycle 24100
+Train accuracy0.4209917355371901at cycle 24200
+Train accuracy0.42061728395061726at cycle 24300
+Train accuracy0.4204918032786885at cycle 24400
+Train accuracy0.4206938775510204at cycle 24500
+Train accuracy0.42073170731707316at cycle 24600
+Train accuracy0.4207692307692308at cycle 24700
+Train accuracy0.4206451612903226at cycle 24800
+Train accuracy0.42080321285140565at cycle 24900
+Train accuracy0.42076at cycle 25000
+Train accuracy0.4205577689243028at cycle 25100
+Train accuracy0.42075396825396827at cycle 25200
+Train accuracy0.4209090909090909at cycle 25300
+Train accuracy0.42090551181102365at cycle 25400
+Train accuracy0.4207843137254902at cycle 25500
+Train accuracy0.4203515625at cycle 25600
+Train accuracy0.4203112840466926at cycle 25700
+Train accuracy0.42054263565891475at cycle 25800
+Train accuracy0.4208108108108108at cycle 25900
+Train accuracy0.42103846153846153at cycle 26000
+Train accuracy0.4210344827586207at cycle 26100
+Train accuracy0.4211450381679389at cycle 26200
+Train accuracy0.42095057034220534at cycle 26300
+Train accuracy0.42125at cycle 26400
+Train accuracy0.42150943396226415at cycle 26500
+Train accuracy0.4213157894736842at cycle 26600
+Train accuracy0.4212734082397004at cycle 26700
+Train accuracy0.4209328358208955at cycle 26800
+Train accuracy0.4211895910780669at cycle 26900
+Train accuracy0.4212222222222222at cycle 27000
+Train accuracy0.421070110701107at cycle 27100
+Train accuracy0.42113970588235294at cycle 27200
+Train accuracy0.42135531135531135at cycle 27300
+Train accuracy0.42142335766423356at cycle 27400
+Train accuracy0.4212727272727273at cycle 27500
+Train accuracy0.42134057971014494at cycle 27600
+Train accuracy0.42140794223826716at cycle 27700
+Train accuracy0.4215107913669065at cycle 27800
+Train accuracy0.421505376344086at cycle 27900
+Train accuracy0.4213571428571429at cycle 28000
+Train accuracy0.4213523131672598at cycle 28100
+Train accuracy0.42095744680851066at cycle 28200
+Train accuracy0.42113074204947at cycle 28300
+Train accuracy0.42140845070422533at cycle 28400
+Train accuracy0.42129824561403506at cycle 28500
+Train accuracy0.42094405594405593at cycle 28600
+Train accuracy0.42118466898954704at cycle 28700
+Train accuracy0.4210069444444444at cycle 28800
+Train accuracy0.42110726643598617at cycle 28900
+Train accuracy0.42117241379310344at cycle 29000
+Train accuracy0.4210309278350515at cycle 29100
+Train accuracy0.42106164383561645at cycle 29200
+Train accuracy0.4211262798634812at cycle 29300
+Train accuracy0.4208843537414966at cycle 29400
+Train accuracy0.42122033898305083at cycle 29500
+Train accuracy0.42121621621621624at cycle 29600
+Train accuracy0.42134680134680136at cycle 29700
+Train accuracy0.4214765100671141at cycle 29800
+Train accuracy0.42127090301003345at cycle 29900
+Train accuracy0.4214333333333333at cycle 30000
+Train accuracy0.4212624584717608at cycle 30100
+Train accuracy0.42119205298013246at cycle 30200
+Train accuracy0.42132013201320134at cycle 30300
+Train accuracy0.4213157894736842at cycle 30400
+Train accuracy0.421672131147541at cycle 30500
+Train accuracy0.4215359477124183at cycle 30600
+Train accuracy0.42172638436482085at cycle 30700
+Train accuracy0.42175324675324677at cycle 30800
+Train accuracy0.4216828478964401at cycle 30900
+Train accuracy0.4220967741935484at cycle 31000
+Train accuracy0.42212218649517685at cycle 31100
+Train accuracy0.4221474358974359at cycle 31200
+Train accuracy0.42249201277955273at cycle 31300
+Train accuracy0.42245222929936305at cycle 31400
+Train accuracy0.4226031746031746at cycle 31500
+Train accuracy0.4227215189873418at cycle 31600
+Train accuracy0.4226813880126183at cycle 31700
+Train accuracy0.4229559748427673at cycle 31800
+Train accuracy0.4231347962382445at cycle 31900
+Train accuracy0.42328125at cycle 32000
+Train accuracy0.4235202492211838at cycle 32100
+Train accuracy0.42354037267080746at cycle 32200
+Train accuracy0.4236532507739938at cycle 32300
+Train accuracy0.42348765432098767at cycle 32400
+Train accuracy0.4235076923076923at cycle 32500
+Train accuracy0.42374233128834354at cycle 32600
+Train accuracy0.4237308868501529at cycle 32700
+Train accuracy0.42390243902439023at cycle 32800
+Train accuracy0.423951367781155at cycle 32900
+Train accuracy0.42415151515151517at cycle 33000
+Train accuracy0.4241691842900302at cycle 33100
+Train accuracy0.4244578313253012at cycle 33200
+Train accuracy0.4245045045045045at cycle 33300
+Train accuracy0.42476047904191616at cycle 33400
+Train accuracy0.4246567164179105at cycle 33500
+Train accuracy0.4244345238095238at cycle 33600
+Train accuracy0.4246587537091988at cycle 33700
+Train accuracy0.4246153846153846at cycle 33800
+Train accuracy0.42448377581120944at cycle 33900
+Train accuracy0.42467647058823527at cycle 34000
+Train accuracy0.424574780058651at cycle 34100
+Train accuracy0.42464912280701755at cycle 34200
+Train accuracy0.42466472303207at cycle 34300
+Train accuracy0.42447674418604653at cycle 34400
+Train accuracy0.42431884057971014at cycle 34500
+Train accuracy0.4242485549132948at cycle 34600
+Train accuracy0.4242363112391931at cycle 34700
+Train accuracy0.42408045977011494at cycle 34800
+Train accuracy0.42404011461318053at cycle 34900
+Train accuracy0.4240285714285714at cycle 35000
+Train accuracy0.4241025641025641at cycle 35100
+Train accuracy0.4239204545454546at cycle 35200
+Train accuracy0.42393767705382435at cycle 35300
+Train accuracy0.4238135593220339at cycle 35400
+Train accuracy0.4236338028169014at cycle 35500
+Train accuracy0.42356741573033707at cycle 35600
+Train accuracy0.42358543417366945at cycle 35700
+Train accuracy0.42360335195530724at cycle 35800
+Train accuracy0.42364902506963786at cycle 35900
+Train accuracy0.4237222222222222at cycle 36000
+Train accuracy0.4238504155124654at cycle 36100
+Train accuracy0.42378453038674035at cycle 36200
+Train accuracy0.4237741046831956at cycle 36300
+Train accuracy0.4238461538461539at cycle 36400
+Train accuracy0.4239452054794521at cycle 36500
+Train accuracy0.42398907103825134at cycle 36600
+Train accuracy0.42411444141689375at cycle 36700
+Train accuracy0.42421195652173915at cycle 36800
+Train accuracy0.4240650406504065at cycle 36900
+Train accuracy0.4243243243243243at cycle 37000
+Train accuracy0.42428571428571427at cycle 37100
+Train accuracy0.4242741935483871at cycle 37200
+Train accuracy0.42447721179624665at cycle 37300
+Train accuracy0.4245187165775401at cycle 37400
+Train accuracy0.42464at cycle 37500
+Train accuracy0.42481382978723403at cycle 37600
+Train accuracy0.4249336870026525at cycle 37700
+Train accuracy0.42497354497354495at cycle 37800
+Train accuracy0.425065963060686at cycle 37900
+Train accuracy0.4251842105263158at cycle 38000
+Train accuracy0.4251968503937008at cycle 38100
+Train accuracy0.4250261780104712at cycle 38200
+Train accuracy0.4251174934725849at cycle 38300
+Train accuracy0.42515625at cycle 38400
+Train accuracy0.4252207792207792at cycle 38500
+Train accuracy0.42518134715025907at cycle 38600
+Train accuracy0.4252454780361757at cycle 38700
+Train accuracy0.42541237113402064at cycle 38800
+Train accuracy0.4253470437017995at cycle 38900
+Train accuracy0.42533333333333334at cycle 39000
+Train accuracy0.42524296675191814at cycle 39100
+Train accuracy0.42520408163265305at cycle 39200
+Train accuracy0.425089058524173at cycle 39300
+Train accuracy0.425at cycle 39400
+Train accuracy0.4250632911392405at cycle 39500
+Train accuracy0.42494949494949497at cycle 39600
+Train accuracy0.4248362720403023at cycle 39700
+Train accuracy0.4249497487437186at cycle 39800
+Train accuracy0.424937343358396at cycle 39900
+Train accuracy0.4249at cycle 40000
+Train accuracy0.4250124688279302at cycle 40100
+Train accuracy0.42507462686567166at cycle 40200
+Train accuracy0.4252109181141439at cycle 40300
+Train accuracy0.4252970297029703at cycle 40400
+Train accuracy0.42518518518518517at cycle 40500
+Train accuracy0.42517241379310344at cycle 40600
+Train accuracy0.42530712530712533at cycle 40700
+Train accuracy0.4252696078431373at cycle 40800
+Train accuracy0.4253545232273839at cycle 40900
+Train accuracy0.42541463414634145at cycle 41000
+Train accuracy0.42532846715328465at cycle 41100
+Train accuracy0.42526699029126214at cycle 41200
+Train accuracy0.4253268765133172at cycle 41300
+Train accuracy0.4253864734299517at cycle 41400
+Train accuracy0.4255421686746988at cycle 41500
+Train accuracy0.4255288461538462at cycle 41600
+Train accuracy0.4256834532374101at cycle 41700
+Train accuracy0.4255741626794258at cycle 41800
+Train accuracy0.42577565632458236at cycle 41900
+Train accuracy0.42578571428571427at cycle 42000
+Train accuracy0.4259857482185273at cycle 42100
+Train accuracy0.426042654028436at cycle 42200
+Train accuracy0.4262647754137116at cycle 42300
+Train accuracy0.42603773584905663at cycle 42400
+Train accuracy0.4260470588235294at cycle 42500
+Train accuracy0.426056338028169at cycle 42600
+Train accuracy0.42601873536299767at cycle 42700
+Train accuracy0.4261682242990654at cycle 42800
+Train accuracy0.4261771561771562at cycle 42900
+Train accuracy0.42609302325581394at cycle 43000
+Train accuracy0.4260324825986079at cycle 43100
+Train accuracy0.42625at cycle 43200
+Train accuracy0.42609699769053117at cycle 43300
+Train accuracy0.42626728110599077at cycle 43400
+Train accuracy0.4264137931034483at cycle 43500
+Train accuracy0.4264678899082569at cycle 43600
+Train accuracy0.42638443935926773at cycle 43700
+Train accuracy0.4263698630136986at cycle 43800
+Train accuracy0.4261731207289294at cycle 43900
+Train accuracy0.42620454545454545at cycle 44000
+Train accuracy0.42625850340136057at cycle 44100
+Train accuracy0.4262443438914027at cycle 44200
+Train accuracy0.42629796839729117at cycle 44300
+Train accuracy0.42639639639639637at cycle 44400
+Train accuracy0.4262696629213483at cycle 44500
+Train accuracy0.4261659192825112at cycle 44600
+Train accuracy0.4261521252796421at cycle 44700
+Train accuracy0.42611607142857144at cycle 44800
+Train accuracy0.4260356347438753at cycle 44900
+Train accuracy0.42617777777777777at cycle 45000
+Train accuracy0.4262749445676275at cycle 45100
+Train accuracy0.4263495575221239at cycle 45200
+Train accuracy0.42635761589403975at cycle 45300
+Train accuracy0.4261894273127753at cycle 45400
+Train accuracy0.4261978021978022at cycle 45500
+Train accuracy0.4261184210526316at cycle 45600
+Train accuracy0.4261706783369803at cycle 45700
+Train accuracy0.4261572052401747at cycle 45800
+Train accuracy0.4263616557734205at cycle 45900
+Train accuracy0.4263695652173913at cycle 46000
+Train accuracy0.4264642082429501at cycle 46100
+Train accuracy0.42653679653679655at cycle 46200
+Train accuracy0.42654427645788334at cycle 46300
+Train accuracy0.4265301724137931at cycle 46400
+Train accuracy0.4266021505376344at cycle 46500
+Train accuracy0.42648068669527894at cycle 46600
+Train accuracy0.4265524625267666at cycle 46700
+Train accuracy0.4264529914529914at cycle 46800
+Train accuracy0.42635394456289977at cycle 46900
+Train accuracy0.42640425531914894at cycle 47000
+Train accuracy0.4262632696390658at cycle 47100
+Train accuracy0.4262923728813559at cycle 47200
+Train accuracy0.426215644820296at cycle 47300
+Train accuracy0.42616033755274263at cycle 47400
+Train accuracy0.4261473684210526at cycle 47500
+Train accuracy0.42607142857142855at cycle 47600
+Train accuracy0.42639412997903564at cycle 47700
+Train accuracy0.42650627615062764at cycle 47800
+Train accuracy0.42643006263048017at cycle 47900
+Train accuracy0.42654166666666665at cycle 48000
+Train accuracy0.4265072765072765at cycle 48100
+Train accuracy0.4263485477178423at cycle 48200
+Train accuracy0.426231884057971at cycle 48300
+Train accuracy0.426301652892562at cycle 48400
+Train accuracy0.42610309278350517at cycle 48500
+Train accuracy0.42621399176954733at cycle 48600
+Train accuracy0.42638603696098565at cycle 48700
+Train accuracy0.4264139344262295at cycle 48800
+Train accuracy0.42660531697341514at cycle 48900
+Train accuracy0.426469387755102at cycle 49000
+Train accuracy0.42663951120162935at cycle 49100
+Train accuracy0.4264227642276423at cycle 49200
+Train accuracy0.42636916835699795at cycle 49300
+Train accuracy0.4263765182186235at cycle 49400
+Train accuracy0.4262626262626263at cycle 49500
+Train accuracy0.42625at cycle 49600
+Train accuracy0.426317907444668at cycle 49700
+Train accuracy0.4262449799196787at cycle 49800
+Train accuracy0.42633266533066133at cycle 49900
+Train accuracy0.4265at cycle 50000
+Train accuracy0.4265test accuracy0.46 at cycle 100
+test accuracy0.44 at cycle 200
+test accuracy0.43 at cycle 300
+test accuracy0.4375 at cycle 400
+test accuracy0.43 at cycle 500
+test accuracy0.43833333333333335 at cycle 600
+test accuracy0.4357142857142857 at cycle 700
+test accuracy0.4375 at cycle 800
+test accuracy0.44222222222222224 at cycle 900
+test accuracy0.445 at cycle 1000
+test accuracy0.45 at cycle 1100
+test accuracy0.45416666666666666 at cycle 1200
+test accuracy0.4523076923076923 at cycle 1300
+test accuracy0.45 at cycle 1400
+test accuracy0.4553333333333333 at cycle 1500
+test accuracy0.4525 at cycle 1600
+test accuracy0.4541176470588235 at cycle 1700
+test accuracy0.45111111111111113 at cycle 1800
+test accuracy0.4536842105263158 at cycle 1900
+test accuracy0.454 at cycle 2000
+test accuracy0.45476190476190476 at cycle 2100
+test accuracy0.45636363636363636 at cycle 2200
+test accuracy0.4582608695652174 at cycle 2300
+test accuracy0.4554166666666667 at cycle 2400
+test accuracy0.456 at cycle 2500
+test accuracy0.45076923076923076 at cycle 2600
+test accuracy0.44962962962962966 at cycle 2700
+test accuracy0.45107142857142857 at cycle 2800
+test accuracy0.4503448275862069 at cycle 2900
+test accuracy0.449 at cycle 3000
+test accuracy0.4474193548387097 at cycle 3100
+test accuracy0.4490625 at cycle 3200
+test accuracy0.4481818181818182 at cycle 3300
+test accuracy0.44882352941176473 at cycle 3400
+test accuracy0.44942857142857146 at cycle 3500
+test accuracy0.4513888888888889 at cycle 3600
+test accuracy0.45135135135135135 at cycle 3700
+test accuracy0.4507894736842105 at cycle 3800
+test accuracy0.45 at cycle 3900
+test accuracy0.45 at cycle 4000
+test accuracy0.44951219512195123 at cycle 4100
+test accuracy0.44976190476190475 at cycle 4200
+test accuracy0.44976744186046513 at cycle 4300
+test accuracy0.4511363636363636 at cycle 4400
+test accuracy0.4508888888888889 at cycle 4500
+test accuracy0.4497826086956522 at cycle 4600
+test accuracy0.44872340425531915 at cycle 4700
+test accuracy0.44875 at cycle 4800
+test accuracy0.45081632653061227 at cycle 4900
+test accuracy0.4494 at cycle 5000
+test accuracy0.44862745098039214 at cycle 5100
+test accuracy0.4478846153846154 at cycle 5200
+test accuracy0.44849056603773585 at cycle 5300
+test accuracy0.44796296296296295 at cycle 5400
+test accuracy0.4469090909090909 at cycle 5500
+test accuracy0.44607142857142856 at cycle 5600
+test accuracy0.44491228070175437 at cycle 5700
+test accuracy0.44655172413793104 at cycle 5800
+test accuracy0.4457627118644068 at cycle 5900
+test accuracy0.44516666666666665 at cycle 6000
+test accuracy0.44524590163934424 at cycle 6100
+test accuracy0.44516129032258067 at cycle 6200
+test accuracy0.44412698412698415 at cycle 6300
+test accuracy0.44421875 at cycle 6400
+test accuracy0.4449230769230769 at cycle 6500
+test accuracy0.4445454545454545 at cycle 6600
+test accuracy0.4446268656716418 at cycle 6700
+test accuracy0.4447058823529412 at cycle 6800
+test accuracy0.44420289855072465 at cycle 6900
+test accuracy0.44342857142857145 at cycle 7000
+test accuracy0.44295774647887326 at cycle 7100
+test accuracy0.44208333333333333 at cycle 7200
+test accuracy0.44246575342465755 at cycle 7300
+test accuracy0.44351351351351354 at cycle 7400
+test accuracy0.44306666666666666 at cycle 7500
+test accuracy0.44302631578947366 at cycle 7600
+test accuracy0.44272727272727275 at cycle 7700
+test accuracy0.44384615384615383 at cycle 7800
+test accuracy0.4439240506329114 at cycle 7900
+test accuracy0.4435 at cycle 8000
+test accuracy0.44481481481481483 at cycle 8100
+test accuracy0.44414634146341464 at cycle 8200
+test accuracy0.4440963855421687 at cycle 8300
+test accuracy0.4430952380952381 at cycle 8400
+test accuracy0.44270588235294117 at cycle 8500
+test accuracy0.4425581395348837 at cycle 8600
+test accuracy0.4417241379310345 at cycle 8700
+test accuracy0.44125 at cycle 8800
+test accuracy0.4410112359550562 at cycle 8900
+test accuracy0.4411111111111111 at cycle 9000
+test accuracy0.44175824175824174 at cycle 9100
+test accuracy0.44119565217391304 at cycle 9200
+test accuracy0.44150537634408604 at cycle 9300
+test accuracy0.44117021276595747 at cycle 9400
+test accuracy0.44105263157894736 at cycle 9500
+test accuracy0.440625 at cycle 9600
+test accuracy0.4404123711340206 at cycle 9700
+test accuracy0.4395918367346939 at cycle 9800
+test accuracy0.4387878787878788 at cycle 9900
+test accuracy0.4382 at cycle 10000
+Test accuracy0.4382. End epoch 1Train accuracy0.47at cycle 100
+Train accuracy0.475at cycle 200
+Train accuracy0.5166666666666667at cycle 300
+Train accuracy0.5at cycle 400
+Train accuracy0.502at cycle 500
+Train accuracy0.51at cycle 600
+Train accuracy0.51at cycle 700
+Train accuracy0.4975at cycle 800
+Train accuracy0.49777777777777776at cycle 900
+Train accuracy0.491at cycle 1000
+Train accuracy0.4890909090909091at cycle 1100
+Train accuracy0.485at cycle 1200
+Train accuracy0.48615384615384616at cycle 1300
+Train accuracy0.4785714285714286at cycle 1400
+Train accuracy0.468at cycle 1500
+Train accuracy0.4675at cycle 1600
+Train accuracy0.46176470588235297at cycle 1700
+Train accuracy0.4583333333333333at cycle 1800
+Train accuracy0.4557894736842105at cycle 1900
+Train accuracy0.454at cycle 2000
+Train accuracy0.45380952380952383at cycle 2100
+Train accuracy0.45545454545454545at cycle 2200
+Train accuracy0.45608695652173914at cycle 2300
+Train accuracy0.45875at cycle 2400
+Train accuracy0.4592at cycle 2500
+Train accuracy0.46115384615384614at cycle 2600
+Train accuracy0.4625925925925926at cycle 2700
+Train accuracy0.4639285714285714at cycle 2800
+Train accuracy0.46379310344827585at cycle 2900
+Train accuracy0.4646666666666667at cycle 3000
+Train accuracy0.46225806451612905at cycle 3100
+Train accuracy0.4603125at cycle 3200
+Train accuracy0.46at cycle 3300
+Train accuracy0.46058823529411763at cycle 3400
+Train accuracy0.4602857142857143at cycle 3500
+Train accuracy0.4625at cycle 3600
+Train accuracy0.45972972972972975at cycle 3700
+Train accuracy0.45973684210526317at cycle 3800
+Train accuracy0.4617948717948718at cycle 3900
+Train accuracy0.4625at cycle 4000
+Train accuracy0.46170731707317075at cycle 4100
+Train accuracy0.4623809523809524at cycle 4200
+Train accuracy0.46162790697674416at cycle 4300
+Train accuracy0.4615909090909091at cycle 4400
+Train accuracy0.4602222222222222at cycle 4500
+Train accuracy0.4589130434782609at cycle 4600
+Train accuracy0.4580851063829787at cycle 4700
+Train accuracy0.458125at cycle 4800
+Train accuracy0.4595918367346939at cycle 4900
+Train accuracy0.4604at cycle 5000
+Train accuracy0.46at cycle 5100
+Train accuracy0.45942307692307693at cycle 5200
+Train accuracy0.4590566037735849at cycle 5300
+Train accuracy0.45814814814814814at cycle 5400
+Train accuracy0.45654545454545453at cycle 5500
+Train accuracy0.45803571428571427at cycle 5600
+Train accuracy0.4568421052631579at cycle 5700
+Train accuracy0.4586206896551724at cycle 5800
+Train accuracy0.4569491525423729at cycle 5900
+Train accuracy0.4565at cycle 6000
+Train accuracy0.45704918032786884at cycle 6100
+Train accuracy0.4569354838709677at cycle 6200
+Train accuracy0.45825396825396825at cycle 6300
+Train accuracy0.45765625at cycle 6400
+Train accuracy0.45815384615384613at cycle 6500
+Train accuracy0.45924242424242423at cycle 6600
+Train accuracy0.458955223880597at cycle 6700
+Train accuracy0.4586764705882353at cycle 6800
+Train accuracy0.4582608695652174at cycle 6900
+Train accuracy0.45785714285714285at cycle 7000
+Train accuracy0.4573239436619718at cycle 7100
+Train accuracy0.45666666666666667at cycle 7200
+Train accuracy0.45575342465753427at cycle 7300
+Train accuracy0.4554054054054054at cycle 7400
+Train accuracy0.4564at cycle 7500
+Train accuracy0.4556578947368421at cycle 7600
+Train accuracy0.454025974025974at cycle 7700
+Train accuracy0.4532051282051282at cycle 7800
+Train accuracy0.4529113924050633at cycle 7900
+Train accuracy0.452875at cycle 8000
+Train accuracy0.45308641975308644at cycle 8100
+Train accuracy0.4529268292682927at cycle 8200
+Train accuracy0.4544578313253012at cycle 8300
+Train accuracy0.455at cycle 8400
+Train accuracy0.45541176470588235at cycle 8500
+Train accuracy0.455at cycle 8600
+Train accuracy0.45482758620689656at cycle 8700
+Train accuracy0.4551136363636364at cycle 8800
+Train accuracy0.4559550561797753at cycle 8900
+Train accuracy0.4558888888888889at cycle 9000
+Train accuracy0.45582417582417584at cycle 9100
+Train accuracy0.45608695652173914at cycle 9200
+Train accuracy0.45580645161290323at cycle 9300
+Train accuracy0.45595744680851064at cycle 9400
+Train accuracy0.45557894736842103at cycle 9500
+Train accuracy0.4552083333333333at cycle 9600
+Train accuracy0.4550515463917526at cycle 9700
+Train accuracy0.455at cycle 9800
+Train accuracy0.45545454545454545at cycle 9900
+Train accuracy0.455at cycle 10000
+Train accuracy0.4542574257425743at cycle 10100
+Train accuracy0.4546078431372549at cycle 10200
+Train accuracy0.4533980582524272at cycle 10300
+Train accuracy0.4533653846153846at cycle 10400
+Train accuracy0.45266666666666666at cycle 10500
+Train accuracy0.45245283018867927at cycle 10600
+Train accuracy0.4519626168224299at cycle 10700
+Train accuracy0.45185185185185184at cycle 10800
+Train accuracy0.45238532110091745at cycle 10900
+Train accuracy0.45236363636363636at cycle 11000
+Train accuracy0.4526126126126126at cycle 11100
+Train accuracy0.45285714285714285at cycle 11200
+Train accuracy0.4528318584070796at cycle 11300
+Train accuracy0.45280701754385966at cycle 11400
+Train accuracy0.452at cycle 11500
+Train accuracy0.45189655172413795at cycle 11600
+Train accuracy0.4516239316239316at cycle 11700
+Train accuracy0.45220338983050845at cycle 11800
+Train accuracy0.45201680672268907at cycle 11900
+Train accuracy0.45166666666666666at cycle 12000
+Train accuracy0.45148760330578513at cycle 12100
+Train accuracy0.45172131147540984at cycle 12200
+Train accuracy0.4508943089430894at cycle 12300
+Train accuracy0.45088709677419353at cycle 12400
+Train accuracy0.4508at cycle 12500
+Train accuracy0.45031746031746034at cycle 12600
+Train accuracy0.4501574803149606at cycle 12700
+Train accuracy0.44984375at cycle 12800
+Train accuracy0.4502325581395349at cycle 12900
+Train accuracy0.45061538461538464at cycle 13000
+Train accuracy0.4502290076335878at cycle 13100
+Train accuracy0.4506060606060606at cycle 13200
+Train accuracy0.45030075187969926at cycle 13300
+Train accuracy0.4495522388059702at cycle 13400
+Train accuracy0.44955555555555554at cycle 13500
+Train accuracy0.4500735294117647at cycle 13600
+Train accuracy0.44985401459854013at cycle 13700
+Train accuracy0.4499275362318841at cycle 13800
+Train accuracy0.45007194244604315at cycle 13900
+Train accuracy0.44985714285714284at cycle 14000
+Train accuracy0.44964539007092197at cycle 14100
+Train accuracy0.4490845070422535at cycle 14200
+Train accuracy0.4489510489510489at cycle 14300
+Train accuracy0.44875at cycle 14400
+Train accuracy0.44910344827586207at cycle 14500
+Train accuracy0.44931506849315067at cycle 14600
+Train accuracy0.4492517006802721at cycle 14700
+Train accuracy0.449527027027027at cycle 14800
+Train accuracy0.44986577181208054at cycle 14900
+Train accuracy0.4503333333333333at cycle 15000
+Train accuracy0.4505298013245033at cycle 15100
+Train accuracy0.45092105263157894at cycle 15200
+Train accuracy0.4513725490196078at cycle 15300
+Train accuracy0.45136363636363636at cycle 15400
+Train accuracy0.4518064516129032at cycle 15500
+Train accuracy0.4519871794871795at cycle 15600
+Train accuracy0.4515923566878981at cycle 15700
+Train accuracy0.45177215189873415at cycle 15800
+Train accuracy0.45176100628930815at cycle 15900
+Train accuracy0.451375at cycle 16000
+Train accuracy0.45111801242236027at cycle 16100
+Train accuracy0.45166666666666666at cycle 16200
+Train accuracy0.45171779141104296at cycle 16300
+Train accuracy0.45207317073170733at cycle 16400
+Train accuracy0.45242424242424245at cycle 16500
+Train accuracy0.452710843373494at cycle 16600
+Train accuracy0.45275449101796406at cycle 16700
+Train accuracy0.4529166666666667at cycle 16800
+Train accuracy0.4524852071005917at cycle 16900
+Train accuracy0.4524705882352941at cycle 17000
+Train accuracy0.4521637426900585at cycle 17100
+Train accuracy0.45156976744186045at cycle 17200
+Train accuracy0.45144508670520234at cycle 17300
+Train accuracy0.4510344827586207at cycle 17400
+Train accuracy0.4509142857142857at cycle 17500
+Train accuracy0.4510227272727273at cycle 17600
+Train accuracy0.45096045197740114at cycle 17700
+Train accuracy0.45117977528089886at cycle 17800
+Train accuracy0.4515642458100559at cycle 17900
+Train accuracy0.4513888888888889at cycle 18000
+Train accuracy0.4512707182320442at cycle 18100
+Train accuracy0.45087912087912085at cycle 18200
+Train accuracy0.4514754098360656at cycle 18300
+Train accuracy0.45108695652173914at cycle 18400
+Train accuracy0.4508108108108108at cycle 18500
+Train accuracy0.4511290322580645at cycle 18600
+Train accuracy0.45149732620320854at cycle 18700
+Train accuracy0.45170212765957446at cycle 18800
+Train accuracy0.4515343915343915at cycle 18900
+Train accuracy0.45173684210526316at cycle 19000
+Train accuracy0.4518324607329843at cycle 19100
+Train accuracy0.45119791666666664at cycle 19200
+Train accuracy0.4512953367875648at cycle 19300
+Train accuracy0.45144329896907215at cycle 19400
+Train accuracy0.45164102564102565at cycle 19500
+Train accuracy0.45168367346938776at cycle 19600
+Train accuracy0.4515736040609137at cycle 19700
+Train accuracy0.45202020202020204at cycle 19800
+Train accuracy0.4522110552763819at cycle 19900
+Train accuracy0.45225at cycle 20000
+Train accuracy0.45223880597014926at cycle 20100
+Train accuracy0.45262376237623764at cycle 20200
+Train accuracy0.45236453201970445at cycle 20300
+Train accuracy0.4524019607843137at cycle 20400
+Train accuracy0.45239024390243904at cycle 20500
+Train accuracy0.4526699029126214at cycle 20600
+Train accuracy0.452512077294686at cycle 20700
+Train accuracy0.45235576923076926at cycle 20800
+Train accuracy0.4522488038277512at cycle 20900
+Train accuracy0.452at cycle 21000
+Train accuracy0.45203791469194315at cycle 21100
+Train accuracy0.4519811320754717at cycle 21200
+Train accuracy0.4519718309859155at cycle 21300
+Train accuracy0.45186915887850465at cycle 21400
+Train accuracy0.452at cycle 21500
+Train accuracy0.45208333333333334at cycle 21600
+Train accuracy0.451705069124424at cycle 21700
+Train accuracy0.45155963302752294at cycle 21800
+Train accuracy0.4515068493150685at cycle 21900
+Train accuracy0.4514090909090909at cycle 22000
+Train accuracy0.4509502262443439at cycle 22100
+Train accuracy0.45076576576576577at cycle 22200
+Train accuracy0.4504932735426009at cycle 22300
+Train accuracy0.45066964285714284at cycle 22400
+Train accuracy0.4506222222222222at cycle 22500
+Train accuracy0.45070796460176993at cycle 22600
+Train accuracy0.4507488986784141at cycle 22700
+Train accuracy0.45039473684210524at cycle 22800
+Train accuracy0.4503493449781659at cycle 22900
+Train accuracy0.45004347826086954at cycle 23000
+Train accuracy0.44995670995670994at cycle 23100

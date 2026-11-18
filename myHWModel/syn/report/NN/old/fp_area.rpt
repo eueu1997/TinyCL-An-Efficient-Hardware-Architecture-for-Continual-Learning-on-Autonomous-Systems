@@ -1,0 +1,33 @@
+Warning: Design 'NN' has '1' unresolved references. For more detailed information, use the "link" command. (UID-341)
+ 
+****************************************
+Report : area
+Design : NN
+Version: R-2020.09-SP2
+Date   : Sun Nov 12 18:59:49 2023
+****************************************
+
+Library(s) Used:
+
+    uk65lscllmvbbr_120c25_tc (File: /software/dk/umc65/Core-lib_LL_Multi-Voltage_Reg.Vt/synopsys/uk65lscllmvbbr_120c25_tc.db)
+
+Number of ports:                       146875
+Number of nets:                       1682492
+Number of cells:                      1545403
+Number of combinational cells:        1242213
+Number of sequential cells:            299456
+Number of macros/black boxes:               0
+Number of buf/inv:                     475896
+Number of references:                     248
+
+Combinational area:            2593653.899772
+Buf/Inv area:                   565303.702370
+Noncombinational area:         2147133.186648
+Macro/Black Box area:                0.000000
+Net Interconnect area:      undefined  (Wire load has zero net area)
+
+Total cell area:               4740787.086420
+Total area:                 undefined
+
+Information: This design contains black box (unknown) components. (RPT-8)
+1

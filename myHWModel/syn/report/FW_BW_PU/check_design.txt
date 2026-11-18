@@ -3,7 +3,7 @@ Warning: Design 'FW_BW_PU' has '1' unresolved references. For more detailed info
 ****************************************
 check_design summary:
 Version:     R-2020.09-SP2
-Date:        Sun Nov 12 10:48:49 2023
+Date:        Sun Nov 12 11:55:10 2023
 ****************************************
 
                    Name                                            Total
@@ -25,9 +25,9 @@ Tristate                                                            1
     A tristate bus has a non tri-state driver (LINT-34)             1
 --------------------------------------------------------------------------------
 
-Warning: In design 'FW_BW_PU', cell 'C6141' does not drive any nets. (LINT-1)
-Warning: In design 'FW_BW_PU', cell 'C6149' does not drive any nets. (LINT-1)
-Warning: In design 'FW_BW_PU', cell 'B_17' does not drive any nets. (LINT-1)
+Warning: In design 'FW_BW_PU', cell 'B_33' does not drive any nets. (LINT-1)
+Warning: In design 'FW_BW_PU', cell 'B_34' does not drive any nets. (LINT-1)
+Warning: In design 'FW_BW_PU', cell 'B_36' does not drive any nets. (LINT-1)
 Warning: In design 'BWDKAddrManager', cell 'B_3' does not drive any nets. (LINT-1)
 Warning: In design 'BWDKAddrManager', cell 'C149' does not drive any nets. (LINT-1)
 Warning: In design 'BWDKAddrManager', cell 'C158' does not drive any nets. (LINT-1)
@@ -517,5 +517,5 @@ Warning: In design 'MAC', a pin on submodule 'genblk1[7].Ai' is connected to log
    Pin 'num2[16]' is connected to logic 0. 
 Warning: In design 'MAC', the same net is connected to more than one pin on submodule 'genblk1[7].Ai'. (LINT-33)
    Net '*Logic0*' is connected to pins 'num2[31]', 'num2[30]'', 'num2[29]', 'num2[28]', 'num2[27]', 'num2[26]', 'num2[25]', 'num2[24]', 'num2[23]', 'num2[22]', 'num2[21]', 'num2[20]', 'num2[19]', 'num2[18]', 'num2[17]', 'num2[16]'.
-Warning: In design 'FW_BW_PU', three-state bus '_1_net_' has non three-state driver 'C6124/Z'. (LINT-34)
+Warning: In design 'FW_BW_PU', three-state bus '_1_net_' has non three-state driver 'C6179/Z'. (LINT-34)
 1

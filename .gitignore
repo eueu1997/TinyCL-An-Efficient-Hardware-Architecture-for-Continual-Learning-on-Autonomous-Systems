@@ -1,0 +1,4 @@
+# Generated synthesis netlists
+myHWModel/syn/report/NN/netlist/
+myHWModel/syn/report/memories/netlist/
+myHWModel/syn/report/FW_BW_PU/netlist/

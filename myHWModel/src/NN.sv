@@ -1689,6 +1689,7 @@ always @ (*)begin
 end
 
 /////////////////////////////// GRADIENT PROPAGATION MEMORY \\\\\\\\\\\\\\\\\\\\
+generate
 for(j=0; j< GRADIENT_OUT_CH_SIZE[0]; j=j+1) begin
 SRAM # (.PORT_WIDTH(NBITS*N_FEATURE_READ),
         .MEMORY_WIDHT(GRADIENT_OUT_ROW_SIZE[0]*(GRADIENT_OUT_COLUMN_SIZE[0]/N_FEATURE_READ)),
@@ -1705,4 +1706,5 @@ SRAMdx (.writeAddr(gradientOutWriteAddr_r[($clog2(GRADIENT_OUT_ROW_SIZE[0]) + $c
         .clk(clk),
         .rst(rst));
 end
+endgenerate
 endmodule
